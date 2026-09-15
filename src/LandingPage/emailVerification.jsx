@@ -249,10 +249,10 @@ const EmailVerificationPage = () => {
         )}
 
         <Link
-          to="/admission"
+          to="/"
           className="mt-4 block h-11 w-full text-center text-sm font-semibold uppercase text-ashlight transition"
         >
-          Go back
+          Go Home
         </Link>
       </div>
     </div>
