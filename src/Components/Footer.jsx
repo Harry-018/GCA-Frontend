@@ -1,4 +1,12 @@
-import { Bus, CheckCircle, Home, Mail, MapPin, Phone, School } from "lucide-react";
+import {
+  Bus,
+  CheckCircle,
+  Home,
+  Mail,
+  MapPin,
+  Phone,
+  School,
+} from "lucide-react";
 import { NavLink } from "react-router-dom";
 
 const QUICK_LINKS = [
@@ -18,7 +26,8 @@ const Footer = () => {
               Grace Christian Academy
             </p>
             <p className="mt-2 max-w-xs text-xs leading-relaxed text-bone/65">
-              Growing joyful learners through faith, character, and meaningful discovery.
+              Growing joyful learners through faith, character, and meaningful
+              discovery.
             </p>
           </div>
 
@@ -30,7 +39,9 @@ const Footer = () => {
                   <NavLink
                     key={link.label}
                     to={link.path}
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
                     className="flex w-fit items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-white/20 hover:text-lime-green"
                   >
                     <Icon className="h-3 w-3 shrink-0 text-lime-green" />
@@ -47,7 +58,9 @@ const Footer = () => {
                   <NavLink
                     key={link.label}
                     to={link.path}
-                    onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
                     className="flex w-fit items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-white/20 hover:text-lime-green"
                   >
                     <Icon className="h-3 w-3 shrink-0 text-lime-green" />
@@ -57,7 +70,7 @@ const Footer = () => {
               })}
 
               <NavLink
-                to="/enrollmentform"
+                to="/email-verification"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                 className="flex w-fit items-center gap-1.5 rounded-lg bg-lime-green px-3 py-1.5 text-2xs font-[PoppinsBold] uppercase tracking-wider text-[#062421] transition-colors hover:bg-lime-green/80"
               >
@@ -73,20 +86,37 @@ const Footer = () => {
           </h2>
 
           <div className="flex flex-col gap-6 text-xs text-bone/75">
-            <a href="tel:09926418526" className="flex items-start gap-3 transition-colors hover:text-lime-green">
+            <a
+              href="tel:09926418526"
+              className="flex items-start gap-3 transition-colors hover:text-lime-green"
+            >
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-lime-green" />
               <span>0992-641-8526</span>
             </a>
-            <a href="mailto:grace.cslife@gmail.com" className="flex items-start gap-3 break-all transition-colors hover:text-lime-green">
+            <a
+              href="mailto:grace.cslife@gmail.com"
+              className="flex items-start gap-3 break-all transition-colors hover:text-lime-green"
+            >
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-lime-green" />
               <span>grace.cslife@gmail.com</span>
             </a>
             <div className="flex items-start gap-3">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-lime-green" />
-              <span>306, Purok 4, Barangay Cabuco, Trece Martires, Philippines, 4109</span>
+              <span>
+                306, Purok 4, Barangay Cabuco, Trece Martires, Philippines, 4109
+              </span>
             </div>
-            <a href="https://www.facebook.com/profile.php?id=100094183517001" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 transition-colors hover:text-lime-green">
-              <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 shrink-0 text-lime-green">
+            <a
+              href="https://www.facebook.com/profile.php?id=100094183517001"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-3 transition-colors hover:text-lime-green"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                className="h-4 w-4 shrink-0 text-lime-green"
+              >
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
               <span>Follow us on Facebook</span>
@@ -100,7 +130,8 @@ const Footer = () => {
               Visit Our Campus
             </p>
             <p className="mt-2 max-w-sm text-xs leading-relaxed text-bone/65">
-              A safe and welcoming space where every child is encouraged to learn and grow.
+              A safe and welcoming space where every child is encouraged to
+              learn and grow.
             </p>
           </div>
           <a
