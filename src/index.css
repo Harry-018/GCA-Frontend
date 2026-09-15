@@ -1,0 +1,229 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+
+:root {
+  touch-action: pan-x pan-y;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: "Poppins", "PoppinsBold";
+}
+
+@font-face {
+  font-family: "Poppins";
+  src: url("/fonts/poppins.regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PoppinsBold";
+  src: url("/fonts/Poppins-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@layer utilities {
+  .font-Handmade {
+    font-family: "Caveat", cursive;
+  }
+
+  .font-Handpicked-seashells {
+    font-family: "Kalam", cursive;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.5s ease-out forwards;
+  }
+
+  .animate-slide-out-left {
+    animation: slideOutLeft 0.4s ease-in forwards;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .thin-scrollbar::-webkit-scrollbar {
+    width: 1px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 9999px;
+  }
+  .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .thin-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+  }
+
+  .loading-dots span {
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    margin-left: 3px;
+    border-radius: 9999px;
+    background-color: #97a97c;
+    animation: loading-dot 1.2s infinite ease-in-out both;
+  }
+
+  .loading-dots span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .loading-dots span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+}
+
+@keyframes loading-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.6);
+  }
+  40% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideOutLeft {
+  0% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+}
+
+.custom-tailwind-calendar {
+  & .react-calendar {
+    @apply mt-5 block max-h-full min-h-75 w-[90%] rounded-xl border-none bg-neutral-100 p-5 font-[Poppins] inset-shadow-med lg:w-full;
+  }
+
+  & .react-calendar__navigation {
+    @apply flex h-8;
+
+    & button {
+      @apply min-w-8 cursor-pointer rounded-md text-sm text-neutral-800 transition-colors disabled:opacity-40;
+
+      &:enabled:hover,
+      &:enabled:focus {
+        @apply inset-shadow-small hover:bg-swamp-green hover:text-neutral-50 focus:bg-swamp-green/60 focus:text-neutral-50;
+      }
+    }
+  }
+
+  & .react-calendar__month-view__weekdays {
+    @apply mb-2 text-xs font-normal uppercase;
+
+    & .react-calendar__month-view__weekdays__weekday {
+      @apply flex justify-center p-2;
+      & abbr {
+        @apply no-underline decoration-0;
+      }
+    }
+  }
+
+  & .react-calendar__tile {
+    @apply max-w-full cursor-pointer rounded-md bg-transparent text-xs font-medium transition-all duration-150 hover:text-lime-green;
+
+    &:enabled:hover,
+    &:enabled:focus {
+      @apply hover:bg-swamp-green/60 hover:text-neutral-50 focus:bg-swamp-green focus:text-neutral-50;
+    }
+  }
+
+  & .react-calendar__month-view__days__day--neighboringMonth {
+    @apply text-slate-300;
+  }
+
+  & .react-calendar__tile--now {
+    @apply border border-swamp-green text-neutral-800;
+  }
+
+  & .react-calendar__tile--active {
+    @apply bg-swamp-green font-semibold text-white shadow-md;
+  }
+}
+
+.custom-datepicker {
+  width: 100%;
+  min-height: 5vh;
+}
+
+.custom-datepicker .react-date-picker__wrapper {
+  border: 2px;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background-color: #f5f5f5;
+  box-shadow:
+    inset 0 1px 2px #ffffff30,
+    0 1px 2px #00000030,
+    0 2px 4px #00000015;
+}
+
+.custom-datepicker .react-date-picker__inputGroup {
+  font-family: Poppins, sans-serif;
+  font-size: 14px;
+}
+
+.custom-datepicker .react-date-picker__calendar-button svg {
+  stroke: #97a97c;
+  text-decoration-color: #97a97c;
+}
+
+.custom-datepicker .react-date-picker__clear-button svg {
+  display: none;
+}
+
+@theme {
+  --color-forest-green: #133215;
+  --color-lime-green: #92b775;
+  --color-swamp-green: #97a97c;
+  --color-swamp-lite: #e5ecda;
+  --color-beige: #f3e8d3;
+  --color-egg: hsl(39, 10%, 92%);
+  --color-bone: #f3f5fd;
+  --color-egg-dark: #3b3b3b;
+  --color-lime-dark: hsl(94, 31%, 45%);
+  --color-reject: #e77f78;
+  --color-ashlight: #737373;
+  --breakpoint-4k: 2560px;
+  --breakpoint-xs: 425px;
+  --text-2xs: 10px;
+
+  --inset-shadow-small:
+    inset 0 1px 2px #ffffff30, 0 1px 2px #00000030, 0 2px 4px #00000015;
+  --inset-shadow-med:
+    inset 0 2px 2px #ffffff50, 0 2px 4px #00000030, 0 4px 8px #00000015;
+  --inset-shadow-lar:
+    inset 0 4px 4px #ffffff70, 0 4px 6px #00000030, 0 6px 10px #00000015;
+  --inset-shadow-xlar:
+    inset 0 6px 6px #ffffff70, 0 6px 8px #00000030, 0 8px 14px #00000015;
+}
