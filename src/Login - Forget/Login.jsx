@@ -121,7 +121,7 @@ const Login = () => {
                   Grace Christian Academy
                 </p>
               </div>
-              <h1 className="font-Handpicked-seashells text-2xl font-bold text-swamp-green sm:text-3xl">
+              <h1 className="font-[SuperJoyful] text-2xl  text-swamp-green sm:text-3xl">
                 WELCOME
               </h1>
               <p className="py-2 text-2xs text-gray-600 sm:text-xs">
@@ -138,7 +138,7 @@ const Login = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="font-Handmade text-base font-bold text-gray-700 sm:text-lg"
+                  className="font-[Poppins] text-xs text-gray-700 sm:text-sm"
                 >
                   Email
                 </label>
@@ -156,7 +156,7 @@ const Login = () => {
               <div className="py-2 sm:py-4">
                 <label
                   htmlFor="password"
-                  className="font-Handmade text-base font-bold text-gray-700 sm:text-lg"
+                  className="font-[Poppins] text-xs text-gray-700 sm:text-sm"
                 >
                   Password
                 </label>
@@ -184,7 +184,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="font-Handpicked-seashells w-full rounded-full border border-[#a5b78d] py-2.5 text-base font-bold text-swamp-green transition-all duration-500 ease-in-out hover:bg-[#91a77a] hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 sm:text-lg"
+                className="font-[SuperJoyful] w-full rounded-full border border-[#a5b78d] py-2.5 text-base  text-swamp-green transition-all duration-500 ease-in-out hover:bg-[#91a77a] hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 sm:text-xl"
               >
                 {loading ? "LOGGING IN..." : "LOGIN"}
               </button>
