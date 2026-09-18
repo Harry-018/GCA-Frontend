@@ -141,6 +141,7 @@ function FormPage() {
       localStorage.removeItem("verified_email");
       localStorage.removeItem("account_parent_relationship");
 
+      alert("SUBMISSION SUCCESS");
       navigate("/thanksforapply");
     } catch (error) {
       console.error("APPLICATION ERROR:", error);
@@ -148,6 +149,8 @@ function FormPage() {
       console.error("BACKEND ERROR:", error.response?.data);
 
       console.error("STATUS:", error.response?.status);
+
+      alert(error.response?.data?.message || "Submission failed");
     }
   };
 
