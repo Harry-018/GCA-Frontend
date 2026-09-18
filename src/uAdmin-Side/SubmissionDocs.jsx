@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { FileText, Loader2 } from "lucide-react";
 import {
   getApprovedApplicants,
   markEnrolled,
   rejectApplicant,
-} from "../utils/data/Admin/admission";
+} from "./Admission";
 import { addEnrolled } from "../utils/data/Admin/students";
-import { subscribe } from "../utils/data/core";
 import { matchGlobalSearch } from "../utils/search";
 import AdmissionHeader from "../Components/AdminComponents/Admission/AdmissionHeader";
 import SubmissionDocsHeader from "../Components/AdminComponents/Admission/SubmissionDocsHeader";
@@ -46,10 +45,6 @@ const SubmissionDocs = () => {
     from: "",
     to: "",
   });
-
-  useEffect(() => {
-    return subscribe(() => setApplicants(getApprovedApplicants()));
-  }, []);
 
   // useEffect(() => {
   //   const fetchApproved = async () => {
@@ -92,6 +87,9 @@ const SubmissionDocs = () => {
 
     addEnrolled(student);
 
+    setApplicants((prev) =>
+      prev.filter((a) => a.id !== applicantToEnroll.id)
+    );
     setApplicantToEnroll(null);
   };
 
@@ -106,6 +104,9 @@ const SubmissionDocs = () => {
 
     // await axios.put(`http://localhost:5000/admin/approved/${id}/reject`);
     rejectApplicant(applicantToReject.id, "incomplete-documents");
+    setApplicants((prev) =>
+      prev.filter((a) => a.id !== applicantToReject.id)
+    );
     setApplicantToReject(null);
   };
 
@@ -187,7 +188,7 @@ const SubmissionDocs = () => {
                   {TABLE_HEADERS.map((header) => (
                     <th
                       key={header}
-                      className="px-7 py-5 text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base"
+                      className="whitespace-nowrap px-7 py-5 text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base"
                     >
                       {header}
                     </th>

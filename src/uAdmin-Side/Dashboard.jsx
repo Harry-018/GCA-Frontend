@@ -3,7 +3,7 @@ import AdminHeader from "../Components/AdminComponents/Dashboard/AdminHeader";
 import DashboardCards from "../Components/AdminComponents/Dashboard/DashboardCards";
 import RecentApplicants from "../Components/AdminComponents/Dashboard/RecentApplicants";
 
-const SCHOOL_YEAR = "2026-2027";
+const SCHOOL_YEAR = "2026 - 2027";
 
 const RECENT_HEADERS = [
   "APPLICATE ID",
@@ -45,7 +45,7 @@ const APPLICANTS = [
 
 const Dashboard = () => {
   return (
-    <div className="flex flex-1 flex-col gap-4 bg-[#ebe9e4] cursor-default font-[Poppins] min-h-0">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 bg-[#ebe9e4] font-[Poppins]">
       
       <AdminHeader 
         schoolYear={SCHOOL_YEAR} 

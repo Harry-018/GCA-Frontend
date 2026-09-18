@@ -19,8 +19,8 @@ const Header = ({ navItems }) => {
   };
 
   return (
-    <div className="flex w-full flex-wrap items-center justify-between gap-x-7 gap-y-2 rounded-2xl border border-gray-200 bg-bone px-4 py-5 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
-      <div className="flex flex-wrap items-center gap-x-13 gap-y-2 pl-1">
+    <div className="flex w-full flex-nowrap items-center justify-between gap-x-8 overflow-x-auto rounded-2xl bg-bone px-4 py-5 shadow-[0_2px_4px_rgba(0,0,0,0.18)] no-scrollbar">
+      <div className="flex flex-nowrap items-center gap-x-8">
         {navItems.slice(0, 5).map((item) => (
           <NavLink
             key={item.name}
@@ -36,7 +36,7 @@ const Header = ({ navItems }) => {
         ))}
       </div>
 
-      <div className="flex flex-wrap items-center gap-x-7 gap-y-2 pr-1">
+      <div className="flex flex-nowrap items-center gap-x-8">
         {navItems.slice(5).map((item) => (
           <NavLink
             key={item.name}

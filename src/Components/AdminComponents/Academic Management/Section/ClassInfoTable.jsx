@@ -17,22 +17,22 @@ const ClassInfoTable = ({
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-bone shadow-sm">
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto thin-scrollbar">
         <div className="overflow-x-auto">
-          <table className="w-full min-w-190 border-collapse">
+          <table className="w-full min-w-190 border-separate border-spacing-0">
           <thead className="sticky top-0">
             <tr className="bg-bone text-left text-xs font-[PoppinsBold] uppercase text-swamp-green lg:text-sm xl:text-base">
-              <th className="px-6 py-4">No.</th>
+              <th className="whitespace-nowrap px-6 py-4">No.</th>
 
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className="px-6 py-4 text-left"
+                  className="whitespace-nowrap px-6 py-4 text-left"
                 >
                   {column.label}
                 </th>
               ))}
 
               {onRemove && (
-                <th className="px-6 py-4 text-center">Action</th>
+                <th className="whitespace-nowrap px-6 py-4 text-center">Action</th>
               )}
             </tr>
           </thead>

@@ -45,6 +45,13 @@ import Parents from "./uAdmin-Side/Academic Management Page/Parents.jsx";
 import Section from "./uAdmin-Side/Academic Management Page/Section.jsx";
 import SectionClass from "./uAdmin-Side/Academic Management Page/SectionClass.jsx";
 import SectionInformation from "./uAdmin-Side/Academic Management Page/SectionInformation.jsx";
+import Schedule from "./uAdmin-Side/Academic Management Page/Schedule.jsx";
+import ScheduleSection from "./uAdmin-Side/Academic Management Page/ScheduleSection.jsx";
+import ScheduleSetUp from "./uAdmin-Side/Academic Management Page/ScheduleSetUp.jsx";
+import GradeLevels from "./uAdmin-Side/Academic Management Page/GradeLevels.jsx";
+import CoreSubjects from "./uAdmin-Side/Academic Management Page/CoreSubjects.jsx";
+import Skills from "./uAdmin-Side/Academic Management Page/Skills.jsx";
+import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
 
 //loaders
@@ -124,6 +131,16 @@ const App = () => {
             <Route path="academic/parents" element={<Parents />} />
             <Route path="academic/section" element={<Section />} />
             <Route path="academic/sectionclass" element={<SectionClass />} />
+            <Route path="academic/schedules" element={<Schedule />} />
+            <Route path="academic/grade-levels" element={<GradeLevels />} />
+            <Route path="academic/core-subjects" element={<CoreSubjects />} />
+            <Route path="academic/skills" element={<Skills />} />
+            <Route path="academic/school-years" element={<SchoolYear />} />
+            <Route
+              path="academic/schedulesection"
+              element={<ScheduleSection />}
+            />
+            <Route path="academic/setupschedule" element={<ScheduleSetUp />} />
             <Route
               path="academic/sectionInformation"
               element={<SectionInformation />}

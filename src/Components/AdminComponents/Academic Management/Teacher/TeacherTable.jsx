@@ -5,19 +5,19 @@ const TeacherTable = ({ teachers, columns, onEdit }) => {
     <div className="flex min-h-0 flex-1 flex-col">
       <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-bone shadow-sm">
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto thin-scrollbar">
-          <table className="w-full border-collapse">
+          <table className="w-full border-separate border-spacing-0">
             <thead className="sticky top-0">
               <tr className="bg-bone">
                 {columns.map((column) => (
                   <th
                     key={column.key}
-                    className="px-6 py-5 text-left text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base"
+                    className="whitespace-nowrap px-6 py-5 text-left text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base"
                   >
                     {column.label}
                   </th>
                 ))}
 
-                <th className="px-6 py-5 text-left text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base">
+                <th className="whitespace-nowrap px-6 py-5 text-left text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base">
                   ACTION
                 </th>
               </tr>
