@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
-import ScheduleSetupCard from "../../Components/AdminComponents/Academic Management/Schedule/ScheduleSetUpCard";
+import ScheduleSetupCard from "../../Components/AdminComponents/Academic Management/Schedule/ScheduleSetupCard";
 import { getSections } from "../../utils/data/Admin/sections";
 
 const NAV_ITEMS = [
@@ -56,8 +56,8 @@ const ScheduleSection = () => {
               onClick={(name) =>
                 navigate(
                   `/admin/academic/setupschedule?level=${encodeURIComponent(
-                    level
-                  )}&section=${encodeURIComponent(name)}`
+                    level,
+                  )}&section=${encodeURIComponent(name)}`,
                 )
               }
             />
