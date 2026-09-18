@@ -28,7 +28,7 @@ const ClassInformationToolbar = ({
           <button
             type="button"
             onClick={onChangeTeacher}
-            className="flex shrink-0 items-center gap-1 rounded-full px-3 py-2 text-[10px] text-gray-600 transition hover:border-[#9caf7e] hover:text-[#9caf7e] sm:text-xs"
+            className="flex shrink-0 items-center gap-1 rounded-full px-3 py-2 text-2xs text-gray-600 transition hover:border-[#9caf7e] hover:text-[#9caf7e] sm:text-xs"
           >
             <Pencil size={11} />
             Change
@@ -37,7 +37,7 @@ const ClassInformationToolbar = ({
           <button
             type="button"
             onClick={onGoBack}
-            className="shrink-0 rounded-full border border-gray-300 px-4 py-2 text-[10px] text-gray-600 transition hover:bg-gray-100 sm:text-xs"
+            className="shrink-0 rounded-full border border-gray-300 px-4 py-2 text-2xs text-gray-600 transition hover:bg-gray-100 sm:text-xs"
           >
             Go Back
           </button>

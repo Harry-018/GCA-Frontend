@@ -15,6 +15,20 @@ const Header = ({ navItems }) => {
         pathname === "/admin/academic/sectionInformation"
       );
     }
+    if (item.name === "Schedules") {
+      return (
+        pathname === "/admin/academic/schedules" ||
+        pathname === "/admin/academic/schedulesection" ||
+        pathname === "/admin/academic/setupschedule"
+      );
+    }
+    if (item.name === "Grade Levels") {
+      return (
+        pathname === "/admin/academic/grade-levels" ||
+        pathname === "/admin/academic/core-subjects" ||
+        pathname === "/admin/academic/skills"
+      );
+    }
     return item.path === pathname;
   };
 

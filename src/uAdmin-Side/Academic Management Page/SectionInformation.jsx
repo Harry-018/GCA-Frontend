@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
-import ClassInformationToolbar from "../../Components/AdminComponents/Academic Management/Section/ClassInformationToolbar";
-import ClassInfoTable from "../../Components/AdminComponents/Academic Management/Section/ClassInfoTable";
+import ClassInformationToolbar from "../../Components/AdminComponents/Academic Management/Section/SectionClass/ClassInformationToolbar";
+import ClassInfoTable from "../../Components/AdminComponents/Academic Management/Section/SectionClass/ClassInfoTable";
+import AddStudentModal from "../../Components/AdminModal/AcademicManagementPage/AddStudentModal";
+import PromoteStudentModal from "../../Components/AdminModal/AcademicManagementPage/PromoteStudentModal";
 import ChangeTeacherModal from "../../Components/AdminModal/AcademicManagementPage/ChangeTeacherModal";
 import { getStudents } from "../../utils/data/Admin/students";
 import { matchGlobalSearch } from "../../utils/search";
@@ -31,6 +33,17 @@ const TEACHERS = [
   "Maria Santos",
 ];
 
+const GRADE_LEVELS = [
+  "Pre-School",
+  "Pre-Kinder",
+  "Kinder",
+];
+
+const PROMOTION_OPTIONS = [
+  { value: "Promoted", label: "Promoted" },
+  { value: "Retained", label: "Retained" },
+];
+
 const SectionInformation = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -39,17 +52,35 @@ const SectionInformation = () => {
 
   const [teacher, setTeacher] = useState("Ms. Rosaline Romasanta");
   const [isChangeTeacherOpen, setIsChangeTeacherOpen] = useState(false);
+  const [isAddStudentOpen, setIsAddStudentOpen] = useState(false);
+  const [isPromoteStudentOpen, setIsPromoteStudentOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
 
-  const classStudents = getStudents()
-    .filter((student) => student.section === section)
+  const [classStudents, setClassStudents] = useState(() =>
+    getStudents()
+      .filter((student) => student.section === section)
+      .map((student) => ({
+        id: student.id,
+        lrn: student.lrn ?? "",
+        lastName: student.lastName,
+        firstName: student.firstName,
+        gender: student.gender ?? "",
+        age: student.age ?? "",
+        gradeLevel: student.gradeLevel ?? "",
+      }))
+  );
+
+  const availableStudents = getStudents()
+    .filter((student) => student.section !== section)
     .map((student) => ({
       id: student.id,
+      studentNo: student.lrn ?? student.id,
       lrn: student.lrn ?? "",
       lastName: student.lastName,
       firstName: student.firstName,
       gender: student.gender ?? "",
       age: student.age ?? "",
+      gradeLevel: student.gradeLevel ?? "",
     }));
 
   const filteredStudents = classStudents.filter((student) =>
@@ -72,11 +103,37 @@ const SectionInformation = () => {
   };
 
   const handlePromoteStudent = () => {
-    console.log("Promote Student");
+    setIsPromoteStudentOpen(true);
   };
 
   const handleAddStudent = () => {
-    console.log("Add Student");
+    setIsAddStudentOpen(true);
+  };
+
+  const handleAddStudents = (selectedStudents) => {
+    const added = selectedStudents.map((student) => ({
+      id: student.id,
+      lrn: student.lrn ?? student.studentNo,
+      lastName: student.lastName,
+      firstName: student.firstName,
+      gender: student.gender ?? "",
+      age: student.age ?? "",
+      gradeLevel: student.gradeLevel ?? "",
+    }));
+
+    setClassStudents((current) => [...current, ...added]);
+    setIsAddStudentOpen(false);
+  };
+
+  const handlePromoteStudents = (updatedStudents) => {
+    console.log("Promoted students:", updatedStudents);
+    setIsPromoteStudentOpen(false);
+  };
+
+  const handleRemove = (student) => {
+    setClassStudents((current) =>
+      current.filter((item) => item.id !== student.id)
+    );
   };
 
   const handleSearch = () => {
@@ -104,7 +161,7 @@ const SectionInformation = () => {
         <ClassInfoTable
           students={filteredStudents}
           columns={COLUMNS}
-          onRemove={(student) => console.log("Remove:", student)}
+          onRemove={handleRemove}
         />
       </div>
 
@@ -115,6 +172,27 @@ const SectionInformation = () => {
           onChange={handleChangeTeacherSelect}
         />
       )}
+
+      <AddStudentModal
+        isOpen={isAddStudentOpen}
+        onClose={() => setIsAddStudentOpen(false)}
+        onAdd={handleAddStudents}
+        students={availableStudents}
+      />
+
+      <PromoteStudentModal
+        isOpen={isPromoteStudentOpen}
+        onClose={() => setIsPromoteStudentOpen(false)}
+        onSave={handlePromoteStudents}
+        students={classStudents.map((student) => ({
+          studentNo: student.lrn || student.id,
+          lastName: student.lastName,
+          firstName: student.firstName,
+          gradeLevel: student.gradeLevel,
+        }))}
+        gradeLevels={GRADE_LEVELS}
+        promotionOptions={PROMOTION_OPTIONS}
+      />
     </div>
   );
 };

@@ -15,14 +15,14 @@ const AddScheduleModal = ({
   onAdd,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-5">
-      <div className="w-full max-w-md rounded-2xl bg-[#f4f5fc] px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-3 sm:p-5">
+      <div className="max-h-[calc(100dvh-1.5rem)] w-full max-w-md overflow-y-auto rounded-2xl bg-[#f4f5fc] px-5 py-4.25 shadow-lg thin-scrollbar sm:max-h-[calc(100dvh-2.5rem)] sm:px-5.5 sm:py-4.25">
         <h2 className="font-[PoppinsBold] text-[12px] text-swamp-green">
           Add Schedule
         </h2>
 
         {/* Fixed Information */}
-        <div className="grid grid-cols-1 gap-4 pt-5 sm:grid-cols-3">
+        <div className="grid grid-cols-3 gap-4 pt-5 sm:grid-cols-3">
           <div>
             <p className="font-[PoppinsMedium] text-2xs text-gray-600">
               Grade Level:
@@ -99,7 +99,7 @@ const AddScheduleModal = ({
         </div>
 
         {/* Day / Room */}
-        <div className="grid grid-cols-1 gap-2 pt-3 sm:grid-cols-2">
+        <div className="grid grid-cols-2 gap-2 pt-3">
           <div className="flex flex-col gap-1">
             <label className="font-[Poppins] text-2xs text-gray-600">
               Day:
@@ -144,7 +144,7 @@ const AddScheduleModal = ({
         </div>
 
         {/* From / To */}
-        <div className="grid grid-cols-1 gap-2 pt-3 sm:grid-cols-2">
+        <div className="grid grid-cols-2 gap-2 pt-3">
           <div className="flex flex-col gap-1">
             <label className="font-[Poppins] text-2xs text-gray-600">
               From:

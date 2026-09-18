@@ -27,13 +27,13 @@ const ScheduleSection = () => {
       <Header navItems={NAV_ITEMS} />
 
       <div className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        <div className="flex items-center justify-between gap-2 py-2">
-          <div className="flex items-center gap-2">
-            <h1 className="font-[PoppinsBold] text-md text-swamp-green">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-2">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <h1 className="font-[PoppinsBold] text-md text-swamp-green sm:text-lg">
               {level} :
             </h1>
 
-            <span className="whitespace-nowrap font-[Poppins] text-sm text-gray-600">
+            <span className="whitespace-nowrap font-[Poppins] text-xs text-gray-600 sm:text-sm">
               S.Y {SCHOOL_YEAR}
             </span>
           </div>
@@ -41,7 +41,7 @@ const ScheduleSection = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="rounded-full border bg-white px-4 py-1 font-[Poppins] text-sm text-gray-500 transition hover:text-swamp-green"
+            className="rounded-full border bg-white px-4 py-1 font-[Poppins] text-xs text-gray-500 transition hover:text-swamp-green sm:text-sm"
           >
             Go Back
           </button>

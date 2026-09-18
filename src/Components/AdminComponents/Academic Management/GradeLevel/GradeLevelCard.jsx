@@ -8,7 +8,7 @@ const GradeLevelCard = ({
 }) => {
   return (
     <div className="flex min-h-23.5 w-full flex-col justify-between gap-5 rounded-2xl border border-gray-200 bg-[#f8f9ff] p-4 shadow-md">
-      <h3 className="font-[Poppins] text-lg text-swamp-green">
+      <h3 className="font-[Poppins] text-2xs md:text-md xl:text-lg text-swamp-green">
         {name}
       </h3>
 

@@ -34,7 +34,7 @@ const Schedule = () => {
       <div className="flex flex-1 flex-col min-h-0">
         <SectionToolbar schoolYear={SCHOOL_YEAR} />
 
-        <div className="flex flex-wrap gap-4 py-4">
+        <div className="flex flex-wrap gap-3 px-3 py-4 sm:gap-4 sm:px-4">
           {gradeLevels.map((grade) => (
             <SectionCard
               key={grade.gradeLevel}

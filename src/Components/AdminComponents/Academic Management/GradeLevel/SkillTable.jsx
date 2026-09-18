@@ -28,10 +28,14 @@ const SkillsTable = ({
                 >
                   <td className="px-3 py-3 sm:px-6">{index + 1}</td>
 
-                  <td className="px-3 py-3 sm:px-6">{subject.skills}</td>
+                  <td className="whitespace-nowrap px-3 py-3 sm:px-6">
+                    {subject.skills}
+                  </td>
 
                   <td className="px-3 py-3 sm:px-6">
-                    {subject.description || "No Description"}
+                    <span title={subject.description || "No Description"}>
+                      {subject.description || "No Description"}
+                    </span>
                   </td>
 
                   <td className="px-3 py-3 sm:px-6">

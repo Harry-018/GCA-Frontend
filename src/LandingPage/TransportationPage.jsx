@@ -146,7 +146,7 @@ const TransportationPage = () => {
               </h2>
             </div>
 
-{zoneOrder
+            {zoneOrder
               .filter((zone) => zones[zone])
               .map((zone) => (
                 <div key={zone} className="flex flex-col gap-y-4">

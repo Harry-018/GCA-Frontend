@@ -8,12 +8,12 @@ const ScheduleCell = ({ section, subject }) => {
 
   return (
     <div
-      className={`flex h-full flex-col justify-center px-2 py-2 sm:px-5 sm:py-4 ${
+      className={`flex h-full min-w-0 flex-col justify-center overflow-hidden px-1 py-1 sm:px-5 sm:py-4 ${
         isLunchTime ? "bg-red-50" : ""
       }`}
     >
       <p
-        className={`font-[PoppinsBold] text-[7px] sm:text-[9px] ${
+        className={`truncate font-[PoppinsBold] text-[7px] sm:text-[9px] ${
           isLunchTime ? "text-red-500" : "text-gray-600"
         }`}
       >
@@ -21,7 +21,7 @@ const ScheduleCell = ({ section, subject }) => {
       </p>
 
       <p
-        className={`py-1 text-[7px] sm:py-2 sm:text-[9px] ${
+        className={`truncate py-0.5 text-[7px] sm:py-2 sm:text-[9px] ${
           isLunchTime ? "text-red-400" : "text-gray-500"
         }`}
       >

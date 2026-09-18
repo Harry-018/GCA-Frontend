@@ -53,6 +53,8 @@ import CoreSubjects from "./uAdmin-Side/Academic Management Page/CoreSubjects.js
 import Skills from "./uAdmin-Side/Academic Management Page/Skills.jsx";
 import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
+import UserAccount from "./uAdmin-Side/UserAccount.jsx";
+
 
 //loaders
 import { getGradeLevels } from "./loaders/preEnrollmentLoaders.js";
@@ -136,6 +138,7 @@ const App = () => {
             <Route path="academic/core-subjects" element={<CoreSubjects />} />
             <Route path="academic/skills" element={<Skills />} />
             <Route path="academic/school-years" element={<SchoolYear />} />
+            <Route path="user-account" element={<UserAccount />} />
             <Route
               path="academic/schedulesection"
               element={<ScheduleSection />}

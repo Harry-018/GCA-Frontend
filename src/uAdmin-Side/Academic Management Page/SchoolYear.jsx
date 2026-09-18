@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
-import SchoolYearToolbar from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolyearToolbar";
-import SchoolyearTable from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolYearTable";
+import SchoolYearToolbar from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolYearToolbar";
+import SchoolyearTable from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolyearTable";
 import AddYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/AddYearModal";
 import EditYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/EditYearModal";
 

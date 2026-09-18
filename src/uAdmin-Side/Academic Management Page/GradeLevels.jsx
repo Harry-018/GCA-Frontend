@@ -19,7 +19,7 @@ const SCHOOL_YEAR = "2026 - 2027";
 const DEFAULT_SUBJECTS = {
   "Pre-School": [
     "Physical Development",
-    "Socio-Emotional Development",
+    "Emotional Development",
     "Cognitive Development",
     "Spiritual Development",
     "Reading",
@@ -28,7 +28,7 @@ const DEFAULT_SUBJECTS = {
   ],
   "Pre-Kinder": [
     "Physical Development",
-    "Socio-Emotional Development",
+    "Emotional Development",
     "Cognitive Development",
     "Spiritual Development",
     "Reading",
@@ -38,7 +38,7 @@ const DEFAULT_SUBJECTS = {
   ],
   Kinder: [
     "Physical Development",
-    "Socio-Emotional Development",
+    "Emotional Development",
     "Cognitive Development",
     "Spiritual Development",
     "Reading",
@@ -68,7 +68,7 @@ const GradeLevels = () => {
       <div className="flex flex-1 min-h-0 flex-col">
         <SectionToolbar schoolYear={SCHOOL_YEAR} />
 
-        <div className="flex flex-wrap gap-4 py-4">
+        <div className="flex flex-wrap gap-3 px-3 py-4 sm:gap-4 sm:px-4">
           {gradeLevels.map((grade) => (
             <SectionCard
               key={grade.gradeLevel}

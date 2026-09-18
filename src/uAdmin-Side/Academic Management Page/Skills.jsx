@@ -23,7 +23,7 @@ const DEFAULT_SKILLS = {
     {
       id: 1,
       skills: "Gross Motor Skills",
-      description: "Hopping, Skipping, Catching, Jumping, Balance",
+      description: "Hopping, Skipping, Catching, Jumping",
     },
     {
       id: 2,

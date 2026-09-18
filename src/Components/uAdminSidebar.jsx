@@ -18,7 +18,7 @@ const MENU_ITEMS = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/admin", end: true },
   { label: "Admission", icon: UserPlus, path: "/admin/admission" },
   { label: "Academic Management", icon: GraduationCap, path: "/admin/academic" },
-  { label: "User Accounts", icon: Users, path: "/admin/users" },
+  { label: "User Accounts", icon: Users, path: "/admin/user-account" },
   { label: "Notifications", icon: Bell, path: "/admin/notifications" },
   { label: "Website Management", icon: Globe, path: "/admin/website" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },

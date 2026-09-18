@@ -1,14 +1,10 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Bus, CheckCircle, GraduationCap, Home, LogIn, School, X } from "lucide-react";
+import { Bus, CheckCircle, Home, LogIn, School, X } from "lucide-react";
 import logoImg from "../assets/logowbg.png";
 
 const SCHOOL = {
   name: "Grace Christian Academy",
 };
-
-const NAV_LINKS = [
-  { to: "/teacher", label: "TEACHER", icon: GraduationCap },
-];
 
 const QUICK_LINKS = [
   { to: "/", label: "HOME", icon: Home, end: true },
@@ -53,6 +49,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
             alt={SCHOOL.name}
             className="h-9 rounded-full"
           />
+
           <span className="font-[PoppinsBold] text-xs text-bone">
             {SCHOOL.name}
           </span>
@@ -64,25 +61,6 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
           </p>
 
           {QUICK_LINKS.map(({ to, label, icon: Icon, end }) => (
-            <NavLink
-              key={to}
-              to={to}
-              end={end}
-              onClick={onClose}
-              className={({ isActive }) =>
-                `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] tracking-wide transition-colors ${
-                  isActive
-                    ? "bg-swamp-green/20 text-swamp-green"
-                    : "text-gray-400 hover:bg-white/5 hover:text-white"
-                }`
-              }
-            >
-              <Icon size={18} />
-              {label}
-            </NavLink>
-          ))}
-
-          {NAV_LINKS.map(({ to, label, icon: Icon, end }) => (
             <NavLink
               key={to}
               to={to}
