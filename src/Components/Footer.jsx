@@ -12,7 +12,7 @@ import { NavLink } from "react-router-dom";
 const QUICK_LINKS = [
   { label: "HOME", path: "/", icon: Home },
   { label: "TRANSPORT", path: "/transport", icon: Bus },
-  { label: "TUITION", path: "/tuitionfee", icon: School },
+  { label: "TUITION", path: "/tuition", icon: School },
   { label: "ADMISSION", path: "/admission", icon: CheckCircle },
 ];
 
