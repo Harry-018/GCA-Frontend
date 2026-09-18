@@ -41,7 +41,7 @@ body {
 }
 @font-face {
   font-family: "SuperJoyful";
-  src: url("fonts/SuperJoyful.ttf") format("truetype");
+  src: url("/fonts/SuperJoyful.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
