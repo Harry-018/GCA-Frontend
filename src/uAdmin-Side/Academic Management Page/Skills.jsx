@@ -49,7 +49,7 @@ const DEFAULT_SKILLS = {
     {
       id: 1,
       skills: "Phonemic Awareness",
-      description: "Recognizes letter sounds",
+      description: "Recognizes letter Sounds",
     },
   ],
   Numbers: [],
