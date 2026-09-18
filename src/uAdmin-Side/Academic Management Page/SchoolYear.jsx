@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import SchoolYearToolbar from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolyearToolbar";
-import SchoolyearTable from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolYearTable";
+import SchoolyearTable from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolyearTable";
 import AddYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/AddYearModal";
 import EditYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/EditYearModal";
+// schoolyeartable
 
 const NAV_ITEMS = [
   { name: "Students", path: "/admin/academic" },
@@ -64,9 +65,7 @@ const SchoolYear = () => {
     const term = searchValue.trim().toLowerCase();
     const matchesSearch =
       term === "" ||
-      (
-        `${schoolYear.schoolYear} ${schoolYear.status} ${schoolYear.enrollment}`
-      )
+      `${schoolYear.schoolYear} ${schoolYear.status} ${schoolYear.enrollment}`
         .toLowerCase()
         .includes(term);
 
@@ -100,9 +99,7 @@ const SchoolYear = () => {
 
   const handleSaveEdit = (updatedYear) => {
     setSchoolYears((prev) =>
-      prev.map((item) =>
-        item.id === updatedYear.id ? updatedYear : item
-      )
+      prev.map((item) => (item.id === updatedYear.id ? updatedYear : item)),
     );
     setEditingYear(null);
   };
@@ -120,10 +117,7 @@ const SchoolYear = () => {
         onSearch={handleSearch}
       />
 
-      <SchoolyearTable
-        schoolYears={filteredSchoolYears}
-        onEdit={handleEdit}
-      />
+      <SchoolyearTable schoolYears={filteredSchoolYears} onEdit={handleEdit} />
 
       <AddYearModal
         isOpen={isAddYearOpen}
