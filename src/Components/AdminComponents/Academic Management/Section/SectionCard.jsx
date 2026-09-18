@@ -6,7 +6,7 @@ const SectionCard = ({ level, onTabChange }) => {
   const tabs = ["Subjects", "Sections"];
 
   return (
-    <div className="flex w-80 flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-5 shadow-md">
+    <div className="flex w-full flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-5 shadow-md">
       <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
         {level}
       </h2>

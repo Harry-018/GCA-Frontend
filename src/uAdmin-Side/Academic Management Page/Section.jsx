@@ -35,7 +35,7 @@ const Section = () => {
           schoolYear={SCHOOL_YEAR}
         />
 
-      <div className="flex flex-wrap gap-4 p-4">
+      <div className="grid w-full max-w-4xl grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
         <SectionCard
           level="Pre-School"
           onTabChange={handleTabChange}

@@ -6,6 +6,16 @@
   height: 100%;
 }
 
+@media (max-width: 639px) {
+  * {
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+  *::-webkit-scrollbar {
+    display: none !important;
+  }
+}
+
 body {
   margin: 0;
   font-family: "Poppins", "PoppinsBold";
@@ -50,21 +60,38 @@ body {
   }
 
   .thin-scrollbar::-webkit-scrollbar {
-    width: 1px;
+    display: none !important;
   }
   .thin-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
+    background: transparent !important;
   }
   .thin-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.25);
-    border-radius: 9999px;
-  }
-  .thin-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(0, 0, 0, 0.4);
+    background: transparent !important;
   }
   .thin-scrollbar {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+  }
+
+  @media (min-width: 640px) {
+    .thin-scrollbar::-webkit-scrollbar {
+      width: 1px;
+      display: block;
+    }
+    .thin-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .thin-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 9999px;
+    }
+    .thin-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.4);
+    }
+    .thin-scrollbar {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0, 0, 0, 0.25) transparent;
+    }
   }
 
   .loading-dots span {

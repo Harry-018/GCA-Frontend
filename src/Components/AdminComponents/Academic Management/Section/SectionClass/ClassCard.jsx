@@ -37,11 +37,11 @@ const ClassCard = ({
       </div>
 
       {/* Schedule + Class Information */}
-      <div className="flex gap-x-3">
+      <div className="flex gap-x-2">
         <button
           type="button"
           onClick={onSchedule}
-          className="h-9 flex-1 rounded-full border border-gray-300 bg-transparent text-[11px] text-gray-500 hover:bg-gray-100"
+          className="h-9 shrink-0 rounded-full border border-gray-300 bg-transparent px-4 text-[11px] text-gray-500 hover:bg-gray-100"
         >
           Schedule
         </button>
@@ -49,7 +49,7 @@ const ClassCard = ({
         <button
           type="button"
           onClick={onClassInformation}
-          className="h-9 flex-1 rounded-full bg-[#9caf7e] font-[PoppinsBold] text-[11px] text-white hover:bg-[#899d6d]"
+          className="h-9 flex-1 whitespace-nowrap rounded-full bg-[#9caf7e] font-[PoppinsBold] text-[11px] text-white hover:bg-[#899d6d]"
         >
           Class Information
         </button>

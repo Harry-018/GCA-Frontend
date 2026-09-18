@@ -14,7 +14,7 @@ const AddSectionModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
-      <div className="flex w-full max-w-md flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
+      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
         <h2 className="font-[PoppinsBold] text-base text-[#9caf7e]">
           Add Section
         </h2>

@@ -136,7 +136,7 @@ const SectionClass = () => {
         />
 
       <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
-        <div className="flex items-center justify-between gap-x-3">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
           <div className="flex items-center gap-x-3">
             <h1 className="font-[PoppinsBold] text-lg text-swamp-green">
               {level}
@@ -147,7 +147,7 @@ const SectionClass = () => {
             <button
               type="button"
               onClick={() => navigate("/admin/academic/section")}
-              className="h-8 rounded-full border border-gray-300 bg-white px-4 text-[11px] text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-white px-4 text-[11px] text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
@@ -155,7 +155,7 @@ const SectionClass = () => {
             <button
               type="button"
               onClick={handleAddSection}
-              className="h-8 rounded-full bg-swamp-green px-4 font-[PoppinsBold] text-[11px] text-white hover:bg-[#899d6d]"
+              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 font-[PoppinsBold] text-[11px] text-white hover:bg-[#899d6d]"
             >
               + Add Section
             </button>
@@ -163,7 +163,7 @@ const SectionClass = () => {
         </div>
 
         {/* Class Cards */}
-        <div className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {classes.map((item) => (
             <ClassCard
               key={item.id}
