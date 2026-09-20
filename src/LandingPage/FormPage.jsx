@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { applyApplication } from "../requests/preEnrollmentRequests";
 import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
 import StudentInfo from "../Components/LandingpageComponents/Form/StudentInfo";
 import ReviewFormModal from "../Components/LandingpageComponents/Form/ReviewFormModal";
+import { Loader2 } from "lucide-react";
 
 const STORAGE_KEY = "studentApplication";
 
@@ -118,6 +120,8 @@ function FormPage() {
     }
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
@@ -134,6 +138,8 @@ function FormPage() {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
+
     try {
       const verification_id = localStorage.getItem("verification_id");
 
@@ -149,7 +155,6 @@ function FormPage() {
       localStorage.removeItem("verified_email");
       localStorage.removeItem("account_parent_relationship");
 
-      alert("SUBMISSION SUCCESS");
       navigate("/thanksforapply");
     } catch (error) {
       console.error("APPLICATION ERROR:", error);
@@ -159,6 +164,8 @@ function FormPage() {
       console.error("STATUS:", error.response?.status);
 
       alert(error.response?.data?.message || "Submission failed");
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -257,6 +264,24 @@ function FormPage() {
         gradeLevels={gradeLevels}
         paymentOptions={paymentOptions}
       />
+
+      {isSubmitting && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
+          <div className="flex w-70 flex-col items-center gap-4 rounded-xl bg-white p-6 shadow-xl">
+            <Loader2 size={32} className="animate-spin text-swamp-green" />
+
+            <div className="text-center">
+              <p className="text-sm font-semibold text-neutral-700">
+                Submitting Application
+              </p>
+
+              <p className="mt-1 text-xs text-neutral-500">
+                Please wait while we process your application.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
