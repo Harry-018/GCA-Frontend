@@ -8,17 +8,20 @@ const ApproveApplicantModal = ({
   onApprove,
   title = "Approve Applicant",
   purpose = applicant?.purpose || "Enrollment & Assessment",
-  email = applicant?.email || (applicant?.firstName && applicant?.lastName ? `${applicant.firstName} ${applicant.lastName}` : "-"),
+  email = applicant?.email || "-",
   scheduleTitle = "Submission and assessment schedule:",
   cancelLabel = "Cancel",
   approveLabel = "Approve",
 }) => {
-
   if (!applicant) return null;
 
   const isScheduleComplete =
-    Boolean(schedule.date) && Boolean(schedule.from) && Boolean(schedule.to);
+    Boolean(schedule.date) &&
+    Boolean(schedule.from) &&
+    Boolean(schedule.to) &&
+    schedule.to > schedule.from;
 
+  const today = new Date().toISOString().split("T")[0];
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
       <div className="w-full max-w-102.5 rounded-2xl bg-[#f5f6ff] px-6 py-5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
@@ -29,16 +32,13 @@ const ApproveApplicantModal = ({
         <div className="flex flex-col gap-2 py-6 text-xs text-gray-600">
           <div className="grid grid-cols-[105px_1fr]">
             <span>Send confirmation to:</span>
-            <span className="font-bold text-gray-700">
-              {email}
-            </span>
+            <span className="font-bold text-gray-700">{email}</span>
+            {console.log(email)}
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">
             <span>Purpose:</span>
-            <span className="font-bold text-gray-700">
-              {purpose}
-            </span>
+            <span className="font-bold text-gray-700">{purpose}</span>
           </div>
         </div>
 
@@ -54,6 +54,7 @@ const ApproveApplicantModal = ({
 
               <input
                 type="date"
+                min={today}
                 value={schedule.date}
                 onChange={(event) =>
                   onScheduleChange("date", event.target.value)
@@ -93,9 +94,7 @@ const ApproveApplicantModal = ({
 
               <select
                 value={schedule.to}
-                onChange={(event) =>
-                  onScheduleChange("to", event.target.value)
-                }
+                onChange={(event) => onScheduleChange("to", event.target.value)}
                 className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] leading-8 text-gray-600 outline-none"
               >
                 <option value="">select time</option>

@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { matchGlobalSearch } from "../utils/search";
+import { useEffect, useRef, useState } from "react";
 import AdmissionHeader from "../Components/AdminComponents/Admission/AdmissionHeader";
 import AdmissionToolbar from "../Components/AdminComponents/Admission/AdmissionToolbar";
 import ApplicantTable from "../Components/AdminComponents/Admission/ApplicantTable";
@@ -7,165 +6,177 @@ import ApprovedModal from "../Components/AdminModal/AdmissionPage/ApprovedModal"
 import ViewApplicantModal from "../Components/AdminModal/AdmissionPage/ViewApplicantModal";
 import ApproveApplicantModal from "../Components/AdminModal/AdmissionPage/ApproveApplicantModal";
 import RejectApplicantModal from "../Components/AdminModal/AdmissionPage/RejectApplicantModal";
-
-const DEFAULT_APPLICANTS = [
-  { id: "1452", lastName: "Agassi", firstName: "Carlos", gradeLevel: "Nursery", dateApplied: "2026-08-24 08:00:00", status: "Pending" },
-  { id: "1456", lastName: "Bernado", firstName: "Kathryn", gradeLevel: "Nursery", dateApplied: "2026-08-24 08:15:00", status: "Pending" },
-  { id: "1478", lastName: "Jumagesa", firstName: "Henry", gradeLevel: "Nursery", dateApplied: "2026-08-24 08:30:00", status: "Pending" },
-  { id: "1475", lastName: "Kaligtan", firstName: "Michelle", gradeLevel: "Kinder", dateApplied: "2026-08-24 08:45:00", status: "Pending" },
-  { id: "1723", lastName: "Kinalina", firstName: "Rexter", gradeLevel: "Kinder", dateApplied: "2026-08-24 09:00:00", status: "Pending" },
-  { id: "1458", lastName: "Macasinag", firstName: "Jake", gradeLevel: "Nursery", dateApplied: "2026-08-24 09:15:00", status: "Pending" },
-  { id: "4521", lastName: "Padilla", firstName: "Daniel", gradeLevel: "Kinder", dateApplied: "2026-08-24 09:30:00", status: "Pending" },
-  { id: "1493", lastName: "Panaga", firstName: "Diane Mae", gradeLevel: "Nursery", dateApplied: "2026-08-24 09:45:00", status: "Pending" },
-  { id: "1465", lastName: "Romasanta", firstName: "Rosaline", gradeLevel: "Kinder", dateApplied: "2026-08-24 10:00:00", status: "Pending" },
-  { id: "5256", lastName: "Sy", firstName: "James", gradeLevel: "Nursery", dateApplied: "2026-08-24 10:15:00", status: "Pending" },
-  { id: "1485", lastName: "Tumatong", firstName: "Yuna Richelle", gradeLevel: "Nursery", dateApplied: "2026-08-24 10:30:00", status: "Pending" },
-  { id: "1457", lastName: "Yap", firstName: "Daniel", gradeLevel: "Kinder", dateApplied: "2026-08-24 10:45:00", status: "Pending" },
-  { id: "1510", lastName: "Aquino", firstName: "Bianca", gradeLevel: "Nursery", dateApplied: "2026-08-24 11:00:00", status: "Pending" },
-  { id: "1512", lastName: "Balagtas", firstName: "Miguel", gradeLevel: "Kinder", dateApplied: "2026-08-24 11:15:00", status: "Pending" },
-  { id: "1515", lastName: "Cruz", firstName: "Angela", gradeLevel: "Nursery", dateApplied: "2026-08-24 11:30:00", status: "Pending" },
-  { id: "1518", lastName: "Dela Pena", firstName: "Joshua", gradeLevel: "Kinder", dateApplied: "2026-08-24 11:45:00", status: "Pending" },
-  { id: "1521", lastName: "Estrada", firstName: "Sofia", gradeLevel: "Nursery", dateApplied: "2026-08-24 12:00:00", status: "Pending" },
-  { id: "1524", lastName: "Flores", firstName: "Kyle", gradeLevel: "Kinder", dateApplied: "2026-08-24 12:15:00", status: "Pending" },
-  { id: "1527", lastName: "Garcia", firstName: "Jamie", gradeLevel: "Nursery", dateApplied: "2026-08-24 12:30:00", status: "Pending" },
-  { id: "1530", lastName: "Herrera", firstName: "Nico", gradeLevel: "Kinder", dateApplied: "2026-08-24 12:45:00", status: "Pending" },
-  { id: "1533", lastName: "Ignacio", firstName: "Patricia", gradeLevel: "Nursery", dateApplied: "2026-08-24 13:00:00", status: "Pending" },
-  { id: "1536", lastName: "Jimenez", firstName: "Rafael", gradeLevel: "Kinder", dateApplied: "2026-08-24 13:15:00", status: "Pending" },
-  { id: "1539", lastName: "Lopez", firstName: "Camille", gradeLevel: "Nursery", dateApplied: "2026-08-24 13:30:00", status: "Pending" },
-  { id: "1542", lastName: "Mendoza", firstName: "Marcus", gradeLevel: "Kinder", dateApplied: "2026-08-24 13:45:00", status: "Pending" },
-  { id: "1545", lastName: "Navarro", firstName: "Isabel", gradeLevel: "Nursery", dateApplied: "2026-08-24 14:00:00", status: "Pending" },
-  { id: "1548", lastName: "Ocampo", firstName: "Gabriel", gradeLevel: "Kinder", dateApplied: "2026-08-24 14:15:00", status: "Pending" },
-
-  { id: "1602", lastName: "Reyes", firstName: "John", gradeLevel: "Kinder", dateApplied: "2026-08-23 09:00:00", dateApproved: "2026-08-25 09:00:00", status: "Approved" },
-  { id: "1603", lastName: "Santos", firstName: "Maria", gradeLevel: "Nursery", dateApplied: "2026-08-23 09:30:00", dateApproved: "2026-08-25 09:30:00", status: "Approved" },
-  { id: "1705", lastName: "Torres", firstName: "Kevin", gradeLevel: "Kinder", dateApplied: "2026-08-23 10:00:00", dateApproved: "2026-08-25 10:00:00", status: "Approved" },
-
-  { id: "1701", lastName: "Garcia", firstName: "Paul", gradeLevel: "Nursery", dateApplied: "2026-08-22 09:00:00", status: "Rejected", rejectionReason: "incomplete-documents", dateRejected: "2026-08-24 09:00:00" },
-  { id: "1702", lastName: "Molina", firstName: "Anne", gradeLevel: "Kinder", dateApplied: "2026-08-22 09:30:00", status: "Rejected", rejectionReason: "not-qualified", dateRejected: "2026-08-24 10:00:00" },
-];
-
-export function getApplicants() {
-  return DEFAULT_APPLICANTS;
-}
-
-export function saveApplicants(applicants) {
-  return applicants;
-}
-
-export function getApprovedApplicants() {
-  return getApplicants().filter((a) => a.status === "Approved");
-}
-
-export function approveApplicants(ids) {
-  const applicants = getApplicants().map((a) =>
-    ids.includes(a.id) ? { ...a, status: "Approved" } : a
-  );
-  saveApplicants(applicants);
-  return applicants;
-}
-
-export function rejectApplicant(id, reason) {
-  const applicants = getApplicants().map((a) =>
-    a.id === id
-      ? {
-          ...a,
-          status: "Rejected",
-          rejectionReason: reason,
-          dateRejected: new Date().toISOString().slice(0, 19).replace("T", " "),
-        }
-      : a
-  );
-  saveApplicants(applicants);
-  return applicants;
-}
-
-export function markEnrolled(id) {
-  const applicants = getApplicants().map((a) =>
-    a.id === id ? { ...a, status: "Enrolled" } : a
-  );
-  saveApplicants(applicants);
-  return applicants;
-}
+import {
+  getApplications,
+  getApplicationById,
+  approveApplicant,
+  bulkApproveApplicants,
+  rejectApplicant,
+} from "../requests/preEnrollmentRequests";
+import { useLoaderData } from "react-router-dom";
 
 const TABS = [
   { label: "Applications", path: "/admin/admission" },
   { label: "Submitted Documents", path: "/admin/submission" },
 ];
 
-const STATUSES = [
-  "Pending",
-  "Approved",
-  "Rejected",
-];
-
-const TABLE_HEADERS = [
-  "APPL. ID",
-  "LAST NAME",
-  "FIRST NAME",
-  "GRADE LEVEL",
-  "DATE APPLIED",
-  "STATUS",
-  "ACTION",
-];
-
-const REJECTION_REASONS = [
-  { value: "incomplete-documents", label: "Incomplete documents" },
-  { value: "invalid-information", label: "Invalid information" },
-  { value: "not-qualified", label: "Does not meet requirements" },
-  { value: "other", label: "Other" },
-];
+const STATUSES = ["Pending", "Approved", "Rejected"];
 
 const Admission = () => {
-  const [activeTab, setActiveTab] = useState(TABS[0]);
-  const [activeStatus, setActiveStatus] = useState(STATUSES[0]);
+  // =========================
+  // APPLICATION DATA
+  // =========================
+
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
+  const {
+    applications: initialApplications,
+    pagination: initialPagination,
+    rejectionReasons: initialRejectionReasons,
+  } = useLoaderData();
+
+  const [applications, setApplications] = useState(initialApplications);
+  const [pagination, setPagination] = useState(initialPagination);
+  const [rejectionReasons, setRejectionReasons] = useState(
+    initialRejectionReasons,
+  );
+
+  const [loading, setLoading] = useState(false);
+  const [actionLoading, setActionLoading] = useState(false);
+
+  // =========================
+  // FILTERS
+  // =========================
+
+  const [activeStatus, setActiveStatus] = useState("Pending");
   const [search, setSearch] = useState("");
+
+  // =========================
+  // SELECTION
+  // =========================
+
   const [selectedIds, setSelectedIds] = useState([]);
   const [selectionMode, setSelectionMode] = useState(false);
+
+  // =========================
+  // MODALS
+  // =========================
+
   const [activeModal, setActiveModal] = useState(null);
   const [viewedApplicant, setViewedApplicant] = useState(null);
+
   const [applicantToApprove, setApplicantToApprove] = useState(null);
+
   const [approvalSchedule, setApprovalSchedule] = useState({
     date: "",
     from: "",
     to: "",
   });
+
   const [applicantToReject, setApplicantToReject] = useState(null);
   const [selectedReason, setSelectedReason] = useState("");
-  const [customReason, setCustomReason] = useState("");
-  const [applicants, setApplicants] = useState(getApplicants);
 
-  const filteredApplicants = applicants.filter((applicant) => {
-    const matchesStatus =
-      applicant.status === activeStatus;
-    const term = search.trim().toLowerCase();
+  // =========================
+  // FETCH APPLICATIONS
+  // =========================
 
-    const matchesSearch =
-      term === "" || matchGlobalSearch(applicant, term);
+  const fetchApplications = async (
+    currentPage = page,
+    currentSearch = search,
+    currentStatus = activeStatus,
+  ) => {
+    try {
+      setLoading(true);
 
-    return matchesStatus && matchesSearch;
-  });
+      const response = await getApplications({
+        page: currentPage,
+        limit,
+        application_status: currentStatus.toLowerCase(),
+        search: currentSearch,
+      });
+
+      setApplications(response.data.data);
+      setPagination(response.data.pagination);
+    } catch (error) {
+      console.error("Failed to fetch applications:", error);
+
+      setApplications([]);
+      setPagination({
+        page: currentPage,
+        limit,
+        total: 0,
+        totalPages: 0,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // =========================
+  // STATUS
+  // =========================
+
+  const handleStatusChange = (status) => {
+    setActiveStatus(status);
+    setPage(1);
+    setSelectedIds([]);
+  };
+
+  const isInitialRender = useRef(true);
+
+  useEffect(() => {
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
+    fetchApplications(page, search, activeStatus);
+  }, [page, activeStatus]);
+
+  // =========================
+  // SEARCH
+  // =========================
+
+  const handleSearch = () => {
+    setPage(1);
+    setSelectedIds([]);
+
+    fetchApplications(1, search, activeStatus);
+  };
+
+  // =========================
+  // SELECTION
+  // =========================
 
   const handleToggleSelect = (id) => {
     setSelectedIds((prev) =>
       prev.includes(id)
         ? prev.filter((selectedId) => selectedId !== id)
-        : [...prev, id]
+        : [...prev, id],
     );
   };
 
   const handleSelectAll = () => {
+    const visibleIds = applications
+      .filter((application) => application.application_status === "pending")
+      .map((application) => application.application_id);
+
     setSelectedIds((prev) => {
-      const visibleIds = filteredApplicants.map((a) => a.id);
-      const allSelected = visibleIds.every((id) => prev.includes(id));
+      const allSelected =
+        visibleIds.length > 0 && visibleIds.every((id) => prev.includes(id));
+
       if (allSelected) {
         return prev.filter((id) => !visibleIds.includes(id));
       }
+
       return [...new Set([...prev, ...visibleIds])];
     });
   };
 
   const handleClearSelection = () => {
     if (selectedIds.length === 0) return;
+
     setActiveModal("clear");
   };
 
@@ -179,13 +190,35 @@ const Admission = () => {
     setSelectedIds([]);
   };
 
-  const handleViewApplicant = (applicant) => {
-    setViewedApplicant(applicant);
+  // =========================
+  // VIEW
+  // =========================
+
+  const handleViewApplicant = async (applicant) => {
+    try {
+      setActionLoading(true);
+      const response = await getApplicationById(applicant.application_id);
+      setViewedApplicant(response.data.data);
+      console.log("APPLICATION RESPONSE:", response.data.data);
+    } catch (error) {
+      console.error("Failed to fetch applicant:", error);
+    } finally {
+      setActionLoading(false);
+    }
   };
+
+  // =========================
+  // APPROVAL MODAL
+  // =========================
 
   const handleApproveApplicant = (applicant) => {
     setApplicantToApprove(applicant);
-    setApprovalSchedule({ date: "", from: "", to: "" });
+
+    setApprovalSchedule({
+      date: "",
+      from: "",
+      to: "",
+    });
   };
 
   const handleScheduleChange = (field, value) => {
@@ -195,88 +228,140 @@ const Admission = () => {
     }));
   };
 
-  const confirmApproveApplicant = () => {
+  /*
+   * Backend approval request is not connected here yet.
+   * Do not modify applications locally because the old
+   * mock-data implementation has been removed.
+   */
+  const confirmApproveApplicant = async () => {
     if (!applicantToApprove) return;
-    const updated = applicants.map((applicant) =>
-      applicant.id === applicantToApprove.id
-        ? { ...applicant, status: "Approved" }
-        : applicant
-    );
-    setApplicants(updated);
-    saveApplicants(updated);
-    setApplicantToApprove(null);
+    try {
+      setActionLoading(true);
+      await approveApplicant({
+        application_id: applicantToApprove.application_id,
+        sub_date: approvalSchedule.date,
+        from_time: approvalSchedule.from,
+        to_time: approvalSchedule.to,
+      });
+      setApplicantToApprove(null);
+      await fetchApplications(page, search, activeStatus);
+    } catch (error) {
+      console.error("Failed to approve applicant:", error);
+    } finally {
+      setActionLoading(false);
+    }
   };
+
+  // =========================
+  // REJECTION MODAL
+  // =========================
 
   const handleRejectApplicant = (applicant) => {
     setApplicantToReject(applicant);
     setSelectedReason("");
-    setCustomReason("");
   };
 
-  const confirmRejectApplicant = () => {
-    const rejectionReason =
-      selectedReason === "other" ? customReason.trim() : selectedReason;
-    if (!applicantToReject || !rejectionReason) return;
-    const updated = applicants.map((applicant) =>
-      applicant.id === applicantToReject.id
-        ? {
-            ...applicant,
-            status: "Rejected",
-            rejectionReason,
-            dateRejected: new Date()
-              .toISOString()
-              .slice(0, 19)
-              .replace("T", " "),
-          }
-        : applicant
-    );
-    setApplicants(updated);
-    saveApplicants(updated);
-    setApplicantToReject(null);
-    setSelectedReason("");
-    setCustomReason("");
+  const confirmRejectApplicant = async () => {
+    if (!applicantToReject || !selectedReason) return;
+
+    try {
+      setActionLoading(true);
+      await rejectApplicant(
+        applicantToReject.application_id,
+        Number(selectedReason),
+      );
+
+      setApplicantToReject(null);
+      setSelectedReason("");
+
+      await fetchApplications(page, search, activeStatus);
+    } catch (error) {
+      console.error("Failed to reject applicant:", error);
+    } finally {
+      setActionLoading(false);
+    }
   };
+
+  // =========================
+  // BULK APPROVAL
+  // =========================
 
   const handleApproveSelected = () => {
     if (selectedIds.length === 0) return;
-    setApprovalSchedule({ date: "", from: "", to: "" });
+
+    setApprovalSchedule({
+      date: "",
+      from: "",
+      to: "",
+    });
+
     setActiveModal("approve");
   };
 
-  const confirmApproveSelected = () => {
-    const updated = applicants.map((a) =>
-      selectedIds.includes(a.id) ? { ...a, status: "Approved" } : a
-    );
-    setApplicants(updated);
-    saveApplicants(updated);
-    setSelectedIds([]);
-    setActiveModal(null);
-  };
+  /*
+   * Backend bulk approval request is not connected yet.
+   */
+  const confirmApproveSelected = async () => {
+    if (selectedIds.length === 0) return;
 
+    try {
+      setActionLoading(true);
+
+      await bulkApproveApplicants({
+        application_ids: selectedIds,
+        sub_date: approvalSchedule.date,
+        from_time: approvalSchedule.from,
+        to_time: approvalSchedule.to,
+      });
+
+      setSelectedIds([]);
+      setActiveModal(null);
+
+      await fetchApplications(page, search, activeStatus);
+    } catch (error) {
+      console.error("Failed to approve applicants:", error);
+    } finally {
+      setActionLoading(false);
+    }
+  };
   const selectedCount = selectedIds.length;
 
-  const handleSearch = () => {
-    console.log(
-      "Search:",
-      search,
-      "| Status:",
-      activeStatus
-    );
+  // =========================
+  // PAGINATION
+  // =========================
+
+  const handlePreviousPage = () => {
+    if (page <= 1 || loading) return;
+
+    setPage((prev) => prev - 1);
   };
+
+  const handleNextPage = () => {
+    if (
+      loading ||
+      pagination.totalPages === 0 ||
+      page >= pagination.totalPages
+    ) {
+      return;
+    }
+
+    setPage((prev) => prev + 1);
+  };
+
+  // =========================
+  // RENDER
+  // =========================
 
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins]">
+      {/* Header */}
+      <AdmissionHeader tabs={TABS} />
 
-      <AdmissionHeader
-        tabs={TABS}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-
+      {/* Toolbar */}
       <AdmissionToolbar
         statuses={STATUSES}
         activeStatus={activeStatus}
-        onStatusChange={setActiveStatus}
+        onStatusChange={handleStatusChange}
         search={search}
         onSearchChange={setSearch}
         onSearch={handleSearch}
@@ -287,19 +372,59 @@ const Admission = () => {
         onToggleSelectionMode={handleToggleSelectionMode}
       />
 
-      <ApplicantTable
-        applicants={filteredApplicants}
-        headers={TABLE_HEADERS}
-        selectedIds={selectedIds}
-        selectable={activeStatus === "Pending" && selectionMode}
-        onToggleSelect={handleToggleSelect}
-        onSelectAll={handleSelectAll}
-        onView={handleViewApplicant}
-        onApprove={handleApproveApplicant}
-        onReject={handleRejectApplicant}
-        dateHeader={activeStatus === "Rejected" ? "DATE REJECTED" : "DATE APPLIED"}
-      />
+      {/* Table */}
+      {loading ? (
+        <div className="flex min-h-0 flex-1 items-center justify-center rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+          <p className="text-sm text-gray-500">Loading applications...</p>
+        </div>
+      ) : (
+        <ApplicantTable
+          applicants={applications}
+          selectedIds={selectedIds}
+          selectable={activeStatus === "Pending" && selectionMode}
+          onToggleSelect={handleToggleSelect}
+          onSelectAll={handleSelectAll}
+          onView={handleViewApplicant}
+          onApprove={handleApproveApplicant}
+          onReject={handleRejectApplicant}
+          dateHeader={
+            activeStatus === "Rejected" ? "DATE REJECTED" : "DATE APPLIED"
+          }
+        />
+      )}
 
+      {/* Pagination */}
+      <div className="flex items-center justify-between px-2 py-3">
+        <span className="text-xs text-gray-500">
+          Page {pagination.page} of {pagination.totalPages || 0}
+        </span>
+
+        <div className="flex gap-2">
+          <button
+            type="button"
+            disabled={page === 1 || loading}
+            onClick={handlePreviousPage}
+            className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Previous
+          </button>
+
+          <button
+            type="button"
+            disabled={
+              loading ||
+              pagination.totalPages === 0 ||
+              page >= pagination.totalPages
+            }
+            onClick={handleNextPage}
+            className="rounded-full bg-swamp-green px-4 py-1.5 text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+
+      {/* View Applicant */}
       {viewedApplicant && (
         <ViewApplicantModal
           applicant={viewedApplicant}
@@ -307,6 +432,7 @@ const Admission = () => {
         />
       )}
 
+      {/* Approve Applicant */}
       {applicantToApprove && (
         <ApproveApplicantModal
           applicant={applicantToApprove}
@@ -317,17 +443,20 @@ const Admission = () => {
         />
       )}
 
+      {/* Reject Applicant */}
       <RejectApplicantModal
         isOpen={Boolean(applicantToReject)}
-        onClose={() => setApplicantToReject(null)}
+        onClose={() => {
+          setApplicantToReject(null);
+          setSelectedReason("");
+        }}
         onReject={confirmRejectApplicant}
-        reasons={REJECTION_REASONS}
+        reasons={rejectionReasons}
         selectedReason={selectedReason}
         onReasonChange={setSelectedReason}
-        customReason={customReason}
-        onCustomReasonChange={setCustomReason}
       />
 
+      {/* Bulk Approve */}
       {activeModal === "approve" && (
         <ApproveApplicantModal
           applicant={{
@@ -343,6 +472,7 @@ const Admission = () => {
         />
       )}
 
+      {/* Clear Selection */}
       {activeModal === "clear" && (
         <ApprovedModal
           title="Clear Selection"
@@ -353,7 +483,6 @@ const Admission = () => {
           onCancel={() => setActiveModal(null)}
         />
       )}
-
     </div>
   );
 };

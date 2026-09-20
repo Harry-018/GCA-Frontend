@@ -55,7 +55,11 @@ import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
 
 //loaders
-import { getGradeLevels } from "./loaders/preEnrollmentLoaders.js";
+import {
+  admissionLoader,
+  getGradeLevels,
+} from "./loaders/preEnrollmentLoaders.js";
+import { enrollmentFormLoader } from "./loaders/formLoaderGuard.js";
 
 //ProtectedRoutes
 
@@ -82,7 +86,7 @@ const App = () => {
           <Route
             path="/enrollmentform"
             element={<FormPage />}
-            loader={getGradeLevels}
+            loader={getGradeLevels} //change to enrollmentLoaderGuard
           />
           <Route path="/thanksforapply" element={<ThanksforApply />} />
           <Route path="/tuitionfee" element={<TuitionPage />} />
@@ -125,7 +129,11 @@ const App = () => {
             }
           >
             <Route index element={<Dashboard />} />
-            <Route path="admission" element={<Admission />} />
+            <Route
+              path="admission"
+              element={<Admission />}
+              loader={admissionLoader}
+            />
             <Route path="academic" element={<Students />} />
             <Route path="academic/teachers" element={<Teacher />} />
             <Route path="academic/parents" element={<Parents />} />

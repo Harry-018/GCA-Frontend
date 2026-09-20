@@ -57,7 +57,7 @@ const INITIAL_DATA = {
       p_contact_number: "",
       p_occupation: "",
       p_email: "",
-      relationship_type: "Guardian",
+      relationship_type: "",
       will_receive_account: false,
     },
   ],
@@ -71,10 +71,18 @@ const applyVerifiedParent = (data) => {
     return data;
   }
 
+  const accountParentIndex = {
+    Father: 0,
+    Mother: 1,
+    Guardian: 2,
+  };
+
+  const accountParentIndexValue = accountParentIndex[accountParent];
+
   return {
     ...data,
-    parents: data.parents.map((parent) => {
-      const isAccountParent = parent.relationship_type === accountParent;
+    parents: data.parents.map((parent, index) => {
+      const isAccountParent = index === accountParentIndexValue;
 
       return {
         ...parent,
@@ -154,6 +162,36 @@ function FormPage() {
     }
   };
 
+  const handleNext = () => {
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+
+    const guardian = formData.parents[2];
+
+    if (guardian.will_receive_account) {
+      if (
+        !guardian.relationship_type ||
+        !guardian.p_first_name ||
+        !guardian.p_last_name ||
+        !guardian.p_contact_number ||
+        !guardian.p_email
+      ) {
+        alert(
+          "Please complete the Guardian information because the Guardian will receive the account.",
+        );
+        return;
+      }
+    }
+
+    if (!agreed) {
+      return;
+    }
+
+    setIsReviewOpen(true);
+  };
+
   return (
     <div className="flex min-h-screen w-full flex-col">
       <LoginHeader />
@@ -195,9 +233,7 @@ function FormPage() {
 
               <button
                 type="button"
-                onClick={() =>
-                  step === 1 ? setStep(2) : setIsReviewOpen(true)
-                }
+                onClick={handleNext}
                 disabled={
                   (step === 1 && !formData.grade_level_id) ||
                   (step === 2 && !agreed)
