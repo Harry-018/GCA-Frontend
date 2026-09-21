@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Header from '../../Components/AdminComponents/Academic Management/Header'
-import SectionToolbar from '../../Components/AdminComponents/Academic Management/Section/SectionToolbar'
+import SchoolYearLabel from '../../Components/AdminComponents/Academic Management/Schedule/SchoolYearLabel'
 import SectionCard from '../../Components/AdminComponents/Academic Management/Section/SectionCard'
 import SubjectModal from '../../Components/AdminModal/AcademicManagementPage/SubjectModal'
 
@@ -14,7 +14,7 @@ const NAV_ITEMS = [
   { name: "School Years", path: "/admin/academic/school-years" },
 ];
 
-const SCHOOL_YEAR = "2026-2027";
+const SCHOOL_YEAR = "2026 - 2027";
 
 const Section = () => {
   const [isSubjectModalOpen, setIsSubjectModalOpen] = useState(false);
@@ -23,34 +23,34 @@ const Section = () => {
     if (tab === "Subjects") setIsSubjectModalOpen(true);
   };
 
-  return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins]">
+return (
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
 
       <Header 
         navItems={NAV_ITEMS} 
       />
 
-      <div className="flex flex-1 flex-col gap-2 min-h-0">
-        <SectionToolbar
+      <div className="flex flex-1 flex-col min-h-0">
+        <SchoolYearLabel
           schoolYear={SCHOOL_YEAR}
         />
 
-      <div className="grid w-full max-w-4xl grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3">
-        <SectionCard
-          level="Pre-School"
-          onTabChange={handleTabChange}
-        />
+        <div className="flex flex-wrap gap-3 py-4 sm:gap-4">
+          <SectionCard
+            level="Pre-School"
+            onTabChange={handleTabChange}
+          />
 
-        <SectionCard
-          level="Pre-Kinder"
-          onTabChange={handleTabChange}
-        />
+          <SectionCard
+            level="Pre-Kinder"
+            onTabChange={handleTabChange}
+          />
 
-        <SectionCard
-          level="Kinder"
-          onTabChange={handleTabChange}
-        />
-      </div>
+          <SectionCard
+            level="Kinder"
+            onTabChange={handleTabChange}
+          />
+        </div>
       </div>
 
       <SubjectModal

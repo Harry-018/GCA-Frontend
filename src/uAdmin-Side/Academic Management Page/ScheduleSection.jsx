@@ -27,7 +27,7 @@ const ScheduleSection = () => {
       <Header navItems={NAV_ITEMS} />
 
       <div className="flex flex-1 flex-col gap-2 overflow-y-auto">
-        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 px-4 py-2">
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2 py-2">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <h1 className="font-[PoppinsBold] text-md text-swamp-green sm:text-lg">
               {level} :
@@ -39,12 +39,12 @@ const ScheduleSection = () => {
           </div>
 
           <button
-            type="button"
-            onClick={() => navigate(-1)}
-            className="rounded-full border bg-white px-4 py-1 font-[Poppins] text-xs text-gray-500 transition hover:text-swamp-green sm:text-sm"
-          >
-            Go Back
-          </button>
+              type="button"
+              onClick={() => navigate("/admin/academic/grade-levels")}
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-white px-4 text-[11px] text-gray-500 hover:bg-gray-100"
+            >
+              Go Back
+            </button>
         </div>
 
         {/* Schedule Setup Cards */}

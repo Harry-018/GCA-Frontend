@@ -1,11 +1,10 @@
-
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   UserPlus,
   GraduationCap,
   Users,
-  Bell,
+  MessagesSquare,
   Globe,
   Settings,
   LogOut,
@@ -19,7 +18,7 @@ const MENU_ITEMS = [
   { label: "Admission", icon: UserPlus, path: "/admin/admission" },
   { label: "Academic Management", icon: GraduationCap, path: "/admin/academic" },
   { label: "User Accounts", icon: Users, path: "/admin/user-account" },
-  { label: "Notifications", icon: Bell, path: "/admin/notifications" },
+  { label: "Communication", icon: MessagesSquare, path: "/admin/communication" },
   { label: "Website Management", icon: Globe, path: "/admin/website" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];

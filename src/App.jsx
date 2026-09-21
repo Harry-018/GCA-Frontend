@@ -54,6 +54,9 @@ import Skills from "./uAdmin-Side/Academic Management Page/Skills.jsx";
 import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
 import UserAccount from "./uAdmin-Side/UserAccount.jsx";
+import Communication from "./uAdmin-Side/Communication/Announcement.jsx";
+import AnnouncementList from "./uAdmin-Side/Communication/AnnouncementList.jsx";
+import Notification from "./uAdmin-Side/Communication/Notification.jsx";
 
 
 //loaders
@@ -139,6 +142,9 @@ const App = () => {
             <Route path="academic/skills" element={<Skills />} />
             <Route path="academic/school-years" element={<SchoolYear />} />
             <Route path="user-account" element={<UserAccount />} />
+            <Route path="communication" element={<Communication />} />
+            <Route path="communication/announcements" element={<AnnouncementList />} />
+            <Route path="communication/notifications" element={<Notification />} />
             <Route
               path="academic/schedulesection"
               element={<ScheduleSection />}

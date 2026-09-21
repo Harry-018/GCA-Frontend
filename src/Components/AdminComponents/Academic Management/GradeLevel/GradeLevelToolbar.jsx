@@ -12,7 +12,7 @@ const GradeLevelToolbar = ({
         <h2>{title} :</h2>
 
         {schoolYear && (
-          <span className="font-[Poppins] text-2xl text-gray-600 sm:text-sm">
+          <span className="font-[Poppins] text-sm text-gray-600 sm:text-sm">
             S.Y {schoolYear}
           </span>
         )}

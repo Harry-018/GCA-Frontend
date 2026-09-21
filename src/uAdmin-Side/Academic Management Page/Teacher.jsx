@@ -136,13 +136,11 @@ const Teacher = () => {
         onSearch={handleSearch}
       />
 
-      <div className="flex h-full flex-col gap-y-4">
       <TeacherTable
         teachers={filteredTeachers}
         columns={COLUMNS}
         onEdit={handleEdit}
       />
-    </div>
     </div>
 
         {isAddTeacherOpen && (

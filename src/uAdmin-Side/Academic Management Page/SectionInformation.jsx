@@ -146,7 +146,7 @@ const SectionInformation = () => {
             navItems={NAV_ITEMS} 
         />
 
-      <div className="flex min-h-0 flex-1 flex-col gap-4 px-4 pt-4">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 pt-4">
         <ClassInformationToolbar
           teacher={teacher}
           onChangeTeacher={handleChangeTeacher}

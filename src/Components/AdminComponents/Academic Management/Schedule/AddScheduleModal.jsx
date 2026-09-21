@@ -24,21 +24,21 @@ const AddScheduleModal = ({
         {/* Fixed Information */}
         <div className="grid grid-cols-3 gap-4 pt-5 sm:grid-cols-3">
           <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
+            <p className="font-[PoppinsMedium] text-smm text-gray-600">
               Grade Level:
             </p>
 
-            <p className="font-[Poppins] text-2xs text-gray-600">
+            <p className="font-[Poppins] text-sm text-gray-600">
               {gradeLevel}
             </p>
           </div>
 
           <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
+            <p className="font-[PoppinsMedium] text-sm text-gray-600">
               School Year:
             </p>
 
-            <p className="font-[Poppins] text-2xs text-gray-600">
+            <p className="font-[Poppins] text-sm text-gray-600">
               {schoolYear}
             </p>
           </div>

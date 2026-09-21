@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
-import SectionToolbar from "../../Components/AdminComponents/Academic Management/Section/SectionToolbar";
+import SchoolYearLabel from "../../Components/AdminComponents/Academic Management/Schedule/SchoolYearLabel";
 import SectionCard from "../../Components/AdminComponents/Academic Management/Schedule/SectionCard";
 import { getSections } from "../../utils/data/Admin/sections";
 
@@ -32,9 +32,11 @@ const Schedule = () => {
       <Header navItems={NAV_ITEMS} />
 
       <div className="flex flex-1 flex-col min-h-0">
-        <SectionToolbar schoolYear={SCHOOL_YEAR} />
+        <SchoolYearLabel
+          schoolYear={SCHOOL_YEAR} 
+        />
 
-        <div className="flex flex-wrap gap-3 px-3 py-4 sm:gap-4 sm:px-4">
+        <div className="flex flex-wrap gap-3 py-4 sm:gap-4">
           {gradeLevels.map((grade) => (
             <SectionCard
               key={grade.gradeLevel}

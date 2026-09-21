@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
 
 const StudentToolbar = ({
   filters,
@@ -13,38 +13,31 @@ const StudentToolbar = ({
   return (
     <div className="flex w-full flex-col gap-3 py-1 md:min-h-11 md:flex-row md:flex-wrap md:items-center md:justify-between">
       <div className="flex min-w-0 shrink-0 flex-wrap items-center gap-2">
-        <h2 className="font-[PoppinsBold] text-xs text-swamp-green sm:text-sm md:text-md">
+        <h2 className="font-[PoppinsBold] text-sm text-swamp-green sm:text-sm md:text-md">
           Students :
         </h2>
 
-        <p className="whitespace-nowrap text-xs font-[PoppinsBold] text-gray-600 sm:text-sm md:text-md">
+        <p className="whitespace-nowrap text-sm font-[Poppins] text-gray-600 sm:text-sm md:text-md">
           S.Y {schoolYear}
         </p>
       </div>
 
       <div className="flex w-full flex-wrap items-center justify-between gap-2 md:ml-auto md:w-auto md:justify-end md:gap-3">
-        <div className="relative">
-          <select
-            id="school-year-filter"
-            value={activeFilter}
-            onChange={(e) => onFilterChange(e.target.value)}
-            className="h-8 w-24 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white px-2.5 pr-7 text-[9px] leading-none text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green sm:w-24 sm:px-3 sm:pr-8 sm:text-xs"
-          >
-            {filters.map((filter) => (
-              <option key={filter} value={filter}>
-                {filter}
-              </option>
-            ))}
-          </select>
-          <label
-            htmlFor="school-year-filter"
-            className="pointer-events-none absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center sm:right-4"
-          >
-            <ChevronDown
-              size={12}
-              className="text-gray-500"
-            />
-          </label>
+        <div className="flex shrink-0 gap-1.5 overflow-x-auto [-ms-overflow-style:none] scrollbar:none [&::-webkit-scrollbar]:hidden sm:gap-2 md:overflow-visible">
+          {filters.map((filter) => (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => onFilterChange?.(filter)}
+              className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-[Poppins] text-[11px] transition sm:px-5 sm:text-xs ${
+                activeFilter === filter
+                  ? "bg-swamp-green text-white"
+                  : "bg-transparent text-gray-500 hover:text-gray-700"
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
 
         <div className="flex flex-1 items-center gap-2 md:ml-3 md:w-auto md:flex-none">

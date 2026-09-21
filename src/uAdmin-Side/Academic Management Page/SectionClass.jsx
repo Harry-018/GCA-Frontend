@@ -135,7 +135,7 @@ const SectionClass = () => {
             navItems={NAV_ITEMS} 
         />
 
-      <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
+      <div className="flex min-h-0 flex-1 flex-col gap-4 py-4">
         <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
           <div className="flex items-center gap-x-3">
             <h1 className="font-[PoppinsBold] text-lg text-swamp-green">
