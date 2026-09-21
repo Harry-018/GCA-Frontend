@@ -12,11 +12,14 @@ const AdmissionToolbar = ({
   onClearSelection,
   selectionMode,
   onToggleSelectionMode,
+  selectionDisabled,
 }) => {
   return (
     <div className="flex w-full flex-wrap items-center gap-3 py-4 xl:flex-nowrap">
       {/* Status pills — own row on small/tablet, shares row (right side) with Check Multiple on laptop */}
-      <nav className="-mx-1 order-3 flex w-full items-center gap-3 overflow-x-auto px-1 pb-1 sm:gap-5 md:order-2 md:w-auto md:flex-wrap md:overflow-visible md:pb-0 lg:order-2 lg:w-auto lg:flex-nowrap lg:shrink-0 lg:pb-0 xl:order-0 xl:w-auto">        {statuses.map((status) => (
+      <nav className="-mx-1 order-3 flex w-full items-center gap-3 overflow-x-auto px-1 pb-1 sm:gap-5 md:order-2 md:w-auto md:flex-wrap md:overflow-visible md:pb-0 lg:order-2 lg:w-auto lg:flex-nowrap lg:shrink-0 lg:pb-0 xl:order-0 xl:w-auto">
+        {" "}
+        {statuses.map((status) => (
           <button
             key={status}
             type="button"
@@ -34,13 +37,15 @@ const AdmissionToolbar = ({
 
       {/* Selection: Check Multiple (+ inline actions on small/tablet) */}
       <div className="order-1 flex w-full flex-wrap items-center gap-3 md:shrink-0 lg:order-1 lg:w-full xl:order-0 xl:w-auto xl:ml-auto">
-        <button
-          type="button"
-          onClick={onToggleSelectionMode}
-          className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-swamp-green px-4 text-[11px] font-[Poppins] text-white transition hover:bg-swamp-green sm:px-7 sm:text-xs"
-        >
-          {selectionMode ? "Cancel" : "Check Multiple"}
-        </button>
+        {!selectionDisabled && (
+          <button
+            type="button"
+            onClick={onToggleSelectionMode}
+            className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-swamp-green px-4 text-[11px] font-[Poppins] text-white transition hover:bg-swamp-green sm:px-7 sm:text-xs"
+          >
+            {selectionMode ? "Cancel" : "Check Multiple"}
+          </button>
+        )}
 
         {/* Approve/Clear inline */}
         <div className="flex items-center gap-3">

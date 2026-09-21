@@ -20,6 +20,10 @@ export const getApplications = async ({
   });
 };
 
+export const getRecentApplicants = async () => {
+  return API.get("/api/preEnrollment/applications/recent");
+};
+
 export const getApplicationById = (application_id) => {
   return API.get(`/api/preEnrollment/applications/${application_id}`);
 };
@@ -41,18 +45,33 @@ export const rejectApplicant = (application_id, rejection_reason_id) => {
     rejection_reason_id,
   });
 };
-
-export const getApprovedApplicants = async ({
+export const getApprovedApplicants = async (
+  sub_date,
+  search = "",
   page = 1,
   limit = 10,
-  search = "",
-}) => {
-  return API.get(`/api/preEnrollment/applications`, {
+) => {
+  return API.get("/api/preEnrollment/app-approval", {
     params: {
+      sub_date,
+      search: search.trim(),
       page,
       limit,
-      application_status: "approved",
-      search: search.trim(),
     },
   });
+};
+
+export const enrollApplicant = (app_approval_id) => {
+  return API.post(`/api/preEnrollment/students/${app_approval_id}`);
+};
+
+export const rejectApprovedApplicant = (app_approval_id, data) => {
+  return API.post(
+    `/api/preEnrollment/app-approval/${app_approval_id}/reject`,
+    data,
+  );
+};
+
+export const rescheduleApprovedApplicant = (app_approval_id, data) => {
+  return API.patch(`/api/preEnrollment/app-approval/${app_approval_id}`, data);
 };

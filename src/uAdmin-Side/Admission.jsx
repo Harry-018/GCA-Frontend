@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useState, useMemo } from "react";
+import { createColumnHelper } from "@tanstack/react-table";
 import AdmissionHeader from "../Components/AdminComponents/Admission/AdmissionHeader";
 import AdmissionToolbar from "../Components/AdminComponents/Admission/AdmissionToolbar";
-import ApplicantTable from "../Components/AdminComponents/Admission/ApplicantTable";
 import ApprovedModal from "../Components/AdminModal/AdmissionPage/ApprovedModal";
 import ViewApplicantModal from "../Components/AdminModal/AdmissionPage/ViewApplicantModal";
 import ApproveApplicantModal from "../Components/AdminModal/AdmissionPage/ApproveApplicantModal";
@@ -14,21 +14,41 @@ import {
   rejectApplicant,
 } from "../requests/preEnrollmentRequests";
 import { useLoaderData } from "react-router-dom";
+import DataTable from "../Components/DataTable";
+
+const columnHelper = createColumnHelper();
+
+const formatDate = (value) => {
+  if (!value) return "—";
+
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) return "—";
+
+  return date.toLocaleDateString("en-PH", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+};
+
+const STATUS_STYLES = {
+  pending: "bg-yellow-100 text-yellow-700",
+  approved: "bg-green-100 text-green-700",
+  rejected: "bg-red-100 text-red-700",
+};
+
+const STATUSES = ["Pending", "Approved", "Rejected"];
 
 const TABS = [
   { label: "Applications", path: "/admin/admission" },
-  { label: "Submitted Documents", path: "/admin/submission" },
+  { label: "Document Submission", path: "/admin/submission" },
 ];
-
-const STATUSES = ["Pending", "Approved", "Rejected"];
 
 const Admission = () => {
   // =========================
   // APPLICATION DATA
   // =========================
-
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
 
   const {
     applications: initialApplications,
@@ -51,6 +71,8 @@ const Admission = () => {
 
   const [activeStatus, setActiveStatus] = useState("Pending");
   const [search, setSearch] = useState("");
+
+  const isPending = activeStatus.toLowerCase() === "pending";
 
   // =========================
   // SELECTION
@@ -82,7 +104,7 @@ const Admission = () => {
   // =========================
 
   const fetchApplications = async (
-    currentPage = page,
+    currentPage = pagination.page,
     currentSearch = search,
     currentStatus = activeStatus,
   ) => {
@@ -91,7 +113,7 @@ const Admission = () => {
 
       const response = await getApplications({
         page: currentPage,
-        limit,
+        limit: pagination.limit,
         application_status: currentStatus.toLowerCase(),
         search: currentSearch,
       });
@@ -102,9 +124,10 @@ const Admission = () => {
       console.error("Failed to fetch applications:", error);
 
       setApplications([]);
+
       setPagination({
         page: currentPage,
-        limit,
+        limit: pagination.limit,
         total: 0,
         totalPages: 0,
       });
@@ -119,27 +142,20 @@ const Admission = () => {
 
   const handleStatusChange = (status) => {
     setActiveStatus(status);
-    setPage(1);
     setSelectedIds([]);
-  };
 
-  const isInitialRender = useRef(true);
-
-  useEffect(() => {
-    if (isInitialRender.current) {
-      isInitialRender.current = false;
-      return;
+    if (status.toLowerCase() !== "pending") {
+      setSelectionMode(false);
     }
 
-    fetchApplications(page, search, activeStatus);
-  }, [page, activeStatus]);
+    fetchApplications(1, search, status);
+  };
 
   // =========================
   // SEARCH
   // =========================
 
   const handleSearch = () => {
-    setPage(1);
     setSelectedIds([]);
 
     fetchApplications(1, search, activeStatus);
@@ -186,6 +202,8 @@ const Admission = () => {
   };
 
   const handleToggleSelectionMode = () => {
+    if (!isPending) return;
+
     setSelectionMode((prev) => !prev);
     setSelectedIds([]);
   };
@@ -244,7 +262,7 @@ const Admission = () => {
         to_time: approvalSchedule.to,
       });
       setApplicantToApprove(null);
-      await fetchApplications(page, search, activeStatus);
+      await fetchApplications(pagination.page, search, activeStatus);
     } catch (error) {
       console.error("Failed to approve applicant:", error);
     } finally {
@@ -274,7 +292,7 @@ const Admission = () => {
       setApplicantToReject(null);
       setSelectedReason("");
 
-      await fetchApplications(page, search, activeStatus);
+      await fetchApplications(pagination.page, search, activeStatus);
     } catch (error) {
       console.error("Failed to reject applicant:", error);
     } finally {
@@ -317,7 +335,7 @@ const Admission = () => {
       setSelectedIds([]);
       setActiveModal(null);
 
-      await fetchApplications(page, search, activeStatus);
+      await fetchApplications(pagination.page, search, activeStatus);
     } catch (error) {
       console.error("Failed to approve applicants:", error);
     } finally {
@@ -331,22 +349,181 @@ const Admission = () => {
   // =========================
 
   const handlePreviousPage = () => {
-    if (page <= 1 || loading) return;
+    if (pagination.page <= 1 || loading) return;
 
-    setPage((prev) => prev - 1);
+    fetchApplications(pagination.page - 1, search, activeStatus);
   };
 
   const handleNextPage = () => {
     if (
       loading ||
       pagination.totalPages === 0 ||
-      page >= pagination.totalPages
+      pagination.page >= pagination.totalPages
     ) {
       return;
     }
 
-    setPage((prev) => prev + 1);
+    fetchApplications(pagination.page + 1, search, activeStatus);
   };
+
+  const allVisibleSelected =
+    applications.length > 0 &&
+    applications.every((application) =>
+      selectedIds.includes(application.application_id),
+    );
+
+  const columns = useMemo(
+    () => [
+      ...(selectionMode
+        ? [
+            columnHelper.display({
+              id: "select",
+
+              header: () => (
+                <input
+                  type="checkbox"
+                  checked={allVisibleSelected}
+                  onChange={handleSelectAll}
+                  className="h-4 w-4 cursor-pointer"
+                />
+              ),
+
+              cell: ({ row }) => {
+                const applicationId = row.original.application_id;
+
+                return (
+                  <input
+                    type="checkbox"
+                    checked={selectedIds.includes(applicationId)}
+                    onChange={() => handleToggleSelect(applicationId)}
+                    className="h-4 w-4 cursor-pointer"
+                  />
+                );
+              },
+            }),
+          ]
+        : []),
+
+      columnHelper.accessor("application_no", {
+        header: "APPLICATION NO.",
+        cell: (info) => info.getValue() ?? "—",
+      }),
+
+      columnHelper.accessor("last_name", {
+        header: "LAST NAME",
+        cell: (info) => info.getValue() ?? "—",
+      }),
+
+      columnHelper.accessor("first_name", {
+        header: "FIRST NAME",
+        cell: (info) => info.getValue() ?? "—",
+      }),
+
+      columnHelper.accessor("grade_level", {
+        header: "GRADE LEVEL",
+        cell: (info) => info.getValue() ?? "—",
+      }),
+
+      columnHelper.accessor(
+        (row) =>
+          activeStatus.toLowerCase() === "rejected"
+            ? row.rejected_at
+            : row.date_applied,
+        {
+          id: "date",
+
+          header:
+            activeStatus.toLowerCase() === "rejected"
+              ? "DATE REJECTED"
+              : "DATE APPLIED",
+
+          cell: (info) => {
+            const value = info.getValue();
+
+            if (!value) return "—";
+
+            return new Date(value).toLocaleDateString("en-PH", {
+              year: "numeric",
+              month: "short",
+              day: "numeric",
+              hour: "2-digit",
+              minute: "2-digit",
+            });
+          },
+        },
+      ),
+
+      columnHelper.accessor("application_status", {
+        header: "STATUS",
+
+        cell: (info) => {
+          const status = info.getValue() ?? "";
+
+          return (
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${
+                STATUS_STYLES[status.toLowerCase()] ??
+                "bg-gray-100 text-gray-600"
+              }`}
+            >
+              {status || "—"}
+            </span>
+          );
+        },
+      }),
+
+      columnHelper.display({
+        id: "actions",
+        header: "ACTION",
+
+        cell: ({ row }) => {
+          const applicant = row.original;
+
+          return (
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                onClick={() => handleViewApplicant(applicant)}
+                className="rounded-full border border-gray-300 px-4 py-1 text-[11px] text-gray-600 hover:bg-gray-100 lg:text-xs xl:text-sm"
+              >
+                View
+              </button>
+
+              {applicant.application_status === "pending" && (
+                <button
+                  type="button"
+                  onClick={() => handleApproveApplicant(applicant)}
+                  className="rounded-full bg-swamp-green px-4 py-1 text-[11px] text-white hover:bg-swamp-green lg:text-xs xl:text-sm"
+                >
+                  Approve
+                </button>
+              )}
+
+              {applicant.application_status === "pending" && (
+                <button
+                  type="button"
+                  onClick={() => handleRejectApplicant(applicant)}
+                  className="rounded-full bg-[#ff7272] px-4 py-1 text-[11px] text-white hover:bg-[#f45f5f] lg:text-xs xl:text-sm"
+                >
+                  Reject
+                </button>
+              )}
+            </div>
+          );
+        },
+      }),
+    ],
+    [
+      selectionMode,
+      selectedIds,
+      handleViewApplicant,
+      handleApproveApplicant,
+      handleRejectApplicant,
+      handleToggleSelect,
+      handleSelectAll,
+      allVisibleSelected,
+    ],
+  );
 
   // =========================
   // RENDER
@@ -370,28 +547,17 @@ const Admission = () => {
         onClearSelection={handleClearSelection}
         selectionMode={selectionMode}
         onToggleSelectionMode={handleToggleSelectionMode}
+        selectionDisabled={!isPending}
       />
 
       {/* Table */}
-      {loading ? (
-        <div className="flex min-h-0 flex-1 items-center justify-center rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
-          <p className="text-sm text-gray-500">Loading applications...</p>
-        </div>
-      ) : (
-        <ApplicantTable
-          applicants={applications}
-          selectedIds={selectedIds}
-          selectable={activeStatus === "Pending" && selectionMode}
-          onToggleSelect={handleToggleSelect}
-          onSelectAll={handleSelectAll}
-          onView={handleViewApplicant}
-          onApprove={handleApproveApplicant}
-          onReject={handleRejectApplicant}
-          dateHeader={
-            activeStatus === "Rejected" ? "DATE REJECTED" : "DATE APPLIED"
-          }
-        />
-      )}
+
+      <DataTable
+        data={applications}
+        columns={columns}
+        loading={loading}
+        emptyMessage="No applications found."
+      />
 
       {/* Pagination */}
       <div className="flex items-center justify-between px-2 py-3">
@@ -402,7 +568,7 @@ const Admission = () => {
         <div className="flex gap-2">
           <button
             type="button"
-            disabled={page === 1 || loading}
+            disabled={pagination.page === 1 || loading}
             onClick={handlePreviousPage}
             className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
           >
@@ -414,7 +580,7 @@ const Admission = () => {
             disabled={
               loading ||
               pagination.totalPages === 0 ||
-              page >= pagination.totalPages
+              pagination.page >= pagination.totalPages
             }
             onClick={handleNextPage}
             className="rounded-full bg-swamp-green px-4 py-1.5 text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"

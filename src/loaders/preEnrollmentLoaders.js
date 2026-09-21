@@ -2,6 +2,7 @@ import API from "../api/api.js";
 import {
   getApplications,
   getRejectionReasons,
+  getApprovedApplicants,
 } from "../requests/preEnrollmentRequests.js";
 
 export const getGradeLevels = async () => {
@@ -32,5 +33,25 @@ export const admissionLoader = async () => {
     applications: applicationsResponse.data.data,
     pagination: applicationsResponse.data.pagination,
     rejectionReasons: rejectionReasonsResponse.data.data,
+  };
+};
+
+const getLocalDate = () => {
+  const date = new Date();
+
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+    2,
+    "0",
+  )}-${String(date.getDate()).padStart(2, "0")}`;
+};
+
+export const submissionDocsLoader = async () => {
+  const today = getLocalDate();
+
+  const response = await getApprovedApplicants(today, "", 1, 10);
+
+  return {
+    approvedApplicants: response.data.data,
+    pagination: response.data.pagination,
   };
 };
