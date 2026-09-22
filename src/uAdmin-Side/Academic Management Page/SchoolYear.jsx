@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import {
+  getSchoolYears,
+  addSchoolYear,
+  editSchoolYear,
+} from "../../requests/academicManagementRequests";
+
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import SchoolYearToolbar from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolYearToolbar";
-import SchoolyearTable from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolyearTable";
 import AddYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/AddYearModal";
 import EditYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/EditYearModal";
+import DataTable from "../../Components/DataTable.jsx";
+
 // schoolyeartable
 
 const NAV_ITEMS = [
@@ -16,93 +23,182 @@ const NAV_ITEMS = [
   { name: "School Years", path: "/admin/academic/school-years" },
 ];
 
-const INITIAL_SCHOOL_YEARS = [
-  {
-    id: 1,
-    schoolYear: "2024-2025",
-    start: "Jul 27, 2024",
-    end: "Mar 27, 2025",
-    status: "Archived",
-    enrollment: "Closed",
-    created: "Jul 27, 2024",
-  },
-  {
-    id: 2,
-    schoolYear: "2025-2026",
-    start: "Jul 27, 2025",
-    end: "Mar 27, 2026",
-    status: "Active",
-    enrollment: "Open",
-    created: "Jul 27, 2025",
-  },
-  {
-    id: 3,
-    schoolYear: "2026-2027",
-    start: "Jul 27, 2026",
-    end: "Mar 27, 2027",
-    status: "Draft",
-    enrollment: "Pending",
-    created: "Jul 27, 2026",
-  },
-];
-
 const SchoolYear = () => {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [activeFilter, setActiveFilter] = useState("all");
   const [searchValue, setSearchValue] = useState("");
-  const [schoolYears, setSchoolYears] = useState(INITIAL_SCHOOL_YEARS);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [schoolYears, setSchoolYears] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 0,
+  });
 
   const [isAddYearOpen, setIsAddYearOpen] = useState(false);
   const [editingYear, setEditingYear] = useState(null);
 
-  const handleSearch = () => {
-    console.log("Search:", searchValue);
+  const loadSchoolYears = async () => {
+    try {
+      setLoading(true);
+
+      const result = await getSchoolYears({
+        status: activeFilter,
+        search: searchQuery,
+        page: pagination.page,
+        limit: pagination.limit,
+      });
+
+      setSchoolYears(result.data);
+      setPagination(result.pagination);
+    } catch (error) {
+      console.error("Failed to load school years:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const filteredSchoolYears = schoolYears.filter((schoolYear) => {
-    const matchesFilter =
-      activeFilter === "All" || schoolYear.status === activeFilter;
+  useEffect(() => {
+    loadSchoolYears();
+  }, [activeFilter, searchQuery, pagination.page, pagination.limit]);
 
-    const term = searchValue.trim().toLowerCase();
-    const matchesSearch =
-      term === "" ||
-      `${schoolYear.schoolYear} ${schoolYear.status} ${schoolYear.enrollment}`
-        .toLowerCase()
-        .includes(term);
+  const handleSearch = () => {
+    setSearchQuery(searchValue);
 
-    return matchesFilter && matchesSearch;
-  });
+    setPagination((prev) => ({
+      ...prev,
+      page: 1,
+    }));
+  };
+
+  const handleFilterChange = (filter) => {
+    setActiveFilter(filter);
+
+    setPagination((prev) => ({
+      ...prev,
+      page: 1,
+    }));
+  };
 
   const handleAddSchoolYear = () => {
     setIsAddYearOpen(true);
   };
 
-  const handleAddYear = (formData) => {
-    const { schoolYear, start, end, status } = formData;
+  const handleAddYear = async (formData) => {
+    try {
+      await addSchoolYear({
+        start_date: formData.start,
+        end_date: formData.end,
+        enrollment_status: formData.enrollment_status,
+      });
 
-    const newYear = {
-      id: Date.now(),
-      schoolYear,
-      start,
-      end,
-      status,
-      enrollment: status === "Draft" ? "Pending" : "Open",
-      created: new Date().toDateString(),
-    };
+      setIsAddYearOpen(false);
 
-    setSchoolYears((prev) => [...prev, newYear]);
-    setIsAddYearOpen(false);
+      await loadSchoolYears();
+    } catch (error) {
+      console.error("Failed to add school year:", error);
+      console.error("Response:", error.response?.data);
+    }
   };
 
   const handleEdit = (schoolYear) => {
     setEditingYear(schoolYear);
   };
 
-  const handleSaveEdit = (updatedYear) => {
-    setSchoolYears((prev) =>
-      prev.map((item) => (item.id === updatedYear.id ? updatedYear : item)),
-    );
-    setEditingYear(null);
+  const handleSaveEdit = async (updatedYear) => {
+    try {
+      await editSchoolYear(updatedYear.school_year_id, {
+        start_date: updatedYear.start,
+        end_date: updatedYear.end,
+        enrollment_status: updatedYear.enrollment_status,
+        sy_status: updatedYear.sy_status,
+      });
+
+      setEditingYear(null);
+
+      await loadSchoolYears();
+    } catch (error) {
+      console.error("Failed to edit school year:", error);
+      console.error("Response:", error.response?.data);
+    }
   };
+
+  const columns = [
+    {
+      header: "NO.",
+      cell: ({ row }) => row.index + 1,
+    },
+    {
+      header: "School Year",
+      cell: ({ row }) => {
+        const year = row.original;
+
+        const start = new Date(year.start_date).getFullYear();
+        const end = new Date(year.end_date).getFullYear();
+
+        return `${start}-${end}`;
+      },
+    },
+    {
+      accessorKey: "start_date",
+      header: "Start",
+      cell: ({ row }) => {
+        const date = row.original.start_date;
+
+        return date
+          ? new Date(date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              timeZone: "UTC",
+            })
+          : "N/A";
+      },
+    },
+    {
+      accessorKey: "end_date",
+      header: "End",
+      cell: ({ row }) => {
+        const date = row.original.end_date;
+
+        return date
+          ? new Date(date).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+              year: "numeric",
+              timeZone: "UTC",
+            })
+          : "N/A";
+      },
+    },
+    {
+      accessorKey: "sy_status",
+      header: "STATUS",
+      cell: ({ row }) =>
+        row.original.sy_status.charAt(0).toUpperCase() +
+        row.original.sy_status.slice(1),
+    },
+    {
+      accessorKey: "enrollment_status",
+      header: "ENROLLMENT",
+      cell: ({ row }) =>
+        row.original.enrollment_status.charAt(0).toUpperCase() +
+        row.original.enrollment_status.slice(1),
+    },
+    {
+      header: "ACTION",
+      cell: ({ row }) => (
+        <button
+          type="button"
+          onClick={() => handleEdit(row.original)}
+          className="rounded-xl border border-gray-400 bg-swamp-green px-3.5 py-1 text-[11px] text-white transition hover:opacity-80 lg:text-xs xl:text-sm"
+        >
+          Edit
+        </button>
+      ),
+    },
+  ];
 
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
@@ -110,14 +206,54 @@ const SchoolYear = () => {
 
       <SchoolYearToolbar
         activeFilter={activeFilter}
-        onFilterChange={setActiveFilter}
+        onFilterChange={handleFilterChange}
         onAddSchoolYear={handleAddSchoolYear}
         searchValue={searchValue}
         onSearchChange={setSearchValue}
         onSearch={handleSearch}
       />
 
-      <SchoolyearTable schoolYears={filteredSchoolYears} onEdit={handleEdit} />
+      <DataTable
+        data={schoolYears}
+        columns={columns}
+        loading={loading}
+        emptyMessage="No school years found."
+      />
+      <div className="flex items-center justify-between px-5 py-3">
+        <p className="text-xs text-gray-500">
+          Page {pagination.page} of {pagination.totalPages}
+        </p>
+
+        <div className="flex gap-2">
+          <button
+            type="button"
+            disabled={pagination.page <= 1}
+            onClick={() =>
+              setPagination((prev) => ({
+                ...prev,
+                page: prev.page - 1,
+              }))
+            }
+            className="rounded-full border border-gray-300 px-4 py-2 text-xs disabled:opacity-40"
+          >
+            Previous
+          </button>
+
+          <button
+            type="button"
+            disabled={pagination.page >= pagination.totalPages}
+            onClick={() =>
+              setPagination((prev) => ({
+                ...prev,
+                page: prev.page + 1,
+              }))
+            }
+            className="rounded-full bg-swamp-green px-4 py-2 text-xs text-white disabled:opacity-40"
+          >
+            Next
+          </button>
+        </div>
+      </div>
 
       <AddYearModal
         isOpen={isAddYearOpen}

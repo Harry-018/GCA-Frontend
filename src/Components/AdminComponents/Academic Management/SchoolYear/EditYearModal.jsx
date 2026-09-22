@@ -1,26 +1,40 @@
 import React, { useEffect, useState } from "react";
 
-const EditYearModal = ({
-  isOpen,
-  onClose,
-  onEdit,
-  schoolYearData,
-}) => {
+const getDateValue = (date) => {
+  if (!date) return "";
+
+  return new Date(date).toISOString().split("T")[0];
+};
+
+const getSchoolYear = (start, end) => {
+  if (!start || !end) return "";
+
+  const startYear = new Date(`${start}T00:00:00`).getFullYear();
+  const endYear = new Date(`${end}T00:00:00`).getFullYear();
+
+  return `${startYear}-${endYear}`;
+};
+
+const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
   const [formData, setFormData] = useState({
     schoolYear: "",
-    status: "Draft",
+    sy_status: "draft",
+    enrollment_status: "open",
     start: "",
     end: "",
   });
 
-  // Set form values when the selected school year changes
   useEffect(() => {
     if (schoolYearData) {
+      const start = getDateValue(schoolYearData.start_date);
+      const end = getDateValue(schoolYearData.end_date);
+
       setFormData({
-        schoolYear: schoolYearData.schoolYear || "",
-        status: schoolYearData.status || "Draft",
-        start: schoolYearData.start || "",
-        end: schoolYearData.end || "",
+        schoolYear: getSchoolYear(start, end),
+        sy_status: schoolYearData.sy_status || "draft",
+        enrollment_status: schoolYearData.enrollment_status || "open",
+        start,
+        end,
       });
     }
   }, [schoolYearData]);
@@ -28,10 +42,18 @@ const EditYearModal = ({
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => {
+      const updated = {
+        ...prev,
+        [name]: value,
+      };
+
+      if (name === "start" || name === "end") {
+        updated.schoolYear = getSchoolYear(updated.start, updated.end);
+      }
+
+      return updated;
+    });
   };
 
   const handleSubmit = (e) => {
@@ -52,13 +74,9 @@ const EditYearModal = ({
           Edit School Year
         </h2>
 
-        <form 
-            onSubmit={handleSubmit} 
-            className="flex flex-col gap-4 pt-4">
-
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4 pt-4">
           {/* School Year and Status */}
           <div className="grid grid-cols-2 gap-4">
-
             <div className="flex flex-col gap-1">
               <label className="font-[Poppins] text-2xs text-gray-600">
                 School Year:
@@ -68,9 +86,8 @@ const EditYearModal = ({
                 type="text"
                 name="schoolYear"
                 value={formData.schoolYear}
-                onChange={handleChange}
-                required
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs outline-none focus:border-[#91a77a]"
+                disabled
+                className="w-full rounded-lg border border-gray-300 bg-gray-100 px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none"
               />
             </div>
 
@@ -80,22 +97,37 @@ const EditYearModal = ({
               </label>
 
               <select
-                name="status"
-                value={formData.status}
+                name="sy_status"
+                value={formData.sy_status}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
               >
-                <option value="Draft">Draft</option>
-                <option value="Active">Active</option>
-                <option value="Archived">Archived</option>
+                <option value="draft">Draft</option>
+                <option value="active">Active</option>
+                <option value="archived">Archived</option>
               </select>
             </div>
+          </div>
 
+          {/* Enrollment */}
+          <div className="flex flex-col gap-1">
+            <label className="font-[Poppins] text-2xs text-gray-600">
+              Enrollment:
+            </label>
+
+            <select
+              name="enrollment_status"
+              value={formData.enrollment_status}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
+            >
+              <option value="open">Open</option>
+              <option value="closed">Closed</option>
+            </select>
           </div>
 
           {/* School Start and End */}
           <div className="grid grid-cols-2 gap-4">
-
             <div className="flex flex-col gap-1">
               <label className="font-[Poppins] text-2xs text-gray-600">
                 School Start:

@@ -1,6 +1,11 @@
 import React from "react";
 
-const FILTERS = ["All", "Archived", "Active", "Draft"];
+const FILTERS = [
+  { label: "All", value: "all" },
+  { label: "Archived", value: "archived" },
+  { label: "Active", value: "active" },
+  { label: "Draft", value: "draft" },
+];
 
 function SchoolYearToolbar({
   activeFilter = "All",
@@ -15,16 +20,18 @@ function SchoolYearToolbar({
       <div className="flex flex-wrap items-center gap-3">
         {FILTERS.map((filter) => (
           <button
-            key={filter}
+            key={filter.value}
             type="button"
-            onClick={() => onFilterChange?.(filter)}
+            onClick={() => {
+              onFilterChange?.(filter.value);
+            }}
             className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
-              activeFilter === filter
+              activeFilter === filter.value
                 ? "bg-swamp-green text-white"
                 : "text-gray-500 hover:bg-[#e4e8dd]"
             }`}
           >
-            {filter}
+            {filter.label}
           </button>
         ))}
       </div>
@@ -49,9 +56,7 @@ function SchoolYearToolbar({
           <input
             type="text"
             value={searchValue}
-            onChange={(event) =>
-              onSearchChange?.(event.target.value)
-            }
+            onChange={(event) => onSearchChange?.(event.target.value)}
             placeholder="Search School Year"
             className="w-full min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f7f7fc] px-3 py-2 font-[Poppins] text-xs outline-none focus:border-lime-green sm:w-56 sm:flex-none"
           />
