@@ -31,7 +31,6 @@ const GradeLevelCard = ({
 
       {/* Grade Level Card */}
       <div className="flex flex-1 flex-col rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-4 shadow-sm sm:p-7">
-        {/* Card Header */}
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="font-[Poppins] text-[9px] sm:text-sm font-semibold uppercase text-swamp-green">
             {title}
@@ -68,7 +67,7 @@ const GradeLevelCard = ({
               }`}
             >
               <div className="min-w-0">
-                <p className="font-[Poppins] text-[9px] sm:text-xs text-[#555555] sm:text-sm">
+                <p className="font-[Poppins] text-[9px] text-[#555555] sm:text-sm">
                   {fee.name}
                 </p>
 
@@ -79,7 +78,7 @@ const GradeLevelCard = ({
                 )}
               </div>
 
-              <span className="shrink-0 font-[Poppins] text-[9px] sm:text-xs text-[#555555] sm:text-sm">
+              <span className="shrink-0 font-[Poppins] text-[9px] text-[#555555] sm:text-sm">
                 {fee.amount}
               </span>
             </div>
@@ -88,11 +87,11 @@ const GradeLevelCard = ({
 
         {/* Subtotal */}
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-7">
-          <span className="font-[Poppins] text-[9px] sm:text-xs font-medium text-[#333333] sm:text-sm">
+          <span className="font-[Poppins] text-[9px] font-medium text-[#333333] sm:text-sm">
             Subtotal:
           </span>
 
-          <span className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green sm:text-base">
+          <span className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-base">
             {subtotal}
           </span>
         </div>

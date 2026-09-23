@@ -14,7 +14,7 @@ const PaymentOptionCard = ({
         >
           {/* Card Header */}
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green sm:text-base">
+            <h3 className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-base">
               {option.name}
             </h3>
 
@@ -67,7 +67,7 @@ const PaymentOptionCard = ({
               Total:
             </span>
 
-            <span className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green sm:text-base">
+            <span className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-base">
               {option.total}
             </span>
           </div>
