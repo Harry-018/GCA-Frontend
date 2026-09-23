@@ -57,6 +57,9 @@ import UserAccount from "./uAdmin-Side/UserAccount.jsx";
 import Communication from "./uAdmin-Side/Communication/Announcement.jsx";
 import AnnouncementList from "./uAdmin-Side/Communication/AnnouncementList.jsx";
 import Notification from "./uAdmin-Side/Communication/Notification.jsx";
+import Home from "./uAdmin-Side/Website Management Page/Home.jsx";
+import Transpo from "./uAdmin-Side/Website Management Page/Transpo.jsx";
+import Tuition from "./uAdmin-Side/Website Management Page/Tuition.jsx";
 
 
 //loaders
@@ -141,10 +144,17 @@ const App = () => {
             <Route path="academic/core-subjects" element={<CoreSubjects />} />
             <Route path="academic/skills" element={<Skills />} />
             <Route path="academic/school-years" element={<SchoolYear />} />
+
             <Route path="user-account" element={<UserAccount />} />
+
             <Route path="communication" element={<Communication />} />
             <Route path="communication/announcements" element={<AnnouncementList />} />
             <Route path="communication/notifications" element={<Notification />} />
+
+            <Route path="website" element={<Home />} />
+            <Route path="website/home" element={<Home />} />
+            <Route path="website/transpo" element={<Transpo />} />
+            <Route path="website/tuition" element={<Tuition />} />
             <Route
               path="academic/schedulesection"
               element={<ScheduleSection />}
