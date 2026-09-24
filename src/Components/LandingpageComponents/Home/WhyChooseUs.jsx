@@ -24,9 +24,7 @@ const ReasonCard = ({ reason, index }) => {
       className="group flex w-70 max-w-85 shrink-0 snap-start flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200/80 bg-[#f4f5fc] px-5 py-5 text-center shadow-[0_3px_5px_rgba(55,55,55,0.16)] transition-all duration-300 hover:-translate-y-1 hover:border-lime-dark/40 hover:shadow-[0_8px_16px_rgba(55,55,55,0.16)] sm:w-[45vw] lg:w-full lg:max-w-none lg:flex-row lg:justify-start lg:text-left lg:px-7"
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-lime-dark/15 text-swamp-green transition-colors group-hover:bg-lime-dark/25">
-        <Icon aria-hidden="true" 
-        className="h-4.5 w-4.5" 
-        strokeWidth={2.2} />
+        <Icon aria-hidden="true" className="h-4.5 w-4.5" strokeWidth={2.2} />
       </span>
       <p className="min-w-0 flex-1 font-[Poppins] text-xs leading-relaxed text-gray-600 transition-colors group-hover:text-egg-dark sm:text-sm">
         {reason}
@@ -81,7 +79,7 @@ const WhyChooseUs = ({ title, reasons }) => {
     <div className="flex w-full flex-col items-center bg-[#eeece8] px-5 py-10 sm:py-12 lg:py-16">
       <div className="flex flex-col items-center gap-3">
         <span className="h-1 w-10 rounded-full bg-lime-dark/70" />
-        <h2 className="text-center font-Handpicked-seashells font-bold uppercase text-lg leading-tight text-swamp-green/75 sm:text-xl md:text-2xl">
+        <h2 className="text-center font-[SuperJoyful] uppercase text-lg leading-tight text-swamp-green/75 sm:text-xl md:text-2xl">
           {title}
         </h2>
         <span className="h-px w-24 bg-swamp-green/20" />
@@ -93,22 +91,14 @@ const WhyChooseUs = ({ title, reasons }) => {
           className="flex w-full snap-x snap-mandatory gap-4 overflow-x-auto pb-2 scroll-smooth no-scrollbar sm:gap-5 lg:hidden"
         >
           {reasons.map((reason, index) => (
-            <ReasonCard
-              key={index}
-              reason={reason}
-              index={index}
-            />
+            <ReasonCard key={index} reason={reason} index={index} />
           ))}
         </div>
 
         <div className="hidden w-full flex-col gap-5 lg:flex">
           <div className="grid w-full grid-cols-3 gap-5">
             {reasons.slice(0, firstRowLength).map((reason, index) => (
-              <ReasonCard
-                key={index}
-                reason={reason}
-                index={index}
-              />
+              <ReasonCard key={index} reason={reason} index={index} />
             ))}
           </div>
           <div className="grid w-full max-w-160 grid-cols-2 gap-5 self-center">

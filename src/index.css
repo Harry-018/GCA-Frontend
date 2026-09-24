@@ -33,6 +33,24 @@ body {
   font-weight: bold;
   font-style: normal;
 }
+@font-face {
+  font-family: "SuperChiby";
+  src: url("/fonts/SuperChiby-BL62V.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SuperJoyful";
+  src: url("/fonts/SuperJoyful.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Njal";
+  src: url("/fonts/NjalBold-gx4E5.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
 
 @layer utilities {
   .font-Handmade {

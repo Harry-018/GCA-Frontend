@@ -1,20 +1,38 @@
 import React, { useState } from "react";
 
+const INITIAL_FORM = {
+  schoolYear: "",
+  start: "",
+  end: "",
+  enrollment_status: "closed",
+};
+
 const AddYearModal = ({ isOpen, onClose, onAdd }) => {
-  const [formData, setFormData] = useState({
-    schoolYear: "",
-    status: "Draft",
-    start: "",
-    end: "",
-  });
+  const [formData, setFormData] = useState(INITIAL_FORM);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => {
+      const updated = {
+        ...prev,
+        [name]: value,
+      };
+
+      if (name === "start" || name === "end") {
+        if (updated.start && updated.end) {
+          const startYear = new Date(`${updated.start}T00:00:00`).getFullYear();
+
+          const endYear = new Date(`${updated.end}T00:00:00`).getFullYear();
+
+          updated.schoolYear = `${startYear}-${endYear}`;
+        } else {
+          updated.schoolYear = "";
+        }
+      }
+
+      return updated;
+    });
   };
 
   const handleSubmit = (e) => {
@@ -22,12 +40,12 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
 
     onAdd?.(formData);
 
-    setFormData({
-      schoolYear: "",
-      status: "Draft",
-      start: "",
-      end: "",
-    });
+    setFormData(INITIAL_FORM);
+  };
+
+  const handleClose = () => {
+    setFormData(INITIAL_FORM);
+    onClose?.();
   };
 
   if (!isOpen) return null;
@@ -40,7 +58,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
         </h2>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 pt-4">
-          {/* School Year and Status */}
+          {/* School Year and Enrollment */}
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
               <label className="font-[Poppins] text-2xs text-gray-600">
@@ -51,27 +69,25 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 type="text"
                 name="schoolYear"
                 value={formData.schoolYear}
-                onChange={handleChange}
                 placeholder="----"
-                required
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs outline-none focus:border-[#91a77a]"
+                disabled
+                className="w-full rounded-lg border border-gray-300 bg-gray-100 px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none"
               />
             </div>
 
             <div className="flex flex-col gap-1">
               <label className="font-[Poppins] text-2xs text-gray-600">
-                Status:
+                Enrollment:
               </label>
 
               <select
-                name="status"
-                value={formData.status}
+                name="enrollment_status"
+                value={formData.enrollment_status}
                 onChange={handleChange}
                 className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-[#91a77a]"
               >
-                <option value="Draft">Draft</option>
-                <option value="Active">Active</option>
-                <option value="Archived">Archived</option>
+                <option value="closed">Closed</option>
+                <option value="open">Open</option>
               </select>
             </div>
           </div>
@@ -113,7 +129,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
           <div className="flex gap-2 pt-2">
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="w-1/2 rounded-full border border-gray-300 py-1.5 font-[Poppins] text-xs font-semibold text-gray-500 transition hover:bg-gray-100"
             >
               Cancel

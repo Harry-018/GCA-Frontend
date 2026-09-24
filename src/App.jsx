@@ -63,19 +63,27 @@ import Tuition from "./uAdmin-Side/Website Management Page/Tuition.jsx";
 
 
 //loaders
-import { getGradeLevels } from "./loaders/preEnrollmentLoaders.js";
+import {
+  admissionLoader,
+  getGradeLevels,
+  submissionDocsLoader,
+} from "./loaders/preEnrollmentLoaders.js";
+import { dashboardLoader } from "./loaders/dashboardLoader.js";
 
+import { enrollmentFormLoader } from "./loaders/formLoaderGuard.js";
+import SessionExpiredModal from "./SessionExpiredModal.jsx";
 //ProtectedRoutes
 
 import ProtectedRoutes from "./protectedRoutes.jsx";
 import NotFound from "./notFound.jsx";
 import NotAuth from "./notauth.jsx";
+import RouterErrorBoundary from "./RouterErrorBoundary.jsx";
 
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route element={<ScrollToTop />}>
+        <Route element={<ScrollToTop />} errorElement={RouterErrorBoundary}>
           <Route path="*" element={<NotFound />} />
           <Route path="/notauth" element={<NotAuth />} />
           <Route path="/" element={<HomePage />} />
@@ -90,7 +98,7 @@ const App = () => {
           <Route
             path="/enrollmentform"
             element={<FormPage />}
-            loader={getGradeLevels}
+            loader={getGradeLevels} //change to enrollmentLoaderGuard
           />
           <Route path="/thanksforapply" element={<ThanksforApply />} />
           <Route path="/tuitionfee" element={<TuitionPage />} />
@@ -132,8 +140,12 @@ const App = () => {
               </ProtectedRoutes>
             }
           >
-            <Route index element={<Dashboard />} />
-            <Route path="admission" element={<Admission />} />
+            <Route index element={<Dashboard />} loader={dashboardLoader} />
+            <Route
+              path="admission"
+              element={<Admission />}
+              loader={admissionLoader}
+            />
             <Route path="academic" element={<Students />} />
             <Route path="academic/teachers" element={<Teacher />} />
             <Route path="academic/parents" element={<Parents />} />
@@ -164,14 +176,22 @@ const App = () => {
               path="academic/sectionInformation"
               element={<SectionInformation />}
             />
-            <Route path="submission" element={<SubmissionDocs />} />
+            <Route
+              path="submission"
+              element={<SubmissionDocs />}
+              loader={submissionDocsLoader}
+            />
           </Route>
         </Route>
       </>,
     ),
   );
 
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <RouterProvider router={router} /> <SessionExpiredModal />
+    </>
+  );
 };
 
 export default App;

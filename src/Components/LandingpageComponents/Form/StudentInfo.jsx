@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { philippines } from "@ianlabicani/geoph-lite";
+
 import InfoField from "./InfoField";
 import InfoSection from "./InfoSection";
 import { getPaymentOptionsInGradeLevel } from "../../../loaders/services/preEnrollmentService";
@@ -13,8 +15,42 @@ const StudentInfo = ({
   onAgreeChange,
   onChange,
 }) => {
+  const ZIP_CODES = {
+    Tanza: "4108",
+    "City of Trece Martires": "4109",
+  };
+
   const field = (key) => (e) => {
     onChange?.(key, e.target.value);
+  };
+
+  const handleProvinceChange = (e) => {
+    const province = e.target.value;
+
+    onChange?.("province", province);
+
+    // Reset children of province
+    onChange?.("city_municipality", "");
+    onChange?.("barangay", "");
+    onChange?.("zipcode", "");
+
+    setBarangayOptions([]);
+  };
+
+  const handleCityChange = (e) => {
+    const cityCode = e.target.value;
+
+    const selectedCity = cityOptions.find((city) => city.value === cityCode);
+
+    const cityName = selectedCity?.label || "";
+
+    onChange?.("city_municipality", cityCode);
+
+    // Reset barangay whenever city changes
+    onChange?.("barangay", "");
+
+    // Automatically set ZIP code
+    onChange?.("zipcode", ZIP_CODES[cityName] || "");
   };
 
   const accountParent = localStorage.getItem("account_parent_relationship");
@@ -29,6 +65,88 @@ const StudentInfo = ({
   const student = formData;
   const parents = student.parents || [];
 
+  const [provinceOptions, setProvinceOptions] = useState([]);
+  const [cityOptions, setCityOptions] = useState([]);
+  const [barangayOptions, setBarangayOptions] = useState([]);
+
+  useEffect(() => {
+    const loadAddressData = async () => {
+      try {
+        // CALABARZON
+        const region = await philippines.region("0400000000");
+
+        const cavite = region.provinces.find(
+          (province) => province.name === "Cavite",
+        );
+
+        if (!cavite) {
+          console.error("Cavite was not found.");
+          return;
+        }
+
+        // We only allow Cavite.
+        setProvinceOptions([
+          {
+            label: cavite.name,
+            value: cavite.psgc_code,
+          },
+        ]);
+
+        const localities = await philippines.localities(cavite.psgc_code);
+
+        const allowedCities = localities.filter((locality) => {
+          const name = locality.name.toLowerCase();
+
+          return name === "tanza" || name.includes("trece martires");
+        });
+
+        setCityOptions(
+          allowedCities.map((city) => ({
+            label: city.name,
+            value: city.psgc_code,
+          })),
+        );
+      } catch (error) {
+        console.error("Failed to load Philippine address data:", error);
+      }
+    };
+
+    loadAddressData();
+  }, []);
+
+  useEffect(() => {
+    const loadBarangays = async () => {
+      if (!student.city_municipality) {
+        setBarangayOptions([]);
+        return;
+      }
+
+      try {
+        const selectedCity = cityOptions.find(
+          (city) => city.value === student.city_municipality,
+        );
+
+        if (!selectedCity) {
+          setBarangayOptions([]);
+          return;
+        }
+
+        const barangays = await philippines.barangays(selectedCity.value);
+
+        setBarangayOptions(
+          barangays.map((barangay) => ({
+            label: barangay.name,
+            value: barangay.name,
+          })),
+        );
+      } catch (error) {
+        console.error("Failed to load barangays:", error);
+        setBarangayOptions([]);
+      }
+    };
+
+    loadBarangays();
+  }, [student.city_municipality, cityOptions]);
   useEffect(() => {
     const loadPaymentOptions = async () => {
       if (!student.grade_level_id) {
@@ -61,34 +179,13 @@ const StudentInfo = ({
    * GRADE LEVEL CHANGE
    * ============================================================
    */
-  const handleGradeLevelChange = async (e) => {
+  const handleGradeLevelChange = (e) => {
     const gradeLevelId = e.target.value;
 
-    console.log(gradeLevelId);
-
-    // Save selected grade level
     onChange?.("grade_level_id", gradeLevelId);
-
-    // Clear previous payment selection
     onChange?.("gradelevel_paymentoption_id", "");
 
-    // No grade selected
     if (!gradeLevelId) {
-      setPaymentOptions?.([]);
-      return;
-    }
-
-    try {
-      const response = await getPaymentOptionsInGradeLevel(gradeLevelId);
-
-      console.log("PAYMENT OPTIONS RESPONSE:", response);
-
-      console.log("PAYMENT OPTIONS DATA:", response.data.data);
-
-      setPaymentOptions?.(response.data.data);
-    } catch (error) {
-      console.error("Failed to load payment options:", error);
-
       setPaymentOptions?.([]);
     }
   };
@@ -159,6 +256,10 @@ const StudentInfo = ({
 
   const guardianIsAccountParent = verifiedParentIndex === 2;
 
+  console.log("ACCOUNT PARENT:", accountParent);
+  console.log("ACCOUNT PARENT INDEX:", verifiedParentIndex);
+  console.log("GUARDIAN ACCOUNT PARENT:", guardianIsAccountParent);
+
   return (
     <div className="flex flex-col gap-6 font-[Poppins]">
       {step === 1 ? (
@@ -203,7 +304,7 @@ const StudentInfo = ({
                 <InfoField
                   label="Gender"
                   value={student.s_gender}
-                  options={["Male", "Female", "Prefer not to say"]}
+                  options={["MALE", "FEMALE"]}
                   onChange={field("s_gender")}
                 />
 
@@ -226,11 +327,11 @@ const StudentInfo = ({
                   label="Religion"
                   value={student.s_religion}
                   options={[
-                    "Christian",
-                    "Catholic",
-                    "Muslim",
-                    "Born Again",
-                    "Iglesia ni Cristo",
+                    "CHRISTIAN",
+                    "CATHOLIC",
+                    "MUSLIM",
+                    "BORN AGAIN",
+                    "IGLESIA NI CRISTO",
                   ]}
                   onChange={field("s_religion")}
                 />
@@ -238,7 +339,7 @@ const StudentInfo = ({
                 <InfoField
                   label="Nationality"
                   value={student.s_nationality}
-                  options={["Filipino", "Other"]}
+                  options={["FILIPINO"]}
                   onChange={field("s_nationality")}
                 />
               </div>
@@ -301,20 +402,25 @@ const StudentInfo = ({
               <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
                 <InfoField
                   label="Province"
+                  type="select"
                   value={student.province}
-                  onChange={field("province")}
+                  options={provinceOptions}
+                  placeholder="Select province"
+                  onChange={handleProvinceChange}
+                  required
                 />
 
-                <InfoField
-                  label="Zip Code"
-                  value={student.zipcode}
-                  onChange={field("zipcode")}
-                />
+                <InfoField label="Zip Code" value={student.zipcode} readOnly />
 
                 <InfoField
                   label="City / Municipality"
+                  type="select"
                   value={student.city_municipality}
-                  onChange={field("city_municipality")}
+                  options={cityOptions}
+                  placeholder="Select city / municipality"
+                  onChange={handleCityChange}
+                  disabled={!student.province}
+                  required
                 />
               </div>
 
@@ -327,8 +433,13 @@ const StudentInfo = ({
 
                 <InfoField
                   label="Barangay"
+                  type="select"
                   value={student.barangay}
+                  options={barangayOptions}
+                  placeholder="Select barangay"
                   onChange={field("barangay")}
+                  disabled={!student.city_municipality}
+                  required
                 />
               </div>
             </div>
@@ -344,12 +455,14 @@ const StudentInfo = ({
                   label="Last Name"
                   value={father.p_last_name}
                   onChange={parentField(0, "p_last_name")}
+                  required
                 />
 
                 <InfoField
                   label="First Name"
                   value={father.p_first_name}
                   onChange={parentField(0, "p_first_name")}
+                  required
                 />
 
                 <InfoField
@@ -365,16 +478,20 @@ const StudentInfo = ({
                   label="Occupation"
                   value={father.p_occupation}
                   onChange={parentField(0, "p_occupation")}
+                  required
                 />
 
                 <InfoField
                   label="Contact Number"
+                  name="contact_number"
                   value={father.p_contact_number}
                   onChange={parentField(0, "p_contact_number")}
+                  required
                 />
 
                 <InfoField
                   label="Email"
+                  type="email"
                   value={father.p_email}
                   optional={!fatherIsAccountParent}
                   readOnly={fatherIsAccountParent}
@@ -392,12 +509,14 @@ const StudentInfo = ({
                   label="Last Name"
                   value={mother.p_last_name}
                   onChange={parentField(1, "p_last_name")}
+                  required
                 />
 
                 <InfoField
                   label="First Name"
                   value={mother.p_first_name}
                   onChange={parentField(1, "p_first_name")}
+                  required
                 />
 
                 <InfoField
@@ -413,16 +532,20 @@ const StudentInfo = ({
                   label="Occupation"
                   value={mother.p_occupation}
                   onChange={parentField(1, "p_occupation")}
+                  required
                 />
 
                 <InfoField
                   label="Contact Number"
+                  name="contact_number"
                   value={mother.p_contact_number}
                   onChange={parentField(1, "p_contact_number")}
+                  required
                 />
 
                 <InfoField
                   label="Email"
+                  type="email"
                   value={mother.p_email}
                   optional={!motherIsAccountParent}
                   readOnly={motherIsAccountParent}
@@ -439,24 +562,23 @@ const StudentInfo = ({
                 <InfoField
                   label="Last Name"
                   value={guardian.p_last_name}
+                  required={guardianIsAccountParent}
+                  optional={!guardianIsAccountParent}
                   onChange={parentField(2, "p_last_name")}
                 />
-
                 <InfoField
                   label="First Name"
                   value={guardian.p_first_name}
+                  required={guardianIsAccountParent}
+                  optional={!guardianIsAccountParent}
                   onChange={parentField(2, "p_first_name")}
                 />
-
                 <InfoField
                   label="Middle Name"
                   value={guardian.p_middle_name}
                   optional
                   onChange={parentField(2, "p_middle_name")}
                 />
-              </div>
-
-              <div className="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-3">
                 <InfoField
                   label="Relation to Student"
                   value={guardian.relationship_type}
@@ -467,20 +589,25 @@ const StudentInfo = ({
                     "Aunt",
                     "Uncle",
                     "Sibling",
-                    "Other",
                   ]}
+                  required={guardianIsAccountParent}
+                  optional={!guardianIsAccountParent}
                   onChange={parentField(2, "relationship_type")}
                 />
 
                 <InfoField
                   label="Contact Number"
+                  name="contact_number"
                   value={guardian.p_contact_number}
                   onChange={parentField(2, "p_contact_number")}
+                  required={guardianIsAccountParent}
+                  optional={!guardianIsAccountParent}
                 />
-
                 <InfoField
                   label="Email"
+                  type="email"
                   value={guardian.p_email}
+                  required={guardianIsAccountParent}
                   optional={!guardianIsAccountParent}
                   readOnly={guardianIsAccountParent}
                   onChange={parentField(2, "p_email")}

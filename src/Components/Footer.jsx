@@ -22,7 +22,7 @@ const Footer = () => {
       <div className="mx-auto grid w-full max-w-7xl gap-8 sm:grid-cols-2 md:gap-10 lg:grid-cols-[1fr_0.8fr_1.2fr] lg:gap-16">
         <div className="flex flex-col gap-4">
           <div>
-            <p className="font-Handmade text-3xl leading-none text-lime-green">
+            <p className="font-[SuperJoyful] text-3xl leading-none text-lime-green">
               Grace Christian Academy
             </p>
             <p className="mt-2 max-w-xs text-xs leading-relaxed text-bone/65">

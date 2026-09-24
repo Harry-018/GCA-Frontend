@@ -56,8 +56,8 @@ const ScheduleSection = () => {
               onClick={(name) =>
                 navigate(
                   `/admin/academic/setupschedule?level=${encodeURIComponent(
-                    level
-                  )}&section=${encodeURIComponent(name)}`
+                    level,
+                  )}&section=${encodeURIComponent(name)}`,
                 )
               }
             />

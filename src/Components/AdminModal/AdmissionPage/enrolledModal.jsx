@@ -1,6 +1,7 @@
 import React from "react";
+import { Loader2 } from "lucide-react";
 
-const EnrolledModal = ({ isOpen, onClose, onConfirm }) => {
+const EnrolledModal = ({ isOpen, onClose, onConfirm, loading = false }) => {
   if (!isOpen) return null;
 
   return (
@@ -11,15 +12,17 @@ const EnrolledModal = ({ isOpen, onClose, onConfirm }) => {
         </h2>
 
         <p className="pt-4 text-center text-xs leading-6 text-gray-600 font-[Poppins]">
-          Upon clicking &quot;Enroll&quot;, you confirm that the applicant&apos;s
-          documents have been submitted and will proceed to be officially enrolled.
+          Upon clicking &quot;Enroll&quot;, you confirm that the
+          applicant&apos;s documents have been submitted and will proceed to be
+          officially enrolled.
         </p>
 
         <div className="py-7 flex items-center justify-center gap-5">
           <button
             type="button"
             onClick={onClose}
-            className="min-w-30 rounded-full border border-gray-400 bg-transparent px-5 py-2.5 text-xs font-[Poppins] text-gray-600 transition hover:bg-gray-100"
+            disabled={loading}
+            className="min-w-30 rounded-full border border-gray-400 bg-transparent px-5 py-2.5 text-xs font-[Poppins] text-gray-600 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Cancel
           </button>
@@ -27,9 +30,17 @@ const EnrolledModal = ({ isOpen, onClose, onConfirm }) => {
           <button
             type="button"
             onClick={onConfirm}
-            className="min-w-30 rounded-full bg-swamp-green px-5 py-2.5 text-xs font-[Poppins] text-white transition hover:bg-swamp-green"
+            disabled={loading}
+            className="flex min-w-30 items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2.5 text-xs font-[Poppins] text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
           >
-            Enroll
+            {loading ? (
+              <>
+                <Loader2 size={14} className="animate-spin" />
+                Enrolling...
+              </>
+            ) : (
+              "Enroll"
+            )}
           </button>
         </div>
       </div>

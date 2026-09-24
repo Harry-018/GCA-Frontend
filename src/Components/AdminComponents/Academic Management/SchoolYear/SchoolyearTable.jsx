@@ -41,17 +41,29 @@ const SchoolyearTable = ({ schoolYears = [], onEdit }) => {
                 >
                   <td className="px-3 py-2 sm:px-6 sm:py-2.5">{index + 1}</td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">{schoolYear.schoolYear}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">
+                    {schoolYear.schoolYear}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">{schoolYear.start}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">
+                    {schoolYear.start}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">{schoolYear.end}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">
+                    {schoolYear.end}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">{schoolYear.status}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">
+                    {schoolYear.status}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">{schoolYear.enrollment}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">
+                    {schoolYear.enrollment}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">{schoolYear.created}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5">
+                    {schoolYear.created}
+                  </td>
 
                   <td className="px-3 py-2 sm:px-6 sm:py-2.5">
                     <button
@@ -69,9 +81,7 @@ const SchoolyearTable = ({ schoolYears = [], onEdit }) => {
 
           {schoolYears.length === 0 && (
             <div className="flex flex-1 flex-col items-center justify-center gap-2 py-10">
-              <p className="text-sm text-gray-500">
-                No school years found.
-              </p>
+              <p className="text-sm text-gray-500">No school years found.</p>
             </div>
           )}
         </div>

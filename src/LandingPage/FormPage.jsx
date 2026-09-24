@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { applyApplication } from "../requests/preEnrollmentRequests";
 import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
 import StudentInfo from "../Components/LandingpageComponents/Form/StudentInfo";
 import ReviewFormModal from "../Components/LandingpageComponents/Form/ReviewFormModal";
+import { Loader2 } from "lucide-react";
 
 const STORAGE_KEY = "studentApplication";
 
@@ -57,7 +59,7 @@ const INITIAL_DATA = {
       p_contact_number: "",
       p_occupation: "",
       p_email: "",
-      relationship_type: "Guardian",
+      relationship_type: "",
       will_receive_account: false,
     },
   ],
@@ -71,10 +73,18 @@ const applyVerifiedParent = (data) => {
     return data;
   }
 
+  const accountParentIndex = {
+    Father: 0,
+    Mother: 1,
+    Guardian: 2,
+  };
+
+  const accountParentIndexValue = accountParentIndex[accountParent];
+
   return {
     ...data,
-    parents: data.parents.map((parent) => {
-      const isAccountParent = parent.relationship_type === accountParent;
+    parents: data.parents.map((parent, index) => {
+      const isAccountParent = index === accountParentIndexValue;
 
       return {
         ...parent,
@@ -110,6 +120,8 @@ function FormPage() {
     }
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
@@ -126,6 +138,8 @@ function FormPage() {
   };
 
   const handleSubmit = async () => {
+    setIsSubmitting(true);
+
     try {
       const verification_id = localStorage.getItem("verification_id");
 
@@ -141,7 +155,6 @@ function FormPage() {
       localStorage.removeItem("verified_email");
       localStorage.removeItem("account_parent_relationship");
 
-      alert("SUBMISSION SUCCESS");
       navigate("/thanksforapply");
     } catch (error) {
       console.error("APPLICATION ERROR:", error);
@@ -151,7 +164,39 @@ function FormPage() {
       console.error("STATUS:", error.response?.status);
 
       alert(error.response?.data?.message || "Submission failed");
+    } finally {
+      setIsSubmitting(false);
     }
+  };
+
+  const handleNext = () => {
+    if (step === 1) {
+      setStep(2);
+      return;
+    }
+
+    const guardian = formData.parents[2];
+
+    if (guardian.will_receive_account) {
+      if (
+        !guardian.relationship_type ||
+        !guardian.p_first_name ||
+        !guardian.p_last_name ||
+        !guardian.p_contact_number ||
+        !guardian.p_email
+      ) {
+        alert(
+          "Please complete the Guardian information because the Guardian will receive the account.",
+        );
+        return;
+      }
+    }
+
+    if (!agreed) {
+      return;
+    }
+
+    setIsReviewOpen(true);
   };
 
   return (
@@ -195,9 +240,7 @@ function FormPage() {
 
               <button
                 type="button"
-                onClick={() =>
-                  step === 1 ? setStep(2) : setIsReviewOpen(true)
-                }
+                onClick={handleNext}
                 disabled={
                   (step === 1 && !formData.grade_level_id) ||
                   (step === 2 && !agreed)
@@ -221,6 +264,24 @@ function FormPage() {
         gradeLevels={gradeLevels}
         paymentOptions={paymentOptions}
       />
+
+      {isSubmitting && (
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
+          <div className="flex w-70 flex-col items-center gap-4 rounded-xl bg-white p-6 shadow-xl">
+            <Loader2 size={32} className="animate-spin text-swamp-green" />
+
+            <div className="text-center">
+              <p className="text-sm font-semibold text-neutral-700">
+                Submitting Application
+              </p>
+
+              <p className="mt-1 text-xs text-neutral-500">
+                Please wait while we process your application.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

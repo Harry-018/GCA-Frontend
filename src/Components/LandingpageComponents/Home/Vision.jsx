@@ -25,11 +25,11 @@ const Vision = ({ image, overlay, label, title, description }) => {
           )}
         </div>
 
-        <div className="flex w-full flex-col gap-5 lg:max-w-xl">
+        <div className="flex w-full flex-col gap-5 pt-5 lg:max-w-xl">
           <span className="font-[PoppinsBold] text-sm uppercase tracking-[0.35em] text-swamp-green lg:text-base">
             {label}
           </span>
-          <h2 className="max-w-lg font-Handmade text-4xl font-bold leading-[1.05] text-swamp-green sm:text-5xl lg:text-6xl">
+          <h2 className="max-w-lg font-[SuperJoyful] text-4xl  leading-[1.05] text-swamp-green sm:text-5xl lg:text-6xl">
             {title}
           </h2>
           <p className="max-w-xl font-[Poppins] text-sm leading-relaxed text-bone/85 sm:text-base lg:text-lg">

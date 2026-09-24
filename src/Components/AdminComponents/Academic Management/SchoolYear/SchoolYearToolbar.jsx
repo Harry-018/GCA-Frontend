@@ -1,6 +1,11 @@
 import React from "react";
 
-const FILTERS = ["All", "Archived", "Active", "Draft"];
+const FILTERS = [
+  { label: "All", value: "all" },
+  { label: "Archived", value: "archived" },
+  { label: "Active", value: "active" },
+  { label: "Draft", value: "draft" },
+];
 
 function SchoolYearToolbar({
   activeFilter = "All",
@@ -48,18 +53,54 @@ function SchoolYearToolbar({
       <div className="mt-3 flex min-w-0 gap-1.5 overflow-x-auto [-ms-overflow-style:none] scrollbar:none [&::-webkit-scrollbar]:hidden md:order-1 md:mt-0 md:shrink-0 md:gap-2 md:overflow-visible">
         {FILTERS.map((filter) => (
           <button
-            key={filter}
+            key={filter.value}
             type="button"
-            onClick={() => onFilterChange?.(filter)}
-            className={`h-8 shrink-0 whitespace-nowrap rounded-full px-3 font-[Poppins] text-xs leading-none transition md:text-sm ${
-              activeFilter === filter
+            onClick={() => {
+              onFilterChange?.(filter.value);
+            }}
+            className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
+              activeFilter === filter.value
                 ? "bg-swamp-green text-white"
                 : "text-gray-500 hover:bg-[#e4e8dd]"
             }`}
           >
-            {filter}
+            {filter.label}
           </button>
         ))}
+      </div>
+
+      {/* Actions */}
+      <div className="flex flex-wrap items-center gap-3 md:ml-auto">
+        <button
+          type="button"
+          onClick={onAddSchoolYear}
+          className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-xs text-white transition hover:bg-lime-green"
+        >
+          Add School Year
+        </button>
+
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            onSearch?.();
+          }}
+          className="flex min-w-0 flex-1 items-center gap-2 sm:flex-none"
+        >
+          <input
+            type="text"
+            value={searchValue}
+            onChange={(event) => onSearchChange?.(event.target.value)}
+            placeholder="Search School Year"
+            className="w-full min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f7f7fc] px-3 py-2 font-[Poppins] text-xs outline-none focus:border-lime-green sm:w-56 sm:flex-none"
+          />
+
+          <button
+            type="submit"
+            className="flex shrink-0 items-center gap-1.5 rounded-full bg-swamp-green px-6 py-2 font-[Poppins] text-xs text-white transition hover:bg-lime-green"
+          >
+            Search
+          </button>
+        </form>
       </div>
     </div>
   );

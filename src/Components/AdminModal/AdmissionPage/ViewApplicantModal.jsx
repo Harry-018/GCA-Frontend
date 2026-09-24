@@ -7,8 +7,8 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
     student = applicant,
     father = {},
     mother = {},
+    guardian = {},
     address = {},
-    emergencyContact = {},
   } = applicant;
 
   const sections = [
@@ -30,17 +30,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
         ["Disability", student.disability],
       ],
     },
-    {
-      title: "Father Information",
-      fields: [
-        ["Last Name", father.lastName],
-        ["First Name", father.firstName],
-        ["Middle Name", father.middleName],
-        ["Occupation", father.occupation],
-        ["Contact No.", father.contactNo],
-        ["Email", father.email],
-      ],
-    },
+
     {
       title: "Student Address",
       fields: [
@@ -53,12 +43,14 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
       ],
     },
     {
-      title: "Emergency Contact",
+      title: "Father Information",
       fields: [
-        ["Last Name", emergencyContact.lastName],
-        ["First Name", emergencyContact.firstName],
-        ["Relation w/ student", emergencyContact.relationship],
-        ["Contact No.", emergencyContact.contactNo],
+        ["Last Name", father.lastName],
+        ["First Name", father.firstName],
+        ["Middle Name", father.middleName],
+        ["Occupation", father.occupation],
+        ["Contact No.", father.contactNo],
+        ["Email", father.email],
       ],
     },
     {
@@ -70,6 +62,17 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
         ["Occupation", mother.occupation],
         ["Contact No.", mother.contactNo],
         ["Email", mother.email],
+      ],
+    },
+    {
+      title: "Guardian Information",
+      fields: [
+        ["Last Name", guardian.lastName],
+        ["First Name", guardian.firstName],
+        ["Middle Name", guardian.middleName],
+        ["Occupation", guardian.occupation],
+        ["Contact No.", guardian.contactNo],
+        ["Email", guardian.email],
       ],
     },
   ];
@@ -103,7 +106,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
                   >
                     <span>{label}:</span>
 
-                    <span className="wrap-break-word">
+                    <span className="min-w-0 wrap-break-word">
                       {value || "-"}
                     </span>
                   </div>

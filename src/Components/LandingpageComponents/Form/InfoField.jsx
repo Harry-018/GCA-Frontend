@@ -4,18 +4,42 @@ const InfoField = ({
   label,
   value,
   optional = false,
+  required = false,
   type = "text",
   options,
   readOnly = false,
   onChange,
   className = "",
+  name,
 }) => {
+  const handleInputChange = (e) => {
+    let value = e.target.value;
+
+    if (name === "contact_number") {
+      // Allow digits only
+      value = value.replace(/\D/g, "");
+
+      // Maximum of 11 digits
+      value = value.slice(0, 11);
+    } else if (type === "text" && label !== "Email") {
+      value = value.toUpperCase();
+    }
+
+    onChange?.({
+      ...e,
+      target: {
+        ...e.target,
+        value,
+      },
+    });
+  };
+
   return (
     <label className={`flex min-w-0 flex-col gap-1 ${className}`}>
       <span className="flex items-center justify-between text-xs font-medium text-neutral-600">
         <span>
           {label}
-          <b className="text-red-400">{optional ? "" : " *"}</b>
+          {required && <b className="text-red-400"> *</b>}
         </span>
 
         {optional && <span className="text-2xs">(Optional)</span>}
@@ -42,7 +66,7 @@ const InfoField = ({
 
               return (
                 <option key={optionValue} value={optionValue}>
-                  {optionLabel}
+                  {optionLabel.toUpperCase()}
                 </option>
               );
             })}
@@ -57,9 +81,9 @@ const InfoField = ({
         <input
           type={type}
           value={value ?? ""}
-          onChange={(e) => onChange?.(e)}
+          onChange={handleInputChange}
           readOnly={readOnly}
-          className="h-10 w-full rounded-md border border-[#d4d5d9] bg-white px-3 text-sm text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark read-only:cursor-not-allowed read-only:bg-neutral-100 read-only:text-neutral-500"
+          className="h-10 w-full rounded-md border border-[#d4d5d9] bg-white px-3 text-sm text-neutral-700  outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark read-only:cursor-not-allowed read-only:bg-neutral-100 read-only:text-neutral-500"
         />
       )}
     </label>
