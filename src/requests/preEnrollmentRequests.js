@@ -45,6 +45,7 @@ export const rejectApplicant = (application_id, rejection_reason_id) => {
     rejection_reason_id,
   });
 };
+
 export const getApprovedApplicants = async (
   sub_date,
   search = "",

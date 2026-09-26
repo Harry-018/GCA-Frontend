@@ -201,57 +201,64 @@ const SchoolYear = () => {
   ];
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
 
-      <SchoolYearToolbar
-        activeFilter={activeFilter}
-        onFilterChange={handleFilterChange}
-        onAddSchoolYear={handleAddSchoolYear}
-        searchValue={searchValue}
-        onSearchChange={setSearchValue}
-        onSearch={handleSearch}
-      />
+      <div className="flex min-h-0 flex-1 flex-col gap-2 px-2">
+        <SchoolYearToolbar
+          activeFilter={activeFilter}
+          onFilterChange={handleFilterChange}
+          onAddSchoolYear={handleAddSchoolYear}
+          searchValue={searchValue}
+          onSearchChange={setSearchValue}
+          onSearch={handleSearch}
+        />
 
-      <DataTable
-        data={schoolYears}
-        columns={columns}
-        loading={loading}
-        emptyMessage="No school years found."
-      />
-      <div className="flex items-center justify-between px-5 py-3">
-        <p className="text-xs text-gray-500">
-          Page {pagination.page} of {pagination.totalPages}
-        </p>
+        {/* TABLE */}
+        <div className="flex min-h-0 flex-1">
+          <DataTable
+            data={schoolYears}
+            columns={columns}
+            loading={loading}
+            emptyMessage="No school years found."
+          />
+        </div>
 
-        <div className="flex gap-2">
-          <button
-            type="button"
-            disabled={pagination.page <= 1}
-            onClick={() =>
-              setPagination((prev) => ({
-                ...prev,
-                page: prev.page - 1,
-              }))
-            }
-            className="rounded-full border border-gray-300 px-4 py-2 text-xs disabled:opacity-40"
-          >
-            Previous
-          </button>
+        {/* PAGINATION */}
+        <div className="flex shrink-0 items-center justify-between px-2 py-3">
+          <p className="text-xs text-gray-500">
+            Page {pagination.page} of {pagination.totalPages}
+          </p>
 
-          <button
-            type="button"
-            disabled={pagination.page >= pagination.totalPages}
-            onClick={() =>
-              setPagination((prev) => ({
-                ...prev,
-                page: prev.page + 1,
-              }))
-            }
-            className="rounded-full bg-swamp-green px-4 py-2 text-xs text-white disabled:opacity-40"
-          >
-            Next
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              disabled={pagination.page <= 1}
+              onClick={() =>
+                setPagination((prev) => ({
+                  ...prev,
+                  page: prev.page - 1,
+                }))
+              }
+              className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Previous
+            </button>
+
+            <button
+              type="button"
+              disabled={pagination.page >= pagination.totalPages}
+              onClick={() =>
+                setPagination((prev) => ({
+                  ...prev,
+                  page: prev.page + 1,
+                }))
+              }
+              className="rounded-full bg-swamp-green px-4 py-1.5 text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
 

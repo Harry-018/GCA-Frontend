@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const SectionToolbar = ({ schoolYear }) => {
   return (
@@ -9,11 +9,11 @@ const SectionToolbar = ({ schoolYear }) => {
         </h2>
 
         <p className="whitespace-nowrap text-md font-[PoppinsBold] text-gray-600">
-          S.Y {schoolYear}
+          {schoolYear}
         </p>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SectionToolbar
+export default SectionToolbar;

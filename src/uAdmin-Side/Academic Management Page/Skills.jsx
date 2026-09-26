@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
-import SkillsTable from "../../Components/AdminComponents/Academic Management/GradeLevel/SkillTable";
 import AddSkillModal from "../../Components/AdminComponents/Academic Management/GradeLevel/AddSkillModal";
-import EditSkillModal from "../../Components/AdminComponents/Academic Management/GradeLevel/EditSkillModal";
 import RemoveSkillModal from "../../Components/AdminComponents/Academic Management/GradeLevel/RemoveSkillModal";
+import DataTable from "../../Components/DataTable";
+
+import {
+  getSkillsByGradeLevelSubject,
+  getAvailableSkillsByGradeLevelSubject,
+  assignSkillsToGradeLevelSubject,
+  archiveSkill,
+  restoreSkill,
+} from "../../requests/academicManagementRequests";
 
 const NAV_ITEMS = [
   { name: "Students", path: "/admin/academic" },
@@ -18,180 +25,230 @@ const NAV_ITEMS = [
 
 const SCHOOL_YEAR = "2026 - 2027";
 
-const DEFAULT_SKILLS = {
-  "Physical Development": [
-    {
-      id: 1,
-      skills: "Gross Motor Skills",
-      description: "Hopping, Skipping, Catching, Jumping, Balance",
-    },
-    {
-      id: 2,
-      skills: "Fine Motor Skills",
-      description: "Tying Shoes, Pegs, Beads, Crayons, Scissors",
-    },
-  ],
-  "Socio-Emotional Development": [
-    {
-      id: 1,
-      skills: "Social Skills",
-      description: "Cooperates with peers, resolves conflicts peacefully",
-    },
-  ],
-  "Cognitive Development": [
-    {
-      id: 1,
-      skills: "Memory Skills",
-      description: "Recognizes numbers and letters",
-    },
-  ],
-  "Reading": [
-    {
-      id: 1,
-      skills: "Phonemic Awareness",
-      description: "Recognizes letter sounds",
-    },
-  ],
-  Numbers: [],
-  "Arts and Crafts": [],
-  "Story Time": [],
-  "Music and Movement": [],
-  "Spiritual Development": [],
-};
-
 const Skills = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const syGradeLevelId = searchParams.get("sy_grade_level_id");
+  const syGradeLevelSubjectId = searchParams.get("sy_gradelevel_subject_id");
   const level = searchParams.get("level") || "Grade Level";
   const subject = searchParams.get("subject") || "Subject";
-
-  const initialSkills = DEFAULT_SKILLS[subject] ?? [];
-
-  const [skills, setSkills] = useState(initialSkills);
+  const [skills, setSkills] = useState([]);
+  const [availableSkills, setAvailableSkills] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isAddOpen, setIsAddOpen] = useState(false);
-  const [skillName, setSkillName] = useState("");
-  const [description, setDescription] = useState("");
-  const [isEditOpen, setIsEditOpen] = useState(false);
-  const [editTarget, setEditTarget] = useState(null);
-  const [editSkillName, setEditSkillName] = useState("");
-  const [editDescription, setEditDescription] = useState("");
+  const [selectedSkillIds, setSelectedSkillIds] = useState([]);
+
   const [isRemoveOpen, setIsRemoveOpen] = useState(false);
   const [removeTarget, setRemoveTarget] = useState(null);
-
-  const handleAdd = () => {
-    if (!skillName.trim()) return;
-    setSkills((prev) => [
-      ...prev,
-      { id: Date.now(), skills: skillName.trim(), description: description.trim() },
-    ]);
-    setIsAddOpen(false);
-    setSkillName("");
-    setDescription("");
+  const loadSkills = async () => {
+    if (!syGradeLevelSubjectId) return;
+    try {
+      setLoading(true);
+      const [assigned, available] = await Promise.all([
+        getSkillsByGradeLevelSubject(Number(syGradeLevelSubjectId)),
+        getAvailableSkillsByGradeLevelSubject(Number(syGradeLevelSubjectId)),
+      ]);
+      setSkills(assigned);
+      setAvailableSkills(available);
+    } catch (error) {
+      console.error("Failed to load skills:", error);
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const handleEdit = (skill) => {
-    setEditTarget(skill);
-    setEditSkillName(skill.skills);
-    setEditDescription(skill.description ?? "");
-    setIsEditOpen(true);
-  };
-
-  const handleSave = () => {
-    if (!editSkillName.trim() || !editTarget) return;
-    setSkills((prev) =>
-      prev.map((item) =>
-        item.id === editTarget.id
-          ? { ...item, skills: editSkillName.trim(), description: editDescription.trim() }
-          : item
-      )
+  useEffect(() => {
+    loadSkills();
+  }, [syGradeLevelSubjectId]);
+  const handleSkillToggle = (skillId) => {
+    setSelectedSkillIds((current) =>
+      current.includes(skillId)
+        ? current.filter((id) => id !== skillId)
+        : [...current, skillId],
     );
-    setIsEditOpen(false);
-    setEditTarget(null);
+  };
+  const handleAssign = async () => {
+    if (selectedSkillIds.length === 0 || !syGradeLevelSubjectId) {
+      return;
+    }
+    try {
+      await assignSkillsToGradeLevelSubject(
+        Number(syGradeLevelSubjectId),
+        selectedSkillIds,
+      );
+      setIsAddOpen(false);
+      setSelectedSkillIds([]);
+      await loadSkills();
+    } catch (error) {
+      console.error("Failed to assign skills:", error);
+    }
   };
 
   const handleRemove = (skill) => {
     setRemoveTarget(skill);
     setIsRemoveOpen(true);
   };
+  const confirmRemove = async () => {
+    if (!removeTarget || !syGradeLevelSubjectId) {
+      return;
+    }
 
-  const confirmRemove = () => {
-    if (!removeTarget) return;
-    setSkills((prev) => prev.filter((item) => item.id !== removeTarget.id));
-    setIsRemoveOpen(false);
-    setRemoveTarget(null);
+    try {
+      await archiveSkill(
+        Number(syGradeLevelSubjectId),
+        Number(removeTarget.skill_id),
+      );
+
+      setIsRemoveOpen(false);
+      setRemoveTarget(null);
+
+      await loadSkills();
+    } catch (error) {
+      console.error("Failed to archive skill:", error);
+      console.error("RESPONSE:", error.response?.data);
+    }
+  };
+  const handleRestore = async (skill) => {
+    if (!syGradeLevelSubjectId) return;
+
+    try {
+      await restoreSkill(Number(syGradeLevelSubjectId), Number(skill.skill_id));
+
+      await loadSkills();
+    } catch (error) {
+      console.error("RESTORE REQUEST FAILED:", error);
+      console.error("RESPONSE:", error.response?.data);
+    }
   };
 
-  return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins]">
-      <Header navItems={NAV_ITEMS} />
+  const columns = [
+    {
+      accessorKey: "skill_name",
+      header: "Skill",
+    },
+    {
+      accessorKey: "description",
+      header: "Description",
+      cell: ({ row }) => row.original.description || "—",
+    },
+    {
+      accessorKey: "skill_status",
+      header: "Status",
+      cell: ({ row }) => {
+        const status = row.original.skill_status;
 
-      <div className="flex min-h-0 flex-1 flex-col gap-4 p-4">
+        return (
+          <span
+            className={`rounded-full px-3 py-1 text-xs  text-[11px] font-medium ${
+              status === "active"
+                ? "bg-[#e7eedf] text-[#71865c]"
+                : "bg-gray-100 text-gray-500"
+            }`}
+          >
+            {status === "active" ? "Active" : "Archived"}
+          </span>
+        );
+      },
+    },
+    {
+      id: "actions",
+      header: "Action",
+      cell: ({ row }) => {
+        const skill = row.original;
+
+        if (skill.skill_status === "archived") {
+          return (
+            <button
+              type="button"
+              onClick={() => handleRestore(skill)}
+              title="Restore skill"
+              className="rounded-full bg-swamp-green px-4 py-1 text-[11px] text-white hover:bg-swamp-green lg:text-xs xl:text-sm"
+            >
+              Reassign
+            </button>
+          );
+        }
+
+        return (
+          <button
+            type="button"
+            onClick={() => handleRemove(skill)}
+            title="Archive skill"
+            className="rounded-full bg-[#ff7272] px-4 py-1 text-[11px] text-white hover:bg-[#f45f5f] lg:text-xs xl:text-sm"
+          >
+            Remove
+          </button>
+        );
+      },
+    },
+  ];
+  return (
+    <div className="flex min-h-0 flex-1 cursor-default flex-col  bg-[#ebe9e4] font-[Poppins]">
+      <Header navItems={NAV_ITEMS} />
+      <div className="flex min-h-0 flex-1 flex-col gap-2 py-4">
+        {/* HEADER */}
         <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl py-2 font-[Poppins]">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-[PoppinsBold] text-sm text-swamp-green sm:text-base">
             <h2>{subject} :</h2>
-
             <span className="font-[Poppins] text-xs text-gray-600 sm:text-sm">
               S.Y {SCHOOL_YEAR}
             </span>
           </div>
-
           <div className="flex flex-wrap items-center gap-x-2 gap-y-2">
             <button
               type="button"
               onClick={() =>
                 navigate(
-                  `/admin/academic/core-subjects?level=${encodeURIComponent(level)}`
+                  `/admin/academic/core-subjects?sy_grade_level_id=${syGradeLevelId}&level=${encodeURIComponent(
+                    level,
+                  )}`,
                 )
               }
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-white px-4 text-[11px] text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-white px-4 text-[12px] text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
-
             <button
               type="button"
               onClick={() => setIsAddOpen(true)}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[11px] font-[PoppinsBold] text-white hover:bg-[#899d6d]"
+              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[12px] font-[Poppins] text-white hover:bg-[#899d6d]"
             >
-              + Add Skill
+              Assign Skill
             </button>
           </div>
         </div>
-
-        <SkillsTable subjects={skills} onEdit={handleEdit} onRemove={handleRemove} />
+        {/* SKILLS */}
+        {loading ? (
+          <div className="py-12 text-center text-sm text-gray-400">
+            Loading skills...
+          </div>
+        ) : (
+          <DataTable data={skills} columns={columns} />
+        )}
       </div>
-
+      {/* ASSIGN SKILL MODAL */}
       <AddSkillModal
         isOpen={isAddOpen}
-        skillName={skillName}
-        description={description}
-        onSkillNameChange={(event) => setSkillName(event.target.value)}
-        onDescriptionChange={(event) => setDescription(event.target.value)}
+        skills={availableSkills}
+        selectedSkillIds={selectedSkillIds}
+        onToggle={handleSkillToggle}
         onCancel={() => {
           setIsAddOpen(false);
-          setSkillName("");
-          setDescription("");
+          setSelectedSkillIds([]);
         }}
-        onAdd={handleAdd}
+        onAdd={handleAssign}
       />
 
-      <EditSkillModal
-        isOpen={isEditOpen}
-        skillName={editSkillName}
-        description={editDescription}
-        onSkillNameChange={(event) => setEditSkillName(event.target.value)}
-        onDescriptionChange={(event) => setEditDescription(event.target.value)}
-        onCancel={() => setIsEditOpen(false)}
-        onSave={handleSave}
-      />
-
+      {/* ARCHIVE SKILL MODAL */}
       <RemoveSkillModal
         isOpen={isRemoveOpen}
-        onCancel={() => setIsRemoveOpen(false)}
+        onCancel={() => {
+          setIsRemoveOpen(false);
+          setRemoveTarget(null);
+        }}
         onRemove={confirmRemove}
       />
     </div>
   );
 };
-
 export default Skills;

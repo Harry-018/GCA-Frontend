@@ -53,6 +53,7 @@ import CoreSubjects from "./uAdmin-Side/Academic Management Page/CoreSubjects.js
 import Skills from "./uAdmin-Side/Academic Management Page/Skills.jsx";
 import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
+import UserAccount from "./uAdmin-Side/UserAccount.jsx";
 
 //loaders
 import {
@@ -162,6 +163,7 @@ const App = () => {
               element={<SubmissionDocs />}
               loader={submissionDocsLoader}
             />
+            <Route path="users" element={<UserAccount />} />
           </Route>
         </Route>
       </>,

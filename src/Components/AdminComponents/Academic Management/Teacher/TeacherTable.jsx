@@ -1,68 +1,85 @@
 import React from "react";
 
-const TeacherTable = ({ teachers, columns, onEdit }) => {
+const TeacherTable = ({ teachers, loading, onView, onEdit }) => {
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-bone shadow-sm">
-        <div className="flex min-h-0 flex-1 flex-col overflow-y-auto thin-scrollbar">
-          <table className="w-full border-separate border-spacing-0">
-            <thead className="sticky top-0">
-              <tr className="bg-bone">
-                {columns.map((column) => (
-                  <th
-                    key={column.key}
-                    className="whitespace-nowrap px-6 py-5 text-left text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base"
-                  >
-                    {column.label}
-                  </th>
-                ))}
+    <div className="overflow-hidden rounded-lg border border-gray-200">
+      <table className="w-full text-xs">
+        <thead className="bg-[#f7f7ff]">
+          <tr className="border-b border-gray-200">
+            <th className="px-4 py-3 text-left font-medium">Teacher No.</th>
 
-                <th className="whitespace-nowrap px-6 py-5 text-left text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base">
-                  ACTION
-                </th>
-              </tr>
-            </thead>
+            <th className="px-4 py-3 text-left font-medium">Name</th>
 
-            <tbody>
-              {teachers.map((teacher, index) => (
-                <tr
-                  key={teacher.id}
-                  className="border-b border-gray-200 text-[11px] text-gray-600 last:border-b-0 lg:text-xs xl:text-sm"
-                >
-                  {columns.map((column) => (
-                    <td
-                      key={column.key}
-                      className="px-6 py-2.5"
-                    >
-                      {column.key === "no"
-                        ? index + 1
-                        : teacher[column.key]}
-                    </td>
-                  ))}
+            <th className="px-4 py-3 text-left font-medium">Gender</th>
 
-                  <td className="px-6 py-2.5">
+            <th className="px-4 py-3 text-left font-medium">Contact</th>
+
+            <th className="px-4 py-3 text-left font-medium">Email</th>
+
+            <th className="px-4 py-3 text-left font-medium">Status</th>
+
+            <th className="px-4 py-3 text-center font-medium">Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {loading ? (
+            <tr>
+              <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
+                Loading teachers...
+              </td>
+            </tr>
+          ) : teachers.length === 0 ? (
+            <tr>
+              <td colSpan={7} className="px-4 py-8 text-center text-gray-400">
+                No teachers found.
+              </td>
+            </tr>
+          ) : (
+            teachers.map((teacher) => (
+              <tr
+                key={teacher.teacher_id}
+                className="border-b border-gray-100 last:border-b-0 hover:bg-gray-50"
+              >
+                <td className="px-4 py-3">{teacher.teacher_num || "—"}</td>
+
+                <td className="px-4 py-3 font-medium">
+                  {teacher.last_name}, {teacher.first_name}{" "}
+                  {teacher.middle_name || ""}
+                </td>
+
+                <td className="px-4 py-3">{teacher.gender || "—"}</td>
+
+                <td className="px-4 py-3">{teacher.contact_num || "—"}</td>
+
+                <td className="px-4 py-3">{teacher.email || "—"}</td>
+
+                <td className="px-4 py-3">{teacher.teacher_status}</td>
+
+                <td className="px-4 py-3">
+                  <div className="flex justify-center gap-2">
                     <button
                       type="button"
-                      onClick={() => onEdit(teacher)}
-                      className="rounded-xl border border-gray-400 px-3.5 py-1 text-[11px] text-white bg-swamp-green lg:text-xs xl:text-sm"
+                      onClick={() => onView(teacher.teacher_id)}
+                      className="rounded-md border border-gray-300 px-3 py-1 text-[11px] hover:bg-gray-100"
+                    >
+                      View
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => onEdit(teacher.teacher_id)}
+                      className="rounded-md bg-swamp-green px-3 py-1 text-[11px] text-white hover:opacity-90"
                     >
                       Edit
                     </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          {teachers.length === 0 && (
-            <div className="flex flex-1 flex-col items-center justify-center gap-2 py-10">
-              <p className="text-sm text-gray-500">
-                No Teachers Available
-              </p>
-            </div>
+                  </div>
+                </td>
+              </tr>
+            ))
           )}
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   );
 };

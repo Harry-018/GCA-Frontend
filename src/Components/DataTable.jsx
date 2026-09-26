@@ -36,7 +36,7 @@ const DataTable = ({
   });
 
   return (
-    <div className="min-h-0 flex-1 overflow-auto rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+    <div className="flex h-full min-h-0 w-full flex-col overflow-auto rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
       <table className="w-full text-left text-sm">
         <thead className="sticky top-0 bg-bone">
           {table.getHeaderGroups().map((headerGroup) => (

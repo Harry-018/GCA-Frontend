@@ -28,10 +28,10 @@ const Schedule = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col  bg-[#ebe9e4] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
 
-      <div className="flex flex-1 flex-col min-h-0">
+      <div className="flex flex-1 flex-col  text-[14px] min-h-0 py-2">
         <SectionToolbar schoolYear={SCHOOL_YEAR} />
 
         <div className="flex flex-wrap gap-4 py-4">
@@ -44,8 +44,8 @@ const Schedule = () => {
               onClick={() =>
                 navigate(
                   `/admin/academic/schedulesection?level=${encodeURIComponent(
-                    grade.gradeLevel
-                  )}`
+                    grade.gradeLevel,
+                  )}`,
                 )
               }
             />

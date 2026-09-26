@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
 
 const StudentToolbar = ({
   filters,
@@ -39,12 +39,7 @@ const StudentToolbar = ({
           <label
             htmlFor="school-year-filter"
             className="pointer-events-none absolute right-3 top-1/2 flex -translate-y-1/2 items-center justify-center sm:right-4"
-          >
-            <ChevronDown
-              size={12}
-              className="text-gray-500"
-            />
-          </label>
+          ></label>
         </div>
 
         <div className="flex flex-1 items-center gap-2 md:ml-3 md:w-auto md:flex-none">

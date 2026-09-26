@@ -7,7 +7,7 @@ import {
 
 export const getGradeLevels = async () => {
   try {
-    const gradeLevels = await API.get("/api/academics/grade-level");
+    const gradeLevels = await API.get("/api/academics/gradelevel-schoolyear");
 
     return gradeLevels.data.data;
   } catch (error) {

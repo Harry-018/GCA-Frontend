@@ -7,9 +7,7 @@ const SectionCard = ({ level, onTabChange }) => {
 
   return (
     <div className="flex w-full flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-5 shadow-md">
-      <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
-        {level}
-      </h2>
+      <h2 className="font-[PoppinsBold] text-sm text-swamp-green">{level}</h2>
 
       <div className="flex flex-col gap-y-2">
         {tabs.map((tab) => (
@@ -18,7 +16,9 @@ const SectionCard = ({ level, onTabChange }) => {
             type="button"
             onClick={() =>
               tab === "Sections"
-                ? navigate(`/admin/academic/sectionclass?level=${encodeURIComponent(level)}`)
+                ? navigate(
+                    `/admin/academic/sectionclass?level=${encodeURIComponent(level)}`,
+                  )
                 : onTabChange(tab)
             }
             className={`h-9 rounded-full border px-4 text-[11px] font-[Poppins] ${
