@@ -70,6 +70,17 @@ const TeacherRegistrationPage = () => {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
+    if (name === "contact_num") {
+      const numbersOnly = value.replace(/\D/g, "").slice(0, 11);
+
+      setForm((prev) => ({
+        ...prev,
+        [name]: numbersOnly,
+      }));
+
+      return;
+    }
+
     setForm((prev) => ({
       ...prev,
       [name]: value.toUpperCase(),
@@ -315,8 +326,12 @@ const TeacherRegistrationPage = () => {
               <FormInput
                 label="Contact Number"
                 name="contact_num"
+                type="tel"
                 value={form.contact_num}
                 onChange={handleChange}
+                maxLength={11}
+                inputMode="numeric"
+                pattern="09[0-9]{9}"
                 required
               />
             </div>
