@@ -173,11 +173,11 @@ const TeacherRegistrationPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-beige px-4 py-10">
+    <div className="min-h-screen bg-egg px-4 py-10">
       <div className="mx-auto max-w-4xl rounded-xl bg-white p-6 shadow-md md:p-8">
         {/* Header */}
         <div className="mb-8 border-b border-gray-200 pb-5">
-          <h1 className="text-2xl font-semibold text-egg-dar">
+          <h1 className="text-2xl font-semibold text-swamp-green">
             Teacher Registration
           </h1>
 
@@ -373,7 +373,7 @@ const TeacherRegistrationPage = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md bg-beige px-6 py-2.5 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md bg-swamp-green px-6 py-2.5 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Submit Registration"}
             </button>
