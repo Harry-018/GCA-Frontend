@@ -72,7 +72,7 @@ const TeacherRegistrationPage = () => {
 
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value.toUpperCase(),
     }));
   };
 
@@ -261,8 +261,8 @@ const TeacherRegistrationPage = () => {
                 onChange={handleChange}
                 required
                 options={[
-                  { value: "male", label: "Male" },
-                  { value: "female", label: "Female" },
+                  { value: "MALE", label: "MALE" },
+                  { value: "FEMALE", label: "FEMALE" },
                 ]}
               />
 
@@ -283,12 +283,19 @@ const TeacherRegistrationPage = () => {
                 required
               />
 
-              <FormInput
+              <FormSelect
                 label="Religion"
                 name="religion"
                 value={form.religion}
                 onChange={handleChange}
                 required
+                options={[
+                  { value: "CATHOLIC", label: "CATHOLIC" },
+                  { value: "CHRISTIAN", label: "CHRISTIAN" },
+                  { value: "MUSLIM", label: "MUSLIM" },
+                  { value: "BORN AGAIN", label: "BORN AGAIN" },
+                  { value: "IGLESIA NI CRISTO", label: "IGLESIA NI CRISTO" },
+                ]}
               />
 
               <FormSelect
@@ -298,10 +305,10 @@ const TeacherRegistrationPage = () => {
                 onChange={handleChange}
                 required
                 options={[
-                  { value: "single", label: "Single" },
-                  { value: "married", label: "Married" },
-                  { value: "widowed", label: "Widowed" },
-                  { value: "separated", label: "Separated" },
+                  { value: "SINGLE", label: "SINGLE" },
+                  { value: "MARRIED", label: "MARRIED" },
+                  { value: "WIDOWED", label: "WIDOWED" },
+                  { value: "SEPARATED", label: "SEPARATED" },
                 ]}
               />
 
@@ -409,7 +416,7 @@ const FormInput = ({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full rounded-md border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
+        className="w-full uppercase rounded-md border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
       />
     </div>
   );
@@ -439,7 +446,7 @@ const FormSelect = ({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:swamp-green"
+        className="w-full uppercase rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:swamp-green"
       >
         <option value="">Select {label}</option>
 
