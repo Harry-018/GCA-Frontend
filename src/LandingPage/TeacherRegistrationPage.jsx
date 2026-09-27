@@ -81,6 +81,16 @@ const TeacherRegistrationPage = () => {
       return;
     }
 
+    if (name === "civil_status") {
+      setForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+
+      return;
+    }
+
+    // Other fields: uppercase
     setForm((prev) => ({
       ...prev,
       [name]: value.toUpperCase(),
