@@ -1,11 +1,6 @@
 import React from "react";
 
-const AddTeacherModal = ({
-  email,
-  onChange,
-  onCancel,
-  onSend,
-}) => {
+const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="w-full max-w-md rounded-2xl border border-gray-300 bg-[#f4f6ff] p-5 shadow-lg">
@@ -49,7 +44,7 @@ const AddTeacherModal = ({
 
           <button
             type="button"
-            onClick={onSend}
+            onClick={() => onSend(email)}
             className="flex h-8 flex-1 items-center justify-center rounded-full bg-[#9caf7d] font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
           >
             Send

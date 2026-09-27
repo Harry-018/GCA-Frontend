@@ -14,6 +14,8 @@ import EmailVerificationPage from "./LandingPage/emailVerification.jsx";
 import FormPage from "./LandingPage/FormPage.jsx";
 import ThanksforApply from "./LandingPage/ThanksforApply.jsx";
 import TuitionPage from "./LandingPage/TuitionPage.jsx";
+import TeacherRegistrationPage from "./LandingPage/TeacherRegistrationPage.jsx";
+import AccountActivation from "./LandingPage/AccountActivation.jsx";
 
 // ----- PARENTS SIDE -----
 import ParentsLayout from "./Layout/ParentsLayout.jsx";
@@ -54,7 +56,6 @@ import Skills from "./uAdmin-Side/Academic Management Page/Skills.jsx";
 import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
 import UserAccount from "./uAdmin-Side/UserAccount.jsx";
-import AccountActivation from "./LandingPage/AccountActivation.jsx";
 
 //loaders
 import {
@@ -88,6 +89,10 @@ const App = () => {
           <Route
             path="/email-verification"
             element={<EmailVerificationPage />}
+          />
+          <Route
+            path="/teacher-registration"
+            element={<TeacherRegistrationPage />}
           />
           <Route path="/account-activation" element={<AccountActivation />} />
           <Route

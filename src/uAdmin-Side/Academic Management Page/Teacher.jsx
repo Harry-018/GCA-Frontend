@@ -10,6 +10,7 @@ import DataTable from "../../Components/DataTable.jsx";
 import {
   getTeachers,
   getTeacherInfo,
+  createRegistrationInvitation,
   updateTeacher,
 } from "../../requests/teacherRequests.js";
 
@@ -125,9 +126,18 @@ const Teacher = () => {
   // ADD
   // ----------------------------------------
 
-  const handleAddTeacher = () => {
-    setEmail("");
-    setIsAddTeacherOpen(true);
+  const handleAddTeacher = async (email) => {
+    try {
+      setError("");
+
+      await createRegistrationInvitation(email);
+
+      setEmail("");
+
+      setIsAddTeacherOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // ----------------------------------------
@@ -221,16 +231,55 @@ const Teacher = () => {
       cell: ({ getValue }) => {
         const status = getValue();
 
-        if (status === "on_leave") {
-          return "On Leave";
-        }
+        const formatted =
+          status === "on_leave"
+            ? "On Leave"
+            : status
+              ? status.charAt(0).toUpperCase() + status.slice(1)
+              : "—";
 
-        return status ? status.charAt(0).toUpperCase() + status.slice(1) : "—";
+        return (
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-medium ${
+              status === "active"
+                ? "bg-green-100 text-green-700"
+                : status === "on_leave"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-gray-100 text-gray-600"
+            }`}
+          >
+            {formatted}
+          </span>
+        );
       },
     },
     {
       accessorKey: "email",
       header: "EMAIL",
+    },
+    {
+      accessorKey: "account_status",
+      header: "Account Status",
+      cell: ({ row }) => {
+        const status = row.original.account_status;
+
+        const formatted = status
+          ? status.charAt(0).toUpperCase() + status.slice(1)
+          : "—";
+        return (
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-medium ${
+              status === "active"
+                ? "bg-green-100 text-green-700"
+                : status === "pending"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-gray-100 text-gray-600"
+            }`}
+          >
+            {formatted}
+          </span>
+        );
+      },
     },
     {
       id: "actions",
@@ -259,7 +308,7 @@ const Teacher = () => {
           onSearch={handleSearch}
           status={filter}
           onStatusChange={handleFilterChange}
-          onAdd={handleAddTeacher}
+          onAdd={() => setIsAddTeacherOpen(true)}
         />
 
         {error && (
@@ -316,10 +365,7 @@ const Teacher = () => {
           email={email}
           onChange={(event) => setEmail(event.target.value)}
           onCancel={() => setIsAddTeacherOpen(false)}
-          onSend={() => {
-            setEmail("");
-            setIsAddTeacherOpen(false);
-          }}
+          onSend={handleAddTeacher}
         />
       )}
 

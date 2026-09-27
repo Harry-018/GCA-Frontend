@@ -24,8 +24,10 @@ export const getTeacherInfo = async (teacher_id) => {
   return response.data;
 };
 
-export const createTeacher = async (data) => {
-  const response = await API.post("/api/teachers", data);
+export const createRegistrationInvitation = async (email) => {
+  const response = await API.post("/api/teacher-registration", {
+    email,
+  });
 
   return response.data;
 };
