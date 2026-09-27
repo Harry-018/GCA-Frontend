@@ -316,10 +316,10 @@ const TeacherRegistrationPage = () => {
                 onChange={handleChange}
                 required
                 options={[
-                  { value: "SINGLE", label: "single" },
-                  { value: "MARRIED", label: "married" },
-                  { value: "WIDOWED", label: "widowed" },
-                  { value: "SEPARATED", label: "seperated" },
+                  { value: "single", label: "SINGLE" },
+                  { value: "married", label: "MARRIED" },
+                  { value: "widowed", label: "WIDOWED" },
+                  { value: "seperated", label: "SEPERATED" },
                 ]}
               />
 
