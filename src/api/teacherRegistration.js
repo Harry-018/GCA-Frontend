@@ -5,3 +5,9 @@ export const verifyTeacherRegistration = async (token) => {
 
   return response.data;
 };
+
+export const submitTeacherRegistration = async (data) => {
+  const response = await API.post("/api/teacher-registration/submit", data);
+
+  return response.data;
+};
