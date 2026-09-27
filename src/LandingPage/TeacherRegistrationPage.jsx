@@ -318,7 +318,7 @@ const TeacherRegistrationPage = () => {
                 options={[
                   { value: "SINGLE", label: "single" },
                   { value: "MARRIED", label: "married" },
-                  { value: "WIDOWED", label: "single" },
+                  { value: "WIDOWED", label: "widowed" },
                   { value: "SEPARATED", label: "seperated" },
                 ]}
               />
