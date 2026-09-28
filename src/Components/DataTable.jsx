@@ -14,22 +14,82 @@ const DataTable = ({
   pagination,
   onPaginationChange,
   pageCount,
+
+  // Optional row selection
+  enableRowSelection = false,
+  selectedRowIds = [],
+  onSelectedRowIdsChange,
+  getRowId,
 }) => {
   const enablePagination =
     pagination !== undefined && onPaginationChange !== undefined;
 
+  const tableColumns = enableRowSelection
+    ? [
+        {
+          id: "select",
+          header: ({ table }) => (
+            <input
+              type="checkbox"
+              checked={table.getIsAllPageRowsSelected()}
+              ref={(element) => {
+                if (element) {
+                  element.indeterminate = table.getIsSomePageRowsSelected();
+                }
+              }}
+              onChange={table.getToggleAllPageRowsSelectedHandler()}
+              className="h-4 w-4 cursor-pointer accent-[#9caf7e]"
+            />
+          ),
+          cell: ({ row }) => (
+            <input
+              type="checkbox"
+              checked={row.getIsSelected()}
+              disabled={!row.getCanSelect()}
+              onChange={row.getToggleSelectedHandler()}
+              className="h-4 w-4 cursor-pointer accent-[#9caf7e]"
+            />
+          ),
+        },
+        ...columns,
+      ]
+    : columns;
+
+  const rowSelection = Object.fromEntries(
+    selectedRowIds.map((id) => [String(id), true]),
+  );
+
   const table = useReactTable({
     data,
-    columns,
+    columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
 
-    ...(enablePagination && {
-      state: {
-        pagination,
+    ...(getRowId && {
+      getRowId,
+    }),
+
+    state: {
+      ...(enablePagination ? { pagination } : {}),
+      ...(enableRowSelection ? { rowSelection } : {}),
+    },
+
+    ...(enableRowSelection && {
+      enableRowSelection: true,
+
+      onRowSelectionChange: (updater) => {
+        const nextSelection =
+          typeof updater === "function" ? updater(rowSelection) : updater;
+
+        const nextIds = Object.keys(nextSelection).filter(
+          (id) => nextSelection[id],
+        );
+
+        onSelectedRowIdsChange?.(nextIds);
       },
+    }),
 
+    ...(enablePagination && {
       onPaginationChange,
-
       manualPagination: true,
       pageCount,
     }),
@@ -62,7 +122,7 @@ const DataTable = ({
           {loading ? (
             <tr>
               <td
-                colSpan={columns.length}
+                colSpan={tableColumns.length}
                 className="px-4 py-10 text-center text-sm text-gray-500"
               >
                 Loading...
@@ -71,7 +131,7 @@ const DataTable = ({
           ) : table.getRowModel().rows.length === 0 ? (
             <tr>
               <td
-                colSpan={columns.length}
+                colSpan={tableColumns.length}
                 className="px-4 py-10 text-center text-sm text-gray-500"
               >
                 {emptyMessage}
@@ -106,7 +166,7 @@ const DataTable = ({
               type="button"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="rounded-md border border-gray-300 px-3 py-1 text-xs text-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
             >
               Previous
             </button>
@@ -115,7 +175,7 @@ const DataTable = ({
               type="button"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="rounded-md border border-gray-300 px-3 py-1 text-xs text-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
             >
               Next
             </button>

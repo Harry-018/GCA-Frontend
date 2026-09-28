@@ -1,11 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import Header from "../../Components/AdminComponents/Academic Management/Header";
-import ClassInformationToolbar from "../../Components/AdminComponents/Academic Management/Section/ClassInformationToolbar";
-import ClassInfoTable from "../../Components/AdminComponents/Academic Management/Section/ClassInfoTable";
-import ChangeTeacherModal from "../../Components/AdminModal/AcademicManagementPage/ChangeTeacherModal";
-import { getStudents } from "../../utils/data/Admin/students";
-import { matchGlobalSearch } from "../../utils/search";
+
+import Header from "../../Components/AdminComponents/Academic Management/Header.jsx";
+import ClassInformationToolbar from "../../Components/AdminComponents/Academic Management/Section/ClassInformationToolbar.jsx";
+import ChangeTeacherModal from "../../Components/AdminModal/AcademicManagementPage/ChangeTeacherModal.jsx";
+import DataTable from "../../Components/DataTable.jsx";
+import AddStudentToSectionModal from "../../Components/AdminModal/AcademicManagementPage/AddStudentToSectionModal.jsx";
+import PromoteStudentModal from "../../Components/AdminModal/AcademicManagementPage/PromoteStudentModal.jsx";
+import RemoveStudentModal from "../../Components/AdminModal/AcademicManagementPage/RemoveStudentModal.jsx";
+
+import {
+  getSectionDetails,
+  getSectionGradeLevels,
+  getAdviserTeachers,
+  addStudentsToSection,
+  promoteStudents,
+  removeStudentsFromSection,
+  changeSectionTeacher,
+} from "../../requests/sectionsRequests.js";
 
 const NAV_ITEMS = [
   { name: "Students", path: "/admin/academic" },
@@ -17,104 +29,290 @@ const NAV_ITEMS = [
   { name: "School Years", path: "/admin/academic/school-years" },
 ];
 
-const COLUMNS = [
-  { key: "lrn", label: "LRN" },
-  { key: "lastName", label: "Last Name" },
-  { key: "firstName", label: "First Name" },
-  { key: "gender", label: "Gender" },
-  { key: "age", label: "Age" },
-];
-
-const TEACHERS = [
-  "Rosaline Rosamanta",
-  "Juan P. Dela Cruz",
-  "Maria Santos",
-];
-
 const SectionInformation = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
   const level = searchParams.get("level") || "Section";
-  const section = searchParams.get("section") || "";
+  const sectionId = searchParams.get("section_id");
 
-  const [teacher, setTeacher] = useState("Ms. Rosaline Romasanta");
+  const [sectionData, setSectionData] = useState(null);
+  const [gradeLevels, setGradeLevels] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
   const [isChangeTeacherOpen, setIsChangeTeacherOpen] = useState(false);
+
+  const [isAddStudentOpen, setIsAddStudentOpen] = useState(false);
+
+  const [isPromoteStudentOpen, setIsPromoteStudentOpen] = useState(false);
+
+  const [isRemoveStudentOpen, setIsRemoveStudentOpen] = useState(false);
+  const [removeStudentTarget, setRemoveStudentTarget] = useState(null);
+  const [removingStudent, setRemovingStudent] = useState(false);
+
   const [searchValue, setSearchValue] = useState("");
+  const [search, setSearch] = useState("");
 
-  const classStudents = getStudents()
-    .filter((student) => student.section === section)
-    .map((student) => ({
-      id: student.id,
-      lrn: student.lrn ?? "",
-      lastName: student.lastName,
-      firstName: student.firstName,
-      gender: student.gender ?? "",
-      age: student.age ?? "",
-    }));
+  const [selectedStudentIds, setSelectedStudentIds] = useState([]);
+  const [teachers, setTeachers] = useState([]);
 
-  const filteredStudents = classStudents.filter((student) =>
-    matchGlobalSearch(student, searchValue)
-  );
+  const loadSection = async () => {
+    const id = Number(sectionId);
 
-  const handleChangeTeacher = () => {
-    setIsChangeTeacherOpen(true);
+    if (!Number.isInteger(id) || id <= 0) {
+      console.error("Invalid section ID:", sectionId);
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const result = await getSectionDetails(id);
+
+      setSectionData(result.data);
+    } catch (error) {
+      console.error("Failed to load section details:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const loadTeachers = async () => {
+    try {
+      const result = await getAdviserTeachers();
+
+      setTeachers(result.data || []);
+    } catch (error) {
+      console.error("Failed to load adviser teachers:", error);
+    }
   };
 
-  const handleChangeTeacherSelect = (selectedTeacher) => {
-    setTeacher(selectedTeacher);
-    setIsChangeTeacherOpen(false);
+  const loadGradeLevels = async () => {
+    try {
+      const result = await getSectionGradeLevels();
+
+      setGradeLevels(result.data || []);
+    } catch (error) {
+      console.error("Failed to load grade levels:", error);
+    }
+  };
+
+  useEffect(() => {
+    loadSection();
+    loadGradeLevels();
+    loadTeachers();
+  }, [sectionId]);
+
+  const section = sectionData?.section;
+  const enrollments = sectionData?.enrollments || [];
+
+  const teacher = section ? `${section.first_name} ${section.last_name}` : "";
+
+  /*
+   * Search the students already assigned
+   * to this section.
+   */
+  const filteredStudents = useMemo(() => {
+    const term = search.trim().toLowerCase();
+
+    if (!term) {
+      return enrollments;
+    }
+
+    return enrollments.filter((student) => {
+      return [
+        student.stu_num,
+        student.stu_id,
+        student.lrn,
+        student.enr_status,
+        student.date_enrolled,
+      ].some((value) =>
+        String(value ?? "")
+          .toLowerCase()
+          .includes(term),
+      );
+    });
+  }, [enrollments, search]);
+
+  const handleChangeTeacher = async (teacherId) => {
+    try {
+      await changeSectionTeacher(Number(sectionId), Number(teacherId));
+
+      setIsChangeTeacherOpen(false);
+
+      await loadSection();
+    } catch (error) {
+      console.error("Failed to change teacher:", error);
+    }
+  };
+
+  const handleRemoveStudent = (student) => {
+    setRemoveStudentTarget(student);
+    setIsRemoveStudentOpen(true);
+  };
+
+  const handleConfirmRemoveStudent = async () => {
+    if (!removeStudentTarget) return;
+
+    try {
+      setRemovingStudent(true);
+
+      await removeStudentsFromSection(Number(sectionId), [
+        Number(removeStudentTarget.stu_id),
+      ]);
+
+      setSelectedStudentIds((current) =>
+        current.filter(
+          (id) => Number(id) !== Number(removeStudentTarget.stu_id),
+        ),
+      );
+
+      setIsRemoveStudentOpen(false);
+      setRemoveStudentTarget(null);
+
+      await loadSection();
+    } catch (error) {
+      console.error("Failed to remove student:", error);
+    } finally {
+      setRemovingStudent(false);
+    }
   };
 
   const handleGoBack = () => {
     navigate(
-      `/admin/academic/sectionclass?level=${encodeURIComponent(level)}`
+      `/admin/academic/sectionclass?level=${encodeURIComponent(
+        level,
+      )}&sy_grade_level_id=${section?.sy_grade_level_id ?? ""}`,
     );
   };
 
-  const handlePromoteStudent = () => {
-    console.log("Promote Student");
+  const handleAddStudents = async (studentIds) => {
+    try {
+      await addStudentsToSection(Number(sectionId), studentIds);
+
+      setIsAddStudentOpen(false);
+
+      await loadSection();
+    } catch (error) {
+      console.error("Failed to add students:", error);
+    }
   };
 
-  const handleAddStudent = () => {
-    console.log("Add Student");
+  const handlePromoteStudents = async (targetSyGradeLevelId) => {
+    try {
+      await promoteStudents(selectedStudentIds, targetSyGradeLevelId);
+
+      setIsPromoteStudentOpen(false);
+      setSelectedStudentIds([]);
+
+      await loadSection();
+    } catch (error) {
+      console.error("Failed to promote students:", error);
+    }
   };
 
-  const handleSearch = () => {
-    console.log("Search:", searchValue);
+  const handlePromoteButton = () => {
+    if (selectedStudentIds.length === 0) {
+      return;
+    }
+
+    setIsPromoteStudentOpen(true);
   };
+
+  const handleSelectedStudentIds = (ids) => {
+    setSelectedStudentIds(ids.map(Number));
+  };
+
+  const columns = [
+    {
+      accessorKey: "stu_num",
+      header: "STUDENT NO.",
+    },
+    { accessorKey: "last_name", header: "LAST NAME" },
+    { accessorKey: "first_name", header: "FIRST NAME" },
+    {
+      id: "actions",
+      header: "Action",
+      cell: ({ row }) => (
+        <button
+          type="button"
+          onClick={() => handleRemoveStudent(row.original)}
+          className="rounded-full border  px-3 py-1.5 text-xs font-medium text-egg bg-reject hover:bg-reject/80"
+        >
+          Remove
+        </button>
+      ),
+    },
+  ];
 
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins]">
-        <Header 
-            navItems={NAV_ITEMS} 
-        />
+      <Header navItems={NAV_ITEMS} />
 
       <div className="flex min-h-0 flex-1 flex-col gap-4 px-4 pt-4">
         <ClassInformationToolbar
           teacher={teacher}
-          onChangeTeacher={handleChangeTeacher}
+          onChangeTeacher={() => setIsChangeTeacherOpen(true)}
           onGoBack={handleGoBack}
-          onPromoteStudent={handlePromoteStudent}
-          onAddStudent={handleAddStudent}
+          onPromoteStudent={handlePromoteButton}
+          onAddStudent={() => setIsAddStudentOpen(true)}
           searchValue={searchValue}
           onSearchChange={setSearchValue}
-          onSearch={handleSearch}
+          onSearch={() => setSearch(searchValue)}
         />
 
-        <ClassInfoTable
-          students={filteredStudents}
-          columns={COLUMNS}
-          onRemove={(student) => console.log("Remove:", student)}
+        <DataTable
+          data={filteredStudents}
+          columns={columns}
+          loading={loading}
+          emptyMessage="No students enrolled in this section."
+          enableRowSelection
+          getRowId={(row) => String(row.stu_id)}
+          selectedRowIds={selectedStudentIds}
+          onSelectedRowIdsChange={handleSelectedStudentIds}
         />
       </div>
 
-        {isChangeTeacherOpen && (
+      {/* Change Teacher */}
+      {isChangeTeacherOpen && (
         <ChangeTeacherModal
-          teachers={TEACHERS}
+          teachers={teachers}
+          currentTeacherId={section?.adviser_teacher_id}
           onCancel={() => setIsChangeTeacherOpen(false)}
-          onChange={handleChangeTeacherSelect}
+          onChange={handleChangeTeacher}
         />
       )}
+
+      {/* Add Student */}
+      <AddStudentToSectionModal
+        isOpen={isAddStudentOpen}
+        onClose={() => setIsAddStudentOpen(false)}
+        sectionId={sectionId}
+        onAdd={handleAddStudents}
+      />
+
+      <RemoveStudentModal
+        isOpen={isRemoveStudentOpen}
+        student={removeStudentTarget}
+        onCancel={() => {
+          if (removingStudent) return;
+
+          setIsRemoveStudentOpen(false);
+          setRemoveStudentTarget(null);
+        }}
+        onConfirm={handleConfirmRemoveStudent}
+        loading={removingStudent}
+      />
+
+      {/* Promote Student */}
+      <PromoteStudentModal
+        isOpen={isPromoteStudentOpen}
+        onClose={() => setIsPromoteStudentOpen(false)}
+        selectedStudentIds={selectedStudentIds}
+        gradeLevels={gradeLevels}
+        currentSyGradeLevelId={section?.sy_grade_level_id}
+        onPromote={handlePromoteStudents}
+      />
     </div>
   );
 };

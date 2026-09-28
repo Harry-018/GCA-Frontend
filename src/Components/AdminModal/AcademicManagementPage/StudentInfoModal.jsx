@@ -28,7 +28,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
           <div className="flex flex-col gap-y-2">
             <div className="flex h-5 items-center">
               <span className="w-36">Grade Level:</span>
-              <span>{student.grade_level_name || "—"}</span>
+              <span>{student.current_grade_level_name || "—"}</span>
             </div>
             <div className="mb-5 flex h-5 items-center">
               <span className="w-36">LRN:</span>

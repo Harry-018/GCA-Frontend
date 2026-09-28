@@ -1,34 +1,32 @@
 import React from "react";
 
-const RemoveSectionModal = ({
-  isOpen,
-  onClose,
-  sectionName,
-  onRemove,
-}) => {
+const RemoveSectionModal = ({ isOpen, onClose, sectionName, onRemove }) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
-<div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
+      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
         <h2 className="font-[PoppinsBold] text-base text-[#f27773]">
-          Remove Class
+          Deactivate Section
         </h2>
 
-        {/* Message */}
         <div className="flex flex-col gap-y-3 text-xs leading-relaxed text-gray-600">
           <p>
-            Clicking “Remove” will remove this class and its information.
-            Such as selected teacher and students.
+            Are you sure you want to deactivate{" "}
+            <span className="font-[PoppinsBold]">{sectionName}</span>?
           </p>
 
           <p>
-            It will not permanently delete the data. It will just remove
-            the class from the list.
+            The section will no longer appear in the active section list. Its
+            information will be cleared such as assigned teacher and added
+            students.
           </p>
+
+          <span className="font-[PoppinsBold]">
+            This will not permanently delete data.
+          </span>
         </div>
 
-        {/* Actions */}
         <div className="flex gap-2 pt-3">
           <button
             type="button"
@@ -40,10 +38,10 @@ const RemoveSectionModal = ({
 
           <button
             type="button"
-            onClick={() => onRemove(sectionName)}
+            onClick={onRemove}
             className="h-9 flex-1 rounded-full bg-[#f27773] font-[PoppinsBold] text-xs text-white transition hover:bg-[#ed6661]"
           >
-            Remove
+            Deactivate
           </button>
         </div>
       </div>

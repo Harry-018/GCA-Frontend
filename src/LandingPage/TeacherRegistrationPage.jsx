@@ -80,16 +80,6 @@ const TeacherRegistrationPage = () => {
 
       return;
     }
-
-    if (name === "civil_status") {
-      setForm((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-
-      return;
-    }
-
     // Other fields: uppercase
     setForm((prev) => ({
       ...prev,
@@ -177,9 +167,9 @@ const TeacherRegistrationPage = () => {
   // --------------------------------------------------
   if (submitted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-beige px-4">
+      <div className="flex min-h-screen items-center justify-center bg-egg px-4">
         <div className="w-full max-w-md rounded-xl bg-white p-8 text-center shadow">
-          <h1 className="mb-3 text-xl font-semibold text-egg-dark">
+          <h1 className="mb-3 text-xl font-semibold text-swamp-green">
             Registration Submitted
           </h1>
 

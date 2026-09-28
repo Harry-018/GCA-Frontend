@@ -48,7 +48,7 @@ const RemoveGradeLevelModal = ({
             <button
               type="button"
               onClick={onRemove}
-              className="w-1/2 rounded-full bg-reject py-1.5 text-xs font-semibold text-white hover:bg-red-500"
+              className="w-1/2 rounded-full bg-reject py-1.5 text-xs font-semibold text-white hover:bg-reject/80"
             >
               Remove
             </button>
