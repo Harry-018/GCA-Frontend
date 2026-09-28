@@ -247,6 +247,104 @@ body {
   display: none;
 }
 
+.gca-calendar {
+  --fc-border-color: #dcded8;
+  --fc-page-bg-color: #f4f5fc;
+  --fc-neutral-bg-color: #f4f5fc;
+  --fc-today-bg-color: rgba(156, 175, 124, 0.08);
+  --fc-now-indicator-color: #9caf7e;
+}
+
+.gca-calendar .fc {
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+}
+
+.gca-calendar .fc-scrollgrid {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #dcded8;
+}
+
+.gca-calendar .fc-col-header-cell {
+  background: #9caf7e;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.gca-calendar .fc-col-header-cell-cushion {
+  display: block;
+  padding: 10px 4px;
+  color: white;
+  font-family: "PoppinsBold", sans-serif;
+  font-size: 15px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+/* TIME COLUMN */
+.gca-calendar .fc-timegrid-axis {
+  width: 75px;
+  min-width: 75px;
+  background: #f4f5fc;
+}
+.gca-calendar .fc {
+  min-width: 1100px;
+}
+.gca-calendar .fc-timegrid-slot-label {
+  color: #737373;
+  font-size: 16px;
+  vertical-align: top;
+  padding-top: 6px;
+}
+
+/* INCREASE HEIGHT OF EACH TIME SLOT */
+.gca-calendar .fc-timegrid-slot {
+  height: 50px;
+}
+
+/* DAY COLUMNS */
+.gca-calendar .fc-timegrid-col {
+  background: #fafafc;
+  width: auto;
+}
+
+/* EVENT / CONTENT CARD */
+.gca-calendar .fc-timegrid-event {
+  width: auto !important;
+  left: 2px !important;
+  right: 2px !important;
+
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.gca-calendar .fc-event-main {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+/* CARD INSIDE THE EVENT */
+.gca-calendar .fc-timegrid-event-harness {
+  margin: 1px;
+}
+
+.gca-calendar .fc-timegrid-event .event-card {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* NOW INDICATOR */
+.gca-calendar .fc-timegrid-now-indicator-line {
+  border-color: #9caf7e;
+}
+
+.gca-calendar .fc-timegrid-now-indicator-arrow {
+  border-color: #9caf7e;
+}
+
 @theme {
   --color-forest-green: #133215;
   --color-lime-green: #92b775;

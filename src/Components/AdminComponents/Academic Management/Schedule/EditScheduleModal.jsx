@@ -15,7 +15,7 @@ const EditScheduleModal = ({
   onSave,
 }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-5">
+    <div className="fixed inset-0 z-50 flex items-center font-[Poppins] justify-center bg-black/20 p-5">
       <div className="w-full max-w-md rounded-2xl bg-[#f4f5fc] px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
         <h2 className="font-[PoppinsBold] text-[12px] text-swamp-green">
           Edit Schedule
@@ -24,19 +24,13 @@ const EditScheduleModal = ({
         {/* Fixed Information */}
         <div className="grid grid-cols-1 gap-4 pt-5 sm:grid-cols-3">
           <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
-              Grade Level:
-            </p>
+            <p className="text-2xs text-gray-600">Grade Level:</p>
 
-            <p className="font-[Poppins] text-2xs text-gray-600">
-              {gradeLevel}
-            </p>
+            <p className="text-2xs text-gray-600">{gradeLevel}</p>
           </div>
 
           <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
-              School Year:
-            </p>
+            <p className=" text-2xs text-gray-600">School Year:</p>
 
             <p className="font-[Poppins] text-2xs text-gray-600">
               {schoolYear}
@@ -44,13 +38,9 @@ const EditScheduleModal = ({
           </div>
 
           <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
-              Section:
-            </p>
+            <p className="text-2xs text-gray-600">Section:</p>
 
-            <p className="font-[Poppins] text-2xs text-gray-600">
-              {section}
-            </p>
+            <p className="font-[Poppins] text-2xs text-gray-600">{section}</p>
           </div>
         </div>
 
@@ -69,7 +59,7 @@ const EditScheduleModal = ({
             <option value="">Select Subject</option>
 
             {subjects.map((subject) => (
-              <option key={subject.id} value={subject.name}>
+              <option key={subject.id} value={subject.id}>
                 {subject.name}
               </option>
             ))}
@@ -91,7 +81,7 @@ const EditScheduleModal = ({
             <option value="">Select Teacher</option>
 
             {teachers.map((teacher) => (
-              <option key={teacher.id} value={teacher.name}>
+              <option key={teacher.id} value={teacher.id}>
                 {teacher.name}
               </option>
             ))}
@@ -114,7 +104,7 @@ const EditScheduleModal = ({
               <option value="">Select Day</option>
 
               {days.map((day) => (
-                <option key={day.id} value={day.name}>
+                <option key={day.id} value={day.id}>
                   {day.name}
                 </option>
               ))}
@@ -135,7 +125,7 @@ const EditScheduleModal = ({
               <option value="">Select Room</option>
 
               {rooms.map((room) => (
-                <option key={room.id} value={room.name}>
+                <option key={room.id} value={room.id}>
                   {room.name}
                 </option>
               ))}
@@ -159,7 +149,7 @@ const EditScheduleModal = ({
               <option value="">Select Time</option>
 
               {times.map((time) => (
-                <option key={time.id} value={time.value}>
+                <option key={time.id} value={time.start}>
                   {time.label}
                 </option>
               ))}
@@ -167,9 +157,7 @@ const EditScheduleModal = ({
           </div>
 
           <div className="flex flex-col gap-1">
-            <label className="font-[Poppins] text-2xs text-gray-600">
-              To:
-            </label>
+            <label className="font-[Poppins] text-2xs text-gray-600">To:</label>
 
             <select
               name="to"
@@ -180,7 +168,7 @@ const EditScheduleModal = ({
               <option value="">Select Time</option>
 
               {times.map((time) => (
-                <option key={time.id} value={time.value}>
+                <option key={time.id} value={time.end}>
                   {time.label}
                 </option>
               ))}

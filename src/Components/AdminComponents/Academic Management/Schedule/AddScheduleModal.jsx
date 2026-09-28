@@ -16,199 +16,153 @@ const AddScheduleModal = ({
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-5">
-      <div className="w-full max-w-md rounded-2xl bg-[#f4f5fc] px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
-        <h2 className="font-[PoppinsBold] text-[12px] text-swamp-green">
-          Add Schedule
-        </h2>
-
-        {/* Fixed Information */}
-        <div className="grid grid-cols-1 gap-4 pt-5 sm:grid-cols-3">
-          <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
-              Grade Level:
-            </p>
-
-            <p className="font-[Poppins] text-2xs text-gray-600">
-              {gradeLevel}
-            </p>
-          </div>
-
-          <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
-              School Year:
-            </p>
-
-            <p className="font-[Poppins] text-2xs text-gray-600">
-              {schoolYear}
-            </p>
-          </div>
-
-          <div>
-            <p className="font-[PoppinsMedium] text-2xs text-gray-600">
-              Section:
-            </p>
-
-            <p className="font-[Poppins] text-2xs text-gray-600">
-              {section}
-            </p>
-          </div>
+      <div className="flex w-full max-w-md flex-col gap-1 rounded-2xl bg- p-5">
+        {/* Header */}
+        <div className="mb-3">
+          <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
+            Add Schedule
+          </h2>
+          <p className="mt-1 font-[Poppins] text-2xs text-gray-500">
+            {gradeLevel} • {section} • S.Y. {schoolYear}
+          </p>
         </div>
-
         {/* Subject */}
-        <div className="flex flex-col gap-1 pt-5">
+        <div className="flex flex-col gap-1">
           <label className="font-[Poppins] text-2xs text-gray-600">
             Subject:
           </label>
-
           <select
             name="subject"
             value={formData.subject}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
           >
             <option value="">Select Subject</option>
-
             {subjects.map((subject) => (
-              <option key={subject.id} value={subject.name}>
+              <option key={subject.id} value={subject.id}>
                 {subject.name}
               </option>
             ))}
           </select>
         </div>
-
         {/* Teacher */}
         <div className="flex flex-col gap-1 pt-3">
           <label className="font-[Poppins] text-2xs text-gray-600">
             Teacher:
           </label>
-
           <select
             name="teacher"
             value={formData.teacher}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
           >
             <option value="">Select Teacher</option>
-
             {teachers.map((teacher) => (
-              <option key={teacher.id} value={teacher.name}>
+              <option key={teacher.id} value={teacher.id}>
                 {teacher.name}
               </option>
             ))}
           </select>
         </div>
-
         {/* Day / Room */}
         <div className="grid grid-cols-1 gap-2 pt-3 sm:grid-cols-2">
+          {/* Day */}
           <div className="flex flex-col gap-1">
             <label className="font-[Poppins] text-2xs text-gray-600">
               Day:
             </label>
-
             <select
               name="day"
               value={formData.day}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Day</option>
-
               {days.map((day) => (
-                <option key={day.id} value={day.name}>
+                <option key={day.id} value={day.id}>
                   {day.name}
                 </option>
               ))}
             </select>
           </div>
-
+          {/* Room */}
           <div className="flex flex-col gap-1">
             <label className="font-[Poppins] text-2xs text-gray-600">
               Room:
             </label>
-
             <select
               name="room"
               value={formData.room}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Room</option>
-
               {rooms.map((room) => (
-                <option key={room.id} value={room.name}>
+                <option key={room.id} value={room.id}>
                   {room.name}
                 </option>
               ))}
             </select>
           </div>
         </div>
-
         {/* From / To */}
         <div className="grid grid-cols-1 gap-2 pt-3 sm:grid-cols-2">
+          {/* From */}
           <div className="flex flex-col gap-1">
             <label className="font-[Poppins] text-2xs text-gray-600">
               From:
             </label>
-
             <select
               name="from"
               value={formData.from}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Time</option>
-
               {times.map((time) => (
-                <option key={time.id} value={time.value}>
-                  {time.label}
+                <option key={time.id} value={time.start}>
+                  {time.startLabel}
                 </option>
               ))}
             </select>
           </div>
-
+          {/* To */}
           <div className="flex flex-col gap-1">
-            <label className="font-[Poppins] text-2xs text-gray-600">
-              To:
-            </label>
-
+            <label className="font-[Poppins] text-2xs text-gray-600">To:</label>
             <select
               name="to"
               value={formData.to}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 py-1 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Time</option>
-
               {times.map((time) => (
-                <option key={time.id} value={time.value}>
-                  {time.label}
+                <option key={time.id} value={time.end}>
+                  {time.endLabel}
                 </option>
               ))}
             </select>
           </div>
         </div>
-
         {/* Buttons */}
-        <div className="grid grid-cols-2 gap-2 pt-5">
+        <div className="mt-5 flex justify-end gap-2">
           <button
             type="button"
             onClick={onCancel}
-            className="h-7.5 rounded-full border border-gray-400 bg-transparent font-[PoppinsBold] text-[11px] text-gray-500"
+            className="rounded-lg border border-gray-300 px-4 py-2 font-[Poppins] text-2xs text-gray-600 transition hover:bg-gray-100"
           >
             Cancel
           </button>
-
           <button
             type="button"
             onClick={onAdd}
-            className="h-7.5 rounded-full bg-[#9aae7b] font-[PoppinsBold] text-[11px] text-bone"
+            className="rounded-lg bg-swamp-green px-4 py-2 font-[PoppinsBold] text-2xs text-white transition hover:opacity-90"
           >
-            Add
+            Add Schedule
           </button>
         </div>
       </div>
     </div>
   );
 };
-
 export default AddScheduleModal;

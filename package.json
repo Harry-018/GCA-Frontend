@@ -10,6 +10,9 @@
     "preview": "node ./node_modules/vite/bin/vite.js preview"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.21",
+    "@fullcalendar/react": "^6.1.21",
+    "@fullcalendar/timegrid": "^6.1.21",
     "@ianlabicani/geoph-lite": "^2.0.0",
     "@tailwindcss/vite": "^4.3.3",
     "@tanstack/react-table": "^8.21.3",

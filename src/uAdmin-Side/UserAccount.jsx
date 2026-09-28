@@ -1,144 +1,15 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import UserHeader from "../Components/AdminComponents/User-Account/UserHeader";
 import UserToolbar from "../Components/AdminComponents/User-Account/UserToolbar";
 import UserActionModal from "../Components/AdminModal/UserAccountPage/UserActionModal";
 
-const INITIAL_USERS = [
-  {
-    id: 1,
-    email: "carlos@gmail.com",
-    role: "Parent",
-    dateCreated: "Jul 27, 2025",
-    status: "Invited",
-    accountState: "Pending",
-  },
-  {
-    id: 2,
-    email: "kathryn@gmail.com",
-    role: "Parent",
-    dateCreated: "Jul 28, 2025",
-    status: "Invited",
-    accountState: "Pending",
-  },
-  {
-    id: 3,
-    email: "hendry@gmail.com",
-    role: "Teacher",
-    dateCreated: "Jul 29, 2025",
-    status: "Invited",
-    accountState: "Pending",
-  },
-  {
-    id: 4,
-    email: "michelle@gmail.com",
-    role: "Teacher",
-    dateCreated: "Jul 30, 2025",
-    status: "Invited",
-    accountState: "Pending",
-  },
-  {
-    id: 5,
-    email: "Rexter@gmail.com",
-    role: "Parent",
-    dateCreated: "Jul 31, 2025",
-    status: "Invited",
-    accountState: "Pending",
-  },
-  {
-    id: 6,
-    email: "jake@gmail.com",
-    role: "Teacher",
-    dateCreated: "Aug 01, 2025",
-    status: "Invited",
-    accountState: "Pending",
-  },
-  {
-    id: 7,
-    email: "daniel@gmail.com",
-    role: "Parent",
-    dateCreated: "Aug 02, 2025",
-    status: "Pending",
-    accountState: "Pending",
-  },
-  {
-    id: 8,
-    email: "diane@gmail.com",
-    role: "Teacher",
-    dateCreated: "Aug 03, 2025",
-    status: "Pending",
-    accountState: "Pending",
-  },
-  {
-    id: 9,
-    email: "rosaline@gmail.com",
-    role: "Teacher",
-    dateCreated: "Aug 04, 2025",
-    status: "Pending",
-    accountState: "Pending",
-  },
-  {
-    id: 10,
-    email: "james@gmail.com",
-    role: "Parent",
-    dateCreated: "Aug 05, 2025",
-    status: "Pending",
-    accountState: "Pending",
-  },
-  {
-    id: 11,
-    email: "maria.santos@gmail.com",
-    role: "Parent",
-    dateCreated: "Jun 12, 2025",
-    status: "Active",
-    accountState: "Active",
-  },
-  {
-    id: 12,
-    email: "juan.delacruz@gmail.com",
-    role: "Teacher",
-    dateCreated: "Jun 15, 2025",
-    status: "Active",
-    accountState: "Active",
-  },
-  {
-    id: 13,
-    email: "ana.reyes@gmail.com",
-    role: "Parent",
-    dateCreated: "May 20, 2025",
-    status: "Active",
-    accountState: "Active",
-  },
-  {
-    id: 14,
-    email: "paolo.cruz@gmail.com",
-    role: "Teacher",
-    dateCreated: "May 08, 2025",
-    status: "Active",
-    accountState: "Active",
-  },
-  {
-    id: 15,
-    email: "sofia.lim@gmail.com",
-    role: "Parent",
-    dateCreated: "Apr 02, 2025",
-    status: "Disabled",
-    accountState: "Disabled",
-  },
-  {
-    id: 16,
-    email: "mark.tan@gmail.com",
-    role: "Teacher",
-    dateCreated: "Mar 18, 2025",
-    status: "Disabled",
-    accountState: "Disabled",
-  },
-];
-
-const ACCOUNT_TAB_MAP = {
-  "Pending Accounts": "Pending",
-  "Active Accounts": "Active",
-  "Disabled Accounts": "Disabled",
-};
+import {
+  disableUserAccount,
+  getUserAccounts,
+  inviteUserAccount,
+  reactivateUserAccount,
+} from "../requests/userAccountsRequests.js";
+import DataTable from "../Components/DataTable.jsx";
 
 const ACTION_CONFIG = {
   invite: {
@@ -172,30 +43,85 @@ const ACTION_CONFIG = {
 };
 
 const UserAccount = () => {
-  const [users, setUsers] = useState(INITIAL_USERS);
-  const [accountTab, setAccountTab] = useState("Pending Accounts");
-  const [roleTab, setRoleTab] = useState("All");
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  // Main account status tab
+  const [status, setStatus] = useState("pending");
+
+  // Role filter
+  const [role, setRole] = useState("all");
+
+  // Search
   const [search, setSearch] = useState("");
+  const [searchInput, setSearchInput] = useState("");
+
+  // Pagination
+  const [page, setPage] = useState(1);
+  const [limit] = useState(10);
+
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 10,
+    total: 0,
+    totalPages: 1,
+  });
+
+  // Modal
   const [modalAction, setModalAction] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const filteredUsers = useMemo(() => {
-    const accountState = ACCOUNT_TAB_MAP[accountTab];
-    const term = search.trim().toLowerCase();
+  const loadUserAccounts = async () => {
+    try {
+      setLoading(true);
 
-    return users.filter((user) => {
-      const matchesAccount = user.accountState === accountState;
-      const matchesRole = roleTab === "All" || user.role === roleTab;
-      const matchesSearch =
-        term === "" ||
-        user.email.toLowerCase().includes(term) ||
-        user.role.toLowerCase().includes(term) ||
-        user.status.toLowerCase().includes(term) ||
-        user.dateCreated.toLowerCase().includes(term);
+      const result = await getUserAccounts({
+        status,
+        role,
+        search,
+        page,
+        limit,
+      });
 
-      return matchesAccount && matchesRole && matchesSearch;
-    });
-  }, [users, accountTab, roleTab, search]);
+      setUsers(result.data);
+      setPagination(result.pagination);
+    } catch (error) {
+      console.error("Failed to load user accounts:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadUserAccounts();
+  }, [status, role, search, page]);
+
+  // -----------------------------
+  // TAB / FILTER HANDLERS
+  // -----------------------------
+
+  const handleStatusChange = (newStatus) => {
+    setStatus(newStatus);
+    setPage(1);
+  };
+
+  const handleRoleChange = (newRole) => {
+    setRole(newRole);
+    setPage(1);
+  };
+
+  // -----------------------------
+  // SEARCH
+  // -----------------------------
+
+  const handleSearch = () => {
+    setPage(1);
+    setSearch(searchInput.trim());
+  };
+
+  // -----------------------------
+  // MODAL
+  // -----------------------------
 
   const openModal = (action, user) => {
     setModalAction(action);
@@ -207,66 +133,198 @@ const UserAccount = () => {
     setSelectedUser(null);
   };
 
-  const handleConfirm = () => {
+  // -----------------------------
+  // ACCOUNT ACTION
+  // -----------------------------
+
+  const handleConfirm = async () => {
     if (!selectedUser || !modalAction) return;
 
-    setUsers((prev) =>
-      prev.map((user) => {
-        if (user.id !== selectedUser.id) return user;
+    try {
+      setLoading(true);
 
-        if (modalAction === "invite" || modalAction === "resend") {
-          return { ...user, status: "Invited", accountState: "Pending" };
-        }
+      if (modalAction === "invite" || modalAction === "resend") {
+        await inviteUserAccount(selectedUser.user_id);
+      }
 
-        if (modalAction === "disable") {
-          return { ...user, status: "Disabled", accountState: "Disabled" };
-        }
+      if (modalAction === "disable") {
+        await disableUserAccount(selectedUser.user_id);
+      }
 
-        if (modalAction === "reactivate") {
-          return { ...user, status: "Active", accountState: "Active" };
-        }
+      if (modalAction === "reactivate") {
+        await reactivateUserAccount(selectedUser.user_id);
+      }
 
-        return user;
-      }),
-    );
+      closeModal();
 
-    closeModal();
+      await loadUserAccounts();
+    } catch (error) {
+      console.error(`Failed to ${modalAction} account:`, error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const handleSearch = () => {
-    // Search already filters live via `search` state
-  };
+  // -----------------------------
+  // UI
+  // -----------------------------
 
   const searchPlaceholder =
-    accountTab === "Pending Accounts"
+    status === "pending"
       ? "Search Pending Account"
-      : accountTab === "Active Accounts"
+      : status === "active"
         ? "Search Active Account"
         : "Search Disabled Account";
 
   const modalConfig = modalAction ? ACTION_CONFIG[modalAction] : null;
 
+  const columns = [
+    {
+      id: "no",
+      header: "NO.",
+      cell: ({ row }) => {
+        return (page - 1) * limit + row.index + 1;
+      },
+    },
+
+    {
+      accessorKey: "email",
+      header: "EMAIL",
+    },
+
+    {
+      accessorKey: "role",
+      header: "ROLE",
+      cell: ({ getValue }) => {
+        const role = getValue();
+
+        if (!role) return "—";
+
+        return role.charAt(0).toUpperCase() + role.slice(1);
+      },
+    },
+
+    {
+      accessorKey: "created_at",
+      header: "ACTIVATION DATE",
+      cell: ({ getValue }) => {
+        const value = getValue();
+
+        if (!value) return "—";
+
+        return new Date(value).toLocaleDateString();
+      },
+    },
+
+    {
+      accessorKey: "account_status",
+      header: "STATUS",
+      cell: ({ getValue }) => {
+        const status = getValue();
+
+        if (!status) return "—";
+
+        const formatted = status.charAt(0).toUpperCase() + status.slice(1);
+
+        return (
+          <span className="rounded-full px-3 py-1 text-xs">{formatted}</span>
+        );
+      },
+    },
+
+    {
+      id: "action",
+      header: "ACTION",
+      cell: ({ row }) => {
+        const user = row.original;
+
+        if (status === "pending") {
+          return (
+            <button
+              type="button"
+              onClick={() => openModal("invite", user)}
+              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] font-[Poppins] "
+            >
+              Invite
+            </button>
+          );
+        }
+
+        if (status === "active") {
+          return (
+            <button
+              type="button"
+              onClick={() => openModal("disable", user)}
+              className="rounded-full text-egg px-3 py-1.5 bg-reject text-[12px] font-[Poppins] "
+            >
+              Disable
+            </button>
+          );
+        }
+
+        if (status === "disabled") {
+          return (
+            <button
+              type="button"
+              onClick={() => openModal("reactivate", user)}
+              className="rounded-full text-swamp-green px-3 py-1.5 bg-gray-200 text-[12px] font-[Poppins] "
+            >
+              Reactivate
+            </button>
+          );
+        }
+
+        return null;
+      },
+    },
+  ];
+
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins] sm:gap-3">
-      <UserHeader activeTab={accountTab} onTabChange={setAccountTab} />
+      <UserHeader activeTab={status} onTabChange={handleStatusChange} />
 
       <div className="flex min-h-0 flex-1 flex-col gap-2">
         <UserToolbar
-          activeTab={roleTab}
-          onTabChange={setRoleTab}
-          search={search}
-          onSearchChange={setSearch}
+          activeTab={role}
+          onTabChange={handleRoleChange}
+          search={searchInput}
+          onSearchChange={setSearchInput}
           onSearch={handleSearch}
           searchPlaceholder={searchPlaceholder}
         />
 
-        {/* <UserTable
-          users={filteredUsers}
-          onInvite={(user) => openModal("invite", user)}
-          onResend={(user) => openModal("resend", user)}
-          onDisable={(user) => openModal("disable", user)}
-          onReactivate={(user) => openModal("reactivate", user)}
-        /> */}
+        <DataTable
+          data={users}
+          columns={columns}
+          loading={loading}
+          emptyMessage={`No ${status} accounts found.`}
+          getRowId={(row) => String(row.user_id)}
+        />
+        <div className="flex items-center justify-between px-2 py-2">
+          <div className="text-xs text-gray-500">
+            Page {pagination.page} of {pagination.totalPages}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPage((prev) => prev - 1)}
+              disabled={page <= 1 || loading}
+              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Previous
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setPage((prev) => prev + 1)}
+              disabled={page >= pagination.totalPages || loading}
+              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Next
+            </button>
+          </div>
+        </div>
       </div>
 
       <UserActionModal

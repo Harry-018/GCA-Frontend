@@ -1,12 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import ScheduleToolbar from "../../Components/AdminComponents/Academic Management/Schedule/ScheduleToolbar";
-import ScheduleTable from "../../Components/AdminComponents/Academic Management/Schedule/ScheduleTable";
 import ScheduleModal from "../../Components/AdminModal/AcademicManagementPage/ScheduleModal";
 import AddScheduleModal from "../../Components/AdminComponents/Academic Management/Schedule/AddScheduleModal";
 import EditScheduleModal from "../../Components/AdminComponents/Academic Management/Schedule/EditScheduleModal";
 import RemoveScheduleModal from "../../Components/AdminComponents/Academic Management/Schedule/RemoveScheduleModal";
+import DataTable from "../../Components/DataTable.jsx";
+
+import {
+  getSectionSchedules,
+  getScheduleSubjects,
+  getScheduleTeachers,
+  getScheduleRooms,
+  getScheduleDays,
+  getScheduleTimes,
+  createSchedule,
+  editSchedule,
+  deleteSchedule,
+} from "../../requests/schedulesRequests.js";
 
 const NAV_ITEMS = [
   { name: "Students", path: "/admin/academic" },
@@ -17,9 +29,7 @@ const NAV_ITEMS = [
   { name: "Grade Levels", path: "/admin/academic/grade-levels" },
   { name: "School Years", path: "/admin/academic/school-years" },
 ];
-
 const SCHOOL_YEAR = "2026 - 2027";
-
 const DAYS = [
   { label: "Mon", value: "monday" },
   { label: "Tue", value: "tuesday" },
@@ -27,52 +37,6 @@ const DAYS = [
   { label: "Thu", value: "thursday" },
   { label: "Fri", value: "friday" },
 ];
-
-const DAY_OPTIONS = [
-  { id: 1, name: "Monday" },
-  { id: 2, name: "Tuesday" },
-  { id: 3, name: "Wednesday" },
-  { id: 4, name: "Thursday" },
-  { id: 5, name: "Friday" },
-];
-
-const SUBJECT_OPTIONS = [
-  { id: 1, name: "Physical Development" },
-  { id: 2, name: "Socio-Emotional Development" },
-  { id: 3, name: "Cognitive Development" },
-  { id: 4, name: "Spiritual Development" },
-  { id: 5, name: "Reading" },
-  { id: 6, name: "Numbers" },
-  { id: 7, name: "Arts and Crafts" },
-  { id: 8, name: "Story Time" },
-  { id: 9, name: "Music and Movement" },
-];
-
-const ROOM_OPTIONS = [
-  { id: 1, name: "Covered Court" },
-  { id: 2, name: "Mahogany - 3" },
-  { id: 3, name: "Sampaguita Room" },
-  { id: 4, name: "Library" },
-];
-
-const TIME_OPTIONS = [
-  { id: 1, label: "07:30 AM", value: "07:30 AM" },
-  { id: 2, label: "08:00 AM", value: "08:00 AM" },
-  { id: 3, label: "09:00 AM", value: "09:00 AM" },
-  { id: 4, label: "10:30 AM", value: "10:30 AM" },
-  { id: 5, label: "11:30 AM", value: "11:30 AM" },
-  { id: 6, label: "01:00 PM", value: "01:00 PM" },
-  { id: 7, label: "02:00 PM", value: "02:00 PM" },
-  { id: 8, label: "03:00 PM", value: "03:00 PM" },
-];
-
-const TEACHER_OPTIONS = [
-  { id: 1, name: "Carlos Agassi" },
-  { id: 2, name: "Kathryn Bernardo" },
-  { id: 3, name: "Henry Cavill" },
-  { id: 4, name: "Michelle Jones" },
-];
-
 const EMPTY_FORM = {
   subject: "",
   teacher: "",
@@ -81,207 +45,329 @@ const EMPTY_FORM = {
   from: "",
   to: "",
 };
+const formatTime = (time) => {
+  if (!time) return "";
+  const [hours, minutes] = String(time).split(":");
+  const date = new Date();
+  date.setHours(Number(hours), Number(minutes), 0, 0);
+  return date.toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
+};
 
-const scheduleData = [
-  {
-    id: 1,
-    subject: "Physical Development",
-    teacher: "Carlos Agassi",
-    day: "Monday",
-    time: "08:00 AM - 09:00 AM",
-    room: "Covered Court",
-  },
-  {
-    id: 2,
-    subject: "Socio-Emotional Development",
-    teacher: "Kathryn Bernardo",
-    day: "Monday",
-    time: "09:00 AM - 09:30 AM",
-    room: "Mahogany - 3",
-  },
-  {
-    id: 3,
-    subject: "Cognitive Development",
-    teacher: "Henry Cavill",
-    day: "Monday",
-    time: "09:30 AM - 10:30 AM",
-    room: "Mahogany - 3",
-  },
-  {
-    id: 4,
-    subject: "Spiritual Development",
-    teacher: "Michelle Jones",
-    day: "Monday",
-    time: "10:30 AM - 11:00 AM",
-    room: "Mahogany - 3",
-  },
-  {
-    id: 5,
-    subject: "Physical Development",
-    teacher: "Carlos Agassi",
-    day: "Tuesday",
-    time: "08:00 AM - 09:00 AM",
-    room: "Covered Court",
-  },
-  {
-    id: 6,
-    subject: "Socio-Emotional Development",
-    teacher: "Kathryn Bernardo",
-    day: "Tuesday",
-    time: "09:00 AM - 09:30 AM",
-    room: "Mahogany - 3",
-  },
-  {
-    id: 7,
-    subject: "Cognitive Development",
-    teacher: "Henry Cavill",
-    day: "Tuesday",
-    time: "09:30 AM - 10:30 AM",
-    room: "Mahogany - 3",
-  },
-];
+const normalizeTime = (time) => {
+  if (!time) return "";
+  return String(time).slice(0, 5);
+};
+
+const getTeacherName = (teacher) => {
+  return [teacher.first_name, teacher.middle_name, teacher.last_name]
+    .filter(Boolean)
+    .join(" ");
+};
 
 const ScheduleSetUp = () => {
   const [searchParams] = useSearchParams();
+  const sectionId = Number(searchParams.get("section_id"));
+  const level = searchParams.get("level") || "";
+  const section = searchParams.get("section") || "";
   const [activeDay, setActiveDay] = useState("monday");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [isAddScheduleOpen, setIsAddScheduleOpen] = useState(false);
   const [isEditScheduleOpen, setIsEditScheduleOpen] = useState(false);
   const [isRemoveOpen, setIsRemoveOpen] = useState(false);
   const [scheduleToRemove, setScheduleToRemove] = useState(null);
-  const [schedules, setSchedules] = useState(scheduleData);
+  const [editingSchedule, setEditingSchedule] = useState(null);
+  const [schedules, setSchedules] = useState([]);
+  const [subjects, setSubjects] = useState([]);
+  const [teachers, setTeachers] = useState([]);
+  const [rooms, setRooms] = useState([]);
+  const [days, setDays] = useState([]);
+  const [times, setTimes] = useState([]);
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [editData, setEditData] = useState(EMPTY_FORM);
-  const [editingSchedule, setEditingSchedule] = useState(null);
-  const level = searchParams.get("level") || "";
-  const section = searchParams.get("section") || "";
+  const [loading, setLoading] = useState(true);
 
-  const handleSchedule = () => {
-    setIsScheduleOpen(true);
-  };
-
+  useEffect(() => {
+    if (!sectionId || sectionId <= 0) {
+      setLoading(false);
+      return;
+    }
+    const loadScheduleData = async () => {
+      try {
+        setLoading(true);
+        const [
+          schedulesData,
+          subjectsData,
+          teachersData,
+          roomsData,
+          daysData,
+          timesData,
+        ] = await Promise.all([
+          getSectionSchedules(sectionId),
+          getScheduleSubjects(sectionId),
+          getScheduleTeachers(),
+          getScheduleRooms(),
+          getScheduleDays(),
+          getScheduleTimes(),
+        ]);
+        setSchedules(schedulesData);
+        setSubjects(subjectsData);
+        setTeachers(teachersData);
+        setRooms(roomsData);
+        setDays(daysData);
+        setTimes(timesData);
+      } catch (error) {
+        console.error("Failed to load schedule setup data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadScheduleData();
+  }, [sectionId]);
+  const subjectOptions = useMemo(
+    () =>
+      subjects.map((subject) => ({
+        id: subject.subject_id,
+        name: subject.subject_name,
+      })),
+    [subjects],
+  );
+  const teacherOptions = useMemo(
+    () =>
+      teachers.map((teacher) => ({
+        id: teacher.teacher_id,
+        name: getTeacherName(teacher),
+      })),
+    [teachers],
+  );
+  const roomOptions = useMemo(
+    () => rooms.map((room) => ({ id: room.room_id, name: room.room_name })),
+    [rooms],
+  );
+  const dayOptions = useMemo(
+    () => days.map((day) => ({ id: day.day_id, name: day.day_name })),
+    [days],
+  );
+  const timeOptions = useMemo(
+    () =>
+      times.map((time) => ({
+        id: time.sched_time_id,
+        start: normalizeTime(time.sched_start_time),
+        end: normalizeTime(time.sched_end_time),
+        startLabel: formatTime(time.sched_start_time),
+        endLabel: formatTime(time.sched_end_time),
+        label: `${formatTime(time.sched_start_time)} - ${formatTime(
+          time.sched_end_time,
+        )}`,
+      })),
+    [times],
+  );
   const handleAddSchedule = () => {
     setFormData(EMPTY_FORM);
     setIsAddScheduleOpen(true);
   };
-
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
-  const handleAdd = () => {
+  const handleAdd = async () => {
     if (
       !formData.subject ||
       !formData.teacher ||
       !formData.day ||
       !formData.room ||
-      !formData.from
+      !formData.from ||
+      !formData.to
     ) {
       return;
     }
-
-    const time = formData.to
-      ? `${formData.from} - ${formData.to}`
-      : formData.from;
-
-    setSchedules((prev) => [
-      ...prev,
-      {
-        id: Date.now(),
-        subject: formData.subject,
-        teacher: formData.teacher,
-        day: formData.day,
-        time,
-        room: formData.room,
-      },
-    ]);
-    setIsAddScheduleOpen(false);
-    setFormData(EMPTY_FORM);
+    const selectedTime = timeOptions.find(
+      (time) => time.start === formData.from && time.end === formData.to,
+    );
+    if (!selectedTime) {
+      console.error("Selected schedule time was not found.");
+      return;
+    }
+    try {
+      const result = await createSchedule({
+        section_id: sectionId,
+        subject_id: Number(formData.subject),
+        teacher_id: Number(formData.teacher),
+        day_id: Number(formData.day),
+        room_id: Number(formData.room),
+        sched_time_id: Number(selectedTime.id),
+      });
+      console.log("Schedule created:", result);
+      const updatedSchedules = await getSectionSchedules(sectionId);
+      setSchedules(updatedSchedules);
+      setIsAddScheduleOpen(false);
+      setFormData(EMPTY_FORM);
+    } catch (error) {
+      console.error("Failed to create schedule:", error);
+      const message =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        "Failed to create schedule.";
+      alert(message);
+    }
   };
-
   const handleEdit = (schedule) => {
     setEditingSchedule(schedule);
-
-    const [from, to] = schedule.time.split(" - ");
-
     setEditData({
-      subject: schedule.subject,
-      teacher: schedule.teacher,
-      day: schedule.day,
-      room: schedule.room,
-      from,
-      to: to ?? "",
+      subject: String(schedule.subject_id),
+      teacher: String(schedule.teacher_id),
+      day: String(schedule.day_id),
+      room: String(schedule.room_id),
+      from: normalizeTime(schedule.sched_start_time),
+      to: normalizeTime(schedule.sched_end_time),
     });
     setIsEditScheduleOpen(true);
   };
-
   const handleEditChange = (event) => {
     const { name, value } = event.target;
     setEditData((prev) => ({ ...prev, [name]: value }));
   };
-
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!editingSchedule) return;
-
-    const time = editData.to
-      ? `${editData.from} - ${editData.to}`
-      : editData.from;
-
-    setSchedules((prev) =>
-      prev.map((item) =>
-        item.id === editingSchedule.id
-          ? {
-              ...item,
-              subject: editData.subject,
-              teacher: editData.teacher,
-              day: editData.day,
-              room: editData.room,
-              time,
-            }
-          : item
-      )
+    if (
+      !editData.subject ||
+      !editData.teacher ||
+      !editData.day ||
+      !editData.room ||
+      !editData.from ||
+      !editData.to
+    ) {
+      return;
+    }
+    const selectedTime = timeOptions.find(
+      (time) => time.start === editData.from && time.end === editData.to,
     );
-    setIsEditScheduleOpen(false);
-    setEditingSchedule(null);
+    if (!selectedTime) {
+      console.error("Selected schedule time was not found.");
+      return;
+    }
+    try {
+      const result = await editSchedule(editingSchedule.schedule_id, {
+        section_id: sectionId,
+        subject_id: Number(editData.subject),
+        teacher_id: Number(editData.teacher),
+        day_id: Number(editData.day),
+        room_id: Number(editData.room),
+        sched_time_id: Number(selectedTime.id),
+      });
+      console.log("Schedule updated:", result);
+      const updatedSchedules = await getSectionSchedules(sectionId);
+      setSchedules(updatedSchedules);
+      setIsEditScheduleOpen(false);
+      setEditingSchedule(null);
+      setEditData(EMPTY_FORM);
+    } catch (error) {
+      console.error("Failed to update schedule:", error);
+      const message =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        "Failed to update schedule.";
+      alert(message);
+    }
   };
-
   const handleRemove = (schedule) => {
     setScheduleToRemove(schedule);
     setIsRemoveOpen(true);
   };
-
-  const confirmRemove = () => {
+  const confirmRemove = async () => {
     if (!scheduleToRemove) return;
-
-    setSchedules((prev) => prev.filter((item) => item.id !== scheduleToRemove.id));
-    setIsRemoveOpen(false);
-    setScheduleToRemove(null);
+    try {
+      await deleteSchedule(scheduleToRemove.schedule_id);
+      const updatedSchedules = await getSectionSchedules(sectionId);
+      setSchedules(updatedSchedules);
+      setIsRemoveOpen(false);
+      setScheduleToRemove(null);
+    } catch (error) {
+      console.error("Failed to delete schedule:", error);
+      const message =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        "Failed to delete schedule.";
+      alert(message);
+    }
   };
-
+  const activeDayId = days.find(
+    (day) => day.day_name.toLowerCase() === activeDay,
+  )?.day_id;
   const filteredSchedules = schedules.filter(
-    (schedule) => schedule.day.toLowerCase() === activeDay
+    (schedule) => Number(schedule.day_id) === Number(activeDayId),
+  );
+  const columns = useMemo(
+    () => [
+      { accessorKey: "subject_name", header: "SUBJECT" },
+      {
+        id: "teacher",
+        header: "TEACHER",
+        accessorFn: (row) =>
+          [row.first_name, row.middle_name, row.last_name]
+            .filter(Boolean)
+            .join(" "),
+      },
+      { accessorKey: "day_name", header: "DAY" },
+      { accessorKey: "room_name", header: "ROOM" },
+      {
+        accessorKey: "sched_start_time",
+        header: "START TIME",
+        cell: ({ row }) => formatTime(row.original.sched_start_time),
+      },
+      {
+        accessorKey: "sched_end_time",
+        header: "END TIME",
+        cell: ({ row }) => formatTime(row.original.sched_end_time),
+      },
+      {
+        id: "actions",
+        header: "ACTIONS",
+        cell: ({ row }) => (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => handleEdit(row.original)}
+              className="rounded-full border border-gray-300 px-3 py-1 text-xs text-gray-600 transition hover:bg-gray-100"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              onClick={() => handleRemove(row.original)}
+              className="rounded-full px-3 py-1 text-xs text-egg transition bg-reject hover:bg-reject/80"
+            >
+              Remove
+            </button>
+          </div>
+        ),
+      },
+    ],
+    [],
   );
 
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
-
       <ScheduleToolbar
         sectionName={section}
         schoolYear={SCHOOL_YEAR}
         days={DAYS}
         activeDay={activeDay}
         onDayChange={setActiveDay}
-        onViewSchedule={handleSchedule}
+        onViewSchedule={() => setIsScheduleOpen(true)}
         onAddSchedule={handleAddSchedule}
       />
-
       <div className="flex min-h-0 flex-1 flex-col gap-4 py-2">
-        <ScheduleTable
-          schedules={filteredSchedules}
-          onEdit={handleEdit}
-          onRemove={handleRemove}
+        <DataTable
+          data={filteredSchedules}
+          columns={columns}
+          loading={loading}
+          emptyMessage="No schedules found for this day."
+          getRowId={(row) => String(row.schedule_id)}
         />
       </div>
 
@@ -297,11 +383,11 @@ const ScheduleSetUp = () => {
           gradeLevel={level}
           schoolYear={SCHOOL_YEAR}
           section={section}
-          subjects={SUBJECT_OPTIONS}
-          teachers={TEACHER_OPTIONS}
-          days={DAY_OPTIONS}
-          rooms={ROOM_OPTIONS}
-          times={TIME_OPTIONS}
+          subjects={subjectOptions}
+          teachers={teacherOptions}
+          days={dayOptions}
+          rooms={roomOptions}
+          times={timeOptions}
           formData={formData}
           onChange={handleChange}
           onCancel={() => setIsAddScheduleOpen(false)}
@@ -314,14 +400,17 @@ const ScheduleSetUp = () => {
           gradeLevel={level}
           schoolYear={SCHOOL_YEAR}
           section={section}
-          subjects={SUBJECT_OPTIONS}
-          teachers={TEACHER_OPTIONS}
-          days={DAY_OPTIONS}
-          rooms={ROOM_OPTIONS}
-          times={TIME_OPTIONS}
+          subjects={subjectOptions}
+          teachers={teacherOptions}
+          days={dayOptions}
+          rooms={roomOptions}
+          times={timeOptions}
           formData={editData}
           onChange={handleEditChange}
-          onCancel={() => setIsEditScheduleOpen(false)}
+          onCancel={() => {
+            setIsEditScheduleOpen(false);
+            setEditingSchedule(null);
+          }}
           onSave={handleSave}
         />
       )}
@@ -329,10 +418,13 @@ const ScheduleSetUp = () => {
       {isRemoveOpen && (
         <RemoveScheduleModal
           isOpen={isRemoveOpen}
-          onClose={() => setIsRemoveOpen(false)}
+          onClose={() => {
+            setIsRemoveOpen(false);
+            setScheduleToRemove(null);
+          }}
           scheduleName={
             scheduleToRemove
-              ? `${scheduleToRemove.subject} on ${scheduleToRemove.day}`
+              ? `${scheduleToRemove.subject_name} on ${scheduleToRemove.day_name}`
               : ""
           }
           onRemove={confirmRemove}

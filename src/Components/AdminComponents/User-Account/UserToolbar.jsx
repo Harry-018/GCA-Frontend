@@ -1,31 +1,35 @@
 import React from "react";
 
 const UserToolbar = ({
-  activeTab = "All",
+  activeTab = "all",
   onTabChange,
   search = "",
   onSearchChange,
   onSearch,
   searchPlaceholder = "Search Account",
 }) => {
-  const tabs = ["All", "Parent", "Teacher"];
+  const tabs = [
+    { label: "All", value: "all" },
+    { label: "Parent", value: "parent" },
+    { label: "Teacher", value: "teacher" },
+  ];
 
   return (
     <div className="flex w-full flex-col gap-2 py-1 md:flex-row md:flex-nowrap md:items-center md:justify-end md:gap-3">
-      {/* Role pills — beside search from md up */}
+      {/* Role pills */}
       <div className="flex shrink-0 gap-1.5 overflow-x-auto [-ms-overflow-style:none] scrollbar:none [&::-webkit-scrollbar]:hidden sm:gap-2 md:overflow-visible">
         {tabs.map((tab) => (
           <button
-            key={tab}
+            key={tab.value}
             type="button"
-            onClick={() => onTabChange?.(tab)}
+            onClick={() => onTabChange?.(tab.value)}
             className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-[Poppins] text-[11px] transition sm:px-5 sm:text-xs ${
-              activeTab === tab
+              activeTab === tab.value
                 ? "bg-swamp-green text-white"
                 : "bg-transparent text-gray-500 hover:text-gray-700"
             }`}
           >
-            {tab}
+            {tab.label}
           </button>
         ))}
       </div>
