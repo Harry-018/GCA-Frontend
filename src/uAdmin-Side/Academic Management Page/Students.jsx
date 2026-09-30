@@ -158,6 +158,26 @@ const Students = () => {
       {
         accessorKey: "stu_status",
         header: "STATUS",
+        cell: ({ row }) => {
+          const status = row.original.stu_status;
+
+          const formatted = status
+            ? status.charAt(0).toUpperCase() + status.slice(1)
+            : "—";
+          return (
+            <span
+              className={`rounded-full px-3 py-1 text-xs font-medium ${
+                status === "active"
+                  ? "bg-green-100 text-green-700"
+                  : status === "pending"
+                    ? "bg-yellow-100 text-yellow-700"
+                    : "bg-red-100 text-red-700"
+              }`}
+            >
+              {formatted}
+            </span>
+          );
+        },
       },
       {
         accessorKey: "option_name",

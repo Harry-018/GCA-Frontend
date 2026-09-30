@@ -191,6 +191,12 @@ const UserAccount = () => {
       accessorKey: "email",
       header: "EMAIL",
     },
+    {
+      id: "full_name",
+      header: "FULL NAME",
+      accessorFn: (row) => `${row.first_name} ${row.last_name}`,
+      cell: ({ getValue }) => getValue(),
+    },
 
     {
       accessorKey: "role",
@@ -207,27 +213,42 @@ const UserAccount = () => {
     {
       accessorKey: "created_at",
       header: "ACTIVATION DATE",
-      cell: ({ getValue }) => {
-        const value = getValue();
+      cell: (info) => {
+        const value = info.getValue();
 
         if (!value) return "—";
 
-        return new Date(value).toLocaleDateString();
+        return new Date(value).toLocaleDateString("en-PH", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
       },
     },
 
     {
       accessorKey: "account_status",
       header: "STATUS",
-      cell: ({ getValue }) => {
-        const status = getValue();
+      cell: ({ row }) => {
+        const status = row.original.account_status;
 
-        if (!status) return "—";
-
-        const formatted = status.charAt(0).toUpperCase() + status.slice(1);
-
+        const formatted = status
+          ? status.charAt(0).toUpperCase() + status.slice(1)
+          : "—";
         return (
-          <span className="rounded-full px-3 py-1 text-xs">{formatted}</span>
+          <span
+            className={`rounded-full px-3 py-1 text-xs font-medium ${
+              status === "active"
+                ? "bg-green-100 text-green-700"
+                : status === "pending"
+                  ? "bg-yellow-100 text-yellow-700"
+                  : "bg-red-100 text-red-700"
+            }`}
+          >
+            {formatted}
+          </span>
         );
       },
     },
@@ -267,7 +288,7 @@ const UserAccount = () => {
             <button
               type="button"
               onClick={() => openModal("reactivate", user)}
-              className="rounded-full text-swamp-green px-3 py-1.5 bg-gray-200 text-[12px] font-[Poppins] "
+              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] font-[Poppins] "
             >
               Reactivate
             </button>

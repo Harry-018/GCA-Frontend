@@ -13,7 +13,7 @@ const UserActionModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4 ">
       <div className="flex w-full max-w-md flex-col gap-y-4 rounded-2xl bg-[#f4f5fc] p-5 shadow-lg sm:p-6">
         <h2
           className={`font-[PoppinsBold] text-sm sm:text-base ${

@@ -245,7 +245,7 @@ const Teacher = () => {
                 ? "bg-green-100 text-green-700"
                 : status === "on_leave"
                   ? "bg-yellow-100 text-yellow-700"
-                  : "bg-gray-100 text-gray-600"
+                  : "bg-red-100 text-red-700"
             }`}
           >
             {formatted}
@@ -273,7 +273,7 @@ const Teacher = () => {
                 ? "bg-green-100 text-green-700"
                 : status === "pending"
                   ? "bg-yellow-100 text-yellow-700"
-                  : "bg-gray-100 text-gray-600"
+                  : "bg-red-100 text-red-700"
             }`}
           >
             {formatted}
