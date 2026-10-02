@@ -6,6 +6,7 @@ const EditContactModal = ({
   onChange,
   onClose,
   onSave,
+  saving,
 }) => {
   if (!isOpen) return null;
 
@@ -73,9 +74,10 @@ const EditContactModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+            disabled={saving}
+            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
           >
-            Save
+            {saving ? "Saving..." : "Save"}
           </button>
         </div>
       </div>

@@ -1,6 +1,22 @@
 import API from "../api/api.js";
 
 // =================
+// SCHOOL INFORMATION
+// =================
+
+export const getSchoolInformation = async () => {
+  const response = await API.get("/api/settings/school-information");
+
+  return response.data;
+};
+
+export const updateSchoolInformation = async (data) => {
+  const response = await API.put("/api/settings/school-information", data);
+
+  return response.data;
+};
+
+// =================
 // SECTION NAMES
 // =================
 

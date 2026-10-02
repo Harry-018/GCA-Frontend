@@ -1,12 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-const EditAnnouncementModal = ({
-  isOpen,
-  onClose,
-  onSave,
-  announcement,
-}) => {
+const EditAnnouncementModal = ({ isOpen, onClose, onSave, announcement }) => {
   const [formData, setFormData] = useState({
     title: "",
     eventDate: "",
@@ -15,11 +10,8 @@ const EditAnnouncementModal = ({
     venue: "",
     description: "",
   });
-  const [prevAnnouncement, setPrevAnnouncement] = useState(null);
 
-  if (announcement !== prevAnnouncement) {
-    setPrevAnnouncement(announcement);
-
+  useEffect(() => {
     if (announcement) {
       setFormData({
         title: announcement.title || "",
@@ -30,20 +22,25 @@ const EditAnnouncementModal = ({
         description: announcement.description || "",
       });
     }
-  }
+  }, [announcement]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value.toUpperCase(),
+      [name]:
+        name === "title" || name === "venue" ? value.toUpperCase() : value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave?.({ ...announcement, ...formData });
+
+    onSave?.({
+      ...announcement,
+      ...formData,
+    });
   };
 
   if (!isOpen) return null;
@@ -60,9 +57,24 @@ const EditAnnouncementModal = ({
     return `${String(hour).padStart(2, "0")}:${minute}`;
   });
 
+  const formatTime = (time) => {
+    if (!time) return "";
+
+    const [hour, minute] = time.split(":");
+
+    const date = new Date();
+    date.setHours(Number(hour), Number(minute));
+
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="relative flex max-h-[95vh] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-gray-200 bg-[#f4f6ff] p-5 shadow-lg">
+        {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-bold text-[#91a978]">
             Edit Announcement
@@ -71,7 +83,7 @@ const EditAnnouncementModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600"
+            className="text-gray-400 transition-colors hover:text-gray-600"
             aria-label="Close modal"
           >
             <X size={18} />
@@ -80,8 +92,9 @@ const EditAnnouncementModal = ({
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          {/* Title and Event Date */}
+          {/* Title + Event Date */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-[2fr_1.2fr]">
+            {/* Title */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="title" className={labelStyle}>
                 Title:
@@ -98,6 +111,7 @@ const EditAnnouncementModal = ({
               />
             </div>
 
+            {/* Event Date */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="eventDate" className={labelStyle}>
                 Event Date:
@@ -115,8 +129,9 @@ const EditAnnouncementModal = ({
             </div>
           </div>
 
-          {/* Start Time and End Time */}
+          {/* Start Time + End Time */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Start Time */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="startTime" className={labelStyle}>
                 Start Time:
@@ -134,19 +149,13 @@ const EditAnnouncementModal = ({
 
                 {timeOptions.map((time) => (
                   <option key={time} value={time}>
-                    {new Date(`2000-01-01T${time}`).toLocaleTimeString(
-                      "en-US",
-                      {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: true,
-                      }
-                    )}
+                    {formatTime(time)}
                   </option>
                 ))}
               </select>
             </div>
 
+            {/* End Time */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="endTime" className={labelStyle}>
                 End Time:
@@ -164,14 +173,7 @@ const EditAnnouncementModal = ({
 
                 {timeOptions.map((time) => (
                   <option key={time} value={time}>
-                    {new Date(`2000-01-01T${time}`).toLocaleTimeString(
-                      "en-US",
-                      {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                        hour12: true,
-                      }
-                    )}
+                    {formatTime(time)}
                   </option>
                 ))}
               </select>
@@ -206,7 +208,7 @@ const EditAnnouncementModal = ({
               name="description"
               value={formData.description}
               onChange={handleChange}
-              rows={5}
+              rows={8}
               className={`${inputStyle} resize-none`}
               required
             />

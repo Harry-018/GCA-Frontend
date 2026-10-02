@@ -16,7 +16,8 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: value.toUpperCase(),
+      [name]:
+        name === "title" || name === "venue" ? value.toUpperCase() : value,
     }));
   };
 
@@ -42,13 +43,31 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
 
   const labelStyle = "text-2xs text-gray-600";
 
+  const timeOptions = Array.from({ length: 48 }, (_, index) => {
+    const hour = Math.floor(index / 2);
+    const minute = index % 2 === 0 ? "00" : "30";
+
+    return `${String(hour).padStart(2, "0")}:${minute}`;
+  });
+
+  const formatTime = (time) => {
+    const [hour, minute] = time.split(":");
+
+    const date = new Date();
+    date.setHours(Number(hour), Number(minute));
+
+    return date.toLocaleTimeString("en-US", {
+      hour: "numeric",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="relative flex max-h-[95vh] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-gray-200 bg-[#f4f6ff] p-5 shadow-lg">
+        {/* Header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-bold text-[#91a978]">
-            Add Announcement
-          </h2>
+          <h2 className="text-sm font-bold text-[#91a978]">Add Announcement</h2>
 
           <button
             type="button"
@@ -62,8 +81,9 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-          {/* Title and Event Date */}
+          {/* Title + Event Date */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-[2fr_1.2fr]">
+            {/* Title */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="title" className={labelStyle}>
                 Title:
@@ -80,6 +100,7 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
               />
             </div>
 
+            {/* Event Date */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="eventDate" className={labelStyle}>
                 Event Date:
@@ -97,8 +118,9 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
             </div>
           </div>
 
-          {/* Start Time and End Time */}
+          {/* Start Time + End Time */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {/* Start Time */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="startTime" className={labelStyle}>
                 Start Time:
@@ -114,26 +136,15 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
               >
                 <option value="">Select Time</option>
 
-                {Array.from({ length: 24 }, (_, hour) =>
-                  ["00", "30"].map((minute) => {
-                    const time = `${String(hour).padStart(2, "0")}:${minute}`;
-
-                    return (
-                      <option key={time} value={time}>
-                        {new Date(`2000-01-01T${time}`).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "numeric",
-                            minute: "2-digit",
-                          }
-                        )}
-                      </option>
-                    );
-                  })
-                )}
+                {timeOptions.map((time) => (
+                  <option key={time} value={time}>
+                    {formatTime(time)}
+                  </option>
+                ))}
               </select>
             </div>
 
+            {/* End Time */}
             <div className="flex flex-col gap-1.5">
               <label htmlFor="endTime" className={labelStyle}>
                 End Time:
@@ -149,23 +160,11 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
               >
                 <option value="">Select Time</option>
 
-                {Array.from({ length: 24 }, (_, hour) =>
-                  ["00", "30"].map((minute) => {
-                    const time = `${String(hour).padStart(2, "0")}:${minute}`;
-
-                    return (
-                      <option key={time} value={time}>
-                        {new Date(`2000-01-01T${time}`).toLocaleTimeString(
-                          "en-US",
-                          {
-                            hour: "numeric",
-                            minute: "2-digit",
-                          }
-                        )}
-                      </option>
-                    );
-                  })
-                )}
+                {timeOptions.map((time) => (
+                  <option key={time} value={time}>
+                    {formatTime(time)}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
@@ -198,7 +197,7 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
               name="description"
               value={formData.description}
               onChange={handleChange}
-              rows={5}
+              rows={8}
               className={`${inputStyle} resize-none`}
               required
             />

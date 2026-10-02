@@ -61,6 +61,7 @@ import AdminSectionName from "./uAdmin-Side/AdminSectionName.jsx";
 import AdminSubjects from "./uAdmin-Side/AdminSubjects.jsx";
 import AdminSkills from "./uAdmin-Side/AdminSkills.jsx";
 import Announcement from "./uAdmin-Side/Communication/Announcements.jsx";
+import AnnouncementList from "./uAdmin-Side/Communication/AnnouncementList.jsx";
 import Notification from "./uAdmin-Side/Communication/Notifications.jsx";
 
 //loaders
@@ -200,6 +201,10 @@ const App = () => {
               element={<AdminSkills />}
             />
             <Route path="communication" element={<Announcement />} />
+            <Route
+              path="communication/announcements"
+              element={<AnnouncementList />}
+            />
             <Route
               path="communication/notifications"
               element={<Notification />}
