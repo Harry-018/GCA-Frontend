@@ -61,9 +61,6 @@ const SectionClass = () => {
         getAdviserTeachers(),
       ]);
 
-      console.log("Section names:", sectionNamesResult);
-      console.log("Adviser teachers:", teachersResult);
-
       setSectionNames(sectionNamesResult.data || []);
       setTeachers(teachersResult.data || []);
     } catch (error) {

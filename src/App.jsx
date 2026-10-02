@@ -56,6 +56,12 @@ import Skills from "./uAdmin-Side/Academic Management Page/Skills.jsx";
 import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
 import UserAccount from "./uAdmin-Side/UserAccount.jsx";
+import AdminSettings from "./uAdmin-Side/AdminSettings.jsx";
+import AdminSectionName from "./uAdmin-Side/AdminSectionName.jsx";
+import AdminSubjects from "./uAdmin-Side/AdminSubjects.jsx";
+import AdminSkills from "./uAdmin-Side/AdminSkills.jsx";
+import Announcement from "./uAdmin-Side/Communication/Announcements.jsx";
+import Notification from "./uAdmin-Side/Communication/Notifications.jsx";
 
 //loaders
 import {
@@ -74,11 +80,16 @@ import NotFound from "./notFound.jsx";
 import NotAuth from "./notauth.jsx";
 import RouterErrorBoundary from "./RouterErrorBoundary.jsx";
 
+import Home from "./uAdmin-Side/Website Management Page/Home.jsx";
+import Transpo from "./uAdmin-Side/Website Management Page/Transpo.jsx";
+import Tuition from "./uAdmin-Side/Website Management Page/Tuition.jsx";
+
 const App = () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route element={<ScrollToTop />} errorElement={RouterErrorBoundary}>
+          {/* PUBLIC */}
           <Route path="*" element={<NotFound />} />
           <Route path="/notauth" element={<NotAuth />} />
           <Route path="/" element={<HomePage />} />
@@ -103,6 +114,8 @@ const App = () => {
           <Route path="/thanksforapply" element={<ThanksforApply />} />
           <Route path="/tuitionfee" element={<TuitionPage />} />
 
+          {/* PARENT */}
+
           <Route
             path="/parents"
             element={
@@ -115,6 +128,9 @@ const App = () => {
             <Route path="grades/:studentId" element={<Grades />} />
             <Route path="security" element={<Security />} />
           </Route>
+
+          {/* TEACHER */}
+
           <Route
             path="/teacher"
             element={
@@ -131,6 +147,8 @@ const App = () => {
             <Route path="gradesreport/:schoolId" element={<GradesReport />} />
             <Route path="security" element={<Settings />} />
           </Route>
+
+          {/* ADMIN */}
 
           <Route
             path="/admin"
@@ -171,6 +189,24 @@ const App = () => {
               loader={submissionDocsLoader}
             />
             <Route path="users" element={<UserAccount />} />
+            <Route path="settings" element={<AdminSettings />} />
+            <Route
+              path="settings/section-name"
+              element={<AdminSectionName />}
+            />
+            <Route path="settings/subjects/" element={<AdminSubjects />} />
+            <Route
+              path="settings/subjects/:subjectId/skills"
+              element={<AdminSkills />}
+            />
+            <Route path="communication" element={<Announcement />} />
+            <Route
+              path="communication/notifications"
+              element={<Notification />}
+            />
+            <Route path="website" element={<Home />} />
+            <Route path="website/transpo" element={<Transpo />} />
+            <Route path="website/tuition" element={<Tuition />} />
           </Route>
         </Route>
       </>,

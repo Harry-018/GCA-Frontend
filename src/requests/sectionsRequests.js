@@ -99,7 +99,7 @@ export const getAdviserTeachers = async () => {
 };
 
 export const getSectionNames = async () => {
-  const response = await API.get("/api/sections/names");
+  const response = await API.get("/api/settings/section-names");
 
   return response.data;
 };

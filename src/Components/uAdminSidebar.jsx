@@ -1,4 +1,3 @@
-
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -17,17 +16,18 @@ import AdminMobileSidebar from "./uAdminMobileSidebar";
 const MENU_ITEMS = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/admin", end: true },
   { label: "Admission", icon: UserPlus, path: "/admin/admission" },
-  { label: "Academic Management", icon: GraduationCap, path: "/admin/academic" },
+  {
+    label: "Academic Management",
+    icon: GraduationCap,
+    path: "/admin/academic",
+  },
   { label: "User Accounts", icon: Users, path: "/admin/users" },
-  { label: "Notifications", icon: Bell, path: "/admin/notifications" },
+  { label: "Communication", icon: Bell, path: "/admin/communication" },
   { label: "Website Management", icon: Globe, path: "/admin/website" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];
 
-const ADMISSION_PATHS = [
-  "/admin/admission",
-  "/admin/submission",
-];
+const ADMISSION_PATHS = ["/admin/admission", "/admin/submission"];
 
 // Desktop sidebar content
 const SidebarContent = () => {
@@ -43,10 +43,7 @@ const SidebarContent = () => {
       return pathname === item.path;
     }
 
-    return (
-      pathname === item.path ||
-      pathname.startsWith(`${item.path}/`)
-    );
+    return pathname === item.path || pathname.startsWith(`${item.path}/`);
   };
 
   const handleLogout = () => {
@@ -117,10 +114,7 @@ const uAdminSidebar = ({ open = false, onClose }) => {
   return (
     <>
       {/* Mobile sidebar */}
-      <AdminMobileSidebar
-        open={open}
-        onClose={onClose}
-      />
+      <AdminMobileSidebar open={open} onClose={onClose} />
 
       {/* Desktop sidebar */}
       <aside className="fixed left-0 top-0 z-30 hidden h-full w-52 shrink-0 flex-col gap-5 px-3 py-4 lg:flex xl:static xl:w-60 xl:px-0 xl:py-0">
