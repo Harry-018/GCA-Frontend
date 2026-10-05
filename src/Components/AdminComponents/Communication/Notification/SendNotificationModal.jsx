@@ -1,38 +1,61 @@
-import React, { useState } from "react";
-import { ChevronDown } from "lucide-react";
-
-const DEFAULT_REMINDERS = ["Tuition Reminder"];
-const DEFAULT_RECIPIENTS = ["Parents"];
-const DEFAULT_PAYMENT_OPTIONS = ["Paylite", "All-In", "Full Cash"];
+import React, { useEffect, useState } from "react";
+import { ChevronDown, Loader2 } from "lucide-react";
 
 const SendNotificationModal = ({
-  isOpen = true,
+  isOpen = false,
   onClose,
   onSubmit,
-  reminders = DEFAULT_REMINDERS,
-  recipients = DEFAULT_RECIPIENTS,
-  paymentOptions = DEFAULT_PAYMENT_OPTIONS,
+  notificationTemplates = [],
+  notificationAudiences = [],
+  paymentOptions = [],
 }) => {
-  const [selectedReminder, setSelectedReminder] = useState(
-    reminders[0] || ""
-  );
+  const [selectedReminder, setSelectedReminder] = useState("");
 
-  const [selectedRecipient, setSelectedRecipient] = useState(
-    recipients[0] || ""
-  );
+  const [selectedRecipient, setSelectedRecipient] = useState("");
 
-  const [selectedPayment, setSelectedPayment] = useState(
-    paymentOptions[0] || ""
-  );
+  const [selectedPayment, setSelectedPayment] = useState("");
 
-  const handleSubmit = (e) => {
+  const [sending, setSending] = useState(false);
+
+  // Select the first payment option once the API data arrives
+  useEffect(() => {
+    if (paymentOptions.length > 0) {
+      setSelectedPayment(String(paymentOptions[0].payment_option_id));
+    }
+  }, [paymentOptions]);
+
+  useEffect(() => {
+    if (notificationTemplates.length > 0) {
+      setSelectedReminder(String(notificationTemplates[0].template_id));
+    }
+  }, [notificationTemplates]);
+
+  useEffect(() => {
+    if (notificationAudiences.length > 0) {
+      setSelectedRecipient(notificationAudiences[0].value);
+    }
+  }, [notificationAudiences]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    onSubmit?.({
-      reminder: selectedReminder,
-      sentTo: selectedRecipient,
-      paymentOption: selectedPayment,
-    });
+    if (!selectedReminder || !selectedRecipient || !selectedPayment) {
+      return;
+    }
+
+    try {
+      setSending(true);
+
+      await onSubmit?.({
+        templateId: Number(selectedReminder),
+        sentTo: selectedRecipient,
+        paymentOptionId: Number(selectedPayment),
+      });
+    } catch (error) {
+      console.error("Failed to send notification:", error);
+    } finally {
+      setSending(false);
+    }
   };
 
   if (!isOpen) return null;
@@ -44,10 +67,8 @@ const SendNotificationModal = ({
           Send Notification
         </h2>
 
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-5"
-        >
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+          {/* Select Reminder */}
           {/* Select Reminder */}
           <div className="flex flex-col gap-1.5">
             <label className="text-xs font-medium text-gray-600">
@@ -58,13 +79,21 @@ const SendNotificationModal = ({
               <select
                 value={selectedReminder}
                 onChange={(e) => setSelectedReminder(e.target.value)}
-                className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-8 text-xs text-gray-600 outline-none focus:border-[#91a77c]"
+                disabled={notificationTemplates.length === 0 || sending}
+                className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-8 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
               >
-                {reminders.map((reminder) => (
-                  <option key={reminder} value={reminder}>
-                    {reminder}
-                  </option>
-                ))}
+                {notificationTemplates.length === 0 ? (
+                  <option value="">No reminders</option>
+                ) : (
+                  notificationTemplates.map((template) => (
+                    <option
+                      key={template.template_id}
+                      value={template.template_id}
+                    >
+                      {template.purpose_name}
+                    </option>
+                  ))
+                )}
               </select>
 
               <ChevronDown
@@ -85,16 +114,19 @@ const SendNotificationModal = ({
               <div className="relative">
                 <select
                   value={selectedRecipient}
-                  onChange={(e) =>
-                    setSelectedRecipient(e.target.value)
-                  }
-                  className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c]"
+                  onChange={(e) => setSelectedRecipient(e.target.value)}
+                  disabled={notificationAudiences.length === 0 || sending}
+                  className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
-                  {recipients.map((recipient) => (
-                    <option key={recipient} value={recipient}>
-                      {recipient}
-                    </option>
-                  ))}
+                  {notificationAudiences.length === 0 ? (
+                    <option value="">No recipients</option>
+                  ) : (
+                    notificationAudiences.map((audience) => (
+                      <option key={audience.value} value={audience.value}>
+                        {audience.label}
+                      </option>
+                    ))
+                  )}
                 </select>
 
                 <ChevronDown
@@ -113,16 +145,22 @@ const SendNotificationModal = ({
               <div className="relative">
                 <select
                   value={selectedPayment}
-                  onChange={(e) =>
-                    setSelectedPayment(e.target.value)
-                  }
-                  className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c]"
+                  onChange={(e) => setSelectedPayment(e.target.value)}
+                  disabled={paymentOptions.length === 0 || sending}
+                  className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
-                  {paymentOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
+                  {paymentOptions.length === 0 ? (
+                    <option value="">No payment options</option>
+                  ) : (
+                    paymentOptions.map((option) => (
+                      <option
+                        key={option.payment_option_id}
+                        value={option.payment_option_id}
+                      >
+                        {option.option_name}
+                      </option>
+                    ))
+                  )}
                 </select>
 
                 <ChevronDown
@@ -138,16 +176,25 @@ const SendNotificationModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500 transition-colors hover:bg-gray-100"
+              disabled={sending}
+              className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-xs font-semibold text-gray-500 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="flex-1 rounded-full bg-[#91a77c] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#7f966a]"
+              disabled={
+                sending ||
+                notificationTemplates.length === 0 ||
+                notificationAudiences.length === 0 ||
+                paymentOptions.length === 0
+              }
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#91a77c] px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#7f966a] disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Send
+              {sending && <Loader2 size={14} className="animate-spin" />}
+
+              {sending ? "Sending..." : "Send"}
             </button>
           </div>
         </form>

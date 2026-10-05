@@ -3,7 +3,7 @@ import React from "react";
 const EditVideoModal = ({
   isOpen,
   videoTitle = "",
-  videoSrc = "",
+  video = null,
   onChange,
   onClose,
   onSave,
@@ -13,13 +13,13 @@ const EditVideoModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="max-h-[95vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green">
+        <h2 className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-sm">
           Edit Video
         </h2>
 
         {/* Video Title */}
         <div className="flex flex-col gap-1.5 pt-5">
-          <label className="font-[Poppins] text-[9px] sm:text-2xs text-[#555555]">
+          <label className="font-[Poppins] text-[9px] text-[#555555] sm:text-2xs">
             Video Title:
           </label>
 
@@ -28,23 +28,32 @@ const EditVideoModal = ({
             value={videoTitle}
             onChange={(e) => onChange?.("videoTitle", e.target.value)}
             placeholder="Grace Christian Learning Hymn"
-            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green sm:text-2xs"
           />
         </div>
 
-        {/* Video Source */}
+        {/* Video File */}
         <div className="flex flex-col gap-1.5 pt-4">
-          <label className="font-[Poppins] text-[9px] sm:text-2xs text-[#555555]">
-            Video Source:
+          <label className="font-[Poppins] text-[9px] text-[#555555] sm:text-2xs">
+            Video File:
           </label>
 
           <input
-            type="text"
-            value={videoSrc}
-            onChange={(e) => onChange?.("videoSrc", e.target.value)}
-            placeholder="/video/hymn.mp4"
-            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            type="file"
+            accept="video/mp4,video/webm,video/quicktime"
+            onChange={(e) => onChange?.("video", e.target.files?.[0] || null)}
+            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none sm:text-2xs"
           />
+
+          <p className="font-[Poppins] text-[8px] text-gray-500 sm:text-[10px]">
+            Leave empty to keep the current video.
+          </p>
+
+          {video && (
+            <p className="truncate font-[Poppins] text-[8px] text-gray-600 sm:text-[10px]">
+              Selected: {video.name}
+            </p>
+          )}
         </div>
 
         {/* Buttons */}
@@ -52,7 +61,7 @@ const EditVideoModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-white sm:text-xs"
           >
             Close
           </button>
@@ -60,7 +69,7 @@ const EditVideoModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green sm:text-xs"
           >
             Save
           </button>

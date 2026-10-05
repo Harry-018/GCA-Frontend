@@ -1,171 +1,180 @@
-import React, { useState } from "react";
-import Header from "../../Components/AdminComponents/Website Management/Header";
-import TranspoRouteCard from "../../Components/AdminComponents/Website Management/Transportation/TranspoRouteCard";
-import AddTranspoModal from "../../Components/AdminComponents/Website Management/Transportation/AddTranspoModal";
-import RemoveModal from "../../Components/AdminComponents/Website Management/RemoveModal";
+import React, { useEffect, useState } from "react";
+import Header from "../../Components/AdminComponents/Website Management/Header.jsx";
+import TranspoRouteCard from "../../Components/AdminComponents/Website Management/Transportation/TranspoRouteCard.jsx";
+import AddTranspoModal from "../../Components/AdminComponents/Website Management/Transportation/AddTranspoModal.jsx";
+import RemoveModal from "../../Components/AdminComponents/Website Management/RemoveModal.jsx";
 
-const ROUTES = [
-  {
-    id: 1,
-    location: "Paragon Village",
-    distance: "10km",
-    price: "3,500",
-    zone: "Tanza",
-  },
-  {
-    id: 2,
-    location: "Woodville Subdivision",
-    distance: "10km",
-    price: "3,500",
-    zone: "Tanza",
-  },
-  {
-    id: 3,
-    location: "Port 45",
-    distance: "10km",
-    price: "3,500",
-    zone: "Tanza",
-  },
-  {
-    id: 4,
-    location: "Sunshine Ville",
-    distance: "4km",
-    price: "3,500",
-    zone: "Trece Martires City",
-  },
-  {
-    id: 5,
-    location: "Benedict's City",
-    distance: "4km",
-    price: "3,500",
-    zone: "Trece Martires City",
-  },
-  {
-    id: 6,
-    location: "Park 7",
-    distance: "4km",
-    price: "3,500",
-    zone: "Trece Martires City",
-  },
-  {
-    id: 7,
-    location: "Governor's Road",
-    distance: "7.6km",
-    price: "2,900",
-    zone: "Tanza",
-  },
-  {
-    id: 8,
-    location: "Isaac New Town",
-    distance: "7.6km",
-    price: "2,900",
-    zone: "Tanza",
-  },
-  {
-    id: 9,
-    location: "Michael's Area",
-    distance: "7.6km",
-    price: "2,900",
-    zone: "Tanza",
-  },
-];
-
-const ZONE_ORDER = ["Trece Martires City", "Tanza"];
+import {
+  getTransportation,
+  addTransportation,
+  editTransportation,
+  deleteTransportation,
+} from "../../requests/transporationRequests.js";
 
 const Transpo = () => {
-  const [routes, setRoutes] = useState(ROUTES);
+  const [routes, setRoutes] = useState([]);
   const [addOpen, setAddOpen] = useState(false);
-  const [addZone, setAddZone] = useState("");
   const [editingRoute, setEditingRoute] = useState(null);
   const [removingRoute, setRemovingRoute] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const handleAddOpen = (zone) => {
-    setAddZone(zone);
-    setEditingRoute(null);
-    setAddOpen(true);
-  };
+  const loadTransportation = async () => {
+    try {
+      setLoading(true);
 
-  const handleAddSubmit = (formData) => {
-    if (editingRoute) {
-      setRoutes((prev) =>
-        prev.map((route) =>
-          route.id === editingRoute.id
-            ? { ...route, ...formData }
-            : route
-        )
-      );
-    } else {
-      const nextId = routes.length
-        ? Math.max(...routes.map((r) => r.id)) + 1
-        : 1;
+      const data = await getTransportation();
 
-      setRoutes((prev) => [
-        ...prev,
-        { id: nextId, ...formData, zone: addZone },
-      ]);
+      setRoutes(data.r || []);
+    } catch (error) {
+      console.error("Failed to load transportation:", error);
+    } finally {
+      setLoading(false);
     }
-
-    setAddOpen(false);
-    setEditingRoute(null);
-    setAddZone("");
   };
 
-  const handleEditOpen = (route) => {
-    setEditingRoute(route);
+  useEffect(() => {
+    loadTransportation();
+  }, []);
+
+  const handleAddSubmit = async (formData) => {
+    try {
+      setLoading(true);
+
+      await addTransportation({
+        location: formData.location,
+        distance: formData.distance,
+        price: formData.price,
+        city: formData.city,
+      });
+
+      await loadTransportation();
+
+      setAddOpen(false);
+    } catch (error) {
+      console.error("Failed to add transportation:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEditOpen = (route, city) => {
+    setEditingRoute({
+      ...route,
+      city,
+    });
+
     setAddOpen(true);
+  };
+
+  const handleEditSubmit = async (formData) => {
+    try {
+      setLoading(true);
+
+      await editTransportation(editingRoute.transportation_id, {
+        location: formData.location,
+        distance: formData.distance,
+        price: formData.price,
+        city: editingRoute.city,
+      });
+
+      await loadTransportation();
+
+      setAddOpen(false);
+      setEditingRoute(null);
+    } catch (error) {
+      console.error("Failed to edit transportation:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleRemoveOpen = (route) => {
     setRemovingRoute(route);
   };
 
-  const handleRemoveConfirm = () => {
-    setRoutes((prev) =>
-      prev.filter((route) => route.id !== removingRoute.id)
-    );
-    setRemovingRoute(null);
+  const handleRemoveConfirm = async () => {
+    try {
+      setLoading(true);
+
+      await deleteTransportation(removingRoute.transportation_id);
+
+      await loadTransportation();
+
+      setRemovingRoute(null);
+    } catch (error) {
+      console.error("Failed to remove transportation:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const zones = ZONE_ORDER.reduce((acc, zone) => {
-    acc[zone] = routes.filter((route) => route.zone === zone);
-    return acc;
-  }, {});
+  const handleSubmit = async (formData) => {
+    if (editingRoute) {
+      await handleEditSubmit(formData);
+    } else {
+      await handleAddSubmit(formData);
+    }
+  };
 
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-[#ebe9e4] font-[Poppins]">
       <Header activeTab="transportation" />
 
+      {/* Page header */}
+      <div className="flex items-center justify-between px-1">
+        <h2 className="text-sm font-[PoppinsBold] text-swamp-green sm:text-base">
+          Transportation
+        </h2>
+
+        <button
+          type="button"
+          onClick={() => {
+            setEditingRoute(null);
+            setAddOpen(true);
+          }}
+          className="rounded-full bg-swamp-green px-5 py-2 text-[9px] font-medium text-white transition hover:bg-[#7d965f] sm:text-xs"
+        >
+          Add
+        </button>
+      </div>
+
       <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto">
-        {ZONE_ORDER.filter((zone) => zones[zone].length).map((zone) => (
-          <section key={zone} className="pb-6">
-            <div className="flex items-center justify-between pb-3">
-              <h2 className="rounded-full px-4 py-1 text-md font-bold text-swamp-green">
-                {zone}
-              </h2>
+        {loading && routes.length === 0 ? (
+          <div className="flex justify-center py-10">
+            <p className="text-[9px] text-gray-500 sm:text-xs">
+              Loading transportation...
+            </p>
+          </div>
+        ) : routes.length === 0 ? (
+          <div className="flex justify-center py-10">
+            <p className="text-[9px] text-gray-500 sm:text-xs">
+              No transportation routes found.
+            </p>
+          </div>
+        ) : (
+          routes.map((cityGroup) => (
+            <section key={cityGroup.city} className="pb-6">
+              <div className="pb-3">
+                <h2 className="rounded-full text-md font-[PoppinsBold] text-swamp-green">
+                  {cityGroup.city}
+                </h2>
+              </div>
 
-              <button
-                type="button"
-                onClick={() => handleAddOpen(zone)}
-                className="rounded-full bg-swamp-green px-5 py-2 text-[9px] sm:text-xs font-medium text-white transition hover:bg-[#7d965f]"
-              >
-                Add
-              </button>
-            </div>
-
-            <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
-              {zones[zone].map((route) => (
-                <TranspoRouteCard
-                  key={route.id}
-                  location={route.location}
-                  distance={route.distance}
-                  price={route.price}
-                  onEdit={() => handleEditOpen(route)}
-                  onRemove={() => handleRemoveOpen(route)}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
+              <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                {cityGroup.locations.map((route) => (
+                  <TranspoRouteCard
+                    key={route.transportation_id}
+                    location={route.location}
+                    distance={route.distance}
+                    price={route.price}
+                    onEdit={() => handleEditOpen(route, cityGroup.city)}
+                    onRemove={() => handleRemoveOpen(route)}
+                  />
+                ))}
+              </div>
+            </section>
+          ))
+        )}
       </div>
 
       <AddTranspoModal
@@ -175,7 +184,7 @@ const Transpo = () => {
           setAddOpen(false);
           setEditingRoute(null);
         }}
-        onSubmit={handleAddSubmit}
+        onSubmit={handleSubmit}
       />
 
       <RemoveModal

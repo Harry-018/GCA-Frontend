@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../Components/AdminComponents/Website Management/Header";
 import Banner from "../../Components/AdminComponents/Website Management/Home/Banner";
 import AcademicPrograms from "../../Components/AdminComponents/Website Management/Home/AcademicPrograms";
@@ -16,128 +16,31 @@ import EditVideoModal from "../../Components/AdminComponents/Website Management/
 import EditMissionModal from "../../Components/AdminComponents/Website Management/Mission&Vision/EditMissionModal";
 import EditVisionModal from "../../Components/AdminComponents/Website Management/Mission&Vision/EditVisionModal";
 import RemoveModal from "../../Components/AdminComponents/Website Management/RemoveModal";
+import AddChildrenActivityModal from "../../Components/AdminComponents/Website Management/Home/AddChildrenActivityModal";
+import EditChildrenActivityModal from "../../Components/AdminComponents/Website Management/Home/EditChildrenActivity";
+import RemoveChildrenActivityModal from "../../Components/AdminComponents/Website Management/Home/RemoveChildrenActivityModal";
 
-const BANNER_DATA = {
-  admissionStatus: "Open",
-  schoolYear: "2026 - 2027",
-  title: "Discover a joyful preschool journey with faith, play, and learning.",
-  quote:
-    '"For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God not by works, so that no one can boast." Ephesians 2:8–9 (NIV)',
-};
-
-const ACADEMIC_PROGRAMS = [
-  {
-    id: 1,
-    name: "Nursery",
-    minAge: 2,
-    maxAge: 3,
-    description:
-      "A gentle start where toddlers explore, play, and build early social skills in a loving environment.",
-    image: "/image/nursery.jpg",
-  },
-  {
-    id: 2,
-    name: "Pre-Kinder",
-    minAge: 4,
-    maxAge: 5,
-    description:
-      "Hands-on learning that builds foundational literacy, numeracy, and creativity through guided play.",
-    image: "/image/pre-kinder.avif",
-  },
-  {
-    id: 3,
-    name: "Kinder",
-    minAge: 5,
-    maxAge: 6,
-    description:
-      "A Christ-centered program that prepares young learners for elementary with confidence and joy.",
-    image: "/image/kinder.jpg",
-  },
-];
-
-const VIDEO_DATA = {
-  videoTitle: "Grace Christian Learning Hymn",
-  videoSrc: "/video/hymn.mp4",
-};
-
-const WHY_PARENTS_REASONS = [
-  "We help every child grow with confidence and values",
-  "Focused on both education and character formation",
-  "Safe, supportive, and child-centered education",
-  "A safe, joyful, and structured experience",
-  "Engaging activities for meaningful learning",
-].map((text, i) => ({ id: i + 1, text }));
-
-const MISSION_DATA = {
-  title: "Raising Godly and Lifelong Learners",
-  description:
-    "To be a Christ-centered preschool that inspires young children to grow in faith, character, knowledge, and confidence. We envision a generation of lifelong learners who love God, respect others, and are equipped with the skills and values needed to succeed in school and in life.",
-};
-
-const VISION_DATA = {
-  title: "Nurturing Faith, Excellence, and Character",
-  description:
-    "We envision a community where every child is empowered to reach their full potential—academically, spiritually, and emotionally—as they grow into confident, compassionate, and responsible individuals prepared for a lifetime of learning and service.",
-};
-
-const CHILDREN_ACTIVITIES = [
-  {
-    id: 1,
-    title: "Cognitive Development",
-    description:
-      "Learning through play strengthens problem-solving skills, memory, and the ability to think creatively and critically.",
-    image: "/image/nursery.jpg",
-  },
-  {
-    id: 2,
-    title: "Physical Health",
-    description:
-      "Active play and movement activities build strong muscles, coordination, and establish healthy habits for life.",
-    image: "/image/kinder.jpg",
-  },
-  {
-    id: 3,
-    title: "Social Skills",
-    description:
-      "Group activities teach sharing, cooperation, turn-taking, and empathy—essential skills for healthy relationships.",
-    image: "/image/p2.jpg",
-  },
-  {
-    id: 4,
-    title: "Spiritual Growth",
-    description:
-      "Faith-based activities and Christian values help children develop a strong moral foundation rooted in love and kindness.",
-    image: "/image/bb.jpg",
-  },
-  {
-    id: 5,
-    title: "Creative Expression",
-    description:
-      "Art, music, and imaginative play encourage children to express ideas, build confidence, and celebrate their unique creativity.",
-    image: "/image/pre-kinder.avif",
-  },
-  {
-    id: 6,
-    title: "Language & Literacy",
-    description:
-      "Stories, songs, and conversations help children build vocabulary, express themselves, and discover the joy of reading.",
-    image: "/image/kinder.jpg",
-  },
-  {
-    id: 7,
-    title: "Nature Discovery",
-    description:
-      "Hands-on exploration nurtures curiosity as children observe nature, ask questions, and learn about the world around them.",
-    image: "/image/sb.jpg",
-  },
-  {
-    id: 8,
-    title: "Music & Rhythm",
-    description:
-      "Singing, dancing, and rhythm games develop listening skills, coordination, self-expression, and joyful confidence.",
-    image: "/image/money.jpg",
-  },
-];
+import {
+  editBanner,
+  getBanner,
+  getAcademicPrograms,
+  getGradeLevels,
+  addAcademicProgram,
+  editAcademicProgram,
+  deleteAcademicProgram,
+  getVideo,
+  editVideo,
+  getReasons,
+  editReason as editReasonApi,
+  addReason as addReasonApi,
+  deleteReason as deleteReasonApi,
+  getMissionVision,
+  editMissionVision,
+  getChildrenActivities,
+  addChildrenActivity,
+  editChildrenActivity,
+  deleteChildrenActivity,
+} from "../../requests/homepageRequests";
 
 const SECONDARY_ITEMS = [
   { label: "Homepage", key: "home" },
@@ -148,13 +51,17 @@ const SECONDARY_ITEMS = [
 const Home = () => {
   const [activeTab, setActiveTab] = useState("home");
 
-  const [bannerData, setBannerData] = useState(BANNER_DATA);
-  const [programs, setPrograms] = useState(ACADEMIC_PROGRAMS);
-  const [selectedProgram, setSelectedProgram] = useState("Nursery");
-
+  const [bannerData, setBannerData] = useState(null);
   const [bannerEditOpen, setBannerEditOpen] = useState(false);
-  const [bannerForm, setBannerForm] = useState(BANNER_DATA);
+  const [bannerForm, setBannerForm] = useState({
+    title: "",
+    quote: "",
+    image: null,
+  });
 
+  const [programs, setPrograms] = useState([]);
+  const [gradeLevels, setGradeLevels] = useState([]);
+  const [selectedProgram, setSelectedProgram] = useState("");
   const [removeProgram, setRemoveProgram] = useState(false);
 
   const [addProgramOpen, setAddProgramOpen] = useState(false);
@@ -162,15 +69,14 @@ const Home = () => {
     gradeLevel: "",
     minAge: "",
     maxAge: "",
-    image: "",
+    image: null,
     description: "",
   });
 
   const [editProgramOpen, setEditProgramOpen] = useState(false);
   const [editForm, setEditForm] = useState({});
 
-  const [reasons, setReasons] = useState(WHY_PARENTS_REASONS);
-
+  const [reasons, setReasons] = useState([]);
   const [addReasonOpen, setAddReasonOpen] = useState(false);
   const [addReasonText, setAddReasonText] = useState("");
 
@@ -180,26 +86,214 @@ const Home = () => {
 
   const [removeReason, setRemoveReason] = useState(null);
 
-  const [videoData, setVideoData] = useState(VIDEO_DATA);
+  const [videoData, setVideoData] = useState(null);
   const [editVideoOpen, setEditVideoOpen] = useState(false);
-  const [videoForm, setVideoForm] = useState(VIDEO_DATA);
+  const [videoForm, setVideoForm] = useState({
+    videoTitle: "",
+    videoSrc: "",
+    video: null,
+  });
 
-  const [missionData, setMissionData] = useState(MISSION_DATA);
+  const [missionData, setMissionData] = useState(null);
   const [missionEditOpen, setMissionEditOpen] = useState(false);
-  const [missionForm, setMissionForm] = useState(MISSION_DATA);
+  const [missionForm, setMissionForm] = useState({
+    title: "",
+    description: "",
+  });
 
-  const [visionData, setVisionData] = useState(VISION_DATA);
+  const [visionData, setVisionData] = useState(null);
   const [visionEditOpen, setVisionEditOpen] = useState(false);
-  const [visionForm, setVisionForm] = useState(VISION_DATA);
+  const [visionForm, setVisionForm] = useState({
+    title: "",
+    description: "",
+  });
+
+  const [childrenActivities, setChildrenActivities] = useState([]);
+
+  const [addActivityOpen, setAddActivityOpen] = useState(false);
+  const [editActivityOpen, setEditActivityOpen] = useState(false);
+  const [removeActivityOpen, setRemoveActivityOpen] = useState(false);
+
+  const [selectedActivity, setSelectedActivity] = useState(null);
+
+  const [activityLoading, setActivityLoading] = useState(false);
+
+  const [addActivityForm, setAddActivityForm] = useState({
+    title: "",
+    description: "",
+    image: null,
+  });
+
+  const formatAcademicPrograms = (programData) => {
+    return programData.map((program) => ({
+      id: program.program_id,
+      gradeLevelId: program.grade_level_id,
+      name: program.grade_level_name,
+      minAge: program.min_age,
+      maxAge: program.max_age,
+      image: program.image_url,
+      description: program.description,
+    }));
+  };
+
+  const formatReasons = (reasonData) => {
+    return reasonData.map((reason) => ({
+      id: reason.reason_id,
+      text: reason.reasons,
+    }));
+  };
+
+  useEffect(() => {
+    const loadBanner = async () => {
+      try {
+        const data = await getBanner();
+
+        setBannerData(data);
+      } catch (error) {
+        console.error("Failed to load banner:", error);
+      }
+    };
+
+    loadBanner();
+  }, []);
+
+  useEffect(() => {
+    const loadAcademicPrograms = async () => {
+      try {
+        const [programData, gradeLevelData] = await Promise.all([
+          getAcademicPrograms(),
+          getGradeLevels(),
+        ]);
+
+        setPrograms(formatAcademicPrograms(programData));
+        setGradeLevels(gradeLevelData);
+
+        if (programData.length > 0) {
+          setSelectedProgram(programData[0].grade_level_name);
+        } else {
+          setSelectedProgram("");
+        }
+      } catch (error) {
+        console.error("Failed to load academic programs:", error);
+      }
+    };
+
+    loadAcademicPrograms();
+  }, []);
+
+  useEffect(() => {
+    const loadVideo = async () => {
+      try {
+        const data = await getVideo();
+
+        if (data.length > 0) {
+          const video = data[0];
+
+          setVideoData({
+            id: video.video_id,
+            videoTitle: video.video_title,
+            videoSrc: video.videourl,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load video:", error);
+      }
+    };
+
+    loadVideo();
+  }, []);
+
+  useEffect(() => {
+    const loadReasons = async () => {
+      try {
+        const data = await getReasons();
+
+        setReasons(
+          data.map((reason) => ({
+            id: reason.reason_id,
+            text: reason.reasons,
+          })),
+        );
+      } catch (error) {
+        console.error("Failed to load reasons:", error);
+      }
+    };
+
+    loadReasons();
+  }, []);
+
+  useEffect(() => {
+    const loadMissionVision = async () => {
+      try {
+        const data = await getMissionVision();
+
+        if (data.length > 0) {
+          const missionVision = data[0];
+
+          setMissionData({
+            title: missionVision.mission_title,
+            description: missionVision.mission_body,
+          });
+
+          setVisionData({
+            title: missionVision.vision_title,
+            description: missionVision.vision_body,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load mission and vision:", error);
+      }
+    };
+
+    loadMissionVision();
+  }, []);
+
+  useEffect(() => {
+    const loadChildrenActivities = async () => {
+      try {
+        const data = await getChildrenActivities();
+
+        setChildrenActivities(data.r);
+      } catch (error) {
+        console.error("Failed to load children activities:", error);
+      }
+    };
+
+    loadChildrenActivities();
+  }, []);
 
   const openBannerEdit = () => {
-    setBannerForm(bannerData);
+    if (!bannerData) return;
+
+    setBannerForm({
+      title: bannerData.banner_title || "",
+      quote: bannerData.banner_quote || "",
+      image: null,
+    });
+
     setBannerEditOpen(true);
   };
 
-  const saveBanner = () => {
-    setBannerData(bannerForm);
-    setBannerEditOpen(false);
+  const saveBanner = async () => {
+    try {
+      const formData = new FormData();
+
+      formData.append("banner_title", bannerForm.title);
+      formData.append("banner_quote", bannerForm.quote);
+
+      if (bannerForm.image) {
+        formData.append("banner_image", bannerForm.image);
+      }
+
+      await editBanner(formData);
+
+      const updatedBanner = await getBanner();
+
+      setBannerData(updatedBanner);
+      setBannerEditOpen(false);
+    } catch (error) {
+      console.error("Failed to update banner:", error);
+    }
   };
 
   const openAddProgram = () => {
@@ -207,71 +301,114 @@ const Home = () => {
       gradeLevel: "",
       minAge: "",
       maxAge: "",
-      image: "",
+      image: null,
       description: "",
     });
+
     setAddProgramOpen(true);
   };
 
-  const confirmRemoveProgram = () => {
-    const remaining = programs.filter((p) => p.name !== selectedProgram);
+  const confirmRemoveProgram = async () => {
+    try {
+      const active = programs.find(
+        (program) => program.name === selectedProgram,
+      );
 
-    setPrograms(remaining);
-    setSelectedProgram(remaining[0]?.name || "");
-    setRemoveProgram(false);
+      if (!active) return;
+
+      await deleteAcademicProgram(active.id);
+
+      const updatedPrograms = await getAcademicPrograms();
+
+      const formattedPrograms = formatAcademicPrograms(updatedPrograms);
+
+      setPrograms(formattedPrograms);
+
+      setSelectedProgram(
+        formattedPrograms.length > 0 ? formattedPrograms[0].name : "",
+      );
+
+      setRemoveProgram(false);
+    } catch (error) {
+      console.error("Failed to delete academic program:", error);
+    }
   };
 
-  const addProgram = () => {
-    const nextId = programs.length
-      ? Math.max(...programs.map((p) => p.id)) + 1
-      : 1;
+  const addProgram = async () => {
+    try {
+      const formData = new FormData();
 
-    setPrograms((prev) => [
-      ...prev,
-      {
-        id: nextId,
-        name: addForm.gradeLevel,
-        minAge: Number(addForm.minAge) || 0,
-        maxAge: Number(addForm.maxAge) || 0,
-        image: addForm.image,
-        description: addForm.description,
-      },
-    ]);
+      formData.append("grade_level_id", addForm.gradeLevel);
+      formData.append("min_age", addForm.minAge);
+      formData.append("max_age", addForm.maxAge);
+      formData.append("description", addForm.description);
 
-    setAddProgramOpen(false);
+      if (addForm.image) {
+        formData.append("image", addForm.image);
+      }
+
+      await addAcademicProgram(formData);
+
+      const updatedPrograms = await getAcademicPrograms();
+
+      const formattedPrograms = formatAcademicPrograms(updatedPrograms);
+
+      setPrograms(formattedPrograms);
+
+      if (formattedPrograms.length > 0 && !selectedProgram) {
+        setSelectedProgram(formattedPrograms[0].name);
+      }
+
+      setAddProgramOpen(false);
+    } catch (error) {
+      console.error("Failed to add academic program:", error);
+    }
   };
 
   const openEditProgram = () => {
-    const active = programs.find((p) => p.name === selectedProgram) || programs[0];
+    const active =
+      programs.find((program) => program.name === selectedProgram) ||
+      programs[0];
+
+    if (!active) return;
 
     setEditForm({
-      gradeLevel: active?.name || "",
-      minAge: String(active?.minAge ?? ""),
-      maxAge: String(active?.maxAge ?? ""),
-      image: active?.image || "",
-      description: active?.description || "",
+      programId: active.id,
+      gradeLevel: String(active.gradeLevelId),
+      minAge: String(active.minAge ?? ""),
+      maxAge: String(active.maxAge ?? ""),
+      image: null,
+      description: active.description || "",
     });
 
     setEditProgramOpen(true);
   };
 
-  const saveEditProgram = () => {
-    setPrograms((prev) =>
-      prev.map((p) =>
-        p.name === selectedProgram
-          ? {
-              ...p,
-              name: editForm.gradeLevel,
-              minAge: Number(editForm.minAge) || 0,
-              maxAge: Number(editForm.maxAge) || 0,
-              image: editForm.image,
-              description: editForm.description,
-            }
-          : p
-      )
-    );
+  const saveEditProgram = async () => {
+    try {
+      const formData = new FormData();
 
-    setEditProgramOpen(false);
+      formData.append("grade_level_id", editForm.gradeLevel);
+      formData.append("min_age", editForm.minAge);
+      formData.append("max_age", editForm.maxAge);
+      formData.append("description", editForm.description);
+
+      if (editForm.image) {
+        formData.append("image", editForm.image);
+      }
+
+      await editAcademicProgram(editForm.programId, formData);
+
+      const updatedPrograms = await getAcademicPrograms();
+
+      const formattedPrograms = formatAcademicPrograms(updatedPrograms);
+
+      setPrograms(formattedPrograms);
+
+      setEditProgramOpen(false);
+    } catch (error) {
+      console.error("Failed to update academic program:", error);
+    }
   };
 
   const openAddReason = () => {
@@ -279,14 +416,26 @@ const Home = () => {
     setAddReasonOpen(true);
   };
 
-  const addReason = () => {
-    const nextId = reasons.length
-      ? Math.max(...reasons.map((r) => r.id)) + 1
-      : 1;
+  const addReason = async () => {
+    try {
+      await addReasonApi({
+        reasons: addReasonText,
+      });
 
-    setReasons((prev) => [...prev, { id: nextId, text: addReasonText }]);
+      const updatedReasons = await getReasons();
 
-    setAddReasonOpen(false);
+      setReasons(
+        updatedReasons.map((reason) => ({
+          id: reason.reason_id,
+          text: reason.reasons,
+        })),
+      );
+
+      setAddReasonText("");
+      setAddReasonOpen(false);
+    } catch (error) {
+      console.error("Failed to add reason:", error);
+    }
   };
 
   const openEditReason = (reason) => {
@@ -295,54 +444,258 @@ const Home = () => {
     setEditReasonOpen(true);
   };
 
-  const confirmRemoveReason = () => {
-    setReasons((prev) => prev.filter((r) => r.id !== removeReason.id));
-    setRemoveReason(null);
+  const confirmRemoveReason = async () => {
+    try {
+      await deleteReasonApi(removeReason.id);
+
+      const updatedReasons = await getReasons();
+
+      setReasons(
+        updatedReasons.map((reason) => ({
+          id: reason.reason_id,
+          text: reason.reasons,
+        })),
+      );
+
+      setRemoveReason(null);
+    } catch (error) {
+      console.error("Failed to delete reason:", error);
+    }
   };
 
-  const saveEditReason = () => {
-    setReasons((prev) =>
-      prev.map((r) =>
-        r.id === editingReason.id ? { ...r, text: editReasonText } : r
-      )
-    );
+  const saveEditReason = async () => {
+    try {
+      await editReasonApi(editingReason.id, {
+        reasons: editReasonText,
+      });
 
-    setEditReasonOpen(false);
-    setEditingReason(null);
+      const updatedReasons = await getReasons();
+
+      setReasons(
+        updatedReasons.map((reason) => ({
+          id: reason.reason_id,
+          text: reason.reasons,
+        })),
+      );
+
+      setEditReasonOpen(false);
+      setEditingReason(null);
+    } catch (error) {
+      console.error("Failed to update reason:", error);
+    }
   };
 
   const openEditVideo = () => {
-    setVideoForm(videoData);
+    if (!videoData) return;
+
+    setVideoForm({
+      videoTitle: videoData.videoTitle || "",
+      video: null,
+    });
+
     setEditVideoOpen(true);
   };
 
-  const saveEditVideo = () => {
-    setVideoData(videoForm);
-    setEditVideoOpen(false);
+  const saveEditVideo = async () => {
+    try {
+      const formData = new FormData();
+
+      formData.append("video_title", videoForm.videoTitle);
+
+      if (videoForm.video) {
+        formData.append("video", videoForm.video);
+      }
+
+      await editVideo(formData);
+
+      const updatedVideo = await getVideo();
+
+      if (updatedVideo.length > 0) {
+        const video = updatedVideo[0];
+
+        setVideoData({
+          videoTitle: video.video_title,
+          videoSrc: video.videourl,
+        });
+      }
+
+      setEditVideoOpen(false);
+    } catch (error) {
+      console.error("Failed to update video:", error);
+    }
   };
 
   const openRemoveReason = (reason) => setRemoveReason(reason);
 
   const openEditMission = () => {
+    if (!missionData) return;
+
     setMissionForm(missionData);
     setMissionEditOpen(true);
   };
 
-  const saveEditMission = () => {
-    setMissionData(missionForm);
-    setMissionEditOpen(false);
+  const saveEditMission = async () => {
+    try {
+      await editMissionVision({
+        mission_title: missionForm.title,
+        mission_body: missionForm.description,
+        vision_title: visionData.title,
+        vision_body: visionData.description,
+      });
+
+      const updatedData = await getMissionVision();
+
+      if (updatedData.length > 0) {
+        const missionVision = updatedData[0];
+
+        setMissionData({
+          title: missionVision.mission_title,
+          description: missionVision.mission_body,
+        });
+
+        setVisionData({
+          title: missionVision.vision_title,
+          description: missionVision.vision_body,
+        });
+      }
+
+      setMissionEditOpen(false);
+    } catch (error) {
+      console.error("Failed to update mission:", error);
+    }
   };
 
   const openEditVision = () => {
+    if (!visionData) return;
+
     setVisionForm(visionData);
     setVisionEditOpen(true);
   };
 
-  const saveEditVision = () => {
-    setVisionData(visionForm);
-    setVisionEditOpen(false);
+  const saveEditVision = async () => {
+    try {
+      await editMissionVision({
+        mission_title: missionData.title,
+        mission_body: missionData.description,
+        vision_title: visionForm.title,
+        vision_body: visionForm.description,
+      });
+
+      const updatedData = await getMissionVision();
+
+      if (updatedData.length > 0) {
+        const missionVision = updatedData[0];
+
+        setMissionData({
+          title: missionVision.mission_title,
+          description: missionVision.mission_body,
+        });
+
+        setVisionData({
+          title: missionVision.vision_title,
+          description: missionVision.vision_body,
+        });
+      }
+
+      setVisionEditOpen(false);
+    } catch (error) {
+      console.error("Failed to update vision:", error);
+    }
   };
 
+  const openAddActivity = () => {
+    setAddActivityForm({
+      title: "",
+      description: "",
+      image: null,
+    });
+
+    setAddActivityOpen(true);
+  };
+
+  const addActivity = async (form) => {
+    try {
+      setActivityLoading(true);
+
+      const formData = new FormData();
+
+      formData.append("activity_title", form.title);
+      formData.append("activity_description", form.description);
+
+      if (form.image) {
+        formData.append("activityImage", form.image);
+      }
+
+      await addChildrenActivity(formData);
+
+      const updatedData = await getChildrenActivities();
+
+      setChildrenActivities(updatedData.r);
+
+      setAddActivityOpen(false);
+    } catch (error) {
+      console.error("Failed to add children activity:", error);
+    } finally {
+      setActivityLoading(false);
+    }
+  };
+
+  const openEditActivity = (activity) => {
+    setSelectedActivity(activity);
+    setEditActivityOpen(true);
+  };
+
+  const editActivity = async (data) => {
+    try {
+      setActivityLoading(true);
+
+      const formData = new FormData();
+
+      formData.append("activity_title", data.activity_title);
+      formData.append("activity_description", data.activity_description);
+
+      if (data.activity_image) {
+        formData.append("activityImage", data.activity_image);
+      }
+
+      await editChildrenActivity(data.activity_id, formData);
+
+      const updatedData = await getChildrenActivities();
+
+      setChildrenActivities(updatedData.r);
+
+      setEditActivityOpen(false);
+      setSelectedActivity(null);
+    } catch (error) {
+      console.error("Failed to update children activity:", error);
+    } finally {
+      setActivityLoading(false);
+    }
+  };
+
+  const openRemoveActivity = (activity) => {
+    setSelectedActivity(activity);
+    setRemoveActivityOpen(true);
+  };
+
+  const removeActivity = async (activityId) => {
+    try {
+      setActivityLoading(true);
+
+      await deleteChildrenActivity(activityId);
+
+      const updatedData = await getChildrenActivities();
+
+      setChildrenActivities(updatedData.r);
+
+      setRemoveActivityOpen(false);
+      setSelectedActivity(null);
+    } catch (error) {
+      console.error("Failed to remove children activity:", error);
+    } finally {
+      setActivityLoading(false);
+    }
+  };
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-[#ebe9e4] font-[Poppins]">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
@@ -367,13 +720,18 @@ const Home = () => {
       <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto">
         {activeTab === "home" && (
           <div className="grid grid-cols-1 gap-4 md:auto-rows-fr md:grid-cols-2">
-            <Banner
-              admissionStatus={bannerData.admissionStatus}
-              schoolYear={bannerData.schoolYear}
-              title={bannerData.title}
-              quote={bannerData.quote}
-              onEdit={openBannerEdit}
-            />
+            {bannerData && (
+              <Banner
+                admissionStatus={
+                  bannerData.enrollment_status === "open" ? "Open" : "Closed"
+                }
+                schoolYear={bannerData.school_year}
+                title={bannerData.banner_title}
+                quote={bannerData.banner_quote}
+                image={bannerData.banner_image}
+                onEdit={openBannerEdit}
+              />
+            )}
 
             <AcademicPrograms
               programs={programs}
@@ -384,11 +742,13 @@ const Home = () => {
               onRemove={() => setRemoveProgram(true)}
             />
 
-            <VideoPresentation
-              videoTitle={videoData.videoTitle}
-              videoSrc={videoData.videoSrc}
-              onEdit={openEditVideo}
-            />
+            {videoData && (
+              <VideoPresentation
+                videoTitle={videoData.videoTitle}
+                videoSrc={videoData.videoSrc}
+                onEdit={openEditVideo}
+              />
+            )}
 
             <WhyParentsChooseUs
               reasons={reasons}
@@ -416,25 +776,42 @@ const Home = () => {
         )}
 
         {activeTab === "activities" && (
-          <div className="grid auto-rows-fr grid-cols-1 content-start gap-4 pb-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-            {CHILDREN_ACTIVITIES.map((activity) => (
-              <ChildrenActivityCard
-                key={activity.id}
-                title={activity.title}
-                description={activity.description}
-                image={activity.image}
-              />
-            ))}
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-bold text-swamp-green sm:text-base">
+                Children Activities
+              </h2>
+
+              <button
+                type="button"
+                onClick={openAddActivity}
+                className="rounded-full bg-swamp-green px-5 py-2 text-[9px] font-medium text-white transition hover:bg-lime-green sm:text-xs"
+              >
+                Add
+              </button>
+            </div>
+
+            <div className="grid auto-rows-fr grid-cols-1 content-start gap-4 pb-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {childrenActivities.map((activity) => (
+                <ChildrenActivityCard
+                  key={activity.activity_id}
+                  title={activity.activity_title}
+                  description={activity.activity_description}
+                  image={activity.activity_image}
+                  onEdit={() => openEditActivity(activity)}
+                  onRemove={() => openRemoveActivity(activity)}
+                />
+              ))}
+            </div>
           </div>
         )}
       </div>
 
       <EditBannerModal
         isOpen={bannerEditOpen}
-        admissionStatus={bannerForm.admissionStatus}
-        schoolYear={bannerForm.schoolYear}
         title={bannerForm.title}
         quote={bannerForm.quote}
+        image={bannerForm.image}
         onChange={(key, value) =>
           setBannerForm((prev) => ({ ...prev, [key]: value }))
         }
@@ -444,6 +821,7 @@ const Home = () => {
 
       <AddProgramModal
         isOpen={addProgramOpen}
+        gradeLevels={gradeLevels}
         gradeLevel={addForm.gradeLevel}
         minAge={addForm.minAge}
         maxAge={addForm.maxAge}
@@ -458,6 +836,7 @@ const Home = () => {
 
       <EditProgramModal
         isOpen={editProgramOpen}
+        gradeLevels={gradeLevels}
         gradeLevel={editForm.gradeLevel}
         minAge={editForm.minAge}
         maxAge={editForm.maxAge}
@@ -473,7 +852,7 @@ const Home = () => {
       <EditVideoModal
         isOpen={editVideoOpen}
         videoTitle={videoForm.videoTitle}
-        videoSrc={videoForm.videoSrc}
+        video={videoForm.video}
         onChange={(key, value) =>
           setVideoForm((prev) => ({ ...prev, [key]: value }))
         }
@@ -536,6 +915,35 @@ const Home = () => {
         message={`Clicking "Remove" will remove this reason and all of its information.`}
         onClose={() => setRemoveReason(null)}
         onRemove={confirmRemoveReason}
+      />
+
+      <AddChildrenActivityModal
+        isOpen={addActivityOpen}
+        onClose={() => setAddActivityOpen(false)}
+        onSubmit={addActivity}
+        loading={activityLoading}
+      />
+
+      <EditChildrenActivityModal
+        isOpen={editActivityOpen}
+        activity={selectedActivity}
+        onClose={() => {
+          setEditActivityOpen(false);
+          setSelectedActivity(null);
+        }}
+        onSubmit={editActivity}
+        loading={activityLoading}
+      />
+
+      <RemoveChildrenActivityModal
+        isOpen={removeActivityOpen}
+        activity={selectedActivity}
+        onClose={() => {
+          setRemoveActivityOpen(false);
+          setSelectedActivity(null);
+        }}
+        onConfirm={removeActivity}
+        loading={activityLoading}
       />
     </div>
   );

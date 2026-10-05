@@ -1,12 +1,8 @@
-const VideoPresentation = ({
-  videoTitle = "Grace Christian Learning Hymn",
-  videoSrc,
-  onEdit,
-}) => {
+const VideoPresentation = ({ videoTitle = "", videoSrc, onEdit }) => {
   return (
     <section className="flex min-h-0 flex-col rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
       <div className="flex items-center justify-between">
-        <h2 className="rounded-full bg-swamp-green/15 px-4 py-1 text-[9px] sm:text-xs font-bold text-swamp-green">
+        <h2 className="rounded-full text-xs sm:text-sm font-bold text-swamp-green">
           Video Presentation
         </h2>
 
@@ -20,13 +16,9 @@ const VideoPresentation = ({
       </div>
 
       <div className="pt-4">
-        <p className="text-[9px] sm:text-xs text-gray-600">
-          Video Title:
-        </p>
+        <p className="text-[9px] sm:text-xs text-gray-600">Video Title:</p>
 
-        <p className="pt-1 text-[9px] sm:text-xs text-gray-500">
-          {videoTitle}
-        </p>
+        <p className="pt-1 text-[9px] sm:text-xs text-gray-500">{videoTitle}</p>
       </div>
 
       <div className="min-h-0 flex-1 pt-4">

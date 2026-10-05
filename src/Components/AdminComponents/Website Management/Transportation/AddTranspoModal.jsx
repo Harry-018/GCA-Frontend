@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-const AddTranspoModal = ({
-  isOpen,
-  routeData = null,
-  onClose,
-  onSubmit,
-}) => {
+const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
+    city: "",
     location: "",
     distance: "",
     price: "",
@@ -15,6 +11,7 @@ const AddTranspoModal = ({
   useEffect(() => {
     if (isOpen) {
       setFormData({
+        city: routeData?.city || "",
         location: routeData?.location || "",
         distance: routeData?.distance || "",
         price: routeData?.price || "",
@@ -48,6 +45,27 @@ const AddTranspoModal = ({
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 pt-6">
           <div className="flex flex-col gap-1">
             <label className="font-[Poppins] text-[9px] sm:text-xs text-gray-600">
+              City:
+            </label>
+
+            <select
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              required
+              className="h-10 w-full rounded-lg border border-gray-300 bg-white font-[Poppins] text-xs sm:text-sm outline-none focus:border-swamp-green"
+            >
+              <option value="" disabled>
+                Select city
+              </option>
+
+              <option value="Trece Martires City">Trece Martires City</option>
+
+              <option value="Tanza">Tanza</option>
+            </select>
+          </div>
+          <div className="flex flex-col gap-1">
+            <label className="font-[Poppins] text-[9px] sm:text-xs text-gray-600">
               Location:
             </label>
 
@@ -64,7 +82,7 @@ const AddTranspoModal = ({
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col gap-1">
               <label className="font-[Poppins] text-[9px] sm:text-xs text-gray-600">
-                Distance:
+                Distance in km:
               </label>
 
               <input

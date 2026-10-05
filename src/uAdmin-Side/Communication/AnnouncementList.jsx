@@ -197,7 +197,7 @@ const AnnouncementList = () => {
             <h2>Announcements</h2>
 
             <span className="font-[Poppins] text-xs text-gray-600 sm:text-sm">
-              Current School Year
+              S.Y 2026 - 2027
             </span>
           </div>
 

@@ -3,10 +3,11 @@ import { ChevronDown } from "lucide-react";
 
 const AddProgramModal = ({
   isOpen,
+  gradeLevels = [],
   gradeLevel = "",
   minAge = "",
   maxAge = "",
-  image = "",
+  image = null,
   description = "",
   onChange,
   onClose,
@@ -37,15 +38,19 @@ const AddProgramModal = ({
             <div className="relative">
               <select
                 value={gradeLevel}
-                onChange={(e) =>
-                  onChange?.("gradeLevel", e.target.value)
-                }
+                onChange={(e) => onChange?.("gradeLevel", e.target.value)}
                 className={selectStyle}
               >
                 <option value="">Select Level</option>
-                <option value="Nursery">Nursery</option>
-                <option value="Pre-Kinder">Pre-Kinder</option>
-                <option value="Kinder">Kinder</option>
+
+                {gradeLevels.map((level) => (
+                  <option
+                    key={level.grade_level_id}
+                    value={level.grade_level_id}
+                  >
+                    {level.grade_level_name}
+                  </option>
+                ))}
               </select>
 
               <ChevronDown size={14} className={chevronClass} />
@@ -58,11 +63,10 @@ const AddProgramModal = ({
             </label>
 
             <input
-              type="text"
-              value={image}
-              onChange={(e) => onChange?.("image", e.target.value)}
-              placeholder="Upload Image"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#999999] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              type="file"
+              accept="image/*"
+              onChange={(e) => onChange?.("image", e.target.files?.[0] || null)}
+              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none file:mr-2 file:border-0 file:bg-transparent file:font-[Poppins] file:text-[9px] file:text-[#777777] focus:border-lime-green"
             />
           </div>
         </div>
@@ -74,21 +78,16 @@ const AddProgramModal = ({
               Min. Age:
             </label>
 
-            <div className="relative">
-              <select
-                value={minAge}
-                onChange={(e) => onChange?.("minAge", e.target.value)}
-                className={selectStyle}
-              >
-                <option value="">Age</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-
-              <ChevronDown size={14} className={chevronClass} />
-            </div>
+            <input
+              type="number"
+              min="1"
+              max="10"
+              step="1"
+              value={minAge}
+              onChange={(e) => onChange?.("minAge", e.target.value)}
+              placeholder="Age"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            />
           </div>
 
           <div className="flex flex-col gap-1.5">
@@ -96,21 +95,16 @@ const AddProgramModal = ({
               Max. Age:
             </label>
 
-            <div className="relative">
-              <select
-                value={maxAge}
-                onChange={(e) => onChange?.("maxAge", e.target.value)}
-                className={selectStyle}
-              >
-                <option value="">Age</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </select>
-
-              <ChevronDown size={14} className={chevronClass} />
-            </div>
+            <input
+              type="number"
+              min="1"
+              max="10"
+              step="1"
+              value={maxAge}
+              onChange={(e) => onChange?.("maxAge", e.target.value)}
+              placeholder="Age"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            />
           </div>
         </div>
 
@@ -122,9 +116,7 @@ const AddProgramModal = ({
 
           <textarea
             value={description}
-            onChange={(e) =>
-              onChange?.("description", e.target.value)
-            }
+            onChange={(e) => onChange?.("description", e.target.value)}
             rows={3}
             placeholder=""
             className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
