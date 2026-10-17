@@ -1,4 +1,5 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+
 import {
   LayoutDashboard,
   UserPlus,
@@ -10,7 +11,8 @@ import {
   LogOut,
 } from "lucide-react";
 
-import logo from "../assets/logowbg.png";
+import SchoolInformation from "./SchoolInformation.jsx";
+
 import AdminMobileSidebar from "./uAdminMobileSidebar";
 
 const MENU_ITEMS = [
@@ -33,6 +35,10 @@ const ADMISSION_PATHS = ["/admin/admission", "/admin/submission"];
 const SidebarContent = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+  const schoolInformation = SchoolInformation();
+
+  const schoolLogo = schoolInformation?.school_logo;
+  const schoolName = schoolInformation?.school_name;
 
   const isActive = (item) => {
     if (item.label === "Admission") {
@@ -54,14 +60,16 @@ const SidebarContent = () => {
     <>
       {/* School logo */}
       <div className="flex items-center gap-2 rounded-2xl border border-gray-200 bg-bone px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
-        <img
-          src={logo}
-          alt="Grace Christian Academy"
-          className="h-8 w-8 shrink-0 rounded-full object-cover"
-        />
+        {schoolLogo && (
+          <img
+            src={schoolLogo}
+            alt={schoolName}
+            className="h-8 w-8 shrink-0 rounded-full object-cover"
+          />
+        )}
 
         <h1 className="text-2xs font-medium text-gray-700 lg:text-2xs xl:text-xs">
-          Grace Christian Academy
+          {schoolName}
         </h1>
       </div>
 

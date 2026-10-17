@@ -8,52 +8,39 @@ import {
   Wallet,
   FileClockIcon,
 } from "lucide-react";
+import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
+
 import AdminHeader from "../Components/AdminComponents/Dashboard/AdminHeader";
 import DashboardCards from "../Components/AdminComponents/Dashboard/DashboardCards";
-import RecentApplicants from "../Components/AdminComponents/Dashboard/RecentApplicants";
-
-import { useLoaderData } from "react-router-dom";
 import DataTable from "../Components/DataTable";
+import { getDashboard } from "../requests/preEnrollmentRequests";
 
-const SCHOOL_YEAR = "2026 - 2027";
-
-const CARDS = [
-  { title: "Total Students", value: 50, icon: Users },
-  { title: "Male Students", value: 19, icon: User },
-  { title: "Female Students", value: 18, icon: UserCheck },
-  { title: "Disabled Students", value: 3, icon: Accessibility },
-  { title: "Total Full Cash Payment", value: 19, icon: Banknote },
-  { title: "Total Pay Lite Payment", value: 18, icon: CreditCard },
-  { title: "Total All In Payment", value: 3, icon: Wallet },
+const CARD_CONFIG = [
+  { key: "totalStudents", title: "Total Students", icon: Users },
+  { key: "maleStudents", title: "Male Students", icon: User },
+  { key: "femaleStudents", title: "Female Students", icon: UserCheck },
+  { key: "disabledStudents", title: "Disabled Students", icon: Accessibility },
+  { key: "fullCashPayments", title: "Total Full Cash Payment", icon: Banknote },
+  { key: "payLitePayments", title: "Total Pay Lite Payment", icon: CreditCard },
+  { key: "allInPayments", title: "Total All In Payment", icon: Wallet },
 ];
+
 const columns = [
-  {
-    accessorKey: "application_no",
-    header: "Application No.",
-  },
-  {
-    accessorKey: "last_name",
-    header: "Last Name",
-  },
-  {
-    accessorKey: "first_name",
-    header: "First Name",
-  },
-  {
-    accessorKey: "gender",
-    header: "Gender",
-  },
-  {
-    accessorKey: "grade_level",
-    header: "Grade Level",
-  },
+  { accessorKey: "application_no", header: "Application No." },
+  { accessorKey: "last_name", header: "Last Name" },
+  { accessorKey: "first_name", header: "First Name" },
+  { accessorKey: "gender", header: "Gender" },
+  { accessorKey: "grade_level", header: "Grade Level" },
   {
     accessorKey: "date_applied",
     header: "Date Applied",
     cell: ({ getValue }) => {
-      const date = new Date(getValue());
+      const value = getValue();
 
-      return date.toLocaleDateString("en-PH", {
+      if (!value) return "—";
+
+      return new Date(value).toLocaleDateString("en-PH", {
         year: "numeric",
         month: "short",
         day: "numeric",
@@ -64,17 +51,96 @@ const columns = [
   },
 ];
 
+const formatSchoolYear = (year) => {
+  if (!year) return "No School Year";
+
+  const startYear = new Date(year.start_date).getFullYear();
+  const endYear = new Date(year.end_date).getFullYear();
+
+  return `${startYear} - ${endYear}`;
+};
+
 const Dashboard = () => {
-  const { recent_applicants } = useLoaderData();
+  // Use the existing React Router loader data
+  const { recent_applicants = [], dashboard: initialDashboard } =
+    useLoaderData();
+
+  const [dashboard, setDashboard] = useState(initialDashboard);
+  const [selectedSchoolYearId, setSelectedSchoolYearId] = useState(
+    initialDashboard?.selected_school_year_id
+      ? String(initialDashboard.selected_school_year_id)
+      : "",
+  );
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const schoolYears = dashboard?.school_years ?? [];
+  const stats = dashboard?.stats ?? {};
+
+  const selectedSchoolYear = schoolYears.find(
+    (year) => String(year.school_year_id) === selectedSchoolYearId,
+  );
+
+  const cards = CARD_CONFIG.map(({ key, title, icon }) => ({
+    title,
+    value: stats[key] ?? 0,
+    icon,
+  }));
+
+  const handleSchoolYearChange = async (event) => {
+    const schoolYearId = event.target.value;
+
+    setSelectedSchoolYearId(schoolYearId);
+    setError("");
+
+    if (!schoolYearId) return;
+
+    setLoading(true);
+
+    try {
+      const response = await getDashboard(schoolYearId);
+      const updatedDashboard = response.data;
+
+      setDashboard(updatedDashboard);
+      setSelectedSchoolYearId(
+        String(updatedDashboard.selected_school_year_id ?? schoolYearId),
+      );
+    } catch (err) {
+      console.error("Failed to load Dashboard statistics:", err);
+      setError("Failed to load statistics for the selected school year.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 bg-[#ebe9e4] font-[Poppins]">
-      <AdminHeader schoolYear={SCHOOL_YEAR} />
+      <AdminHeader
+        schoolYears={schoolYears}
+        selectedSchoolYearId={selectedSchoolYearId}
+        onSchoolYearChange={handleSchoolYearChange}
+        loading={loading}
+      />
 
-      <DashboardCards cards={CARDS} />
+      {error && (
+        <p role="alert" className="text-sm text-reject">
+          {error}
+        </p>
+      )}
 
-      <span className="flex gap-3 font-[PoppinsBold] py-3 text-swamp-green">
-        <FileClockIcon /> Recent Applicants
+      {loading && (
+        <p className="text-sm text-gray-600">
+          Updating Dashboard statistics...
+        </p>
+      )}
+
+      <DashboardCards cards={cards} />
+
+      <span className="flex gap-3 py-3 font-[PoppinsBold] text-swamp-green">
+        <FileClockIcon />
+        Recent Applicants
       </span>
+
       <DataTable
         data={recent_applicants}
         columns={columns}

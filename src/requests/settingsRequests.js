@@ -11,7 +11,18 @@ export const getSchoolInformation = async () => {
 };
 
 export const updateSchoolInformation = async (data) => {
-  const response = await API.put("/api/settings/school-information", data);
+  const formData = new FormData();
+
+  formData.append("school_name", data.school_name ?? "");
+  formData.append("contact_number", data.contact_number ?? "");
+  formData.append("school_email", data.school_email ?? "");
+  formData.append("school_address", data.school_address ?? "");
+
+  if (data.school_logo instanceof File) {
+    formData.append("school_logo", data.school_logo);
+  }
+
+  const response = await API.put("/api/settings/school-information", formData);
 
   return response.data;
 };

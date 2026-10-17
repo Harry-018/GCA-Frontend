@@ -49,23 +49,33 @@ export const getGradeLevelBySchoolYearGradeLevel = async (
   return response.data.data;
 };
 
-export const getAvailableGradeLevels = async () => {
-  const response = await API.get("/api/academics/gradelevel-schoolyear");
-
-  return response.data.data;
-};
-
-export const addGradeLevelToSchoolYear = async (grade_level_id) => {
-  const response = await API.post("/api/academics/gradelevel-schoolyear", {
-    grade_level_id,
+export const getAvailableGradeLevels = async (school_year_id = null) => {
+  const response = await API.get("/api/academics/gradelevel-schoolyear", {
+    params: school_year_id ? { school_year_id } : {},
   });
 
   return response.data.data;
 };
 
-export const removeGradeLevelFromSchoolYear = async (grade_level_id) => {
+export const addGradeLevelToSchoolYear = async (
+  grade_level_id,
+  school_year_id,
+) => {
+  const response = await API.post("/api/academics/gradelevel-schoolyear", {
+    grade_level_id,
+    school_year_id,
+  });
+
+  return response.data.data;
+};
+
+export const removeGradeLevelFromSchoolYear = async (
+  grade_level_id,
+  school_year_id,
+) => {
   const response = await API.patch("/api/academics/gradelevel-schoolyear", {
     grade_level_id,
+    school_year_id,
   });
 
   return response.data.data;

@@ -27,6 +27,9 @@ const AdminSettings = () => {
   const [websiteForm, setWebsiteForm] = useState(INITIAL_WEBSITE);
   const [contactForm, setContactForm] = useState(INITIAL_CONTACT);
 
+  const [logoFile, setLogoFile] = useState(null);
+  const [logoPreview, setLogoPreview] = useState("");
+
   const [editWebsiteOpen, setEditWebsiteOpen] = useState(false);
   const [editContactOpen, setEditContactOpen] = useState(false);
 
@@ -68,6 +71,8 @@ const AdminSettings = () => {
 
   const openWebsiteEdit = () => {
     setWebsiteForm(website);
+    setLogoFile(null);
+    setLogoPreview(website.logo);
     setEditWebsiteOpen(true);
   };
 
@@ -83,7 +88,7 @@ const AdminSettings = () => {
       setSaving(true);
 
       const response = await updateSchoolInformation({
-        school_logo: websiteForm.logo,
+        school_logo: logoFile,
         school_name: websiteForm.schoolName,
         contact_number: contact.contactNo,
         school_email: contact.emailAddress,
@@ -103,6 +108,8 @@ const AdminSettings = () => {
         schoolAddress: data.school_address,
       });
 
+      setLogoFile(null);
+      setLogoPreview("");
       setEditWebsiteOpen(false);
     } catch (error) {
       console.error("Failed to update school information:", error);
@@ -113,6 +120,13 @@ const AdminSettings = () => {
     } finally {
       setSaving(false);
     }
+    console.log("Website update payload:", {
+      school_name: websiteForm.schoolName,
+      contact_number: contact.contactNo,
+      school_email: contact.emailAddress,
+      school_address: contact.schoolAddress,
+      school_logo: logoFile,
+    });
   };
 
   const saveContact = async () => {
@@ -154,6 +168,18 @@ const AdminSettings = () => {
     }
   };
 
+  const handleLogoChange = (file) => {
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image file.");
+      return;
+    }
+
+    setLogoFile(file);
+    setLogoPreview(URL.createObjectURL(file));
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
@@ -191,7 +217,9 @@ const AdminSettings = () => {
         <EditWebsiteModal
           isOpen={editWebsiteOpen}
           website={websiteForm}
+          logoPreview={logoPreview}
           saving={saving}
+          onLogoChange={handleLogoChange}
           onChange={(key, value) =>
             setWebsiteForm((prev) => ({
               ...prev,

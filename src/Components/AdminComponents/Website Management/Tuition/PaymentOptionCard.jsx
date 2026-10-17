@@ -1,10 +1,12 @@
 import React from "react";
 
-const PaymentOptionCard = ({
-  options = [],
-  onEdit,
-  onRemove,
-}) => {
+const formatCurrency = (amount) =>
+  Number(amount || 0).toLocaleString("en-PH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+
+const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
   return (
     <div className="flex flex-1 flex-col gap-3">
       {options.map((option) => (
@@ -22,53 +24,44 @@ const PaymentOptionCard = ({
               <button
                 type="button"
                 onClick={() => onEdit(option)}
-                className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs text-[#555555] transition hover:bg-white"
+                className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] text-[#555555] transition hover:bg-white sm:text-xs"
               >
                 Edit
-              </button>
-
-              <button
-                type="button"
-                onClick={() => onRemove(option)}
-                className="rounded-full bg-[#f47777] px-4 py-2 font-[Poppins] text-[9px] sm:text-xs font-medium text-white transition hover:bg-[#ed6868]"
-              >
-                Remove
               </button>
             </div>
           </div>
 
           {/* Details */}
           <div className="flex flex-col gap-1.5 pt-3">
-            <p className="font-[Poppins] text-[9px] sm:text-xs text-[#777777]">
+            <p className="font-[Poppins] text-[9px] text-[#777777] sm:text-xs">
               Due Date:{" "}
               <span className="font-medium text-[#555555]">
                 {option.dueDate || "N/A"}
               </span>
             </p>
 
-            <p className="font-[Poppins] text-[9px] sm:text-xs text-[#777777]">
+            <p className="font-[Poppins] text-[9px] text-[#777777] sm:text-xs">
               Discount:{" "}
               <span className="font-semibold text-[#555555]">
-                {option.discount || "No Discount Available"}
+                {formatCurrency(option.discount)}
               </span>
             </p>
 
-            <p className="font-[Poppins] text-[9px] sm:text-xs text-[#777777]">
+            <p className="font-[Poppins] text-[9px] text-[#777777] sm:text-xs">
               Monthly Installment:{" "}
               <span className="font-semibold text-[#555555]">
-                {option.installment || "No Monthly Installment"}
+                {formatCurrency(option.installment)}
               </span>
             </p>
           </div>
 
           {/* Total */}
-          <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-4">
-            <span className="font-[Poppins] text-[9px] sm:text-xs font-medium text-[#333333]">
-              Total:
-            </span>
+          <div className="mt-4 flex flex-wrap justify-between gap-2">
+            <span className="font-[Poppins] text-xs font-semibold">TOTAL:</span>
 
-            <span className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-base">
-              {option.total}
+            <span className="font-[PoppinsBold] text-sm font-bold text-swamp-green">
+              ₱{formatCurrency(option.totalBoys)} - ₱
+              {formatCurrency(option.totalGirls)}
             </span>
           </div>
         </div>

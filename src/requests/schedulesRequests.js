@@ -1,7 +1,14 @@
 import API from "../api/api.js";
 
-export const getScheduleGradeLevels = async () => {
-  const response = await API.get("/api/schedules/grade-levels");
+export const getScheduleSchoolYears = async () => {
+  const response = await API.get("/api/schedules/school-years");
+  return response.data;
+};
+
+export const getScheduleGradeLevels = async (school_year_id) => {
+  const response = await API.get("/api/schedules/grade-levels", {
+    params: school_year_id ? { school_year_id } : {},
+  });
 
   return response.data.data;
 };

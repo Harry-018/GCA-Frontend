@@ -21,7 +21,6 @@ const NAV_ITEMS = [
 ];
 
 const FILTERS = ["All", "Active", "Dropout", "Transferred"];
-const SCHOOL_YEAR = "2026-2027";
 
 const Students = () => {
   const [activeFilter, setActiveFilter] = useState("All");
@@ -33,6 +32,10 @@ const Students = () => {
 
   const [students, setStudents] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const [schoolYears, setSchoolYears] = useState([]);
+  const [selectedSchoolYearId, setSelectedSchoolYearId] = useState("");
 
   const [pagination, setPagination] = useState({
     page: 1,
@@ -41,20 +44,27 @@ const Students = () => {
     totalPages: 0,
   });
 
-  const [pageCount, setPageCount] = useState(0);
-
+  // Load students and the available school years.
   const loadStudents = async () => {
+    if (!selectedSchoolYearId) {
+      setStudents([]);
+      return;
+    }
+
     try {
       setLoading(true);
+      setError("");
 
       const result = await getOfficialStudents({
         status: activeFilter === "All" ? "all" : activeFilter.toLowerCase(),
         search: searchQuery,
         page: pagination.page,
         limit: pagination.limit,
+        school_year_id: selectedSchoolYearId,
       });
 
-      setStudents(result.data);
+      setStudents(result.data ?? []);
+      setSchoolYears(result.school_years ?? []);
 
       setPagination((previous) => ({
         ...previous,
@@ -63,35 +73,100 @@ const Students = () => {
         total: result.pagination.total,
         totalPages: result.pagination.totalPages,
       }));
-    } catch (error) {
-      console.error("Failed to load students:", error);
+
+      if (result.selected_school_year_id != null) {
+        setSelectedSchoolYearId(String(result.selected_school_year_id));
+      }
+    } catch (err) {
+      console.error("Failed to load students:", err);
+      setError("Failed to load students. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  // Fetch the default active school year first.
   useEffect(() => {
+    let cancelled = false;
+
+    const initializeStudents = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const result = await getOfficialStudents({
+          status: activeFilter === "All" ? "all" : activeFilter.toLowerCase(),
+          search: searchQuery,
+          page: pagination.page,
+          limit: pagination.limit,
+        });
+
+        if (cancelled) return;
+
+        setSchoolYears(result.school_years ?? []);
+        setStudents(result.data ?? []);
+        setPagination((previous) => ({
+          ...previous,
+          ...result.pagination,
+        }));
+
+        setSelectedSchoolYearId(
+          result.selected_school_year_id != null
+            ? String(result.selected_school_year_id)
+            : "",
+        );
+      } catch (err) {
+        if (cancelled) return;
+        console.error("Failed to initialize students:", err);
+        setError("Failed to load students. Please try again.");
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    initializeStudents();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Reload the list when filters, search, page, or year changes.
+  useEffect(() => {
+    if (!selectedSchoolYearId) return;
+
     loadStudents();
-  }, [activeFilter, searchQuery, pagination.page, pagination.limit]);
+  }, [
+    selectedSchoolYearId,
+    activeFilter,
+    searchQuery,
+    pagination.page,
+    pagination.limit,
+  ]);
+
+  const handleSchoolYearChange = (event) => {
+    setSelectedSchoolYearId(event.target.value);
+    setPagination((previous) => ({
+      ...previous,
+      page: 1,
+    }));
+  };
 
   const handleSearch = () => {
     setPagination((previous) => ({
       ...previous,
       page: 1,
     }));
-
     setSearchQuery(searchValue);
   };
 
   const handleView = async (student) => {
     try {
       setStudentLoading(true);
-
       const result = await getOfficialStudentInfo(student.stu_id);
-
       setViewedStudent(result);
-    } catch (error) {
-      console.error("Failed to load student information:", error);
+    } catch (err) {
+      console.error("Failed to load student information:", err);
     } finally {
       setStudentLoading(false);
     }
@@ -102,18 +177,16 @@ const Students = () => {
 
     try {
       setStudentSaving(true);
-
       await editOfficialStudent(viewedStudent.stu_id, data);
-
       setViewedStudent(null);
-
       await loadStudents();
-    } catch (error) {
-      console.error("Failed to update student:", error);
+    } catch (err) {
+      console.error("Failed to update student:", err);
     } finally {
       setStudentSaving(false);
     }
   };
+
   const handlePreviousPage = () => {
     setPagination((previous) => ({
       ...previous,
@@ -133,23 +206,12 @@ const Students = () => {
       {
         id: "rowNumber",
         header: "NO.",
-        cell: ({ row }) => {
-          return (pagination.page - 1) * pagination.limit + row.index + 1;
-        },
+        cell: ({ row }) =>
+          (pagination.page - 1) * pagination.limit + row.index + 1,
       },
-
-      {
-        accessorKey: "stu_num",
-        header: "STU. NO.",
-      },
-      {
-        accessorKey: "last_name",
-        header: "LAST NAME",
-      },
-      {
-        accessorKey: "first_name",
-        header: "FIRST NAME",
-      },
+      { accessorKey: "stu_num", header: "STU. NO." },
+      { accessorKey: "last_name", header: "LAST NAME" },
+      { accessorKey: "first_name", header: "FIRST NAME" },
       {
         accessorKey: "grade_level_name",
         header: "GRADE LEVEL",
@@ -160,10 +222,10 @@ const Students = () => {
         header: "STATUS",
         cell: ({ row }) => {
           const status = row.original.stu_status;
-
           const formatted = status
             ? status.charAt(0).toUpperCase() + status.slice(1)
             : "—";
+
           return (
             <span
               className={`rounded-full px-3 py-1 text-xs font-medium ${
@@ -179,10 +241,7 @@ const Students = () => {
           );
         },
       },
-      {
-        accessorKey: "option_name",
-        header: "PAYMENT",
-      },
+      { accessorKey: "option_name", header: "PAYMENT" },
       {
         id: "actions",
         header: "ACTION",
@@ -197,7 +256,7 @@ const Students = () => {
         ),
       },
     ],
-    [pagination.pageIndex, pagination.pageSize],
+    [pagination.page, pagination.limit],
   );
 
   return (
@@ -210,24 +269,34 @@ const Students = () => {
           activeFilter={activeFilter}
           onFilterChange={(value) => {
             setActiveFilter(value);
-
-            setPagination((previous) => ({
-              ...previous,
-              page: 1,
-            }));
+            setPagination((previous) => ({ ...previous, page: 1 }));
           }}
           searchValue={searchValue}
           onSearchChange={setSearchValue}
           onSearch={handleSearch}
-          schoolYear={SCHOOL_YEAR}
+          schoolYears={schoolYears}
+          selectedSchoolYearId={selectedSchoolYearId}
+          onSchoolYearChange={handleSchoolYearChange}
+          loading={loading}
         />
+
+        {error && (
+          <p role="alert" className="px-2 text-sm text-red-600">
+            {error}
+          </p>
+        )}
 
         <DataTable
           data={students}
           columns={columns}
           loading={loading}
-          emptyMessage="No students found."
+          emptyMessage={
+            selectedSchoolYearId
+              ? "No students found."
+              : "No active school year is available. Select an archived year if one exists."
+          }
         />
+
         <div className="flex items-center justify-between px-2 py-3">
           <span className="text-xs text-gray-500">
             Page {pagination.page} of {pagination.totalPages || 0}

@@ -2,13 +2,16 @@ import React from "react";
 
 const AddGradeLevelModal = ({
   isOpen,
-  name = "",
-  tuition = "",
+  grade_level_id = "",
+  tuition_fee = "",
   books = "",
-  boysUniform = "",
-  boysPE = "",
-  girlsUniform = "",
-  girlsPE = "",
+  uniform_boys = "",
+  pe_uniform_boys = "",
+  uniform_girls = "",
+  pe_uniform_girls = "",
+  availableGradeLevels = [],
+  error = "",
+  saving = false,
   onChange,
   onClose,
   onAdd,
@@ -16,135 +19,107 @@ const AddGradeLevelModal = ({
   if (!isOpen) return null;
 
   const inputStyle =
-    "w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green";
+    "w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green disabled:cursor-not-allowed disabled:bg-gray-100";
 
   const labelStyle = "font-[Poppins] text-[9px] sm:text-2xs text-[#555555]";
+
+  const feeFields = [
+    { label: "Tuition Fee", key: "tuition_fee", value: tuition_fee },
+    { label: "Books", key: "books", value: books },
+    { label: "Uniform (Boys)", key: "uniform_boys", value: uniform_boys },
+    {
+      label: "P.E. Uniform (Boys)",
+      key: "pe_uniform_boys",
+      value: pe_uniform_boys,
+    },
+    { label: "Uniform (Girls)", key: "uniform_girls", value: uniform_girls },
+    {
+      label: "P.E. Uniform (Girls)",
+      key: "pe_uniform_girls",
+      value: pe_uniform_girls,
+    },
+  ];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="max-h-[95vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green">
+        <h2 className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-sm">
           Add Grade Level
         </h2>
 
-        {/* Grade Level Name */}
+        {/* Grade Level */}
         <div className="flex flex-col gap-1.5 pt-5">
-          <label className={labelStyle}>
-            Grade Level:
-          </label>
+          <label className={labelStyle}>Grade Level:</label>
 
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => onChange?.("name", e.target.value)}
-            placeholder="Nursery"
+          <select
+            value={grade_level_id}
+            onChange={(e) => onChange?.("grade_level_id", e.target.value)}
             className={inputStyle}
-          />
+            disabled={saving || availableGradeLevels.length === 0}
+          >
+            {availableGradeLevels.length === 0 ? (
+              <option value="">No available grade levels</option>
+            ) : (
+              <>
+                <option value="">Select a grade level</option>
+                {availableGradeLevels.map((grade) => (
+                  <option
+                    key={grade.grade_level_id}
+                    value={String(grade.grade_level_id)}
+                  >
+                    {grade.grade_level_name ?? grade.grade_level ?? grade.name}
+                  </option>
+                ))}
+              </>
+            )}
+          </select>
         </div>
 
         {/* Fees */}
         <div className="grid grid-cols-1 gap-3 pt-4 sm:grid-cols-2">
-          <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Tuition Fee:
-            </label>
+          {feeFields.map((field) => (
+            <div key={field.key} className="flex flex-col gap-1.5">
+              <label className={labelStyle}>{field.label}:</label>
 
-            <input
-              type="text"
-              value={tuition}
-              onChange={(e) => onChange?.("tuition", e.target.value)}
-              placeholder="₱12,000"
-              className={inputStyle}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Books:
-            </label>
-
-            <input
-              type="text"
-              value={books}
-              onChange={(e) => onChange?.("books", e.target.value)}
-              placeholder="₱4,000"
-              className={inputStyle}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Uniform (Boys):
-            </label>
-
-            <input
-              type="text"
-              value={boysUniform}
-              onChange={(e) => onChange?.("boysUniform", e.target.value)}
-              placeholder="₱1,000"
-              className={inputStyle}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              P.E. Uniform (Boys):
-            </label>
-
-            <input
-              type="text"
-              value={boysPE}
-              onChange={(e) => onChange?.("boysPE", e.target.value)}
-              placeholder="₱1,200"
-              className={inputStyle}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Uniform (Girls):
-            </label>
-
-            <input
-              type="text"
-              value={girlsUniform}
-              onChange={(e) => onChange?.("girlsUniform", e.target.value)}
-              placeholder="₱800"
-              className={inputStyle}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              P.E. Uniform (Girls):
-            </label>
-
-            <input
-              type="text"
-              value={girlsPE}
-              onChange={(e) => onChange?.("girlsPE", e.target.value)}
-              placeholder="₱1,000"
-              className={inputStyle}
-            />
-          </div>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={field.value}
+                onChange={(e) => onChange?.(field.key, e.target.value)}
+                placeholder="0.00"
+                className={inputStyle}
+                disabled={saving}
+              />
+            </div>
+          ))}
         </div>
+
+        {/* Error */}
+        {error && (
+          <p className="pt-3 font-[Poppins] text-xs text-red-600">{error}</p>
+        )}
 
         {/* Buttons */}
         <div className="grid grid-cols-2 gap-2 pt-4">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+            disabled={saving}
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
-            Close
+            Cancel
           </button>
 
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+            disabled={
+              saving || !grade_level_id || availableGradeLevels.length === 0
+            }
+            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
-            Add
+            {saving ? "Adding..." : "Add"}
           </button>
         </div>
       </div>

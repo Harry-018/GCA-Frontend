@@ -1,7 +1,25 @@
 import API from "../api/api.js";
 
-export const getSectionGradeLevels = async () => {
-  const response = await API.get("/api/sections/grade-levels");
+export const getSectionSchoolYears = async (school_year_id) => {
+  const response = await API.get("/api/sections/school-years", {
+    params: school_year_id ? { school_year_id } : {},
+  });
+
+  return response.data;
+};
+
+export const getSectionGradeLevels = async (school_year_id) => {
+  const response = await API.get("/api/sections/grade-levels", {
+    params: school_year_id ? { school_year_id } : {},
+  });
+
+  return response.data;
+};
+
+export const getSections = async (school_year_id) => {
+  const response = await API.get("/api/sections", {
+    params: school_year_id ? { school_year_id } : {},
+  });
 
   return response.data;
 };
@@ -44,9 +62,7 @@ export const searchStudentsForSection = async (section_id, search = "") => {
   const response = await API.get(
     `/api/sections/${section_id}/students/search`,
     {
-      params: {
-        search,
-      },
+      params: { search },
     },
   );
 
@@ -64,9 +80,7 @@ export const addStudentsToSection = async (section_id, student_ids) => {
 export const removeStudentsFromSection = async (section_id, student_ids) => {
   const response = await API.patch(
     `/api/sections/${section_id}/students/remove`,
-    {
-      student_ids,
-    },
+    { student_ids },
   );
 
   return response.data;
@@ -76,7 +90,7 @@ export const promoteStudents = async (
   student_ids,
   target_sy_grade_level_id,
 ) => {
-  const response = await API.post(`/api/sections/promote`, {
+  const response = await API.post("/api/sections/promote", {
     student_ids,
     target_sy_grade_level_id,
   });

@@ -7,6 +7,7 @@ const AddGradeLevelModal = ({
   onChange,
   onCancel,
   onAdd,
+  isSubmitting = false,
 }) => {
   if (!isOpen) return null;
 
@@ -23,7 +24,8 @@ const AddGradeLevelModal = ({
           <select
             value={selectedGradeLevel}
             onChange={onChange}
-            className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
+            disabled={isSubmitting}
+            className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-2xs text-gray-600 outline-none focus:border-[#91a77a] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="">Select Grade Level</option>
 
@@ -39,7 +41,8 @@ const AddGradeLevelModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-semibold text-gray-500 hover:bg-gray-100"
+            disabled={isSubmitting}
+            className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-semibold text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Cancel
           </button>
@@ -47,10 +50,10 @@ const AddGradeLevelModal = ({
           <button
             type="button"
             onClick={onAdd}
-            disabled={!selectedGradeLevel}
+            disabled={!selectedGradeLevel || isSubmitting}
             className="w-1/2 rounded-full bg-swamp-green py-1.5 text-xs font-semibold text-white hover:bg-[#7d9367] disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Add
+            {isSubmitting ? "Adding..." : "Add"}
           </button>
         </div>
       </div>

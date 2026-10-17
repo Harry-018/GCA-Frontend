@@ -1,9 +1,16 @@
-import { getRecentApplicants } from "../requests/preEnrollmentRequests";
+import {
+  getRecentApplicants,
+  getDashboard,
+} from "../requests/preEnrollmentRequests";
 
 export const dashboardLoader = async () => {
-  const response = await getRecentApplicants();
+  const [applicantsResponse, dashboardResponse] = await Promise.all([
+    getRecentApplicants(),
+    getDashboard(),
+  ]);
 
   return {
-    recent_applicants: response.data.data,
+    recent_applicants: applicantsResponse.data.data,
+    dashboard: dashboardResponse.data,
   };
 };

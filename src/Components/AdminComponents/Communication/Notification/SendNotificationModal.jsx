@@ -95,11 +95,6 @@ const SendNotificationModal = ({
                   ))
                 )}
               </select>
-
-              <ChevronDown
-                size={14}
-                className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
-              />
             </div>
           </div>
 
@@ -115,7 +110,8 @@ const SendNotificationModal = ({
                 <select
                   value={selectedRecipient}
                   onChange={(e) => setSelectedRecipient(e.target.value)}
-                  disabled={notificationAudiences.length === 0 || sending}
+                  disabled
+                  // ={notificationAudiences.length === 0 || sending}
                   className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   {notificationAudiences.length === 0 ? (
@@ -128,11 +124,6 @@ const SendNotificationModal = ({
                     ))
                   )}
                 </select>
-
-                <ChevronDown
-                  size={14}
-                  className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
-                />
               </div>
             </div>
 
@@ -162,11 +153,6 @@ const SendNotificationModal = ({
                     ))
                   )}
                 </select>
-
-                <ChevronDown
-                  size={14}
-                  className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
-                />
               </div>
             </div>
           </div>

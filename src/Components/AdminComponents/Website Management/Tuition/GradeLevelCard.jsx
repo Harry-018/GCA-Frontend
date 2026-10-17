@@ -15,16 +15,16 @@ const GradeLevelCard = ({
       <div className="flex flex-wrap items-center gap-2">
         {gradeLevels.map((grade) => (
           <button
-            key={grade}
+            key={grade.grade_level_id}
             type="button"
-            onClick={() => onGradeChange(grade)}
+            onClick={() => onGradeChange(grade.grade_level_id)}
             className={`rounded-full px-4 py-2 font-[Poppins] text-[9px] sm:text-xs transition ${
-              activeGrade === grade
+              activeGrade === grade.grade_level_id
                 ? "bg-[#a8ba88] font-medium text-white"
                 : "text-[#555555] hover:bg-[#a8ba88]/20"
             }`}
           >
-            {grade}
+            {grade.grade_level_name}
           </button>
         ))}
       </div>

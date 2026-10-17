@@ -1,4 +1,3 @@
-
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -11,36 +10,41 @@ import {
   LogOut,
   X,
 } from "lucide-react";
-
-import logo from "../assets/logowbg.png";
+import SchoolInformation from "./SchoolInformation";
 
 const MENU_ITEMS = [
   { label: "Dashboard", icon: LayoutDashboard, path: "/admin", end: true },
   { label: "Admission", icon: UserPlus, path: "/admin/admission" },
-  { label: "Academic Management", icon: GraduationCap, path: "/admin/academic" },
+  {
+    label: "Academic Management",
+    icon: GraduationCap,
+    path: "/admin/academic",
+  },
   { label: "User Accounts", icon: Users, path: "/admin/users" },
-  { label: "Notifications", icon: Bell, path: "/admin/notifications" },
+  { label: "Communication", icon: Bell, path: "/admin/communication" },
   { label: "Website Management", icon: Globe, path: "/admin/website" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];
 
-const ADMISSION_PATHS = [
-  "/admin/admission",
-  "/admin/submission",
-];
+const ADMISSION_PATHS = ["/admin/admission", "/admin/submission"];
 
 const MobileBrand = () => {
+  const schoolInformation = SchoolInformation();
+
+  const schoolLogo = schoolInformation?.school_logo;
+  const schoolName = schoolInformation?.school_name;
+
   return (
     <div className="flex items-center gap-2 border-b border-white/10 px-5 py-5">
-      <img
-        src={logo}
-        alt="Grace Christian Academy"
-        className="h-9 w-9 shrink-0 rounded-full object-cover"
-      />
+      {schoolLogo && (
+        <img
+          src={schoolLogo}
+          alt={schoolName}
+          className="h-9 w-9 shrink-0 rounded-full object-cover"
+        />
+      )}
 
-      <span className="font-[PoppinsBold] text-xs text-bone">
-        Grace Christian Academy
-      </span>
+      <span className="font-[PoppinsBold] text-xs text-bone">{schoolName}</span>
     </div>
   );
 };
@@ -53,9 +57,7 @@ const MobileAccount = () => {
         ADMIN ACCOUNT
       </p>
 
-      <p className="text-[9px] text-gray-400">
-        Administrator
-      </p>
+      <p className="text-[9px] text-gray-400">Administrator</p>
     </div>
   );
 };
@@ -99,10 +101,7 @@ const MobileMenu = ({ onNavigate }) => {
       return pathname === item.path;
     }
 
-    return (
-      pathname === item.path ||
-      pathname.startsWith(`${item.path}/`)
-    );
+    return pathname === item.path || pathname.startsWith(`${item.path}/`);
   };
 
   return (
@@ -176,13 +175,9 @@ const AdminMobileSidebar = ({ open = false, onClose }) => {
         <MobileBrand />
         <MobileAccount />
 
-        <MobileMenu 
-            onNavigate={onClose} 
-        />
+        <MobileMenu onNavigate={onClose} />
 
-        <MobileLogout 
-            onNavigate={onClose} 
-        />
+        <MobileLogout onNavigate={onClose} />
       </aside>
     </>
   );

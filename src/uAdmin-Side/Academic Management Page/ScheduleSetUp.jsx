@@ -29,7 +29,6 @@ const NAV_ITEMS = [
   { name: "Grade Levels", path: "/admin/academic/grade-levels" },
   { name: "School Years", path: "/admin/academic/school-years" },
 ];
-const SCHOOL_YEAR = "2026 - 2027";
 const DAYS = [
   { label: "Mon", value: "monday" },
   { label: "Tue", value: "tuesday" },
@@ -73,6 +72,9 @@ const ScheduleSetUp = () => {
   const sectionId = Number(searchParams.get("section_id"));
   const level = searchParams.get("level") || "";
   const section = searchParams.get("section") || "";
+  const schoolYear = searchParams.get("schoolYear") || "—";
+  const schoolYearId = searchParams.get("school_year_id") || "";
+
   const [activeDay, setActiveDay] = useState("monday");
   const [isScheduleOpen, setIsScheduleOpen] = useState(false);
   const [isAddScheduleOpen, setIsAddScheduleOpen] = useState(false);
@@ -354,7 +356,7 @@ const ScheduleSetUp = () => {
       <Header navItems={NAV_ITEMS} />
       <ScheduleToolbar
         sectionName={section}
-        schoolYear={SCHOOL_YEAR}
+        schoolYear={schoolYear}
         days={DAYS}
         activeDay={activeDay}
         onDayChange={setActiveDay}
@@ -381,7 +383,7 @@ const ScheduleSetUp = () => {
       {isAddScheduleOpen && (
         <AddScheduleModal
           gradeLevel={level}
-          schoolYear={SCHOOL_YEAR}
+          schoolYear={schoolYear}
           section={section}
           subjects={subjectOptions}
           teachers={teacherOptions}
@@ -398,7 +400,7 @@ const ScheduleSetUp = () => {
       {isEditScheduleOpen && (
         <EditScheduleModal
           gradeLevel={level}
-          schoolYear={SCHOOL_YEAR}
+          schoolYear={schoolYear}
           section={section}
           subjects={subjectOptions}
           teachers={teacherOptions}

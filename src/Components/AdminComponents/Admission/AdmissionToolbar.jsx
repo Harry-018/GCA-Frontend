@@ -43,7 +43,7 @@ const AdmissionToolbar = ({
             onClick={onToggleSelectionMode}
             className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-swamp-green px-4 text-[11px] font-[Poppins] text-white transition hover:bg-swamp-green sm:px-7 sm:text-xs"
           >
-            {selectionMode ? "Cancel" : "Check Multiple"}
+            {selectionMode ? "Cancel" : "Select"}
           </button>
         )}
 

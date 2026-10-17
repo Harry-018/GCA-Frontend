@@ -6,10 +6,11 @@ const EditPaymentOptionModal = ({
   dueDate = "",
   discount = "",
   installment = "",
-  total = "",
   onChange,
   onClose,
   onSave,
+  error = "",
+  saving = false,
 }) => {
   if (!isOpen) return null;
 
@@ -18,6 +19,10 @@ const EditPaymentOptionModal = ({
 
   const labelStyle = "font-[Poppins] text-[9px] sm:text-2xs text-[#555555]";
 
+  const handleSave = () => {
+    if (!saving) onSave?.();
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="max-h-[95vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
@@ -25,96 +30,79 @@ const EditPaymentOptionModal = ({
           Edit Payment Option
         </h2>
 
-        {/* Name */}
         <div className="flex flex-col gap-1.5 pt-5">
-          <label className={labelStyle}>
-            Name:
-          </label>
-
+          <label className={labelStyle}>Name:</label>
           <input
             type="text"
             value={name}
             onChange={(e) => onChange?.("name", e.target.value)}
             placeholder="Full Cash"
             className={inputStyle}
+            disabled={saving}
           />
         </div>
 
-        {/* Details */}
         <div className="grid grid-cols-1 gap-3 pt-4 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Due Date:
-            </label>
-
+            <label className={labelStyle}>Due Date:</label>
             <input
               type="text"
               value={dueDate}
               onChange={(e) => onChange?.("dueDate", e.target.value)}
               placeholder="Every 10th of the month"
               className={inputStyle}
+              disabled={saving}
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Discount:
-            </label>
-
+            <label className={labelStyle}>Discount:</label>
             <input
-              type="text"
+              type="number"
               value={discount}
               onChange={(e) => onChange?.("discount", e.target.value)}
               placeholder="₱1,500"
               className={inputStyle}
+              disabled={saving}
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Monthly Installment:
-            </label>
-
+            <label className={labelStyle}>Monthly Installment:</label>
             <input
-              type="text"
+              type="number"
               value={installment}
               onChange={(e) => onChange?.("installment", e.target.value)}
               placeholder="₱1,100.00"
               className={inputStyle}
-            />
-          </div>
-
-          <div className="flex flex-col gap-1.5">
-            <label className={labelStyle}>
-              Total:
-            </label>
-
-            <input
-              type="text"
-              value={total}
-              onChange={(e) => onChange?.("total", e.target.value)}
-              placeholder="₱16,700 - ₱16,800"
-              className={inputStyle}
+              disabled={saving}
             />
           </div>
         </div>
 
-        {/* Buttons */}
+        {error && (
+          <p className="pt-3 text-xs text-red-600" role="alert">
+            {error}
+          </p>
+        )}
+
         <div className="grid grid-cols-2 gap-2 pt-4">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+            disabled={saving}
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white disabled:opacity-50"
           >
             Close
           </button>
 
           <button
             type="button"
-            onClick={onSave}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+            onClick={handleSave}
+            disabled={saving}
+            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green disabled:opacity-50"
           >
-            Save
+            {saving ? "Saving..." : "Save"}
           </button>
         </div>
       </div>

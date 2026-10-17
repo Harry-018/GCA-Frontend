@@ -16,7 +16,7 @@ const AddScheduleModal = ({
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-5">
-      <div className="flex w-full max-w-md flex-col gap-1 rounded-2xl bg- p-5">
+      <div className="bg-egg flex w-full max-w-md flex-col gap-1 rounded-2xl bg- p-5">
         {/* Header */}
         <div className="mb-3">
           <h2 className="font-[PoppinsBold] text-sm text-swamp-green">

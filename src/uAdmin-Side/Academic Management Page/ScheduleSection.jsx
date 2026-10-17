@@ -15,8 +15,12 @@ const NAV_ITEMS = [
 const ScheduleSection = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
   const syGradeLevelId = searchParams.get("sy_grade_level_id");
   const level = searchParams.get("level") || "";
+  const schoolYear = searchParams.get("schoolYear") || "—";
+  const schoolYearId = searchParams.get("school_year_id") || "";
+
   const [sections, setSections] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -38,7 +42,7 @@ const ScheduleSection = () => {
     };
     loadSections();
   }, [syGradeLevelId]);
-  const schoolYear = "2026 - 2027";
+
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
@@ -76,7 +80,7 @@ const ScheduleSection = () => {
                 sectionName={item.section_name}
                 onClick={() =>
                   navigate(
-                    `/admin/academic/setupschedule?sy_grade_level_id=${syGradeLevelId}&level=${encodeURIComponent(level)}&section_id=${item.section_id}&section=${encodeURIComponent(item.section_name)}`,
+                    `/admin/academic/setupschedule?sy_grade_level_id=${syGradeLevelId}&level=${encodeURIComponent(level)}&section_id=${item.section_id}&section=${encodeURIComponent(item.section_name)}&school_year_id=${schoolYearId}&schoolYear=${encodeURIComponent(schoolYear)}`,
                   )
                 }
               />

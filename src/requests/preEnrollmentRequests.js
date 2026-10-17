@@ -1,5 +1,11 @@
 import API from "../api/api";
 
+export const getDashboard = async (school_year_id = null) => {
+  return API.get("/api/dashboard", {
+    params: school_year_id ? { school_year_id } : {},
+  });
+};
+
 export const applyApplication = async (data) => {
   return API.post(`/api/preEnrollment/application`, data);
 };

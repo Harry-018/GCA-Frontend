@@ -5,6 +5,7 @@ export const getOfficialStudents = async ({
   search = "",
   page = 1,
   limit = 10,
+  school_year_id,
 }) => {
   const response = await API.get("/api/official-students", {
     params: {
@@ -12,6 +13,7 @@ export const getOfficialStudents = async ({
       search,
       page,
       limit,
+      school_year_id,
     },
   });
 
@@ -20,7 +22,6 @@ export const getOfficialStudents = async ({
 
 export const getOfficialStudentInfo = async (stu_id) => {
   const response = await API.get(`/api/official-students/${stu_id}`);
-
   return response.data.data;
 };
 
@@ -28,23 +29,17 @@ export const getOfficialStudentEnrollments = async (stu_id) => {
   const response = await API.get(
     `/api/official-students/${stu_id}/enrollments`,
   );
-
   return response.data.data;
 };
 
 export const editOfficialStudent = async (stu_id, data) => {
   const response = await API.patch(`/api/official-students/${stu_id}`, data);
-
   return response.data;
 };
 
 export const getParents = async ({ search = "", page = 1, limit = 10 }) => {
   const response = await API.get("/api/parents", {
-    params: {
-      search,
-      page,
-      limit,
-    },
+    params: { search, page, limit },
   });
 
   return response.data;
