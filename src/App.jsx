@@ -110,7 +110,7 @@ const App = () => {
           <Route
             path="/enrollmentform"
             element={<FormPage />}
-            loader={getGradeLevels} //change to enrollmentLoaderGuard
+            loader={enrollmentFormLoader} //change to enrollmentLoaderGuard
           />
           <Route path="/thanksforapply" element={<ThanksforApply />} />
           <Route path="/tuitionfee" element={<TuitionPage />} />
