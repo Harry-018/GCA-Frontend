@@ -51,7 +51,7 @@ const InfoField = ({
             value={value ?? ""}
             onChange={(e) => onChange?.(e)}
             disabled={readOnly}
-            className="h-10 w-full appearance-none rounded-md border border-[#d4d5d9] bg-white px-3 pr-9 text-sm text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500"
+            className="h-10 w-full appearance-none rounded-md border border-[#d4d5d9] bg-bone px-3 pr-9 text-sm text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500"
           >
             <option value="" disabled>
               Select {label}
@@ -83,7 +83,7 @@ const InfoField = ({
           value={value ?? ""}
           onChange={handleInputChange}
           readOnly={readOnly}
-          className="h-10 w-full rounded-md border border-[#d4d5d9] bg-white px-3 text-sm text-neutral-700  outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark read-only:cursor-not-allowed read-only:bg-neutral-100 read-only:text-neutral-500"
+          className="h-10 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-sm text-neutral-700  outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark read-only:cursor-not-allowed read-only:bg-neutral-100 read-only:text-neutral-500"
         />
       )}
     </label>

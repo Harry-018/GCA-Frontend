@@ -49,55 +49,12 @@ const Security = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // TEMPORARY DATA
   const [contactData, setContactData] = useState(getParentContact());
 
   const [formData, setFormData] = useState(getParentContact());
 
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       setError("");
-  //       const response = await axios.get(
-  //         "http://localhost:5000/parent/account"
-  //       );
-  //
-  //       setContactData({
-  //         contactNumber: response.data.contactNumber,
-  //         email: response.data.email,
-  //         address: response.data.address,
-  //       });
-  //
-  //       setFormData({
-  //         contactNumber: response.data.contactNumber,
-  //         email: response.data.email,
-  //         address: response.data.address,
-  //       });
-  //     } catch (error) {
-  //       console.error("Failed to fetch account data:", error);
-  //       setError("Unable to load account data.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchUserData();
-  // }, []);
-
   const handlePasswordUpdate = (passwords) => {
-    console.log("Password update submitted:", passwords);
-
     setShowPasswordModal(false);
-
-    /*
-      Later, this can become:
-
-      await axios.put(
-        "http://localhost:5000/parent/change-password",
-        passwords
-      );
-    */
   };
 
   const handleManageContact = () => {
@@ -145,9 +102,7 @@ const Security = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
@@ -179,7 +134,6 @@ const Security = () => {
 
         {/* CONTACT + ACCOUNT SETTINGS */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.7fr_1fr] lg:gap-6">
-
           <EmergencyContact
             fullName={PROFILE.emergencyFullName}
             contactNo={contactData.contactNumber}
@@ -190,11 +144,8 @@ const Security = () => {
           <AccountSettings
             email={contactData.email}
             password="Change Password"
-            onChangePassword={() =>
-              setShowPasswordModal(true)
-            }
+            onChangePassword={() => setShowPasswordModal(true)}
           />
-
         </div>
 
         {/* CHANGE PASSWORD MODAL */}
@@ -203,9 +154,7 @@ const Security = () => {
             fields={PASSWORD_FIELDS}
             initialPasswords={INITIAL_PASSWORDS}
             initialVisibility={INITIAL_VISIBILITY}
-            onCancel={() =>
-              setShowPasswordModal(false)
-            }
+            onCancel={() => setShowPasswordModal(false)}
             onSave={handlePasswordUpdate}
           />
         )}
@@ -217,30 +166,14 @@ const Security = () => {
             email={formData.email}
             address={formData.address}
             onContactNoChange={(value) =>
-              handleContactChange(
-                "contactNumber",
-                value
-              )
+              handleContactChange("contactNumber", value)
             }
-            onEmailChange={(value) =>
-              handleContactChange(
-                "email",
-                value
-              )
-            }
-            onAddressChange={(value) =>
-              handleContactChange(
-                "address",
-                value
-              )
-            }
-            onCancel={() =>
-              setShowContactModal(false)
-            }
+            onEmailChange={(value) => handleContactChange("email", value)}
+            onAddressChange={(value) => handleContactChange("address", value)}
+            onCancel={() => setShowContactModal(false)}
             onSave={handleSaveContact}
           />
         )}
-
       </div>
     </div>
   );

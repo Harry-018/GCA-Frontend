@@ -12,12 +12,8 @@ const EditContactInformationModal = ({
   },
 }) => {
   const [contactNo, setContactNo] = useState(initialData.contactNo);
-  const [emailAddress, setEmailAddress] = useState(
-    initialData.emailAddress
-  );
-  const [schoolAddress, setSchoolAddress] = useState(
-    initialData.schoolAddress
-  );
+  const [emailAddress, setEmailAddress] = useState(initialData.emailAddress);
+  const [schoolAddress, setSchoolAddress] = useState(initialData.schoolAddress);
 
   if (!isOpen) return null;
 
@@ -40,43 +36,37 @@ const EditContactInformationModal = ({
         <div className="flex flex-col gap-5 py-5">
           {/* Contact Number */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-2xs text-[#555555]">
-              Contact No:
-            </label>
+            <label className="text-2xs text-[#555555]">Contact No:</label>
 
             <input
               type="text"
               value={contactNo}
               onChange={(e) => setContactNo(e.target.value)}
-              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-white px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
+              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-bone px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
             />
           </div>
 
           {/* Email Address */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-2xs text-[#555555]">
-              Email Address:
-            </label>
+            <label className="text-2xs text-[#555555]">Email Address:</label>
 
             <input
               type="email"
               value={emailAddress}
               onChange={(e) => setEmailAddress(e.target.value)}
-              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-white px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
+              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-bone px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
             />
           </div>
 
           {/* School Address */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-2xs text-[#555555]">
-              School Address:
-            </label>
+            <label className="text-2xs text-[#555555]">School Address:</label>
 
             <input
               type="text"
               value={schoolAddress}
               onChange={(e) => setSchoolAddress(e.target.value)}
-              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-white px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
+              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-bone px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
             />
           </div>
         </div>

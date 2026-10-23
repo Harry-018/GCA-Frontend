@@ -30,7 +30,7 @@ const TeacherInformation = ({ teacher }) => {
     <div className="w-full overflow-hidden rounded-2xl bg-[#0c2423] text-white shadow-lg">
       <div className="flex flex-col gap-7 bg-linear-to-br from-[#0c2423] via-[#123b35] to-[#279257] px-5 py-6 sm:px-8 sm:py-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <div className="flex items-start gap-4 sm:gap-5">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-lime-green ring-1 ring-white/20 sm:size-14">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-lime-green ring-1 ring-white/20 sm:size-14">
             <UserRound size={26} strokeWidth={1.5} />
           </div>
           <div>
@@ -50,13 +50,25 @@ const TeacherInformation = ({ teacher }) => {
           {teacherDetails.map((detail) => (
             <div key={detail.label} className="flex min-w-0 items-start gap-3">
               {detail.label === "Teacher ID" ? (
-                <GraduationCap size={16} className="mt-0.5 shrink-0 text-swamp-green" />
+                <GraduationCap
+                  size={16}
+                  className="mt-0.5 shrink-0 text-swamp-green"
+                />
               ) : detail.label === "Gender" ? (
-                <VenusAndMars size={16} className="mt-0.5 shrink-0 text-swamp-green" />
+                <VenusAndMars
+                  size={16}
+                  className="mt-0.5 shrink-0 text-swamp-green"
+                />
               ) : detail.label === "Birthdate" ? (
-                <CalendarDays size={16} className="mt-0.5 shrink-0 text-swamp-green" />
+                <CalendarDays
+                  size={16}
+                  className="mt-0.5 shrink-0 text-swamp-green"
+                />
               ) : (
-                <HeartHandshake size={16} className="mt-0.5 shrink-0 text-swamp-green" />
+                <HeartHandshake
+                  size={16}
+                  className="mt-0.5 shrink-0 text-swamp-green"
+                />
               )}
               <div className="min-w-0">
                 <span className="text-2xs font-medium uppercase tracking-wide text-white/60">

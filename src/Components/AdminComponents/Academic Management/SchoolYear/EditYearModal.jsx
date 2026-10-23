@@ -100,7 +100,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
                 name="sy_status"
                 value={formData.sy_status}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
+                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
               >
                 <option value="draft">Draft</option>
                 <option value="active">Active</option>
@@ -119,7 +119,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
               name="enrollment_status"
               value={formData.enrollment_status}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
+              className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
             >
               <option value="open">Open</option>
               <option value="closed">Closed</option>
@@ -139,7 +139,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
                 value={formData.start}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
+                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
               />
             </div>
 
@@ -154,7 +154,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
                 value={formData.end}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
+                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-[#91a77a]"
               />
             </div>
           </div>

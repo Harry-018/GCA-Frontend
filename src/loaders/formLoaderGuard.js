@@ -1,6 +1,5 @@
 import { redirect } from "react-router-dom";
-import { getGradeLevels } from "./preEnrollmentLoaders";
-
+import { getGradeLevels } from "./preEnrollmentLoaders.js";
 export const enrollmentFormLoader = () => {
   const verificationId = localStorage.getItem("verification_id");
   const verifiedEmail = localStorage.getItem("verified_email");
@@ -9,5 +8,5 @@ export const enrollmentFormLoader = () => {
     throw redirect("/email-verification");
   }
 
-  return getGradeLevels;
+  return getGradeLevels();
 };

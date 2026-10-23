@@ -34,7 +34,7 @@ const SkillModal = ({
               value={skillName}
               onChange={(e) => setSkillName(e.target.value)}
               autoFocus
-              className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+              className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
               placeholder="Enter skill name"
             />
           </div>
@@ -47,7 +47,7 @@ const SkillModal = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
-              className="mt-2 w-full resize-none rounded-xl border border-gray-300 bg-white p-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+              className="mt-2 w-full resize-none rounded-xl border border-gray-300 bg-bone p-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
               placeholder="Describe the skill"
             />
           </div>

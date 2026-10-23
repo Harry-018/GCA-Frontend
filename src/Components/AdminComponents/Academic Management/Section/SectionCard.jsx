@@ -13,7 +13,7 @@ const SectionCard = ({ level, syGradeLevelId, sectionCount }) => {
   };
 
   return (
-    <div className="flex w-full flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-5 shadow-md">
+    <div className="flex w-full justify-between min-h-30 flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-5 shadow-md">
       <div className="flex items-center justify-between">
         <h2 className="font-[PoppinsBold] text-sm text-swamp-green">{level}</h2>
 

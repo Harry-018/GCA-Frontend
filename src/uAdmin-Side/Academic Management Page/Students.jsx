@@ -307,7 +307,7 @@ const Students = () => {
               type="button"
               disabled={pagination.page === 1 || loading}
               onClick={handlePreviousPage}
-              className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
             >
               Previous
             </button>
@@ -330,7 +330,7 @@ const Students = () => {
 
       {studentLoading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-          <div className="rounded-xl bg-white px-5 py-3 text-sm text-gray-600 shadow">
+          <div className="rounded-xl bg-bone px-5 py-3 text-sm text-gray-600 shadow">
             Loading student...
           </div>
         </div>

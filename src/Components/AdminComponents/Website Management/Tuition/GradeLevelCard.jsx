@@ -40,7 +40,7 @@ const GradeLevelCard = ({
             <button
               type="button"
               onClick={onEdit}
-              className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs text-[#555555] transition hover:bg-white"
+              className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs text-[#555555] transition hover:bg-bone"
             >
               Edit
             </button>

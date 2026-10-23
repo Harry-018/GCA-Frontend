@@ -35,7 +35,7 @@ const RemoveModal = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby="remove-modal-title"
-        className="w-full max-w-md rounded-2xl bg-white p-6 font-[Poppins] shadow-xl"
+        className="w-full max-w-md rounded-2xl bg-bone p-6 font-[Poppins] shadow-xl"
       >
         {/* Header */}
         <div className="mb-4 flex items-start justify-between gap-4">

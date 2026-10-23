@@ -2,12 +2,19 @@ import { GraduationCap, IdCard, UserRound } from "lucide-react";
 import DaysCard from "./DaysCard";
 import AttendanceCard from "./AbsentCard";
 
-const StudentCard = ({ lastName, firstName, learnerReferenceNumber, studentId, totalDays, absences }) => {
+const StudentCard = ({
+  lastName,
+  firstName,
+  learnerReferenceNumber,
+  studentId,
+  totalDays,
+  absences,
+}) => {
   return (
     <div className="flex w-full flex-col gap-3 font-[Poppins] lg:flex-row">
       <div className="flex flex-1 flex-col overflow-hidden rounded-2xl bg-linear-to-br from-[#0c2423] via-[#123b35] to-[#479257] px-4 py-4 text-white shadow-lg sm:rounded-3xl sm:px-5 sm:py-5 lg:grid lg:grid-cols-[1.5fr_1fr_1fr] lg:gap-4 lg:px-6 lg:py-6 xl:px-8 xl:py-8">
         <div className="flex min-w-0 items-center gap-3 lg:gap-4">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-swamp-green ring-1 ring-white/20 lg:size-12">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-swamp-green ring-1 ring-white/20 lg:size-12">
             <UserRound size={20} className="lg:hidden" />
             <UserRound size={24} className="hidden lg:block" />
           </div>

@@ -54,7 +54,7 @@ const EditScheduleModal = ({
             name="subject"
             value={formData.subject}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
           >
             <option value="">Select Subject</option>
 
@@ -76,7 +76,7 @@ const EditScheduleModal = ({
             name="teacher"
             value={formData.teacher}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
           >
             <option value="">Select Teacher</option>
 
@@ -99,7 +99,7 @@ const EditScheduleModal = ({
               name="day"
               value={formData.day}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Day</option>
 
@@ -120,7 +120,7 @@ const EditScheduleModal = ({
               name="room"
               value={formData.room}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Room</option>
 
@@ -144,7 +144,7 @@ const EditScheduleModal = ({
               name="from"
               value={formData.from}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Time</option>
 
@@ -163,7 +163,7 @@ const EditScheduleModal = ({
               name="to"
               value={formData.to}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Time</option>
 

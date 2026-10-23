@@ -267,7 +267,7 @@ function FormPage() {
 
       {isSubmitting && (
         <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
-          <div className="flex w-70 flex-col items-center gap-4 rounded-xl bg-white p-6 shadow-xl">
+          <div className="flex w-70 flex-col items-center gap-4 rounded-xl bg-bone p-6 shadow-xl">
             <Loader2 size={32} className="animate-spin text-swamp-green" />
 
             <div className="text-center">

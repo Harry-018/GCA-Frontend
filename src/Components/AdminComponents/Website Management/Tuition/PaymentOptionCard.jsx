@@ -24,7 +24,7 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
               <button
                 type="button"
                 onClick={() => onEdit(option)}
-                className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] text-[#555555] transition hover:bg-white sm:text-xs"
+                className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] text-[#555555] transition hover:bg-bone sm:text-xs"
               >
                 Edit
               </button>

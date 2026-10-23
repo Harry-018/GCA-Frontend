@@ -1,14 +1,20 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { Bus, CheckCircle, GraduationCap, Home, LogIn, School, X } from "lucide-react";
+import {
+  Bus,
+  CheckCircle,
+  GraduationCap,
+  Home,
+  LogIn,
+  School,
+  X,
+} from "lucide-react";
 import logoImg from "../assets/logowbg.png";
 
 const SCHOOL = {
   name: "Grace Christian Academy",
 };
 
-const NAV_LINKS = [
-  { to: "/teacher", label: "TEACHER", icon: GraduationCap },
-];
+const NAV_LINKS = [{ to: "/teacher", label: "TEACHER", icon: GraduationCap }];
 
 const QUICK_LINKS = [
   { to: "/", label: "HOME", icon: Home, end: true },
@@ -48,11 +54,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
         </button>
 
         <div className="flex items-center gap-x-2 border-b border-white/10 px-5 py-5">
-          <img
-            src={logoImg}
-            alt={SCHOOL.name}
-            className="h-9 rounded-full"
-          />
+          <img src={logoImg} alt={SCHOOL.name} className="h-9 rounded-full" />
           <span className="font-[PoppinsBold] text-xs text-bone">
             {SCHOOL.name}
           </span>
@@ -73,7 +75,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
                 `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] tracking-wide transition-colors ${
                   isActive
                     ? "bg-swamp-green/20 text-swamp-green"
-                    : "text-gray-400 hover:bg-white/5 hover:text-white"
+                    : "text-gray-400 hover:bg-bone/5 hover:text-white"
                 }`
               }
             >
@@ -92,7 +94,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
                 `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] tracking-wide transition-colors ${
                   isActive
                     ? "bg-swamp-green/20 text-swamp-green"
-                    : "text-gray-400 hover:bg-white/5 hover:text-white"
+                    : "text-gray-400 hover:bg-bone/5 hover:text-white"
                 }`
               }
             >

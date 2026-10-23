@@ -53,7 +53,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
               value={formData.city}
               onChange={handleChange}
               required
-              className="h-10 w-full rounded-lg border border-gray-300 bg-white font-[Poppins] text-xs sm:text-sm outline-none focus:border-swamp-green"
+              className="h-10 w-full rounded-lg border border-gray-300 bg-bone font-[Poppins] text-xs sm:text-sm outline-none focus:border-swamp-green"
             >
               <option value="" disabled>
                 Select city
@@ -75,7 +75,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
               value={formData.location}
               onChange={handleChange}
               required
-              className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
+              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
             />
           </div>
 
@@ -91,7 +91,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
                 value={formData.distance}
                 onChange={handleChange}
                 required
-                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
+                className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
               />
             </div>
 
@@ -106,7 +106,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
                 value={formData.price}
                 onChange={handleChange}
                 required
-                className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
+                className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
               />
             </div>
           </div>

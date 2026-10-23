@@ -49,7 +49,7 @@ const EditWebsiteModal = ({
             </label>
 
             {/* Logo Preview */}
-            <div className="flex min-h-32 items-center justify-center rounded-lg border border-dashed border-[#cfcfcf] bg-white p-4">
+            <div className="flex min-h-32 items-center justify-center rounded-lg border border-dashed border-[#cfcfcf] bg-bone p-4">
               {logoPreview ? (
                 <img
                   src={logoPreview}
@@ -69,7 +69,7 @@ const EditWebsiteModal = ({
               accept="image/*"
               onChange={handleFileChange}
               disabled={saving}
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] file:mr-3 file:rounded-md file:border-0 file:bg-swamp-green file:px-3 file:py-1.5 file:font-[Poppins] file:text-[9px] file:font-semibold file:text-white hover:file:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-2xs"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] file:mr-3 file:rounded-md file:border-0 file:bg-swamp-green file:px-3 file:py-1.5 file:font-[Poppins] file:text-[9px] file:font-semibold file:text-white hover:file:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-2xs"
             />
 
             <p className="font-[Poppins] text-[9px] text-[#999999] sm:text-2xs">
@@ -89,7 +89,7 @@ const EditWebsiteModal = ({
               onChange={(e) => onChange?.("schoolName", e.target.value)}
               placeholder="Enter school name"
               disabled={saving}
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green disabled:opacity-50 sm:text-2xs"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green disabled:opacity-50 sm:text-2xs"
             />
           </div>
         </div>
@@ -100,7 +100,7 @@ const EditWebsiteModal = ({
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
           >
             Close
           </button>

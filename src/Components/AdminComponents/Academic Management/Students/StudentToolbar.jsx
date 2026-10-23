@@ -36,7 +36,7 @@ const StudentToolbar = ({
             onChange={onSchoolYearChange}
             disabled={loading || schoolYears.length === 0}
             aria-label="Filter students by school year"
-            className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white py-1 pl-2.5 pr-7 text-[10px] text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
+            className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-gray-300 bg-bone py-1 pl-2.5 pr-7 text-[10px] text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
           >
             {schoolYears.length === 0 && (
               <option value="">No school years</option>
@@ -60,7 +60,7 @@ const StudentToolbar = ({
             id="student-status-filter"
             value={activeFilter}
             onChange={(e) => onFilterChange(e.target.value)}
-            className="h-8 w-24 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white px-2.5 pr-7 text-[9px] leading-none text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green sm:w-24 sm:px-3 sm:pr-8 sm:text-xs"
+            className="h-8 w-24 cursor-pointer appearance-none rounded-full border border-gray-300 bg-bone px-2.5 pr-7 text-[9px] leading-none text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green sm:w-24 sm:px-3 sm:pr-8 sm:text-xs"
           >
             {filters.map((filter) => (
               <option key={filter} value={filter}>

@@ -95,7 +95,7 @@ const EmailVerificationPage = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-[#eeece8] px-4 font-[Poppins]">
-      <div className="w-full max-w-md rounded-xl bg-white p-6 shadow-sm sm:p-8">
+      <div className="w-full max-w-md rounded-xl bg-bone p-6 shadow-sm sm:p-8">
         {/* Header */}
         <div className="mb-6 text-center">
           <h1 className="text-2xl font-semibold text-[#3b3b3b]">
@@ -135,7 +135,7 @@ const EmailVerificationPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@email.com"
-                className="h-11 w-full rounded-md border border-[#d4d5d9] bg-white px-3 text-sm text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
+                className="h-11 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-sm text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
               />
             </div>
 
@@ -216,7 +216,7 @@ const EmailVerificationPage = () => {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                 placeholder="000000"
-                className="h-12 w-full rounded-md border border-[#d4d5d9] bg-white px-3 text-center text-xl font-semibold tracking-[0.4em] text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
+                className="h-12 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-center text-xl font-semibold tracking-[0.4em] text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
               />
 
               <p className="mt-2 text-center text-xs text-neutral-500">

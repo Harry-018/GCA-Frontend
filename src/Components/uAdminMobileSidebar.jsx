@@ -78,7 +78,7 @@ const MobileNavLink = ({ item, active, onNavigate }) => {
         ${
           active
             ? "bg-swamp-green/20 text-swamp-green"
-            : "text-gray-400 hover:bg-white/5 hover:text-white"
+            : "text-gray-400 hover:bg-bone/5 hover:text-white"
         }
       `}
     >

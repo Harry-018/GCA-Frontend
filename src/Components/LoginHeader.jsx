@@ -1,6 +1,9 @@
 import { Home, GraduationCap, LogIn, Menu } from "lucide-react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import logoImg from "../assets/logowbg.png";
+import { useState, useEffect } from "react";
+
+import { getSchoolInformation } from "../requests/settingsRequests.js";
 
 const SCHOOL = {
   name: "Grace Christian Academy",
@@ -10,6 +13,34 @@ const SCHOOL = {
 const LoginHeader = ({ onMenuToggle }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+
+  const [schoolinfo, setSchoolinfo] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchSchoolInformation = async () => {
+      try {
+        const response = await getSchoolInformation();
+
+        if (isMounted) {
+          setSchoolinfo(response?.data ?? response);
+        }
+      } catch (error) {
+        console.error("Failed to load school information:", error);
+      }
+    };
+
+    fetchSchoolInformation();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const schoolName = schoolinfo?.school_name || "Grace Christian Academy";
+  const schoolLogo = schoolinfo?.school_logo || logoImg;
+
   return (
     <header className="sticky top-0 z-50 font-[Poppins]">
       <nav className="flex h-16 w-full items-center justify-between bg-[#0c2423] px-4 text-xs inset-shadow-med sm:h-20 sm:px-10">
@@ -26,18 +57,18 @@ const LoginHeader = ({ onMenuToggle }) => {
 
           <Link to="/" className="flex min-w-0 items-center gap-x-2">
             <img
-              src={logoImg}
+              src={schoolLogo}
               alt={SCHOOL.name}
               className="h-7 rounded-full sm:h-8 lg:h-10"
             />
 
             <div className="min-w-0">
               <p className="hidden whitespace-nowrap text-[7px] tracking-widest text-gray-200 sm:block sm:text-[9px] sm:tracking-[0.15em] lg:text-2xs lg:tracking-[0.18em]">
-                {SCHOOL.fullName}
+                {schoolName} Cavite Inc.
               </p>
 
               <p className="whitespace-nowrap font-[PoppinsBold] text-[9px] text-bone sm:text-[11px] lg:text-xs">
-                {SCHOOL.name}
+                {schoolName}
               </p>
             </div>
           </Link>

@@ -32,11 +32,9 @@ const EditWebsiteInformationModal = ({
         <div className="flex flex-col gap-5 py-5">
           {/* School Logo */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-2xs text-[#555555]">
-              School Logo:
-            </label>
+            <label className="text-2xs text-[#555555]">School Logo:</label>
 
-            <label className="flex h-7 cursor-pointer items-center rounded-md border border-[#c8c8c8] bg-white px-3">
+            <label className="flex h-7 cursor-pointer items-center rounded-md border border-[#c8c8c8] bg-bone px-3">
               <span className="text-2xs text-[#999999]">
                 {logo ? "Logo Selected" : "Upload Logo"}
               </span>
@@ -58,19 +56,13 @@ const EditWebsiteInformationModal = ({
 
           {/* School Name */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-2xs text-[#555555]">
-              School Name:
-            </label>
+            <label className="text-2xs text-[#555555]">School Name:</label>
 
             <input
               type="text"
-              value={
-                typeof schoolName === "string"
-                  ? schoolName
-                  : ""
-              }
+              value={typeof schoolName === "string" ? schoolName : ""}
               onChange={(e) => setSchoolName(e.target.value)}
-              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-white px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
+              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-bone px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
             />
           </div>
         </div>

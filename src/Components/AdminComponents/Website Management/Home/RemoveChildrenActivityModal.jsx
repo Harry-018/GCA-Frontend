@@ -24,7 +24,7 @@ const RemoveChildrenActivityModal = ({
         </div>
 
         {/* Activity */}
-        <div className="rounded-lg border border-gray-300 bg-white p-3">
+        <div className="rounded-lg border border-gray-300 bg-bone p-3">
           <p className="text-[9px] text-gray-500 sm:text-xs">Activity:</p>
 
           <p className="mt-1 text-[10px] font-medium text-gray-700 sm:text-sm">

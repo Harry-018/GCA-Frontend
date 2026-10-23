@@ -38,7 +38,7 @@ const SectionToolbar = ({
         value={selectedSchoolYearId}
         onChange={(event) => onSchoolYearChange?.(event.target.value)}
         disabled={loading || schoolYears.length === 0}
-        className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-gray-300 bg-white py-1 pl-2.5 pr-7 text-[10px] text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
+        className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-gray-300 bg-bone py-1 pl-2.5 pr-7 text-[10px] text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
       >
         {loading && <option value="">Loading...</option>}
 

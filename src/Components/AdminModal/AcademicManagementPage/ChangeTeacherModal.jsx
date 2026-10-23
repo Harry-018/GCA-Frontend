@@ -43,7 +43,7 @@ const ChangeTeacherModal = ({
           <select
             value={selectedTeacherId}
             onChange={(event) => setSelectedTeacherId(event.target.value)}
-            className="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 font-[Poppins] text-xs text-gray-500 outline-none focus:border-swamp-green"
+            className="h-10 w-full rounded-lg border border-gray-300 bg-bone px-3 font-[Poppins] text-xs text-gray-500 outline-none focus:border-swamp-green"
           >
             <option value="">Select teacher</option>
 

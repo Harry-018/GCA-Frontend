@@ -38,7 +38,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
                 value={formData.lrn}
                 onChange={handleChange}
                 disabled={saving}
-                className="h-6 w-25 rounded-lg border border-gray-300 bg-white px-2 text-2xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
+                className="h-6 w-25 rounded-lg border border-gray-300 bg-bone px-2 text-2xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
               />
             </div>
             <div className="flex h-5 items-center">
@@ -146,7 +146,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-white font-[PoppinsBold] text-xs text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-bone font-[PoppinsBold] text-xs text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Close
           </button>

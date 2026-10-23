@@ -204,7 +204,7 @@ const Skills = () => {
                   )}`,
                 )
               }
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-white px-4 text-[12px] text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[12px] text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>

@@ -28,7 +28,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
             name="email"
             value={email}
             onChange={onChange}
-            className="h-7 w-full rounded-lg border border-gray-400 bg-white px-3 text-[11px] text-gray-600 outline-none focus:border-swamp-green"
+            className="h-7 w-full rounded-lg border border-gray-400 bg-bone px-3 text-[11px] text-gray-600 outline-none focus:border-swamp-green"
           />
         </div>
 
@@ -37,7 +37,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
           <button
             type="button"
             onClick={onCancel}
-            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-white font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-bone font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>

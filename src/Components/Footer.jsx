@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Bus,
   CheckCircle,
@@ -9,6 +10,8 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
+import { getSchoolInformation } from "../requests/settingsRequests.js";
+
 const QUICK_LINKS = [
   { label: "HOME", path: "/", icon: Home },
   { label: "TRANSPORT", path: "/transport", icon: Bus },
@@ -17,13 +20,44 @@ const QUICK_LINKS = [
 ];
 
 const Footer = () => {
+  const [schoolinfo, setSchoolinfo] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchSchoolInformation = async () => {
+      try {
+        const response = await getSchoolInformation();
+
+        if (isMounted) {
+          setSchoolinfo(response?.data ?? response);
+        }
+      } catch (error) {
+        console.error("Failed to load school information:", error);
+      }
+    };
+
+    fetchSchoolInformation();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const schoolName = schoolinfo?.school_name || "Grace Christian Academy";
+  const schoolContact = schoolinfo?.contact_number || "0992-641-8526";
+  const schoolEmail = schoolinfo?.school_email || "grace.cslife@gmail.com";
+  const schoolAddress =
+    schoolinfo?.school_address ||
+    "306, Purok 4, Barangay Cabuco, Trece Martires, Philippines, 4109";
+
   return (
     <footer className="w-full overflow-hidden bg-[#062421] px-5 py-5 font-[Poppins] text-bone sm:px-6 lg:px-12">
       <div className="mx-auto grid w-full max-w-7xl gap-8 sm:grid-cols-2 md:gap-10 lg:grid-cols-[1fr_0.8fr_1.2fr] lg:gap-16">
         <div className="flex flex-col gap-4">
           <div>
             <p className="font-[SuperJoyful] text-3xl leading-none text-lime-green">
-              Grace Christian Academy
+              {schoolName}
             </p>
             <p className="mt-2 max-w-xs text-xs leading-relaxed text-bone/65">
               Growing joyful learners through faith, character, and meaningful
@@ -42,7 +76,7 @@ const Footer = () => {
                     onClick={() =>
                       window.scrollTo({ top: 0, behavior: "smooth" })
                     }
-                    className="flex w-fit items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-white/20 hover:text-lime-green"
+                    className="flex w-fit items-center gap-1.5 rounded-lg bg-bone/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-bone/20 hover:text-lime-green"
                   >
                     <Icon className="h-3 w-3 shrink-0 text-lime-green" />
                     {link.label}
@@ -61,7 +95,7 @@ const Footer = () => {
                     onClick={() =>
                       window.scrollTo({ top: 0, behavior: "smooth" })
                     }
-                    className="flex w-fit items-center gap-1.5 rounded-lg bg-white/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-white/20 hover:text-lime-green"
+                    className="flex w-fit items-center gap-1.5 rounded-lg bg-bone/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-bone/20 hover:text-lime-green"
                   >
                     <Icon className="h-3 w-3 shrink-0 text-lime-green" />
                     {link.label}
@@ -87,24 +121,22 @@ const Footer = () => {
 
           <div className="flex flex-col gap-6 text-xs text-bone/75">
             <a
-              href="tel:09926418526"
+              href={`tel:${schoolContact.replace(/[^\d+]/g, "")}`}
               className="flex items-start gap-3 transition-colors hover:text-lime-green"
             >
               <Phone className="mt-0.5 h-4 w-4 shrink-0 text-lime-green" />
-              <span>0992-641-8526</span>
+              <span>{schoolContact}</span>
             </a>
             <a
-              href="mailto:grace.cslife@gmail.com"
+              href={`mailto:${schoolEmail}`}
               className="flex items-start gap-3 break-all transition-colors hover:text-lime-green"
             >
               <Mail className="mt-0.5 h-4 w-4 shrink-0 text-lime-green" />
-              <span>grace.cslife@gmail.com</span>
+              <span>{schoolEmail}</span>
             </a>
             <div className="flex items-start gap-3">
               <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-lime-green" />
-              <span>
-                306, Purok 4, Barangay Cabuco, Trece Martires, Philippines, 4109
-              </span>
+              <span>{schoolAddress}</span>
             </div>
             <a
               href="https://www.facebook.com/profile.php?id=100094183517001"
@@ -124,7 +156,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="flex min-h-35 flex-col justify-between rounded-2xl border border-bone/15 bg-white/5 p-5 sm:col-span-2 lg:col-span-1">
+        <div className="flex min-h-35 flex-col justify-between rounded-2xl border border-bone/15 bg-bone/5 p-5 sm:col-span-2 lg:col-span-1">
           <div>
             <p className="font-[PoppinsBold] text-sm uppercase tracking-[0.2em] text-lime-green">
               Visit Our Campus

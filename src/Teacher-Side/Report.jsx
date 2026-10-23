@@ -37,73 +37,64 @@ const Report = () => {
   const [loading] = useState(false);
   const [error] = useState("");
 
-//   // Fetch report data
-//   useEffect(() => {
-//     const fetchReport = async () => {
-//       try {
-//         setLoading(true);
-//         setError("");
+  //   // Fetch report data
+  //   useEffect(() => {
+  //     const fetchReport = async () => {
+  //       try {
+  //         setLoading(true);
+  //         setError("");
 
-//         const response = await axios.get(
-//           ""
-//         );
+  //         const response = await axios.get(
+  //           ""
+  //         );
 
-//         const data = response.data;
+  //         const data = response.data;
 
-//         setSections(data.sections);
-//         setStudents(data.students);
-//         setMonths(data.months);
-//         setYears(data.years);
-//         setDates(data.dates);
+  //         setSections(data.sections);
+  //         setStudents(data.students);
+  //         setMonths(data.months);
+  //         setYears(data.years);
+  //         setDates(data.dates);
 
-//         // Select first section
-//         if (data.sections.length > 0) {
-//           setSelectedId(data.sections[0].id);
-//         }
+  //         // Select first section
+  //         if (data.sections.length > 0) {
+  //           setSelectedId(data.sections[0].id);
+  //         }
 
-//         // Select first month/year
-//         if (data.months.length > 0) {
-//           setMonth(data.months[0]);
-//         }
+  //         // Select first month/year
+  //         if (data.months.length > 0) {
+  //           setMonth(data.months[0]);
+  //         }
 
-//         if (data.years.length > 0) {
-//           setYear(data.years[0]);
-//         }
-//       } catch (error) {
-//         console.error("Failed to fetch report:", error);
-//         setError("Unable to load attendance report.");
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
+  //         if (data.years.length > 0) {
+  //           setYear(data.years[0]);
+  //         }
+  //       } catch (error) {
+  //         console.error("Failed to fetch report:", error);
+  //         setError("Unable to load attendance report.");
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     };
 
-//     fetchReport();
-//   }, []);
+  //     fetchReport();
+  //   }, []);
 
   // Filter students
   const filteredStudents = students.filter(
     (student) =>
-      student.name
-        .toLowerCase()
-        .includes(studentName.toLowerCase()) ||
-      student.schoolId
-        .toLowerCase()
-        .includes(studentName.toLowerCase())
+      student.name.toLowerCase().includes(studentName.toLowerCase()) ||
+      student.schoolId.toLowerCase().includes(studentName.toLowerCase()),
   );
 
   // Save report
   const handleSaveReport = async () => {
     try {
-      await axios.post(
-        "",
-        {
-          sectionId: selectedId,
-          month,
-          year,
-        }
-      );
-
-      console.log("Report saved.");
+      await axios.post("", {
+        sectionId: selectedId,
+        month,
+        year,
+      });
     } catch (error) {
       console.error("Failed to save report:", error);
     }
@@ -128,9 +119,7 @@ const Report = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
@@ -138,7 +127,6 @@ const Report = () => {
   return (
     <div className="min-h-screen cursor-default bg-[#ebe9e4] px-3 py-4 font-[Poppins] sm:px-5 sm:py-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 lg:min-h-0 lg:flex-1">
-
         <SectionCard
           sections={sections}
           selectedId={selectedId}
@@ -158,11 +146,7 @@ const Report = () => {
           onSaveReport={handleSaveReport}
         />
 
-        <AttendanceTable
-          students={filteredStudents}
-          dates={dates}
-        />
-
+        <AttendanceTable students={filteredStudents} dates={dates} />
       </div>
     </div>
   );

@@ -39,7 +39,7 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
   if (!isOpen) return null;
 
   const inputStyle =
-    "w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs text-gray-700 outline-none focus:border-[#9bb184] focus:ring-1 focus:ring-[#9bb184]";
+    "w-full rounded-lg border border-gray-300 bg-bone px-3 py-2 text-xs text-gray-700 outline-none focus:border-[#9bb184] focus:ring-1 focus:ring-[#9bb184]";
 
   const labelStyle = "text-2xs text-gray-600";
 

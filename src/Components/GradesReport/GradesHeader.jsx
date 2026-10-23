@@ -20,16 +20,16 @@ const GradesHeader = ({ student, onBack }) => {
       {/* Mobile: stacked layout */}
       <div className="flex flex-col gap-4 overflow-hidden rounded-2xl bg-linear-to-br from-[#0c2423] via-[#123b35] to-[#479257] px-4 py-4 shadow-lg sm:rounded-3xl sm:px-5 sm:py-5 md:hidden">
         <div className="flex items-center gap-3">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/10 text-lime-green ring-1 ring-white/20">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-lime-green ring-1 ring-white/20">
             <UserRound size={20} />
           </div>
           <div className="min-w-0">
-          <span className="text-[8px] font-[PoppinsBold] uppercase text-white/60">
-            Selected Student
-          </span>
-          <h2 className="truncate text-sm font-[PoppinsBold] leading-tight text-white sm:text-base">
-            {student.name}
-          </h2>
+            <span className="text-[8px] font-[PoppinsBold] uppercase text-white/60">
+              Selected Student
+            </span>
+            <h2 className="truncate text-sm font-[PoppinsBold] leading-tight text-white sm:text-base">
+              {student.name}
+            </h2>
           </div>
         </div>
 
@@ -44,7 +44,7 @@ const GradesHeader = ({ student, onBack }) => {
             </span>
           </div>
 
-          <div className="h-6 w-px bg-white/20" />
+          <div className="h-6 w-px bg-bone/20" />
 
           <div className="flex flex-col gap-0.5">
             <span className="text-[8px] font-[PoppinsBold] uppercase text-white/60">
@@ -55,7 +55,7 @@ const GradesHeader = ({ student, onBack }) => {
             </span>
           </div>
 
-          <div className="h-6 w-px bg-white/20" />
+          <div className="h-6 w-px bg-bone/20" />
 
           <div className="flex flex-col gap-0.5">
             <span className="text-[8px] font-[PoppinsBold] uppercase text-white/60">
@@ -71,7 +71,7 @@ const GradesHeader = ({ student, onBack }) => {
       {/* Tablet/Desktop: grid layout */}
       <div className="hidden grid-cols-[1.5fr_1fr_1fr_1fr] items-center gap-4 overflow-hidden rounded-3xl bg-linear-to-br from-[#073b32] via-[#123b35] to-[#449957] px-5 py-5 shadow-lg sm:px-6 sm:py-6 md:grid lg:px-8 lg:py-8">
         <div className="flex items-center gap-4">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-swamp-green ring-1 ring-white/20">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-swamp-green ring-1 ring-white/20">
             <UserRound size={24} />
           </div>
           <div className="min-w-0">

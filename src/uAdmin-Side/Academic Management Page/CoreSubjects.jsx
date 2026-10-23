@@ -94,16 +94,6 @@ const CoreSubjects = () => {
 
   const handleRename = () => {
     if (!renameValue.trim() || !renameTarget) return;
-
-    /*
-      DO NOT send this yet.
-
-      subjects.subject_name is a shared subject record.
-      Renaming it here could rename the subject everywhere
-      it is used.
-    */
-
-    console.log("Rename subject:", renameTarget);
   };
 
   const handleRemove = async () => {
@@ -149,7 +139,7 @@ const CoreSubjects = () => {
             <button
               type="button"
               onClick={() => navigate("/admin/academic/grade-levels")}
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-white px-4 text-[12px] text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[12px] text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>

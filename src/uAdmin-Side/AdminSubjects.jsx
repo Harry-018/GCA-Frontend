@@ -210,7 +210,7 @@ const AdminSubjects = () => {
                 onChange={(e) => setSubjectName(e.target.value)}
                 placeholder="Enter subject name"
                 autoFocus
-                className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+                className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
               />
             </div>
 

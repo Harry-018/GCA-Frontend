@@ -101,7 +101,7 @@ const PromoteStudentModal = ({
 
         {/* Body */}
         <div className="space-y-5 p-6">
-          <div className="rounded-xl bg-white p-4">
+          <div className="rounded-xl bg-bone p-4">
             <p className="text-xs text-gray-500">Selected students</p>
 
             <p className="mt-1 font-[PoppinsBold] text-sm text-gray-700">
@@ -118,7 +118,7 @@ const PromoteStudentModal = ({
             <select
               value={targetSchoolYearId}
               onChange={handleSchoolYearChange}
-              className="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+              className="h-10 w-full rounded-lg border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
             >
               <option value="">Select school year</option>
 
@@ -140,7 +140,7 @@ const PromoteStudentModal = ({
               value={targetGradeLevelId}
               onChange={(event) => setTargetGradeLevelId(event.target.value)}
               disabled={!targetSchoolYearId}
-              className="h-10 w-full rounded-lg border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
+              className="h-10 w-full rounded-lg border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
             >
               <option value="">Select grade level</option>
 

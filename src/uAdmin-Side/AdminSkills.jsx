@@ -182,7 +182,7 @@ const AdminSkills = () => {
           <button
             type="button"
             onClick={() => navigate("/admin/settings/subjects")}
-            className="flex items-center justify-center rounded-full border border-ashlight/50 bg-white px-3 text-xs text-gray-500 transition hover:opacity-60"
+            className="flex items-center justify-center rounded-full border border-ashlight/50 bg-bone px-3 text-xs text-gray-500 transition hover:opacity-60"
           >
             Go Back
           </button>

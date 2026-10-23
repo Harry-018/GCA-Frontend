@@ -14,15 +14,17 @@ const StudentTable = ({ applicants, onView }) => {
       {/* Mobile & Tablet: Sticky scroll (grade report design) */}
       <div className="flex min-h-0 flex-1 flex-col lg:hidden">
         {applicants.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-2 rounded-3xl border border-swamp-green/10 bg-white py-10">
+          <div className="flex flex-col items-center justify-center gap-2 rounded-3xl border border-swamp-green/10 bg-bone py-10">
             <p className="text-sm text-gray-500">No Students Available</p>
           </div>
         ) : (
-          <div className="flex min-h-0 flex-1 flex-col rounded-3xl border border-swamp-green/10 bg-white p-2 shadow-sm sm:p-4 md:p-6">
+          <div className="flex min-h-0 flex-1 flex-col rounded-3xl border border-swamp-green/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6">
             <div className="no-scrollbar min-h-0 flex-1 overflow-x-auto overflow-y-auto">
               <div className="min-w-125">
-                <div className={`${MOBILE_COLS} sticky top-0 z-30 grid items-center gap-0 bg-white`}>
-                  <div className="sticky left-0 top-0 z-40 bg-white py-3 pl-3 pr-2 sm:pl-4 sm:pr-3">
+                <div
+                  className={`${MOBILE_COLS} sticky top-0 z-30 grid items-center gap-0 bg-bone`}
+                >
+                  <div className="sticky left-0 top-0 z-40 bg-bone py-3 pl-3 pr-2 sm:pl-4 sm:pr-3">
                     <span className="whitespace-nowrap text-2xs font-[PoppinsBold] uppercase tracking-wide text-[#9caf7d] sm:text-xs">
                       No. & Student
                     </span>
@@ -136,17 +138,29 @@ const StudentTable = ({ applicants, onView }) => {
                   key={applicant.id}
                   className="border-b border-gray-200 text-2xs text-gray-600 last:border-b-0 sm:text-[11px] lg:text-xs xl:text-sm"
                 >
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">{index + 1}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
+                    {index + 1}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">{applicant.lastName}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
+                    {applicant.lastName}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">{applicant.firstName}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
+                    {applicant.firstName}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">{applicant.gradeLevel}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
+                    {applicant.gradeLevel}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">{applicant.section}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
+                    {applicant.section}
+                  </td>
 
-                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">{applicant.status}</td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
+                    {applicant.status}
+                  </td>
 
                   <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
                     {applicant.payment || "—"}
@@ -167,9 +181,7 @@ const StudentTable = ({ applicants, onView }) => {
 
           {applicants.length === 0 && (
             <div className="flex flex-1 flex-col items-center justify-center gap-2 py-10">
-              <p className="text-sm text-gray-500">
-                No Students Available
-              </p>
+              <p className="text-sm text-gray-500">No Students Available</p>
             </div>
           )}
         </div>

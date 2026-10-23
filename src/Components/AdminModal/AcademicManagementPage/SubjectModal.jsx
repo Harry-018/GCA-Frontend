@@ -45,15 +45,13 @@ const SubjectModal = ({ isOpen, onClose }) => {
           {subjects.map((subject) => (
             <div
               key={subject.code}
-              className="grid grid-cols-[90px_1fr] border-b border-gray-200 bg-white text-xs text-gray-500 sm:grid-cols-[120px_1fr]"
+              className="grid grid-cols-[90px_1fr] border-b border-gray-200 bg-bone text-xs text-gray-500 sm:grid-cols-[120px_1fr]"
             >
               <div className="border-r border-gray-200 px-2 py-3 sm:px-4">
                 {subject.code}
               </div>
 
-              <div className="px-2 py-3 sm:px-4">
-                {subject.name}
-              </div>
+              <div className="px-2 py-3 sm:px-4">{subject.name}</div>
             </div>
           ))}
         </div>

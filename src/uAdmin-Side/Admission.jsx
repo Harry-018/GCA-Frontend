@@ -217,7 +217,6 @@ const Admission = () => {
       setActionLoading(true);
       const response = await getApplicationById(applicant.application_id);
       setViewedApplicant(response.data.data);
-      console.log("APPLICATION RESPONSE:", response.data.data);
     } catch (error) {
       console.error("Failed to fetch applicant:", error);
     } finally {
@@ -246,11 +245,6 @@ const Admission = () => {
     }));
   };
 
-  /*
-   * Backend approval request is not connected here yet.
-   * Do not modify applications locally because the old
-   * mock-data implementation has been removed.
-   */
   const confirmApproveApplicant = async () => {
     if (!applicantToApprove) return;
     try {
@@ -453,6 +447,18 @@ const Admission = () => {
         },
       ),
 
+      columnHelper.accessor(
+        (row) =>
+          activeStatus.toLowerCase() === "rejected"
+            ? row.rejection_reason
+            : null,
+        {
+          id: "reason",
+          header: activeStatus.toLowerCase() === "rejected" ? "REASON" : null,
+          cell: (info) => info.getValue(),
+        },
+      ),
+
       columnHelper.accessor("application_status", {
         header: "STATUS",
 
@@ -570,7 +576,7 @@ const Admission = () => {
             type="button"
             disabled={pagination.page === 1 || loading}
             onClick={handlePreviousPage}
-            className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
           >
             Previous
           </button>

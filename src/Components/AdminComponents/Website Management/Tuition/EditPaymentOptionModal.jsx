@@ -15,7 +15,7 @@ const EditPaymentOptionModal = ({
   if (!isOpen) return null;
 
   const inputStyle =
-    "w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green";
+    "w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green";
 
   const labelStyle = "font-[Poppins] text-[9px] sm:text-2xs text-[#555555]";
 
@@ -91,7 +91,7 @@ const EditPaymentOptionModal = ({
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white disabled:opacity-50"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone disabled:opacity-50"
           >
             Close
           </button>

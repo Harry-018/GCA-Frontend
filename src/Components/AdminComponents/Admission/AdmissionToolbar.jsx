@@ -36,7 +36,7 @@ const AdmissionToolbar = ({
       </nav>
 
       {/* Selection: Check Multiple (+ inline actions on small/tablet) */}
-      <div className="order-1 flex w-full flex-wrap items-center gap-3 md:shrink-0 lg:order-1 lg:w-full xl:order-0 xl:w-auto xl:ml-auto">
+      <div className="order-1 flex w-fit flex-wrap items-center gap-3 md:shrink-0 lg:order-1 lg:w-full xl:order-0 xl:w-auto xl:ml-auto">
         {!selectionDisabled && (
           <button
             type="button"
@@ -62,7 +62,7 @@ const AdmissionToolbar = ({
               <button
                 type="button"
                 onClick={onClearSelection}
-                className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-gray-300 px-4 text-[11px] font-medium text-gray-600 transition hover:bg-white sm:px-5 sm:text-xs"
+                className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-gray-300 px-4 text-[11px] font-medium text-gray-600 transition hover:bg-bone sm:px-5 sm:text-xs"
               >
                 Clear
               </button>

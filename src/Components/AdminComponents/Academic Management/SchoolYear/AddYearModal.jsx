@@ -84,7 +84,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 name="enrollment_status"
                 value={formData.enrollment_status}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-[#91a77a]"
+                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-[#91a77a]"
               >
                 <option value="closed">Closed</option>
                 <option value="open">Open</option>
@@ -105,7 +105,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.start}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-[#91a77a]"
+                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-[#91a77a]"
               />
             </div>
 
@@ -120,7 +120,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.end}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-[#91a77a]"
+                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-[#91a77a]"
               />
             </div>
           </div>

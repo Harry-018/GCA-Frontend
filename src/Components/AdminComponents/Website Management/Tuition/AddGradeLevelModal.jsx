@@ -19,7 +19,7 @@ const AddGradeLevelModal = ({
   if (!isOpen) return null;
 
   const inputStyle =
-    "w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green disabled:cursor-not-allowed disabled:bg-gray-100";
+    "w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green disabled:cursor-not-allowed disabled:bg-gray-100";
 
   const labelStyle = "font-[Poppins] text-[9px] sm:text-2xs text-[#555555]";
 
@@ -106,7 +106,7 @@ const AddGradeLevelModal = ({
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             Cancel
           </button>

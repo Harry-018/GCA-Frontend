@@ -109,7 +109,7 @@ const ParentsHeader = ({ onMenuToggle }) => {
             </button>
 
             {userMenu && (
-              <div className="absolute right-0 top-full py-2 w-44 sm:w-56 overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-xl">
+              <div className="absolute right-0 top-full py-2 w-44 sm:w-56 overflow-hidden rounded-2xl border border-gray-100 bg-bone shadow-xl">
                 <div className="border-b border-gray-100 px-3 py-3 sm:px-4 sm:py-4">
                   <p className="font-[PoppinsBold] text-[11px] text-gray-800 sm:text-sm">
                     {USER.name}

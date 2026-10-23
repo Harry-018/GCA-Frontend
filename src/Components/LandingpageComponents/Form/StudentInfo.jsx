@@ -159,10 +159,6 @@ const StudentInfo = ({
           student.grade_level_id,
         );
 
-        console.log("PAYMENT OPTIONS RESPONSE:", response);
-
-        console.log("PAYMENT OPTIONS DATA:", response.data.data);
-
         setPaymentOptions?.(response.data.data);
       } catch (error) {
         console.error("Failed to load payment options:", error);
@@ -256,10 +252,6 @@ const StudentInfo = ({
 
   const guardianIsAccountParent = verifiedParentIndex === 2;
 
-  console.log("ACCOUNT PARENT:", accountParent);
-  console.log("ACCOUNT PARENT INDEX:", verifiedParentIndex);
-  console.log("GUARDIAN ACCOUNT PARENT:", guardianIsAccountParent);
-
   return (
     <div className="flex flex-col gap-6 font-[Poppins]">
       {step === 1 ? (
@@ -284,12 +276,14 @@ const StudentInfo = ({
                   label="Last Name"
                   value={student.s_last_name}
                   onChange={field("s_last_name")}
+                  required
                 />
 
                 <InfoField
                   label="First Name"
                   value={student.s_first_name}
                   onChange={field("s_first_name")}
+                  required
                 />
 
                 <InfoField
@@ -306,6 +300,7 @@ const StudentInfo = ({
                   value={student.s_gender}
                   options={["MALE", "FEMALE"]}
                   onChange={field("s_gender")}
+                  required
                 />
 
                 <InfoField
@@ -313,12 +308,14 @@ const StudentInfo = ({
                   value={student.s_bdate}
                   type="date"
                   onChange={field("s_bdate")}
+                  required
                 />
 
                 <InfoField
                   label="Place of Birth"
                   value={student.s_birthplace || ""}
                   onChange={field("s_birthplace")}
+                  required
                 />
               </div>
 
@@ -334,6 +331,7 @@ const StudentInfo = ({
                     "IGLESIA NI CRISTO",
                   ]}
                   onChange={field("s_religion")}
+                  required
                 />
 
                 <InfoField
@@ -341,11 +339,12 @@ const StudentInfo = ({
                   value={student.s_nationality}
                   options={["FILIPINO"]}
                   onChange={field("s_nationality")}
+                  required
                 />
               </div>
 
               {/* Disability */}
-              <div className="flex flex-col gap-3 rounded-lg border border-[#d4d5d9] bg-white px-4 py-3 sm:flex-row sm:flex-wrap sm:items-end sm:gap-x-6 sm:gap-y-3">
+              <div className="flex flex-col gap-3 rounded-lg border border-[#d4d5d9] bg-bone px-4 py-3 sm:flex-row sm:flex-wrap sm:items-end sm:gap-x-6 sm:gap-y-3">
                 <div className="flex w-full flex-col gap-2 sm:w-auto">
                   <span className="text-sm font-medium text-neutral-600">
                     Is this Student disabled?
@@ -389,7 +388,7 @@ const StudentInfo = ({
                     value={student.s_disability || ""}
                     disabled={student.s_disabled !== "yes"}
                     onChange={field("s_disability")}
-                    className="h-10 w-full rounded-md border border-[#d4d5d9] bg-white px-3 text-sm text-neutral-700 outline-none disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400 focus:border-swamp-green focus:ring-1 focus:ring-lime-dark sm:min-w-0 sm:flex-1"
+                    className="h-10 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-sm text-neutral-700 outline-none disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-400 focus:border-swamp-green focus:ring-1 focus:ring-lime-dark sm:min-w-0 sm:flex-1"
                   />
                 </div>
               </div>
@@ -631,7 +630,7 @@ const StudentInfo = ({
                 onChange={field("gradelevel_paymentoption_id")}
               />
 
-              <label className="flex items-start gap-3 rounded-lg border border-[#d4d5d9] bg-white p-4 text-sm text-neutral-600">
+              <label className="flex items-start gap-3 rounded-lg border border-[#d4d5d9] bg-bone p-4 text-sm text-neutral-600">
                 <input
                   type="checkbox"
                   checked={agreed}

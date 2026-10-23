@@ -149,7 +149,7 @@ const TeacherRegistrationPage = () => {
   if (!invitation) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-beige px-4">
-        <div className="w-full max-w-md rounded-xl bg-white p-8 text-center shadow">
+        <div className="w-full max-w-md rounded-xl bg-bone p-8 text-center shadow">
           <h1 className="mb-3 text-xl font-semibold text-egg-dark">
             Registration Link Invalid
           </h1>
@@ -168,7 +168,7 @@ const TeacherRegistrationPage = () => {
   if (submitted) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-egg px-4">
-        <div className="w-full max-w-md rounded-xl bg-white p-8 text-center shadow">
+        <div className="w-full max-w-md rounded-xl bg-bone p-8 text-center shadow">
           <h1 className="mb-3 text-xl font-semibold text-swamp-green">
             Registration Submitted
           </h1>
@@ -185,7 +185,7 @@ const TeacherRegistrationPage = () => {
 
   return (
     <div className="min-h-screen bg-egg px-4 py-10">
-      <div className="mx-auto max-w-4xl rounded-xl bg-white p-6 shadow-md md:p-8">
+      <div className="mx-auto max-w-4xl rounded-xl bg-bone p-6 shadow-md md:p-8">
         {/* Header */}
         <div className="mb-8 border-b border-gray-200 pb-5">
           <h1 className="text-2xl font-semibold text-swamp-green">
@@ -461,7 +461,7 @@ const FormSelect = ({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full uppercase rounded-md border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:swamp-green"
+        className="w-full uppercase rounded-md border border-gray-300 bg-bone px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:swamp-green"
       >
         <option value="">Select {label}</option>
 

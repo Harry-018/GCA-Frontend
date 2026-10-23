@@ -14,7 +14,7 @@ import { useLoaderData } from "react-router-dom";
 import AdminHeader from "../Components/AdminComponents/Dashboard/AdminHeader";
 import DashboardCards from "../Components/AdminComponents/Dashboard/DashboardCards";
 import DataTable from "../Components/DataTable";
-import { getDashboard } from "../requests/preEnrollmentRequests";
+// import { getDashboard } from "../requests/preEnrollmentRequests";
 
 const CARD_CONFIG = [
   { key: "totalStudents", title: "Total Students", icon: Users },

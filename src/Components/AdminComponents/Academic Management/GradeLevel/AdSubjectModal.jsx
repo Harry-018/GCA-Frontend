@@ -22,7 +22,7 @@ const AddSubjectModal = ({
             Select Subjects:
           </label>
 
-          <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-300 bg-white">
+          <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-300 bg-bone">
             {subjects.length === 0 ? (
               <p className="px-3 py-4 text-center font-[Poppins] text-2xs text-gray-400">
                 No available subjects.

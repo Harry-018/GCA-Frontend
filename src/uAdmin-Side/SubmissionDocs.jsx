@@ -340,7 +340,7 @@ const SubmissionDocs = () => {
       {error ? (
         <p className="text-center text-sm text-red-400">{error}</p>
       ) : applicants.length === 0 ? (
-        <div className="flex flex-1 flex-col items-center justify-center gap-4">
+        <div className="flex flex-1 bg-bone rounded-2xl flex-col items-center justify-center gap-4">
           <div className="flex h-16 w-16 items-center justify-center rounded-full bg-swamp-green/10">
             <FileText size={32} className="text-swamp-green" />
           </div>
@@ -350,8 +350,9 @@ const SubmissionDocs = () => {
           </h2>
 
           <p className="max-w-sm text-center text-sm text-gray-500">
-            No approved applicants yet. Once you approve an applicant on the
-            Applications page, they will appear here for enrollment.
+            No approved applicants for this date yet. Once you approve an
+            applicant on the Applications page, they will appear here for
+            enrollment.
           </p>
         </div>
       ) : (
@@ -373,7 +374,7 @@ const SubmissionDocs = () => {
                   type="button"
                   disabled={pagination.page <= 1 || loading}
                   onClick={handlePreviousPage}
-                  className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Previous
                 </button>

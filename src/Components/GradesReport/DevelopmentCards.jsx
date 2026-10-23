@@ -29,7 +29,7 @@ const DevelopmentCards = ({ developments, onGradeChange }) => {
         {developments.map((development) => (
           <div
             key={development.id}
-            className="flex flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md"
+            className="flex flex-col overflow-hidden rounded-3xl border border-gray-100 bg-bone shadow-sm transition-shadow hover:shadow-md"
           >
             <div className="flex items-center justify-between gap-3 px-4 py-3">
               <div className="flex min-w-0 items-center gap-2">

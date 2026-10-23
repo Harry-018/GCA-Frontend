@@ -24,7 +24,7 @@ const EditVideoPresentationModal = ({
           value={videoTitle}
           onChange={(e) => onChange?.("videoTitle", e.target.value)}
           placeholder="Grace Christian Learning Hymn"
-          className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+          className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
         />
       </div>
 
@@ -39,7 +39,7 @@ const EditVideoPresentationModal = ({
           value={video}
           onChange={(e) => onChange?.("video", e.target.value)}
           placeholder="Upload Video max 100mb"
-          className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+          className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
         />
       </div>
 
@@ -48,7 +48,7 @@ const EditVideoPresentationModal = ({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full border border-[#bcbcbc] px-5 py-3 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+          className="rounded-full border border-[#bcbcbc] px-5 py-3 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone"
         >
           Close
         </button>

@@ -1,4 +1,5 @@
 import React from "react";
+import { LoaderCircle } from "lucide-react";
 
 const EditBannerModal = ({
   isOpen,
@@ -7,6 +8,7 @@ const EditBannerModal = ({
   onChange,
   onClose,
   onSave,
+  loading = false,
 }) => {
   if (!isOpen) return null;
 
@@ -28,7 +30,7 @@ const EditBannerModal = ({
             value={title}
             onChange={(e) => onChange?.("title", e.target.value)}
             placeholder="Discover a joyful pre-school journey with faith, play and learning"
-            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green sm:text-2xs"
+            className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green sm:text-2xs"
           />
         </div>
 
@@ -43,7 +45,7 @@ const EditBannerModal = ({
             onChange={(e) => onChange?.("quote", e.target.value)}
             rows={3}
             placeholder='"For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God not by works, so that no one can boast". Ephesians 2:8-9(NIV)'
-            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green sm:text-2xs"
+            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green sm:text-2xs"
           />
         </div>
 
@@ -57,7 +59,7 @@ const EditBannerModal = ({
             type="file"
             accept="image/*"
             onChange={(e) => onChange?.("image", e.target.files[0])}
-            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none file:mr-3 file:rounded-md file:border-0 file:bg-swamp-green file:px-3 file:py-1 file:font-[Poppins] file:text-[9px] file:text-white hover:file:bg-lime-green sm:text-2xs"
+            className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none file:mr-3 file:rounded-md file:border-0 file:bg-swamp-green file:px-3 file:py-1 file:font-[Poppins] file:text-[9px] file:text-white hover:file:bg-lime-green sm:text-2xs"
           />
         </div>
 
@@ -66,7 +68,7 @@ const EditBannerModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-white sm:text-xs"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-bone sm:text-xs"
           >
             Close
           </button>
@@ -74,9 +76,17 @@ const EditBannerModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green sm:text-xs"
+            disabled={loading}
+            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
-            Save
+            {loading ? (
+              <>
+                <LoaderCircle size={14} className="animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>

@@ -143,7 +143,7 @@ const AccountActivation = () => {
           </p>
         </div>
 
-        <div className="mb-5 rounded-lg border border-gray-200 bg-white px-4 py-3">
+        <div className="mb-5 rounded-lg border border-gray-200 bg-bone px-4 py-3">
           <p className="text-[10px] text-gray-400">Account Email</p>
 
           <p className="mt-1 text-xs text-gray-600">
@@ -169,7 +169,7 @@ const AccountActivation = () => {
               onChange={(event) => setPassword(event.target.value)}
               disabled={saving}
               placeholder="Enter your password"
-              className="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60"
+              className="h-9 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60"
             />
           </div>
 
@@ -184,7 +184,7 @@ const AccountActivation = () => {
               onChange={(event) => setConfirmPassword(event.target.value)}
               disabled={saving}
               placeholder="Re-enter your password"
-              className="h-9 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60"
+              className="h-9 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60"
             />
           </div>
 

@@ -1,7 +1,7 @@
 const AcademicCard = ({ card, image }) => {
   return (
     <div
-      className="relative h-80 w-60 shrink-0 snap-center overflow-hidden rounded-2xl p-5 text-bone inset-shadow-med transition-transform duration-300 hover:scale-105 lg:h-90 lg:w-75"
+      className="relative h-80 w-full shrink-0 snap-center overflow-hidden rounded-2xl p-5 text-bone inset-shadow-med transition-transform duration-300 hover:scale-105 lg:h-90 lg:w-full"
       style={{
         backgroundImage: `url(${image})`,
         backgroundSize: "cover",
@@ -18,9 +18,7 @@ const AcademicCard = ({ card, image }) => {
           {card.program}
         </h2>
 
-        <p className="min-h-20 text-xs lg:text-sm">
-          {card.description}
-        </p>
+        <p className="min-h-20 text-xs lg:text-sm">{card.description}</p>
       </div>
     </div>
   );

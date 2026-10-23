@@ -34,15 +34,12 @@ const TuitionFees = ({
           <div className="flex items-start justify-between gap-3">
             <div>
               <p className="mb-1 text-2xs font-[PoppinsBold] uppercase tracking-[0.18em] text-ashlight">
-                Fee breakdown
+                Current Fee breakdown
               </p>
               <h2 className="font-[PoppinsBold] text-sm uppercase text-swamp-green sm:text-base">
                 {activeLevel}
               </h2>
             </div>
-            <span className="rounded-full bg-swamp-lite px-3 py-1 text-2xs font-[PoppinsBold] uppercase tracking-wide text-lime-dark">
-              2026 - 2027
-            </span>
           </div>
 
           <div className="flex flex-wrap items-end justify-between gap-2 border-b border-neutral-400 pb-3">

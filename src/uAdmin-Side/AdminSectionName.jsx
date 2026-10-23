@@ -11,7 +11,7 @@ import {
 } from "../requests/settingsRequests.js";
 
 const inputClass =
-  "w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-xs sm:text-sm text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green focus:ring-1 focus:ring-lime-green";
+  "w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-xs sm:text-sm text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green focus:ring-1 focus:ring-lime-green";
 
 const labelClass = "font-[Poppins] text-xs sm:text-sm text-[#555555]";
 
@@ -276,7 +276,7 @@ const AdminSectionName = () => {
                   return (
                     <div
                       key={section.section_name_id}
-                      className={`flex w-full flex-col gap-y-4 rounded-2xl border bg-white p-4 shadow-sm transition sm:p-5 ${
+                      className={`flex w-full flex-col gap-y-4 rounded-2xl border bg-bone p-4 shadow-sm transition sm:p-5 ${
                         isEditing
                           ? "border-lime-green ring-1 ring-lime-green"
                           : isPendingArchive
@@ -300,7 +300,7 @@ const AdminSectionName = () => {
                               }
                             }}
                             autoFocus
-                            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-1.5 text-xs font-[Poppins] text-[#555555] outline-none focus:border-lime-green"
+                            className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-1.5 text-xs font-[Poppins] text-[#555555] outline-none focus:border-lime-green"
                             aria-label={`Edit section name ${section.section_name}`}
                           />
 
@@ -425,7 +425,7 @@ const AdminSectionName = () => {
                 return (
                   <div
                     key={section.section_name_id}
-                    className={`flex w-full flex-col gap-y-4 rounded-2xl border bg-white p-4 shadow-sm transition sm:p-5 ${
+                    className={`flex w-full flex-col gap-y-4 rounded-2xl border bg-bone p-4 shadow-sm transition sm:p-5 ${
                       isPendingRestore
                         ? "border-swamp-green ring-1 ring-swamp-green"
                         : "border-gray-100"

@@ -23,7 +23,7 @@ const AdminHeader = ({
           value={selectedSchoolYearId}
           onChange={onSchoolYearChange}
           disabled={loading || schoolYears.length === 0}
-          className="max-w-47.5 rounded-full border border-gray-300 bg-white  font-[Poppins] text-[11px] text-egg-dark outline-none transition focus:border-swamp-green  sm:text-sm xl:text-base disabled:cursor-not-allowed disabled:opacity-60 "
+          className="max-w-47.5 rounded-full border border-gray-300 bg-bone  font-[Poppins] text-[11px] text-egg-dark outline-none transition focus:border-swamp-green  sm:text-sm xl:text-base disabled:cursor-not-allowed disabled:opacity-60 "
         >
           {schoolYears.length === 0 && (
             <option value="">No school years</option>

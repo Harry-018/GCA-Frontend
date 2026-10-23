@@ -22,7 +22,7 @@ const PersonalInformation = ({ fullName, contactNo, email, address }) => {
     <div className="w-full overflow-hidden rounded-2xl bg-[#0c2423] font-[Poppins] shadow-lg">
       <div className="flex flex-col gap-7 bg-linear-to-br from-[#0c2423] via-[#123b35] to-[#279257] px-5 py-6 sm:px-8 sm:py-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <div className="flex items-start gap-4 sm:gap-5">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-white/10 text-swamp-green ring-1 ring-white/20 sm:size-14">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-swamp-green ring-1 ring-white/20 sm:size-14">
             <UserRound size={26} strokeWidth={1.5} />
           </div>
           <div>
@@ -40,13 +40,19 @@ const PersonalInformation = ({ fullName, contactNo, email, address }) => {
 
         <div className="grid grid-cols-1 gap-4 border-t border-white/15 pt-5 sm:grid-cols-2 sm:gap-6 lg:min-w-124 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
           {details.map((detail) => (
-            <div key={detail.label} className={`flex min-w-0 items-start gap-3 ${detail.label === "Address:" ? "sm:col-span-2" : ""}`}>
+            <div
+              key={detail.label}
+              className={`flex min-w-0 items-start gap-3 ${detail.label === "Address:" ? "sm:col-span-2" : ""}`}
+            >
               {detail.label === "Contact No. :" ? (
                 <Phone size={16} className="py-0.5 shrink-0 text-swamp-green" />
               ) : detail.label === "Email:" ? (
                 <Mail size={16} className="py-0.5 shrink-0 text-swamp-green" />
               ) : (
-                <MapPin size={16} className="py-0.5 shrink-0 text-swamp-green" />
+                <MapPin
+                  size={16}
+                  className="py-0.5 shrink-0 text-swamp-green"
+                />
               )}
               <div className="min-w-0">
                 <p className="text-2xs font-[Poppins] font-medium uppercase tracking-wide text-white/60">

@@ -26,7 +26,7 @@ const AddSectionModal = ({
           <select
             value={sectionNameId}
             onChange={(event) => onSectionNameChange(event.target.value)}
-            className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-500 outline-none focus:border-[#9caf7e]"
+            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-500 outline-none focus:border-[#9caf7e]"
           >
             <option value="">Select Section</option>
 
@@ -44,7 +44,7 @@ const AddSectionModal = ({
           <select
             value={teacherId}
             onChange={(event) => onTeacherChange(event.target.value)}
-            className="h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-xs text-gray-500 outline-none focus:border-[#9caf7e]"
+            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-500 outline-none focus:border-[#9caf7e]"
           >
             <option value="">Select Teacher</option>
 

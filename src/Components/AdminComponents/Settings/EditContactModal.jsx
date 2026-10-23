@@ -28,7 +28,7 @@ const EditContactModal = ({
               value={contact.contactNo}
               onChange={(e) => onChange?.("contactNo", e.target.value)}
               placeholder="Enter contact number"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
             />
           </div>
 
@@ -42,7 +42,7 @@ const EditContactModal = ({
               value={contact.emailAddress}
               onChange={(e) => onChange?.("emailAddress", e.target.value)}
               placeholder="Enter email address"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
             />
           </div>
 
@@ -56,7 +56,7 @@ const EditContactModal = ({
               value={contact.schoolAddress}
               onChange={(e) => onChange?.("schoolAddress", e.target.value)}
               placeholder="Enter school address"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
             />
           </div>
         </div>
@@ -66,7 +66,7 @@ const EditContactModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone"
           >
             Close
           </button>

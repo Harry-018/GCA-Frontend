@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useLoaderData } from "react-router-dom";
+
 import SideBanner from "../Components/LandingpageComponents/Home/SideBanner";
 import MainBanner from "../Components/LandingpageComponents/Home/MainBanner";
 import AcademicCard from "../Components/LandingpageComponents/Home/AcademicCard";
@@ -9,127 +12,19 @@ import Activities from "../Components/LandingpageComponents/Home/Activities";
 import HomeSidebar from "../Components/HomeSidebar";
 import Footer from "../Components/Footer";
 import LoginHeader from "../Components/LoginHeader";
-import { useEffect, useState } from "react";
+
 // import axios from "axios";
 import { Bus, GraduationCap } from "lucide-react";
 
-const BANNER_DATA = {
-  admission_status: "Open",
-  banner_title:
-    "Discover a joyful preschool journey with faith, play, and learning.",
-  banner_quote:
-    "For it is by grace you have been saved, through faith—and this is not from yourselves, it is the gift of God—not by works, so that no one can boast. — Ephesians 2:8–9 (NIV)",
-  school_year: "2026-2027",
-};
-
-const ACADEMIC_PROGRAMS = [
-  {
-    id: 1,
-    program: "Nursery",
-    ages: "2–3",
-    description:
-      "A gentle start where toddlers explore, play, and build early social skills in a loving environment.",
-    image: "/image/nursery.jpg",
-  },
-  {
-    id: 2,
-    program: "Pre-Kindergarten",
-    ages: "4–5",
-    description:
-      "Hands-on learning that builds foundational literacy, numeracy, and creativity through guided play.",
-    image: "/image/pre-kinder.avif",
-  },
-  {
-    id: 3,
-    program: "Kindergarten",
-    ages: "5–6",
-    description:
-      "A Christ-centered program that prepares young learners for elementary with confidence and joy.",
-    image: "/image/kinder.jpg",
-  },
-];
-
-const WHY_CHOOSE_US = [
-  "We help every child grow with confidence and values",
-  "Focused on both education and character formation",
-  "Safe, supportive, and child-centered education",
-  "A safe, joyful, and structured experience",
-  "Engaging activities for meaningful learning",
-];
-
-const ACTIVITIES = [
-  {
-    title: "Cognitive Development",
-    icon: "🧠",
-    image: "/image/nursery.jpg",
-    description:
-      "Learning through play strengthens problem-solving skills, memory, and the ability to think creatively and critically.",
-  },
-  {
-    title: "Physical Health",
-    icon: "💪",
-    image: "/image/kinder.jpg",
-    description:
-      "Active play and movement activities build strong muscles, coordination, and establish healthy habits for life.",
-  },
-  {
-    title: "Social Skills",
-    icon: "🫂",
-    image: "/image/p2.jpg",
-    description:
-      "Group activities teach sharing, cooperation, turn-taking, and empathy—essential skills for healthy relationships.",
-  },
-  {
-    title: "Spiritual Growth",
-    icon: "✝️",
-    image: "/image/bb.jpg",
-    description:
-      "Faith-based activities and Christian values help children develop a strong moral foundation rooted in love and kindness.",
-  },
-  {
-    title: "Creative Expression",
-    icon: "🎨",
-    image: "/image/pre-kinder.avif",
-    description:
-      "Art, music, and imaginative play encourage children to express ideas, build confidence, and celebrate their unique creativity.",
-  },
-  {
-    title: "Language & Literacy",
-    icon: "📚",
-    image: "/image/kinder.jpg",
-    description:
-      "Stories, songs, and conversations help children build vocabulary, express themselves, and discover the joy of reading.",
-  },
-  {
-    title: "Nature Discovery",
-    icon: "🌱",
-    image: "/image/sb.jpg",
-    description:
-      "Hands-on exploration nurtures curiosity as children observe nature, ask questions, and learn about the world around them.",
-  },
-  {
-    title: "Music & Rhythm",
-    icon: "🎵",
-    image: "/image/money.jpg",
-    description:
-      "Singing, dancing, and rhythm games develop listening skills, coordination, self-expression, and joyful confidence.",
-  },
-];
-
 const HomePage = () => {
+  const { banner, acadprog, childact, missionvision, reasons, video } =
+    useLoaderData();
+
+  const loaderData = useLoaderData();
+
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    // TEMPORARY - api fetch (uncomment to run)
-    // axios
-    //   .get("http://localhost:5000/api/home")
-    //   .then((response) => {
-    //     console.log("HomePage data:", response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching home data:", error);
-    //   });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -150,11 +45,11 @@ const HomePage = () => {
             />
 
             <MainBanner
-              schoolYear={BANNER_DATA.school_year}
-              admissionStatus={BANNER_DATA.admission_status}
-              title={BANNER_DATA.banner_title}
-              quote={BANNER_DATA.banner_quote}
-              backgroundImage="/image/kinder.jpg"
+              schoolYear={banner?.school_year ?? ""}
+              admissionStatus={banner?.enrollment_status ?? "Close"}
+              title={banner?.banner_title ?? ""}
+              quote={banner?.banner_quote ?? ""}
+              backgroundImage={banner?.banner_image || "/image/kinder.jpg"}
             />
 
             <SideBanner
@@ -177,13 +72,19 @@ const HomePage = () => {
             </div>
 
             <div className="no-scrollbar flex snap-x snap-mandatory justify-center-safe gap-5 overflow-x-auto px-5 py-5">
-              {ACADEMIC_PROGRAMS.map((program) => (
-                <AcademicCard
-                  key={program.id}
-                  card={program}
-                  image={program.image}
-                />
-              ))}
+              <div className="grid  w-7xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {(acadprog ?? []).map((program) => (
+                  <AcademicCard
+                    key={program.program_id}
+                    card={{
+                      program: program.grade_level_name,
+                      ages: `${program.min_age}–${program.max_age}`,
+                      description: program.description,
+                    }}
+                    image={program.image_url || "/image/nursery.jpg"}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -194,31 +95,40 @@ const HomePage = () => {
             image="/image/bb.jpg"
             overlay="/image/90.webp"
             label="Our Mission"
-            title="Raising Godly and Lifelong Learners"
-            description="To be a Christ-centered preschool that inspires young children to grow in faith, character, knowledge, and confidence. We envision a generation of lifelong learners who love God, respect others, and are equipped with the skills and values needed to succeed in school and in life."
+            title={missionvision?.mission_title ?? "Our Mission"}
+            description={missionvision?.mission_body ?? ""}
           />
 
           <Vision
             image="/image/nut.webp"
             overlay="/image/123.jpg"
             label="Our Vision"
-            title="Nurturing Faith, Excellence, and Character"
-            description="We envision a community where every child is empowered to reach their full potential—academically, spiritually, and emotionally—as they grow into confident, compassionate, and responsible individuals prepared for a lifetime of learning and service."
-            reversed
+            title={missionvision?.vision_title ?? "Our Vision"}
+            description={missionvision?.vision_body ?? ""}
           />
         </div>
 
         {/* Hymn Section */}
         <div className="flex flex-col bg-egg pt-15 pb-0 -mb-10">
           <HymnSection
-            title="Grace Christian Academy Hymn"
-            videoSrc="/video/hymn.mp4"
+            title={video?.video_title || "Grace Christian Academy Hymn"}
+            videoSrc={video?.videourl}
           />
         </div>
 
-        <WhyChooseUs title="WHY PARENT'S CHOOSE US" reasons={WHY_CHOOSE_US} />
-
-        <Activities title="CHILDREN ACTIVITIES" activities={ACTIVITIES} />
+        <WhyChooseUs
+          title="WHY PARENT'S CHOOSE US"
+          reasons={(reasons ?? []).map((item) => item.reasons)}
+        />
+        <Activities
+          title="CHILDREN ACTIVITIES"
+          activities={(childact ?? []).map((activity) => ({
+            id: activity.activity_id,
+            title: activity.activity_title,
+            description: activity.activity_description,
+            image: activity.activity_image || "/image/nursery.jpg",
+          }))}
+        />
 
         <Footer />
       </div>

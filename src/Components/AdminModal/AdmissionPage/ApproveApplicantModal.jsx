@@ -33,7 +33,6 @@ const ApproveApplicantModal = ({
           <div className="grid grid-cols-[105px_1fr]">
             <span>Send confirmation to:</span>
             <span className="font-bold text-gray-700">{email}</span>
-            {console.log(email)}
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">

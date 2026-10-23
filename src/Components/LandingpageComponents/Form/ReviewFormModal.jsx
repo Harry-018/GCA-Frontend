@@ -4,7 +4,7 @@ const ReviewField = ({ label, value }) => (
   <div className="min-w-0">
     <p className="mb-1 text-[9px] font-medium text-neutral-600">{label}</p>
 
-    <div className="truncate rounded-md border border-[#d4d5d9] bg-white px-2.5 py-1.5 text-2xs text-neutral-700">
+    <div className="truncate rounded-md border border-[#d4d5d9] bg-bone px-2.5 py-1.5 text-2xs text-neutral-700">
       {value || "N/A"}
     </div>
   </div>
@@ -72,8 +72,6 @@ const ReviewFormModal = ({
     ) ||
     parents[2] ||
     {};
-
-  console.log("CURRENT GRADE:", student.grade_level_id);
 
   return (
     <div
@@ -254,7 +252,7 @@ const ReviewFormModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-full rounded-md bg-white px-5 py-2.5 text-xs font-bold uppercase text-neutral-600 shadow-sm sm:w-auto"
+            className="w-full rounded-md bg-bone px-5 py-2.5 text-xs font-bold uppercase text-neutral-600 shadow-sm sm:w-auto"
           >
             Cancel
           </button>

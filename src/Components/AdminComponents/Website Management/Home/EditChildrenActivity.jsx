@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { LoaderCircle } from "lucide-react";
 
 const EditChildrenActivityModal = ({
   isOpen,
@@ -99,7 +100,7 @@ const EditChildrenActivityModal = ({
                 onChange={handleChange}
                 required
                 maxLength={225}
-                className="mt-1 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-[9px] text-gray-600 outline-none transition focus:border-swamp-green sm:text-xs"
+                className="mt-1 w-full rounded-lg border border-gray-300 bg-bone px-3 py-2 text-[9px] text-gray-600 outline-none transition focus:border-swamp-green sm:text-xs"
               />
             </div>
 
@@ -115,7 +116,7 @@ const EditChildrenActivityModal = ({
                 onChange={handleChange}
                 required
                 rows={5}
-                className="mt-1 w-full resize-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-[9px] leading-relaxed text-gray-600 outline-none transition focus:border-swamp-green sm:text-xs"
+                className="mt-1 w-full resize-none rounded-lg border border-gray-300 bg-bone px-3 py-2 text-[9px] leading-relaxed text-gray-600 outline-none transition focus:border-swamp-green sm:text-xs"
               />
             </div>
 
@@ -126,7 +127,7 @@ const EditChildrenActivityModal = ({
               </label>
 
               <label className="mt-1 block cursor-pointer">
-                <div className="overflow-hidden rounded-lg border border-gray-300 bg-white transition hover:border-swamp-green">
+                <div className="overflow-hidden rounded-lg border border-gray-300 bg-bone transition hover:border-swamp-green">
                   {preview ? (
                     <img
                       src={preview}
@@ -173,7 +174,14 @@ const EditChildrenActivityModal = ({
               disabled={loading}
               className="flex-1 rounded-full bg-swamp-green px-4 py-2 text-[9px] font-medium text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
             >
-              {loading ? "Saving..." : "Save Changes"}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <LoaderCircle size={14} className="animate-spin" />
+                  Saving...
+                </span>
+              ) : (
+                "Save Changes"
+              )}
             </button>
           </div>
         </form>

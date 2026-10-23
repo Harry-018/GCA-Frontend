@@ -20,7 +20,7 @@ const Attendance = () => {
   const [selectedId, setSelectedId] = useState(getSections()[0].id);
   const [studentName, setStudentName] = useState("");
   const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().slice(0, 10)
+    new Date().toISOString().slice(0, 10),
   );
 
   const [attendance, setAttendance] = useState({});
@@ -61,9 +61,7 @@ const Attendance = () => {
   const filteredStudents = students.filter(
     (student) =>
       student.sectionId === selectedId &&
-      student.fullName
-        .toLowerCase()
-        .includes(studentName.toLowerCase())
+      student.fullName.toLowerCase().includes(studentName.toLowerCase()),
   );
 
   // ATTENDANCE CHANGE
@@ -75,9 +73,7 @@ const Attendance = () => {
   };
 
   // SEARCH
-  const handleSearch = () => {
-    console.log("Searching:", studentName);
-  };
+  const handleSearch = () => {};
 
   // SAVE
   const handleSave = async () => {
@@ -86,8 +82,6 @@ const Attendance = () => {
         date: selectedDate,
         attendance,
       });
-
-      console.log("Attendance saved.");
     } catch (error) {
       console.error("Failed to save attendance:", error);
     }
@@ -119,9 +113,7 @@ const Attendance = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
@@ -129,7 +121,6 @@ const Attendance = () => {
   return (
     <div className="cursor-default bg-[#ebe9e4] px-5 py-6 font-[Poppins] lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 sm:gap-4 lg:min-h-0 lg:flex-1">
-
         {/* SECTION */}
         <SectionCard
           sections={sections}

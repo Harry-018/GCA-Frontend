@@ -1,4 +1,6 @@
 import React from "react";
+import { LoaderCircle } from "lucide-react";
+10;
 
 const EditVisionModal = ({
   isOpen,
@@ -7,6 +9,7 @@ const EditVisionModal = ({
   onChange,
   onClose,
   onSave,
+  loading = false,
 }) => {
   if (!isOpen) return null;
 
@@ -28,7 +31,7 @@ const EditVisionModal = ({
             value={title}
             onChange={(e) => onChange?.("title", e.target.value)}
             placeholder="Teach with Love, Faith, and Excellence"
-            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
           />
         </div>
 
@@ -43,7 +46,7 @@ const EditVisionModal = ({
             onChange={(e) => onChange?.("description", e.target.value)}
             rows={4}
             placeholder="Type the vision description here..."
-            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
           />
         </div>
 
@@ -52,7 +55,7 @@ const EditVisionModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone"
           >
             Close
           </button>
@@ -60,9 +63,17 @@ const EditVisionModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+            disabled={loading}
+            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
-            Save
+            {loading ? (
+              <>
+                <LoaderCircle size={14} className="animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>

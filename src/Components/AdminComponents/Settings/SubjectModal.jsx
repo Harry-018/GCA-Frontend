@@ -74,7 +74,7 @@ const SubjectModal = () => {
           <button
             type="button"
             onClick={() => navigate("/admin/settings/subjects")}
-            className="flex items-center text-xs justify-center rounded-full text-gray-500 transition bg-white px-3 hover:opacity-60 border border-ashlight/50"
+            className="flex items-center text-xs justify-center rounded-full text-gray-500 transition bg-bone px-3 hover:opacity-60 border border-ashlight/50"
           >
             Go Back
           </button>
@@ -143,7 +143,7 @@ const SubjectModal = () => {
                 value={subjectName}
                 onChange={(e) => setSubjectName(e.target.value)}
                 autoFocus
-                className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-white px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+                className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
                 placeholder="Enter subject name"
               />
             </div>

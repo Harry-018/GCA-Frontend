@@ -104,15 +104,6 @@ const Settings = () => {
   const handleSaveContact = () => {
     setContactData(formData);
     setShowContactModal(false);
-
-    /*
-      Later, when backend is ready:
-
-      await axios.put(
-        "http://localhost:5000/teacher/contact",
-        formData
-      );
-    */
   };
 
   // Open Password Modal
@@ -122,17 +113,6 @@ const Settings = () => {
 
   // Close / Save Password
   const handlePasswordSubmit = (passwords) => {
-    console.log("Password submitted:", passwords);
-
-    /*
-      Later, when backend is ready:
-
-      await axios.put(
-        "http://localhost:5000/teacher/change-password",
-        passwords
-      );
-    */
-
     setShowPasswordModal(false);
   };
 
@@ -155,9 +135,7 @@ const Settings = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
@@ -180,9 +158,7 @@ const Settings = () => {
         </div>
 
         {/* TEACHER INFORMATION */}
-        <TeacherInformation
-          teacher={teacherData}
-        />
+        <TeacherInformation teacher={teacherData} />
 
         {/* CONTACT + ACCOUNT */}
         <div className="grid grid-cols-1 items-stretch gap-5 lg:grid-cols-[1.7fr_1fr] lg:gap-6">
@@ -204,23 +180,10 @@ const Settings = () => {
           email={formData.email}
           address={formData.address}
           onContactNoChange={(value) =>
-            handleContactChange(
-              "contactNumber",
-              value
-            )
+            handleContactChange("contactNumber", value)
           }
-          onEmailChange={(value) =>
-            handleContactChange(
-              "email",
-              value
-            )
-          }
-          onAddressChange={(value) =>
-            handleContactChange(
-              "address",
-              value
-            )
-          }
+          onEmailChange={(value) => handleContactChange("email", value)}
+          onAddressChange={(value) => handleContactChange("address", value)}
           onCancel={handleCancelContact}
           onSave={handleSaveContact}
         />
@@ -231,9 +194,7 @@ const Settings = () => {
         <ChangePasswordModal
           fields={PASSWORD_FIELDS}
           initialPasswords={INITIAL_PASSWORDS}
-          onCancel={() =>
-            setShowPasswordModal(false)
-          }
+          onCancel={() => setShowPasswordModal(false)}
           onSave={handlePasswordSubmit}
         />
       )}

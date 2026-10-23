@@ -97,7 +97,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
                 }
               }}
               placeholder="Search student..."
-              className="h-9 w-full rounded-full border border-gray-300 bg-white pl-9 pr-4 text-xs text-gray-600 outline-none focus:border-swamp-green"
+              className="h-9 w-full rounded-full border border-gray-300 bg-bone pl-9 pr-4 text-xs text-gray-600 outline-none focus:border-swamp-green"
             />
           </div>
 
@@ -121,7 +121,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
               No eligible students found.
             </p>
           ) : (
-            <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+            <div className="overflow-hidden rounded-xl border border-gray-200 bg-bone">
               <table className="w-full text-left text-xs">
                 <thead className="border-b border-gray-200 bg-bone">
                   <tr>

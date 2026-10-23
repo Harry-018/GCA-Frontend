@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LoaderCircle } from "lucide-react";
 
 const AddProgramModal = ({
   isOpen,
@@ -12,11 +12,12 @@ const AddProgramModal = ({
   onChange,
   onClose,
   onAdd,
+  loading = false,
 }) => {
   if (!isOpen) return null;
 
   const selectStyle =
-    "w-full appearance-none rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 pr-7 font-[Poppins] text-[9px] sm:text-2xs text-[#777777] outline-none focus:border-lime-green";
+    "w-full appearance-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 pr-7 font-[Poppins] text-[9px] sm:text-2xs text-[#777777] outline-none focus:border-lime-green";
 
   const chevronClass =
     "pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500";
@@ -66,7 +67,7 @@ const AddProgramModal = ({
               type="file"
               accept="image/*"
               onChange={(e) => onChange?.("image", e.target.files?.[0] || null)}
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none file:mr-2 file:border-0 file:bg-transparent file:font-[Poppins] file:text-[9px] file:text-[#777777] focus:border-lime-green"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none file:mr-2 file:border-0 file:bg-transparent file:font-[Poppins] file:text-[9px] file:text-[#777777] focus:border-lime-green"
             />
           </div>
         </div>
@@ -86,7 +87,7 @@ const AddProgramModal = ({
               value={minAge}
               onChange={(e) => onChange?.("minAge", e.target.value)}
               placeholder="Age"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
             />
           </div>
 
@@ -103,7 +104,7 @@ const AddProgramModal = ({
               value={maxAge}
               onChange={(e) => onChange?.("maxAge", e.target.value)}
               placeholder="Age"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
             />
           </div>
         </div>
@@ -119,7 +120,7 @@ const AddProgramModal = ({
             onChange={(e) => onChange?.("description", e.target.value)}
             rows={3}
             placeholder=""
-            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
           />
         </div>
 
@@ -128,7 +129,7 @@ const AddProgramModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone"
           >
             Close
           </button>
@@ -136,9 +137,17 @@ const AddProgramModal = ({
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+            disabled={loading}
+            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
-            Add
+            {loading ? (
+              <>
+                <LoaderCircle size={14} className="animate-spin" />
+                Adding...
+              </>
+            ) : (
+              "Add"
+            )}
           </button>
         </div>
       </div>

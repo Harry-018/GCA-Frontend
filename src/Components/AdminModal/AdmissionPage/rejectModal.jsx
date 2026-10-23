@@ -25,7 +25,7 @@ const RejectModal = ({
           <select
             value={rejectionReasonId}
             onChange={(event) => setRejectionReasonId(event.target.value)}
-            className="h-9 flex-1 rounded-md border border-gray-300 bg-white px-2 text-xs text-gray-600 outline-none focus:border-[#f47773]"
+            className="h-9 flex-1 rounded-md border border-gray-300 bg-bone px-2 text-xs text-gray-600 outline-none focus:border-[#f47773]"
           >
             <option value="">Select a reason</option>
             {rejectionReasons.map((reason) => (

@@ -1,4 +1,5 @@
 import React from "react";
+import { LoaderCircle } from "lucide-react";
 
 const EditVideoModal = ({
   isOpen,
@@ -7,6 +8,7 @@ const EditVideoModal = ({
   onChange,
   onClose,
   onSave,
+  loading = false,
 }) => {
   if (!isOpen) return null;
 
@@ -28,7 +30,7 @@ const EditVideoModal = ({
             value={videoTitle}
             onChange={(e) => onChange?.("videoTitle", e.target.value)}
             placeholder="Grace Christian Learning Hymn"
-            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green sm:text-2xs"
+            className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green sm:text-2xs"
           />
         </div>
 
@@ -42,7 +44,7 @@ const EditVideoModal = ({
             type="file"
             accept="video/mp4,video/webm,video/quicktime"
             onChange={(e) => onChange?.("video", e.target.files?.[0] || null)}
-            className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none sm:text-2xs"
+            className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none sm:text-2xs"
           />
 
           <p className="font-[Poppins] text-[8px] text-gray-500 sm:text-[10px]">
@@ -61,7 +63,7 @@ const EditVideoModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-white sm:text-xs"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-bone sm:text-xs"
           >
             Close
           </button>
@@ -69,9 +71,17 @@ const EditVideoModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green sm:text-xs"
+            disabled={loading}
+            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
-            Save
+            {loading ? (
+              <>
+                <LoaderCircle size={14} className="animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>

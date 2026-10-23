@@ -120,13 +120,6 @@ const AdminSettings = () => {
     } finally {
       setSaving(false);
     }
-    console.log("Website update payload:", {
-      school_name: websiteForm.schoolName,
-      contact_number: contact.contactNo,
-      school_email: contact.emailAddress,
-      school_address: contact.schoolAddress,
-      school_logo: logoFile,
-    });
   };
 
   const saveContact = async () => {

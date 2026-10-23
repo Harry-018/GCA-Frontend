@@ -4,14 +4,13 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
   const colCount = columns.length;
 
   return (
-    <div className="rounded-3xl border border-swamp-green/10 bg-white p-2 shadow-sm sm:p-4 md:p-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+    <div className="rounded-3xl border border-swamp-green/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="flex flex-col gap-2 lg:min-h-0 lg:flex-1">
-
         {/* Mobile & Tablet: Sticky scroll */}
         <div className="no-scrollbar overflow-x-auto lg:hidden">
           <div className="min-w-125">
             <div className="grid grid-cols-[minmax(100px,1.2fr)_1fr_0.8fr_0.7fr] items-center gap-0">
-              <div className="sticky left-0 z-10 bg-white py-3 pl-3 sm:pl-4">
+              <div className="sticky left-0 z-10 bg-bone py-3 pl-3 sm:pl-4">
                 <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-[#9caf7d] sm:text-xs">
                   ID & Student
                 </span>
@@ -109,7 +108,6 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
             </div>
           </div>
         </div>
-
       </div>
     </div>
   );

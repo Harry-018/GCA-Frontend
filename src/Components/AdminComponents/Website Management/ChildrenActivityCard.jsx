@@ -10,7 +10,7 @@ const ChildrenActivityCard = ({
       <div>
         <label className="text-[9px] sm:text-xs text-gray-600">Title:</label>
 
-        <div className="mt-1 min-h-8.75 rounded-lg border border-gray-300 bg-white px-3 py-2 text-[9px] sm:text-xs text-gray-500">
+        <div className="mt-1 min-h-8.75 rounded-lg border border-gray-300 bg-bone px-3 py-2 text-[9px] sm:text-xs text-gray-500">
           {title}
         </div>
       </div>
@@ -21,7 +21,7 @@ const ChildrenActivityCard = ({
           Description:
         </label>
 
-        <div className="mt-1 h-full flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2 text-[9px] sm:text-xs leading-relaxed text-gray-500">
+        <div className="mt-1 h-full flex-1 rounded-lg border border-gray-300 bg-bone px-3 py-2 text-[9px] sm:text-xs leading-relaxed text-gray-500">
           {description}
         </div>
       </div>

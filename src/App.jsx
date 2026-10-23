@@ -71,9 +71,10 @@ import {
   submissionDocsLoader,
 } from "./loaders/preEnrollmentLoaders.js";
 import { dashboardLoader } from "./loaders/dashboardLoader.js";
-
+import { landingPageLoader } from "./loaders/LandingPageLoader.js";
 import { enrollmentFormLoader } from "./loaders/formLoaderGuard.js";
 import SessionExpiredModal from "./SessionExpiredModal.jsx";
+
 //ProtectedRoutes
 
 import ProtectedRoutes from "./protectedRoutes.jsx";
@@ -93,7 +94,7 @@ const App = () => {
           {/* PUBLIC */}
           <Route path="*" element={<NotFound />} />
           <Route path="/notauth" element={<NotAuth />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} loader={landingPageLoader} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/admission" element={<AdmissionPage />} />

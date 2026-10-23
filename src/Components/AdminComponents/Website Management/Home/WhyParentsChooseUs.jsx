@@ -19,7 +19,7 @@ const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
       <div className="flex flex-col gap-3 pt-10">
         {reasons.map((reason) => (
           <div key={reason.id} className="flex items-center gap-2">
-            <div className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-[9px] sm:text-xs text-gray-500">
+            <div className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-bone px-3 py-2.5 text-[9px] sm:text-xs text-gray-500">
               {reason.text}
             </div>
 

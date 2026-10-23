@@ -202,7 +202,6 @@ const ScheduleSetUp = () => {
         room_id: Number(formData.room),
         sched_time_id: Number(selectedTime.id),
       });
-      console.log("Schedule created:", result);
       const updatedSchedules = await getSectionSchedules(sectionId);
       setSchedules(updatedSchedules);
       setIsAddScheduleOpen(false);
@@ -260,7 +259,7 @@ const ScheduleSetUp = () => {
         room_id: Number(editData.room),
         sched_time_id: Number(selectedTime.id),
       });
-      console.log("Schedule updated:", result);
+      ("Schedule updated:", result);
       const updatedSchedules = await getSectionSchedules(sectionId);
       setSchedules(updatedSchedules);
       setIsEditScheduleOpen(false);

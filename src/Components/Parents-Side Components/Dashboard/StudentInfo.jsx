@@ -6,7 +6,6 @@ const StudentInfo = ({
   idFields,
   schoolYearField = { key: "schoolYear", label: "School Year" },
 }) => {
-
   return (
     <div className="relative w-full overflow-x-hidden rounded-3xl bg-linear-to-br from-[#0f2419] via-[#1c3a28] to-[#3f7a4f] p-4 font-[Poppins] lg:p-6">
       <div className="flex w-full flex-col gap-4 lg:flex-row lg:gap-6">
@@ -42,7 +41,7 @@ const StudentInfo = ({
 
             <Link
               to={`/parents/grades/${student.studentId}`}
-              className="flex w-full items-center justify-center rounded-xl bg-bone/95 px-6 py-3 text-[13px] font-[PoppinsBold] uppercase tracking-wide text-swamp-green transition hover:bg-white"
+              className="flex w-full items-center justify-center rounded-xl bg-bone/95 px-6 py-3 text-[13px] font-[PoppinsBold] uppercase tracking-wide text-swamp-green transition hover:bg-bone"
             >
               Grades
             </Link>
@@ -63,7 +62,7 @@ const StudentInfo = ({
           {infoFields.map(({ key, label, icon: Icon }) => (
             <div
               key={key}
-              className="flex flex-col gap-2 rounded-2xl bg-white p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg lg:gap-3 lg:p-5"
+              className="flex flex-col gap-2 rounded-2xl bg-bone p-3 shadow-sm transition hover:-translate-y-1 hover:shadow-lg lg:gap-3 lg:p-5"
             >
               <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-black/5 text-black lg:h-9 lg:w-9">
                 <Icon size={12} className="lg:size-4.5" />
@@ -75,15 +74,22 @@ const StudentInfo = ({
                 </span>
 
                 <p className="text-[11px] font-[PoppinsBold] leading-4 text-swamp-green lg:text-sm lg:leading-6">
-                  {key === 'classTime'
-                    ? student[key]?.toString().split(' - ').map((part, i, arr) => (
-                        <span key={i}>
-                          {part}
-                          {i < arr.length - 1 && <> -<br className="sm:hidden" /></>}
-                        </span>
-                      ))
-                    : student[key]
-                  }
+                  {key === "classTime"
+                    ? student[key]
+                        ?.toString()
+                        .split(" - ")
+                        .map((part, i, arr) => (
+                          <span key={i}>
+                            {part}
+                            {i < arr.length - 1 && (
+                              <>
+                                {" "}
+                                -<br className="sm:hidden" />
+                              </>
+                            )}
+                          </span>
+                        ))
+                    : student[key]}
                 </p>
               </div>
             </div>

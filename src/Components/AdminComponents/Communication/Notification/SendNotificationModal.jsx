@@ -80,7 +80,7 @@ const SendNotificationModal = ({
                 value={selectedReminder}
                 onChange={(e) => setSelectedReminder(e.target.value)}
                 disabled={notificationTemplates.length === 0 || sending}
-                className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-8 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
+                className="w-full appearance-none rounded-lg border border-gray-300 bg-bone px-3 py-1.5 pr-8 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
               >
                 {notificationTemplates.length === 0 ? (
                   <option value="">No reminders</option>
@@ -112,7 +112,7 @@ const SendNotificationModal = ({
                   onChange={(e) => setSelectedRecipient(e.target.value)}
                   disabled
                   // ={notificationAudiences.length === 0 || sending}
-                  className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full appearance-none rounded-lg border border-gray-300 bg-bone px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   {notificationAudiences.length === 0 ? (
                     <option value="">No recipients</option>
@@ -138,7 +138,7 @@ const SendNotificationModal = ({
                   value={selectedPayment}
                   onChange={(e) => setSelectedPayment(e.target.value)}
                   disabled={paymentOptions.length === 0 || sending}
-                  className="w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full appearance-none rounded-lg border border-gray-300 bg-bone px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-[#91a77c] disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   {paymentOptions.length === 0 ? (
                     <option value="">No payment options</option>

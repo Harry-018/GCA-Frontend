@@ -28,7 +28,7 @@ const EditSkillModal = ({
             type="text"
             value={skillName}
             onChange={onSkillNameChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-swamp-green"
+            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-swamp-green"
           />
         </div>
 
@@ -42,7 +42,7 @@ const EditSkillModal = ({
             type="text"
             value={description}
             onChange={onDescriptionChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-white px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-swamp-green"
+            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-swamp-green"
           />
         </div>
 

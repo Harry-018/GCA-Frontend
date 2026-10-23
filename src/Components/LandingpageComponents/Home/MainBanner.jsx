@@ -18,9 +18,13 @@ const MainBanner = ({
       <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-white/5" />
       <div className="pointer-events-none absolute left-1/2 top-0 h-px w-3/5 -translate-x-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent" />
       <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-4 lg:gap-5">
-        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1 font-[PoppinsBold] text-2xs  tracking-widest text-white backdrop-blur-sm sm:text-[11px]">
-          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
-          Admission Now {admissionStatus}
+        <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-bone/10 px-4 py-1 font-[PoppinsBold] text-2xs  tracking-widest text-white backdrop-blur-sm sm:text-[11px]">
+          {admissionStatus === "open" ? (
+            <span className="inline-block h-1.5 w-1.5  rounded-full bg-emerald-400" />
+          ) : (
+            <span className="inline-block h-1.5 w-1.5  rounded-full bg-rose-400" />
+          )}
+          Admission Now {admissionStatus === "open" ? "Open" : "Closed"}
         </span>
 
         <h1 className="max-w-145 font-[SuperJoyful] text-[22px] leading-[1.1] uppercase text-white  sm:text-3xl md:text-4xl lg:text-[34px]">
@@ -38,8 +42,7 @@ const MainBanner = ({
           <span className="whitespace-nowrap">S.Y. {schoolYear}</span>
         </div>
 
-        <span className="hidden h-4 w-px bg-white/20 sm:inline-block" />
-        {admissionStatus === "Open" && (
+        {admissionStatus === "open" && (
           <Link
             to="email-verification"
             className="group/btn inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-lime-dark px-5 py-2.5 text-[11px] font-[PoppinsBold]  tracking-wide text-white shadow-lg shadow-lime-dark/25 transition-all duration-200 hover:scale-[1.03] hover:bg-swamp-green hover:shadow-lime-dark/40 sm:text-xs"

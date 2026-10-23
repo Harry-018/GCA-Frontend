@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {Loader2} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import {
   getGradeReportStudents,
   getDevelopments,
@@ -21,8 +21,7 @@ const GradesReport = () => {
   const navigate = useNavigate();
   const { schoolId } = useParams();
   const [student] = useState(
-    ALL_STUDENTS.find((s) => s.schoolId === schoolId) ||
-      ALL_STUDENTS[0]
+    ALL_STUDENTS.find((s) => s.schoolId === schoolId) || ALL_STUDENTS[0],
   );
 
   const [selectedQuarter, setSelectedQuarter] = useState(1);
@@ -44,7 +43,6 @@ const GradesReport = () => {
       try {
         // Temporary data is still being used.
         // Replace this with your actual API later.
-
         /*
         const response = await axios.get(
           `http://localhost:5000/teacher/grades/${schoolId}`
@@ -55,8 +53,6 @@ const GradesReport = () => {
         setRemark(response.data.remark);
         setDevelopments(response.data.developments);
         */
-
-        console.log("Grades page ready for backend:", schoolId);
       } catch (error) {
         console.error("Failed to load grades:", error);
         setError("Unable to load grades.");
@@ -84,8 +80,6 @@ const GradesReport = () => {
         }
       );
       */
-
-      console.log("Saved quarter:", selectedQuarter);
     } catch (error) {
       console.error("Failed to save quarter:", error);
     }
@@ -104,18 +98,12 @@ const GradesReport = () => {
         }
       );
       */
-
-      console.log("Updated remark:", updatedRemark);
     } catch (error) {
       console.error("Failed to save remark:", error);
     }
   };
 
-  const handleGradeChange = async (
-    devId,
-    skillIndex,
-    newGrade
-  ) => {
+  const handleGradeChange = async (devId, skillIndex, newGrade) => {
     // Update temporary data/UI
     setDevelopments((prev) =>
       prev.map((dev) =>
@@ -128,11 +116,11 @@ const GradesReport = () => {
                       ...skill,
                       grade: newGrade,
                     }
-                  : skill
+                  : skill,
               ),
             }
-          : dev
-      )
+          : dev,
+      ),
     );
 
     try {
@@ -147,8 +135,6 @@ const GradesReport = () => {
         }
       );
       */
-
-      console.log("Updated grade:", newGrade);
     } catch (error) {
       console.error("Failed to save grade:", error);
     }
@@ -173,9 +159,7 @@ const GradesReport = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-500">
-          {error}
-        </p>
+        <p className="text-sm text-red-500">{error}</p>
       </div>
     );
   }
@@ -183,11 +167,7 @@ const GradesReport = () => {
   return (
     <div className="min-h-screen cursor-default bg-[#ebe9e4] px-3 py-4 font-[Poppins] sm:px-5 sm:py-6">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 sm:gap-6">
-
-        <GradesHeader
-          student={student}
-          onBack={handleBack}
-        />
+        <GradesHeader student={student} onBack={handleBack} />
 
         <QuarterSelector
           quarters={QUARTERS}
@@ -196,16 +176,12 @@ const GradesReport = () => {
           onSave={handleSaveQuarter}
         />
 
-        <TeacherRemarks
-          remark={remark}
-          onSave={handleSaveRemark}
-        />
+        <TeacherRemarks remark={remark} onSave={handleSaveRemark} />
 
         <DevelopmentCards
           developments={developments}
           onGradeChange={handleGradeChange}
         />
-
       </div>
     </div>
   );

@@ -117,6 +117,7 @@ const Home = () => {
   const [selectedActivity, setSelectedActivity] = useState(null);
 
   const [activityLoading, setActivityLoading] = useState(false);
+  const [processing, setProcessing] = useState(false);
 
   const [addActivityForm, setAddActivityForm] = useState({
     title: "",
@@ -141,6 +142,16 @@ const Home = () => {
       id: reason.reason_id,
       text: reason.reasons,
     }));
+  };
+
+  const runWithProcessing = async (action) => {
+    setProcessing(true);
+
+    try {
+      await action();
+    } finally {
+      setProcessing(false);
+    }
   };
 
   useEffect(() => {
@@ -816,7 +827,8 @@ const Home = () => {
           setBannerForm((prev) => ({ ...prev, [key]: value }))
         }
         onClose={() => setBannerEditOpen(false)}
-        onSave={saveBanner}
+        onSave={() => runWithProcessing(saveBanner)}
+        loading={processing}
       />
 
       <AddProgramModal
@@ -831,7 +843,8 @@ const Home = () => {
           setAddForm((prev) => ({ ...prev, [key]: value }))
         }
         onClose={() => setAddProgramOpen(false)}
-        onAdd={addProgram}
+        onAdd={() => runWithProcessing(addProgram)}
+        loading={processing}
       />
 
       <EditProgramModal
@@ -846,7 +859,8 @@ const Home = () => {
           setEditForm((prev) => ({ ...prev, [key]: value }))
         }
         onClose={() => setEditProgramOpen(false)}
-        onSave={saveEditProgram}
+        onSave={() => runWithProcessing(saveEditProgram)}
+        loading={processing}
       />
 
       <EditVideoModal
@@ -857,7 +871,8 @@ const Home = () => {
           setVideoForm((prev) => ({ ...prev, [key]: value }))
         }
         onClose={() => setEditVideoOpen(false)}
-        onSave={saveEditVideo}
+        onSave={() => runWithProcessing(saveEditVideo)}
+        loading={processing}
       />
 
       <AddReasonModal
@@ -865,7 +880,8 @@ const Home = () => {
         reason={addReasonText}
         onChange={setAddReasonText}
         onClose={() => setAddReasonOpen(false)}
-        onAdd={addReason}
+        onAdd={() => runWithProcessing(addReason)}
+        loading={processing}
       />
 
       <EditReasonModal
@@ -876,7 +892,8 @@ const Home = () => {
           setEditReasonOpen(false);
           setEditingReason(null);
         }}
-        onSave={saveEditReason}
+        onSave={() => runWithProcessing(saveEditReason)}
+        loading={processing}
       />
 
       <EditMissionModal
@@ -887,7 +904,8 @@ const Home = () => {
           setMissionForm((prev) => ({ ...prev, [key]: value }))
         }
         onClose={() => setMissionEditOpen(false)}
-        onSave={saveEditMission}
+        onSave={() => runWithProcessing(saveEditMission)}
+        loading={processing}
       />
 
       <EditVisionModal
@@ -898,7 +916,8 @@ const Home = () => {
           setVisionForm((prev) => ({ ...prev, [key]: value }))
         }
         onClose={() => setVisionEditOpen(false)}
-        onSave={saveEditVision}
+        onSave={() => runWithProcessing(saveEditVision)}
+        loading={processing}
       />
 
       <RemoveModal

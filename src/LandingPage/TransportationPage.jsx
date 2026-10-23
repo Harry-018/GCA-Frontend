@@ -1,106 +1,120 @@
 import { useEffect, useState } from "react";
-// import axios from "axios";
 import { Banknote, Bus, MapPinned, Route } from "lucide-react";
+
 import TransportationBanner from "../Components/LandingpageComponents/Transportation/TransportationBanner";
 import TransportationCard from "../Components/LandingpageComponents/Transportation/TransportationCard";
 import LoginHeader from "../Components/LoginHeader";
 import HomeSidebar from "../Components/HomeSidebar";
 import Footer from "../Components/Footer";
 
-const transpoData = [
-  {
-    id: 1,
-    location: "Paragon Village",
-    distance: "10km",
-    price: "3,500",
-    zone: "Tanza",
-  },
-  {
-    id: 2,
-    location: "Woodville Subdivision",
-    distance: "10km",
-    price: "3,500",
-    zone: "Tanza",
-  },
-  {
-    id: 3,
-    location: "Port 45",
-    distance: "10km",
-    price: "3,500",
-    zone: "Tanza",
-  },
-  {
-    id: 4,
-    location: "Sunshine Ville",
-    distance: "4km",
-    price: "3,500",
-    zone: "Trece Martires City",
-  },
-  {
-    id: 5,
-    location: "Benedict's City",
-    distance: "4km",
-    price: "3,500",
-    zone: "Trece Martires City",
-  },
-  {
-    id: 6,
-    location: "Park 7",
-    distance: "4km",
-    price: "3,500",
-    zone: "Trece Martires City",
-  },
-  {
-    id: 7,
-    location: "Governor's Road",
-    distance: "7.6km",
-    price: "2,900",
-    zone: "Tanza",
-  },
-  {
-    id: 8,
-    location: "Isaac New Town",
-    distance: "7.6km",
-    price: "2,900",
-    zone: "Tanza",
-  },
-  {
-    id: 9,
-    location: "Michael's Area",
-    distance: "7.6km",
-    price: "2,900",
-    zone: "Tanza",
-  },
-];
-
-const STATS = [
-  { label: "Routes Available", value: "9", icon: Route },
-  { label: "Fee Range", value: "₱2,900 – ₱3,500", icon: Banknote },
-  { label: "Max Distance", value: "10 km", icon: MapPinned },
-];
+import { getTransportation } from "../requests/transporationRequests.js";
 
 const TransportationPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [transpoData, setTranspoData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // TEMPORARY - api fetch (uncomment to run)
-    // axios
-    //   .get("http://localhost:5000/api/transportation")
-    //   .then((response) => {
-    //     console.log("TransportationPage data:", response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching transportation data:", error);
-    //   });
+    let cancelled = false;
+
+    const loadTransportation = async () => {
+      try {
+        setLoading(true);
+
+        const response = await getTransportation();
+
+        if (!cancelled) {
+          setTranspoData(Array.isArray(response.r) ? response.r : []);
+        }
+      } catch (error) {
+        console.error("Failed to load transportation:", error);
+
+        if (!cancelled) {
+          setTranspoData([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadTransportation();
+
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  const zones = transpoData.reduce((acc, item) => {
-    if (!acc[item.zone]) acc[item.zone] = [];
-    acc[item.zone].push(item);
+  // Group transportation locations by city.
+  const zones = transpoData.reduce((acc, cityGroup) => {
+    const city = cityGroup.city;
+
+    if (!acc[city]) {
+      acc[city] = [];
+    }
+
+    acc[city].push(
+      ...(Array.isArray(cityGroup.locations) ? cityGroup.locations : []),
+    );
+
     return acc;
   }, {});
 
-  const zoneOrder = ["Trece Martires City", "Tanza"];
+  // Preserve the previous city order, then include any additional cities.
+  const preferredZoneOrder = ["Trece Martires City", "Tanza"];
+
+  const zoneOrder = [
+    ...preferredZoneOrder.filter((zone) => zones[zone]),
+    ...Object.keys(zones).filter((zone) => !preferredZoneOrder.includes(zone)),
+  ];
+
+  const allLocations = transpoData.flatMap((cityGroup) =>
+    Array.isArray(cityGroup.locations) ? cityGroup.locations : [],
+  );
+
+  const prices = allLocations
+    .map((item) => Number(item.price))
+    .filter((price) => Number.isFinite(price) && price >= 0);
+
+  const distances = allLocations
+    .map((item) => parseFloat(item.distance))
+    .filter((distance) => Number.isFinite(distance) && distance >= 0);
+
+  const formatPrice = (price) =>
+    `₱${price.toLocaleString("en-PH", {
+      maximumFractionDigits: 2,
+    })}`;
+
+  const feeRange =
+    prices.length > 0
+      ? prices.every((price) => price === prices[0])
+        ? formatPrice(prices[0])
+        : `${formatPrice(Math.min(...prices))} – ${formatPrice(Math.max(...prices))}`
+      : "Not available";
+
+  const maxDistance =
+    distances.length > 0
+      ? `${Math.max(...distances).toLocaleString("en-PH")} km`
+      : "Not available";
+
+  const STATS = [
+    {
+      label: "Routes Available",
+      value: String(allLocations.length),
+      icon: Route,
+    },
+    {
+      label: "Fee Range",
+      value: feeRange,
+      icon: Banknote,
+    },
+    {
+      label: "Max Distance",
+      value: maxDistance,
+      icon: MapPinned,
+    },
+  ];
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -125,6 +139,7 @@ const TransportationPage = () => {
                       strokeWidth={1.5}
                     />
                   </div>
+
                   <div className="flex min-w-0 flex-col">
                     <p className="whitespace-nowrap font-[PoppinsBold] text-sm text-swamp-green sm:text-base lg:text-lg">
                       {value}
@@ -138,29 +153,39 @@ const TransportationPage = () => {
             <section className="flex flex-col gap-y-8">
               <div className="flex items-center gap-3">
                 <Bus className="h-5 w-5 text-swamp-green" />
-                <h2 className="font-[PoppinsBold]  uppercase text-xl text-swamp-green">
+
+                <h2 className="font-[PoppinsBold] uppercase text-xl text-swamp-green">
                   Locations Available
                 </h2>
               </div>
 
-              {zoneOrder
-                .filter((zone) => zones[zone])
-                .map((zone) => (
+              {loading ? (
+                <p className="py-6 text-center text-sm text-ashlight">
+                  Loading transportation...
+                </p>
+              ) : allLocations.length === 0 ? (
+                <p className="py-6 text-center text-sm text-ashlight">
+                  No transportation routes found.
+                </p>
+              ) : (
+                zoneOrder.map((zone) => (
                   <div key={zone} className="flex flex-col gap-y-4">
                     <div className="flex items-center gap-2">
                       <span className="font-[PoppinsBold] text-sm uppercase tracking-wider text-ashlight">
                         {zone}
                       </span>
+
                       <span className="rounded-full bg-swamp-green/15 px-2.5 py-0.5 text-xs font-[PoppinsBold] text-swamp-green">
                         {zones[zone].length}
                       </span>
+
                       <span className="h-px flex-1 bg-bone/60" />
                     </div>
 
                     <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 lg:gap-4">
                       {zones[zone].map((transpo) => (
                         <TransportationCard
-                          key={transpo.id}
+                          key={transpo.transportation_id}
                           location={transpo.location}
                           distance={transpo.distance}
                           price={transpo.price}
@@ -168,11 +193,13 @@ const TransportationPage = () => {
                       ))}
                     </div>
                   </div>
-                ))}
+                ))
+              )}
             </section>
           </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

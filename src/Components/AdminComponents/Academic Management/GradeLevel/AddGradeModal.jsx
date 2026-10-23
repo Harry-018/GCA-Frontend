@@ -25,7 +25,7 @@ const AddGradeLevelModal = ({
             value={selectedGradeLevel}
             onChange={onChange}
             disabled={isSubmitting}
-            className="w-full rounded-lg border border-gray-300 bg-white px-2 py-1.5 text-2xs text-gray-600 outline-none focus:border-[#91a77a] disabled:cursor-not-allowed disabled:opacity-50"
+            className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1.5 text-2xs text-gray-600 outline-none focus:border-[#91a77a] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <option value="">Select Grade Level</option>
 

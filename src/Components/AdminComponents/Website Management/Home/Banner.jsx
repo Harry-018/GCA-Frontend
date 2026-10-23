@@ -39,7 +39,7 @@ const Banner = ({
           Banner Image:
         </label>
 
-        <div className="mt-1 overflow-hidden rounded-lg border border-gray-300 bg-white">
+        <div className="mt-1 overflow-hidden rounded-lg border border-gray-300 bg-bone">
           {image ? (
             <img
               src={image}
@@ -57,7 +57,7 @@ const Banner = ({
       <div className="pt-4">
         <label className="text-[9px] sm:text-xs text-gray-600">Title:</label>
 
-        <div className="mt-1 rounded-lg border border-gray-300 bg-white px-3 py-3 text-[9px] sm:text-xs text-gray-500">
+        <div className="mt-1 rounded-lg border border-gray-300 bg-bone px-3 py-3 text-[9px] sm:text-xs text-gray-500">
           {title}
         </div>
       </div>
@@ -65,7 +65,7 @@ const Banner = ({
       <div className="pt-4">
         <label className="text-[9px] sm:text-xs text-gray-600">Quote:</label>
 
-        <div className="mt-1 rounded-lg border border-gray-300 bg-white px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
+        <div className="mt-1 rounded-lg border border-gray-300 bg-bone px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
           {quote}
         </div>
       </div>

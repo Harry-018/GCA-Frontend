@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, LoaderCircle } from "lucide-react";
 
 const EditProgramModal = ({
   isOpen,
@@ -12,11 +12,12 @@ const EditProgramModal = ({
   onChange,
   onClose,
   onSave,
+  loading = false,
 }) => {
   if (!isOpen) return null;
 
   const selectStyle =
-    "w-full appearance-none rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 pr-7 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green";
+    "w-full appearance-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 pr-7 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green";
 
   const chevronClass =
     "pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500";
@@ -62,7 +63,7 @@ const EditProgramModal = ({
               type="file"
               accept="image/*"
               onChange={(e) => onChange?.("image", e.target.files?.[0] || null)}
-              className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none file:mr-2 file:border-0 file:bg-transparent file:font-[Poppins] file:text-[9px] file:text-[#777777] focus:border-lime-green"
+              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none file:mr-2 file:border-0 file:bg-transparent file:font-[Poppins] file:text-[9px] file:text-[#777777] focus:border-lime-green"
             />
           </div>
         </div>
@@ -82,7 +83,7 @@ const EditProgramModal = ({
                 step="1"
                 value={minAge}
                 onChange={(e) => onChange?.("minAge", e.target.value)}
-                className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green"
+                className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green"
               />
             </div>
           </div>
@@ -98,9 +99,9 @@ const EditProgramModal = ({
                 min="1"
                 max="10"
                 step="1"
-                value={minAge}
-                onChange={(e) => onChange?.("minAge", e.target.value)}
-                className="w-full rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green"
+                value={maxAge}
+                onChange={(e) => onChange?.("maxAge", e.target.value)}
+                className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none focus:border-lime-green"
               />
             </div>
           </div>
@@ -117,7 +118,7 @@ const EditProgramModal = ({
             onChange={(e) => onChange?.("description", e.target.value)}
             rows={3}
             placeholder="Our preschool works closely with parents to ensure the maximum benefit from early schooling."
-            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-white px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
           />
         </div>
 
@@ -126,17 +127,24 @@ const EditProgramModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-white"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone"
           >
             Close
           </button>
-
           <button
             type="button"
             onClick={onSave}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+            disabled={loading}
+            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
-            Save
+            {loading ? (
+              <>
+                <LoaderCircle size={14} className="animate-spin" />
+                Saving...
+              </>
+            ) : (
+              "Save"
+            )}
           </button>
         </div>
       </div>

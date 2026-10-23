@@ -1,16 +1,11 @@
 import { KeyRound, LockKeyhole } from "lucide-react";
 
-const AccountSettings = ({
-  email,
-  password,
-  onChangePassword,
-}) => {
-
+const AccountSettings = ({ email, password, onChangePassword }) => {
   return (
     <div className="h-full w-full rounded-2xl bg-egg-dark px-4 py-4 text-white shadow-sm max-[374px]:px-3 max-[374px]:py-4 sm:px-7 sm:py-6">
       <div className="flex h-full flex-col justify-start gap-6">
         <div className="flex min-h-14 items-center gap-3">
-          <div className="flex size-10 items-center justify-center rounded-xl bg-white/10 text-swamp-green ring-1 ring-white/10">
+          <div className="flex size-10 items-center justify-center rounded-xl bg-bone/10 text-swamp-green ring-1 ring-white/10">
             <LockKeyhole size={19} />
           </div>
           <div>
@@ -46,7 +41,7 @@ const AccountSettings = ({
             <button
               type="button"
               onClick={onChangePassword}
-              className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-swamp-green px-3 py-2 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-[#0c2423] transition-colors hover:bg-white max-[374px]:gap-1 max-[374px]:px-2 max-[374px]:text-[8px] md:w-fit xl:w-auto xl:text-2xs"
+              className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-swamp-green px-3 py-2 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-[#0c2423] transition-colors hover:bg-bone max-[374px]:gap-1 max-[374px]:px-2 max-[374px]:text-[8px] md:w-fit xl:w-auto xl:text-2xs"
             >
               <KeyRound size={14} />
               {password}

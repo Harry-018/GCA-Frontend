@@ -59,7 +59,7 @@ const ScheduleSection = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="rounded-full border bg-white px-4 py-1 font-[Poppins] text-sm text-gray-500 transition hover:text-swamp-green"
+            className="rounded-full border bg-bone px-4 py-1 font-[Poppins] text-sm text-gray-500 transition hover:text-swamp-green"
           >
             Go Back
           </button>

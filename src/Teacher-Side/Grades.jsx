@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {Loader2} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { getSections } from "../utils/data/Teacher/sections";
 import { getGradeRoster } from "../utils/data/Teacher/grades";
 import SectionCard from "../Components/Teacher-Side Components/AttendanceChecker/SectionCard";
@@ -43,16 +43,14 @@ const Grades = () => {
   //   fetchStudents();
   // }, []);
 
-  const handleSearch = () => {
-    console.log("Searching:", studentName);
-  };
+  const handleSearch = () => {};
 
   const handleGradesClick = (student) => {
     navigate(`/teacher/gradesreport/${student.schoolId}`);
   };
 
   const filteredStudents = students.filter((student) =>
-    student.name.toLowerCase().includes(studentName.toLowerCase())
+    student.name.toLowerCase().includes(studentName.toLowerCase()),
   );
 
   const hasStudents = !loading && !error && filteredStudents.length > 0;
@@ -78,23 +76,22 @@ const Grades = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
 
-  {isEmpty && (
-    <div className="flex h-40 items-center justify-center">
-      <p className="text-sm text-gray-400">No students found.</p>
-    </div>
-  )}
+  {
+    isEmpty && (
+      <div className="flex h-40 items-center justify-center">
+        <p className="text-sm text-gray-400">No students found.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen cursor-default bg-[#ebe9e4] px-5 py-6 font-[Poppins] lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 lg:min-h-0 lg:flex-1">
-
         <SectionCard
           sections={sections}
           selectedId={selectedId}

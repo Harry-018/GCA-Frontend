@@ -162,7 +162,7 @@ const EditTeacherModal = ({ teacher, onClose, onSave, saving = false }) => {
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-white font-[PoppinsBold] text-xs text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-bone font-[PoppinsBold] text-xs text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Close
           </button>

@@ -338,7 +338,7 @@ const Teacher = () => {
               type="button"
               disabled={pagination.page === 1 || loading}
               onClick={handlePreviousPage}
-              className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
             >
               Previous
             </button>

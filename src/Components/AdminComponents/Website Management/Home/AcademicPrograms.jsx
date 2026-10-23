@@ -7,8 +7,7 @@ const AcademicPrograms = ({
   onRemove,
 }) => {
   const activeProgram =
-    programs.find((program) => program.name === selectedProgram) ||
-    programs[0];
+    programs.find((program) => program.name === selectedProgram) || programs[0];
 
   return (
     <section className="rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
@@ -69,14 +68,14 @@ const AcademicPrograms = ({
       {activeProgram && (
         <>
           {/* Age + Image */}
-          <div className="grid grid-cols-1 gap-3 pt-4 lg:grid-cols-[1fr_500px]">
-            <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-wrap gap-3 pt-4 lg:flex-col">
+            <div className="flex gap-3">
               <div>
-                <label className="text-[9px] sm:text-xs text-gray-600">
+                <label className="text-[9px] sm:text-xs  text-gray-600">
                   Min. Age:
                 </label>
 
-                <div className="mt-1 flex h-9 items-center rounded-lg border border-gray-300 bg-white px-3 text-[9px] sm:text-xs text-gray-600">
+                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-gray-300 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
                   {activeProgram.minAge}
                 </div>
               </div>
@@ -86,14 +85,14 @@ const AcademicPrograms = ({
                   Max. Age:
                 </label>
 
-                <div className="mt-1 flex h-9 items-center rounded-lg border border-gray-300 bg-white px-3 text-[9px] sm:text-xs text-gray-600">
+                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-gray-300 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
                   {activeProgram.maxAge}
                 </div>
               </div>
             </div>
 
             {/* Image */}
-            <div className="flex items-end justify-end">
+            <div className="flex">
               {activeProgram.image && (
                 <img
                   src={activeProgram.image}
@@ -110,7 +109,7 @@ const AcademicPrograms = ({
               Description:
             </label>
 
-            <div className="mt-1 min-h-15 rounded-lg border border-gray-300 bg-white px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
+            <div className="mt-1 min-h-15 rounded-lg border border-gray-300 bg-bone px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
               {activeProgram.description}
             </div>
           </div>

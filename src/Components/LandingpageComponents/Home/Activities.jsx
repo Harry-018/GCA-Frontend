@@ -87,7 +87,7 @@ const Activities = ({ title, activities }) => {
             type="button"
             onClick={showPrevious}
             aria-label="Previous activity"
-            className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full border border-swamp-green/20 bg-white text-swamp-green transition-colors hover:bg-swamp-green hover:text-white sm:flex"
+            className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full border border-swamp-green/20 bg-bone text-swamp-green transition-colors hover:bg-swamp-green hover:text-white sm:flex"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -121,17 +121,17 @@ const Activities = ({ title, activities }) => {
                 return (
                   <div
                     key={activity.title}
-                    className="group relative flex min-h-28 h-auto w-full shrink-0 items-center gap-2 overflow-hidden rounded-xl border-2 border-white bg-swamp-green px-3 py-3 text-white transition-transform duration-300 hover:-translate-y-1 sm:min-h-32 sm:w-[calc((100%-1rem)/2)] sm:gap-3 sm:px-4 lg:w-[calc((100%-2rem)/3)] lg:px-5 xl:w-[calc((100%-3rem)/4)]"
+                    className="group relative flex min-h-28 h-auto w-full shrink-0 items-center gap-2 overflow-hidden rounded-xl border-2 border-white bg-swamp-green px-3 py-3 text-white transition-transform duration-300 hover:-translate-y-1 sm:min-h-50 sm:w-[calc((100%-1rem)/2)] sm:gap-3 sm:px-4 lg:w-[calc((100%-2rem)/3)] lg:px-5 "
                   >
                     <img
                       src={activity.image}
                       alt={activity.title}
-                      className="absolute inset-0 h-full w-full object-cover opacity-35 transition-transform duration-500 group-hover:scale-105"
+                      className="absolute inset-0 h-full w-full object-cover opacity-100 transition-transform duration-500 group-hover:scale-105"
                     />
 
-                    <div className="absolute inset-0 bg-linear-to-r from-[#0c2423] via-[#0c2423]/85 to-[#0c2423]/55" />
+                    <div className="absolute inset-0 bg-linear-to-t from-[#0c2423] to-transparent" />
 
-                    <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/90 text-swamp-green backdrop-blur-sm sm:h-9 sm:w-9">
+                    <span className="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-bone/90 text-swamp-green backdrop-blur-sm sm:h-9 sm:w-9">
                       <Icon
                         aria-hidden="true"
                         className="h-4 w-4"
@@ -160,7 +160,7 @@ const Activities = ({ title, activities }) => {
             type="button"
             onClick={showNext}
             aria-label="Next activity"
-            className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full border border-swamp-green/20 bg-white text-swamp-green transition-colors hover:bg-swamp-green hover:text-white sm:flex"
+            className="hidden h-8 w-8 shrink-0 items-center justify-center rounded-full border border-swamp-green/20 bg-bone text-swamp-green transition-colors hover:bg-swamp-green hover:text-white sm:flex"
           >
             <ChevronRight className="h-4 w-4" />
           </button>

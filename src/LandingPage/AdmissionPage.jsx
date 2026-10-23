@@ -12,17 +12,7 @@ import { FileBadge, Camera, FileEdit } from "lucide-react";
 const AdmissionPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  useEffect(() => {
-    // TEMPORARY - api fetch (uncomment to run)
-    // axios
-    //   .get("http://localhost:5000/api/admission")
-    //   .then((response) => {
-    //     console.log("AdmissionPage data:", response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error fetching admission data:", error);
-    //   });
-  }, []);
+  useEffect(() => {}, []);
 
   return (
     <div className="flex h-full w-full flex-col">
