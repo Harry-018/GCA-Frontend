@@ -1,44 +1,52 @@
 import React from "react";
 
-const SCHOOL_YEAR = "2026 - 2027";
-const SectionCard = ({ sections, selectedId, onSelect }) => {
+const SectionCard = ({
+  sections = [],
+  selectedId,
+  onSelect,
+  schoolYear = "",
+}) => {
   return (
-    <div className="flex w-full flex-col gap-3 p-2 sm:gap-4 sm:p-3 md:gap-5 md:p-4 lg:p-6">
-      <h2 className="flex items-center gap-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-sm md:text-md">
-        <span>
-          Class Sections:
-        </span>
-        <span className="text-gray-600">
-          S.Y.{SCHOOL_YEAR}
-        </span>
+    <section className="flex w-full min-w-0 flex-col gap-3">
+      <h2 className="flex flex-wrap items-center gap-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-sm">
+        <span>Class Sections:</span>
+        <span className="text-gray-600">S.Y. {schoolYear || "Loading..."}</span>
       </h2>
 
-      <div className="grid grid-cols-2 gap-1.5 sm:gap-3 md:grid-cols-3 lg:grid-cols-none lg:flex lg:gap-5">
-        {sections.map((section) => {
-          const isSelected = section.id === selectedId;
+      {sections.length === 0 ? (
+        <p className="rounded-xl bg-bone px-4 py-5 text-sm text-gray-500">
+          No adviser sections available.
+        </p>
+      ) : (
+        <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:flex lg:flex-wrap">
+          {sections.map((section) => {
+            const isSelected = String(section.id) === String(selectedId);
 
-          return (
-            <button
-              key={section.id}
-              type="button"
-              onClick={() => onSelect(section.id)}
-              aria-pressed={isSelected}
-              className={`flex min-w-0 flex-col items-start gap-0.5 rounded-lg px-3 py-2 text-left transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-swamp-green sm:rounded-xl sm:gap-1 sm:px-4 sm:py-2.5 md:px-5 md:py-3 lg:w-70 lg:flex-none ${
-                isSelected ? "bg-swamp-green text-bone" : "bg-bone text-gray-600"
-              }`}
-            >
-              <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide sm:text-xs md:text-sm">
-                {section.name}
-              </span>
-              <span className="text-[9px] font-[PoppinsBold] uppercase tracking-wide sm:text-2xs md:text-xs">
-                {section.level}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-    </div>
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => onSelect(section.id)}
+                aria-pressed={isSelected}
+                className={`flex min-w-0 flex-col items-start gap-1 rounded-xl px-3 py-3 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-swamp-green focus-visible:ring-offset-2 sm:px-4 ${
+                  isSelected
+                    ? "bg-swamp-green text-bone"
+                    : "bg-bone text-gray-600 hover:bg-swamp-green/10"
+                } lg:w-64 lg:flex-none`}
+              >
+                <span className="text-xs font-[PoppinsBold] uppercase tracking-wide sm:text-sm">
+                  {section.name}
+                </span>
+                <span className="text-[10px] font-[PoppinsBold] uppercase tracking-wide sm:text-xs">
+                  {section.level}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </section>
   );
-}
+};
 
 export default SectionCard;

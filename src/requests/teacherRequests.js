@@ -37,3 +37,20 @@ export const updateTeacher = async (teacher_id, data) => {
 
   return response.data;
 };
+
+// TEACHER ACCOUNT REQUESTS
+
+export const getTeacherInfoByUserId = async () => {
+  const response = await API.get("/api/teachers/me");
+  return response.data;
+};
+
+export const editTeacherInfo = async (data) => {
+  const response = await API.patch("/api/teachers/me", data);
+  return response.data;
+};
+
+export const getTeacherSchedules = async () => {
+  const response = await API.get("/api/teachers/me/schedules");
+  return response.data;
+};

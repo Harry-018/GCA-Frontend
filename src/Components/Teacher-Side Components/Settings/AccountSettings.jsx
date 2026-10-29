@@ -54,7 +54,7 @@ const AccountSettings = ({ account, onChangePassword }) => {
               className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-swamp-green px-3 py-2 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-[#0c2423] transition-colors hover:bg-bone max-[374px]:gap-1 max-[374px]:px-2 max-[374px]:text-[8px] md:w-fit xl:w-auto xl:text-2xs"
             >
               <KeyRound size={14} />
-              Change Password
+              Forgot Password
             </button>
           </div>
         </div>

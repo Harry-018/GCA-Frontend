@@ -44,3 +44,10 @@ export const getParents = async ({ search = "", page = 1, limit = 10 }) => {
 
   return response.data;
 };
+
+// PARENT ACCOUNT REQUESTS
+
+export const getParentInfoByUserId = async () => {
+  const response = await API.get("/api/parents/me");
+  return response.data;
+};

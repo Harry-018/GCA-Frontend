@@ -16,7 +16,7 @@ const AddScheduleModal = ({
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-5">
-      <div className="bg-egg flex w-full max-w-md flex-col gap-1 rounded-2xl bg- p-5">
+      <div className="bg-bone flex w-full max-w-md flex-col gap-1 rounded-2xl bg- p-5">
         {/* Header */}
         <div className="mb-3">
           <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
@@ -149,7 +149,7 @@ const AddScheduleModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg border border-gray-300 px-4 py-2 font-[Poppins] text-2xs text-gray-600 transition hover:bg-gray-100"
+            className="rounded-lg border border-gray-300 px-4 py-2 font-[Poppins] text-2xs text-gray-600 transition hover:bg-gray-200"
           >
             Cancel
           </button>

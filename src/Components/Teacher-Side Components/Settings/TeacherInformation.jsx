@@ -9,8 +9,8 @@ import {
 const TeacherInformation = ({ teacher }) => {
   const teacherDetails = [
     {
-      label: "Teacher ID",
-      value: teacher.teacherId,
+      label: "Teacher Number",
+      value: teacher.teacher_num,
     },
     {
       label: "Gender",
@@ -18,11 +18,20 @@ const TeacherInformation = ({ teacher }) => {
     },
     {
       label: "Birthdate",
-      value: teacher.birthdate,
+      value: teacher.bdate
+        ? new Date(teacher.bdate)
+            .toLocaleDateString("en-US", {
+              month: "long",
+              day: "2-digit",
+              year: "numeric",
+              timeZone: "UTC",
+            })
+            .replace(" ", ", ")
+        : "N/A",
     },
     {
       label: "Civil Status",
-      value: teacher.civilStatus,
+      value: teacher.civil_status,
     },
   ];
 
@@ -38,7 +47,7 @@ const TeacherInformation = ({ teacher }) => {
               Teacher information
             </p>
             <h2 className="font-[PoppinsBold] text-lg uppercase leading-tight sm:text-2xl lg:text-3xl">
-              {teacher.fullName}
+              {teacher.first_name} {teacher.last_name}
             </h2>
             <p className="py-1 text-xs font-medium tracking-wide text-white/75 sm:text-base">
               Faculty member
@@ -49,7 +58,7 @@ const TeacherInformation = ({ teacher }) => {
         <div className="grid grid-cols-2 gap-4 border-t border-white/15 pt-5 sm:gap-6 lg:min-w-124 lg:grid-cols-2 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
           {teacherDetails.map((detail) => (
             <div key={detail.label} className="flex min-w-0 items-start gap-3">
-              {detail.label === "Teacher ID" ? (
+              {detail.label === "Teacher Number" ? (
                 <GraduationCap
                   size={16}
                   className="mt-0.5 shrink-0 text-swamp-green"

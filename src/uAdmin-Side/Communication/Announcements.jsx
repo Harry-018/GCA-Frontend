@@ -55,8 +55,6 @@ const Announcement = () => {
       />
 
       <div className="flex min-h-0 flex-1 flex-col">
-        <SchoolYearLabel schoolYear="2026 - 2027" />
-
         <div className="flex flex-wrap gap-3 py-4 sm:gap-4">
           {loading ? (
             <div className="px-2 text-sm text-gray-500">

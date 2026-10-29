@@ -195,10 +195,6 @@ const AnnouncementList = () => {
         <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-[PoppinsBold] text-sm text-swamp-green sm:text-base">
             <h2>Announcements</h2>
-
-            <span className="font-[Poppins] text-xs text-gray-600 sm:text-sm">
-              S.Y 2026 - 2027
-            </span>
           </div>
 
           <div className="flex flex-wrap items-center gap-x-2 gap-y-2">

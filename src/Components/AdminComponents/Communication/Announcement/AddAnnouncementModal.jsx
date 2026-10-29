@@ -44,7 +44,7 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
   const labelStyle = "text-2xs text-gray-600";
 
   const timeOptions = Array.from({ length: 48 }, (_, index) => {
-    const hour = Math.floor(index / 2);
+    const hour = Math.floor(index / 4);
     const minute = index % 2 === 0 ? "00" : "30";
 
     return `${String(hour).padStart(2, "0")}:${minute}`;

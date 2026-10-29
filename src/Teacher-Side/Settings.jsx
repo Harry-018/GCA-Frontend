@@ -1,22 +1,16 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Loader2 } from "lucide-react";
 
 import {
-  getTeacher,
-  getTeacherContact,
-  getTeacherAccount,
-} from "../utils/data/Teacher/account";
+  getTeacherInfoByUserId,
+  editTeacherInfo,
+} from "../requests/teacherRequests.js";
 
 import TeacherInformation from "../Components/Teacher-Side Components/Settings/TeacherInformation";
 import ContactInformation from "../Components/Teacher-Side Components/Settings/ContactInformation";
 import AccountSettings from "../Components/Teacher-Side Components/Settings/AccountSettings";
 import EditContactModal from "../Components/Parents-Teacher Modal/EditContactModal";
 import ChangePasswordModal from "../Components/Parents-Teacher Modal/ChangePasswordModal";
-
-const TEACHER_DATA = getTeacher();
-const CONTACT_DATA = getTeacherContact();
-const ACCOUNT_DATA = getTeacherAccount();
 
 const PASSWORD_FIELDS = [
   {
@@ -45,74 +39,166 @@ const INITIAL_PASSWORDS = {
 const Settings = () => {
   const [showContactModal, setShowContactModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // Temporary data
-  const [teacherData, setTeacherData] = useState(TEACHER_DATA);
-  const [contactData, setContactData] = useState(CONTACT_DATA);
-  const [accountData, setAccountData] = useState(ACCOUNT_DATA);
-  const [formData, setFormData] = useState(CONTACT_DATA);
+  const [teacherData, setTeacherData] = useState(null);
+  const [contactData, setContactData] = useState(null);
+  const [accountData, setAccountData] = useState(null);
+  const [formData, setFormData] = useState({
+    contactNumber: "",
+    email: "",
+    address: "",
+  });
 
-  // useEffect(() => {
-  //   const fetchTeacherData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       setError("");
-  //       const response = await axios.get(
-  //         "http://localhost:5000/teacher/account"
-  //       );
+  useEffect(() => {
+    const fetchTeacherInfo = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-  //       setTeacherData(response.data.teacher);
-  //       setContactData(response.data.contact);
-  //       setAccountData(response.data.account);
-  //       setFormData(response.data.contact);
-  //     } catch (error) {
-  //       console.error(
-  //         "Failed to fetch teacher data:",
-  //         error
-  //       );
-  //       setError("Unable to load account settings.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
+        const response = await getTeacherInfoByUserId();
+        const teacher = response.r;
 
-  //   fetchTeacherData();
-  // }, []);
+        if (!teacher) {
+          throw new Error("Teacher information not found.");
+        }
 
-  // Open Contact Modal
+        setTeacherData(teacher);
+
+        setContactData({
+          contactNumber: teacher.contact_num ?? "",
+          email: teacher.email ?? "",
+          address: [
+            teacher.house_no,
+            teacher.barangay,
+            teacher.city_municipality,
+            teacher.province,
+            teacher.zipcode,
+          ]
+            .filter(Boolean)
+            .join(", "),
+        });
+
+        setAccountData({
+          email: teacher.account_email ?? "",
+          role: teacher.role ?? "teacher",
+          accountStatus: teacher.account_status ?? "",
+        });
+      } catch (err) {
+        console.error(
+          "Failed to fetch teacher information:",
+          err.response?.data || err,
+        );
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to load account settings.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeacherInfo();
+  }, []);
+
+  const [savingContact, setSavingContact] = useState(false);
+  const [contactError, setContactError] = useState("");
+
   const handleManageContact = () => {
-    setFormData(contactData);
+    setFormData({
+      contactNumber: contactData?.contactNumber ?? "",
+      email: contactData?.email ?? "",
+      address: contactData?.address ?? "",
+    });
+
+    setContactError("");
     setShowContactModal(true);
   };
 
-  // Close Contact Modal
   const handleCancelContact = () => {
+    if (savingContact) return;
+
+    setContactError("");
     setShowContactModal(false);
   };
 
-  // Handle Contact Input
   const handleContactChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
+
+    setContactError("");
   };
 
-  // Save Contact Information
-  const handleSaveContact = () => {
-    setContactData(formData);
-    setShowContactModal(false);
+  const handleSaveContact = async () => {
+    const contactNumber = formData.contactNumber.trim();
+    const email = formData.email.trim();
+
+    if (!contactNumber || !email) {
+      setContactError("Contact number and email are required.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setContactError("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      setSavingContact(true);
+      setContactError("");
+
+      await editTeacherInfo({
+        contact_num: contactNumber,
+        email,
+      });
+
+      // Update the displayed contact information after the API succeeds.
+      const updatedContact = {
+        ...contactData,
+        contactNumber,
+        email,
+      };
+
+      setContactData(updatedContact);
+
+      // Keep the teacher profile state in sync as well.
+      setTeacherData((prev) =>
+        prev
+          ? {
+              ...prev,
+              contact_num: contactNumber,
+              email,
+            }
+          : prev,
+      );
+
+      setShowContactModal(false);
+    } catch (err) {
+      console.error(
+        "Failed to update teacher contact information:",
+        err.response?.data || err,
+      );
+
+      setContactError(
+        err.response?.data?.message ||
+          "Failed to save contact information. Please try again.",
+      );
+    } finally {
+      setSavingContact(false);
+    }
   };
 
-  // Open Password Modal
   const handleChangePassword = () => {
     setShowPasswordModal(true);
   };
 
-  // Close / Save Password
   const handlePasswordSubmit = (passwords) => {
+    // Password update API integration will be implemented separately.
     setShowPasswordModal(false);
   };
 
@@ -186,6 +272,8 @@ const Settings = () => {
           onAddressChange={(value) => handleContactChange("address", value)}
           onCancel={handleCancelContact}
           onSave={handleSaveContact}
+          saving={savingContact}
+          error={contactError}
         />
       )}
 

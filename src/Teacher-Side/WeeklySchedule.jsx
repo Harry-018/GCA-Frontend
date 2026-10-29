@@ -1,158 +1,184 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Loader2 } from "lucide-react";
-import { getSchedule } from "../utils/data/Teacher/schedule";
-import ScheduleCell from "../Components/Teacher-Side Components/Schedule/ScheduleCell";
-import ScheduleTime from "../Components/Teacher-Side Components/Schedule/ScheduleTime";
+import React, { useEffect, useMemo, useState } from "react";
+import FullCalendar from "@fullcalendar/react";
+import timeGridPlugin from "@fullcalendar/timegrid";
+import { getTeacherSchedules } from "../requests/teacherRequests";
 
-const TEMP_SCHEDULE = getSchedule();
+const getCurrentMonday = () => {
+  const date = new Date();
+  const day = date.getDay();
+  const difference = day === 0 ? -6 : 1 - day;
+
+  date.setDate(date.getDate() + difference);
+  date.setHours(0, 0, 0, 0);
+
+  return date;
+};
+
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const DAY_INDEX = {
+  Monday: 1,
+  Tuesday: 2,
+  Wednesday: 3,
+  Thursday: 4,
+  Friday: 5,
+};
 
 const WeeklySchedule = () => {
-  const [schedule, setSchedule] = useState(TEMP_SCHEDULE);
-  const [loading, setLoading] = useState(false);
+  const [schedules, setSchedules] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // useEffect(() => {
-  //   const fetchSchedule = async () => {
-  //     try {
-  //       setLoading(true);
-  //       setError("");
-  //       const response = await axios.get(
-  //         "http://localhost:5000/teacher/schedule"
-  //       );
-  //       setSchedule(response.data);
-  //     } catch (error) {
-  //       console.error("Failed to fetch schedule:", error);
-  //       setError("Unable to load weekly schedule.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchSchedule();
-  // }, []);
+  const initialDate = useMemo(() => {
+    return formatDate(getCurrentMonday());
+  }, []);
 
-  // LOADING
+  useEffect(() => {
+    const fetchSchedules = async () => {
+      try {
+        setLoading(true);
+        setError("");
+
+        const response = await getTeacherSchedules();
+        setSchedules(response.data ?? []);
+      } catch (err) {
+        console.error("Failed to fetch teacher schedules:", err);
+
+        setError(
+          err.response?.data?.message ||
+            "Failed to load your schedule. Please try again.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSchedules();
+  }, []);
+
+  const events = useMemo(() => {
+    const monday = getCurrentMonday();
+
+    return schedules
+      .filter((schedule) => DAY_INDEX[schedule.day_name])
+      .map((schedule) => {
+        const dayNumber = DAY_INDEX[schedule.day_name];
+        const eventDate = new Date(monday);
+
+        eventDate.setDate(monday.getDate() + dayNumber - 1);
+
+        const date = formatDate(eventDate);
+
+        return {
+          id: String(schedule.schedule_id),
+          title: schedule.subject_name,
+          start: `${date}T${schedule.sched_start_time}`,
+          end: `${date}T${schedule.sched_end_time}`,
+          extendedProps: {
+            room: schedule.room_name,
+            section: schedule.section_name,
+          },
+        };
+      });
+  }, [schedules]);
+
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-swamp-green" />
-        <p className="text-sm text-gray-400">
-          Loading Weekly Schedule
-          <span className="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
+      <div className="flex min-h-60 items-center justify-center">
+        <p className="font-[Poppins] text-sm text-gray-500">
+          Loading your schedule...
         </p>
       </div>
     );
   }
+
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-500">{error}</p>
+      <div className="w-full rounded-xl border border-red-200 bg-red-50 p-4 sm:p-5">
+        <p className="break-words font-[Poppins] text-sm text-red-600">
+          {error}
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="cursor-default bg-[#ebe9e4] px-3 py-4 font-[Poppins] sm:px-5 sm:py-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-3 sm:gap-4 lg:min-h-0 lg:flex-1">
-        {/* HEADER */}
-        <div className="flex items-center justify-between py-3 sm:py-5">
-          <span className="font-[PoppinsBold] text-xs tracking-wide text-swamp-green sm:text-sm md:text-base">
-            WEEKLY SCHEDULE
-          </span>
+    <div className="flex w-full min-w-0 flex-col items-center rounded-2xl bg-egg p-3 shadow-sm sm:p-5 md:p-6">
+      {/* Header */}
+      <div className="mb-4 w-full max-w-7xl sm:mb-5">
+        <h2 className="font-[PoppinsBold] text-base text-[#9caf7e] sm:text-lg">
+          WEEKLY SCHEDULE
+        </h2>
 
-          <button
-            type="button"
-            onClick={() => window.history.back()}
-            className="rounded-full border border-gray-300 bg-bone px-3 py-1.5 text-2xs font-[PoppinsBold] text-gray-600 transition-colors hover:bg-bone hover:text-swamp-green sm:px-5 sm:py-2.5 sm:text-2xs"
-          >
-            BACK
-          </button>
+        <p className="mt-1 font-[Poppins] text-xs text-gray-500 sm:text-sm">
+          Your teaching schedule for Monday to Friday
+        </p>
+      </div>
+
+      {/* Calendar */}
+      {schedules.length === 0 ? (
+        <div className="flex min-h-40 w-full items-center justify-center">
+          <p className="text-center font-[Poppins] text-sm text-gray-500">
+            No schedules found for the active school year.
+          </p>
         </div>
+      ) : (
+        <div className="gca-calendar w-full max-w-7xl min-w-0 overflow-x-auto  bg-bone">
+          <div className="min-w-[600px] sm:min-w-0">
+            <FullCalendar
+              plugins={[timeGridPlugin]}
+              initialView="timeGridWeek"
+              initialDate={initialDate}
+              weekends={false}
+              allDaySlot={false}
+              slotMinTime="07:00:00"
+              slotMaxTime="17:00:00"
+              slotDuration="00:30:00"
+              slotLabelInterval="01:00:00"
+              expandRows={true}
+              height="auto"
+              headerToolbar={false}
+              dayHeaderFormat={{
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+              }}
+              events={events}
+              eventContent={(eventInfo) => {
+                const { event, timeText } = eventInfo;
 
-        {/* TABLE */}
-        <div className="no-scrollbar overflow-x-auto rounded-md border border-gray-200 bg-[#f7f8fc] shadow-md lg:min-h-0 lg:flex-1 lg:overflow-auto">
-          <div className="min-w-150">
-            <div className="grid grid-cols-[90px_repeat(5,1fr)] bg-swamp-green text-[9px] font-[PoppinsBold] text-white sm:grid-cols-[148px_repeat(5,1fr)] sm:text-[11px]">
-              <div className="flex items-center justify-center border-r border-white/20 py-2 sm:py-3">
-                TIME
-              </div>
+                return (
+                  <div className="event-card flex h-full w-full flex-col justify-between overflow-hidden rounded-md border border-[#7f9464] bg-[#9caf7e] px-1 py-1 text-white shadow-sm sm:rounded-lg sm:px-2 sm:py-1.5">
+                    <p className="break-words font-[PoppinsBold] text-[10px] leading-tight text-white sm:text-xs md:text-sm">
+                      {event.title}
+                    </p>
 
-              {["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map(
-                (day) => (
-                  <div
-                    key={day}
-                    className="flex items-center justify-center border-r border-white/20 py-2 last:border-r-0 sm:py-3"
-                  >
-                    {day.toUpperCase()}
+                    <div className="mt-1 min-w-0">
+                      <p className="truncate font-[PoppinsBold] text-[9px] leading-tight text-white sm:text-[10px] md:text-xs">
+                        {event.extendedProps.room}
+                      </p>
+
+                      <p className="truncate font-[PoppinsBold] text-[9px] leading-tight text-white sm:text-[10px] md:text-xs">
+                        {event.extendedProps.section}
+                      </p>
+
+                      <p className="truncate font-[Poppins] text-[9px] leading-tight text-white sm:text-[10px] md:text-xs">
+                        {timeText}
+                      </p>
+                    </div>
                   </div>
-                ),
-              )}
-            </div>
-
-            {/* SCHEDULE */}
-            {schedule.map((row) => (
-              <div
-                key={row.time}
-                className="grid h-14 grid-cols-[90px_repeat(5,1fr)] border-b border-gray-200 last:border-b-0 sm:h-16.5 sm:grid-cols-[148px_repeat(5,1fr)]"
-              >
-                {/* TIME */}
-                <ScheduleTime time={row.time} />
-
-                {/* MONDAY */}
-                <div className="border-r border-gray-200">
-                  <ScheduleCell
-                    section={row.monday?.section}
-                    subject={row.monday?.subject}
-                  />
-                </div>
-
-                {/* TUESDAY */}
-                <div className="border-r border-gray-200">
-                  <ScheduleCell
-                    section={row.tuesday?.section}
-                    subject={row.tuesday?.subject}
-                  />
-                </div>
-
-                {/* WEDNESDAY */}
-                <div className="border-r border-gray-200">
-                  <ScheduleCell
-                    section={row.wednesday?.section}
-                    subject={row.wednesday?.subject}
-                  />
-                </div>
-
-                {/* THURSDAY */}
-                <div className="border-r border-gray-200">
-                  <ScheduleCell
-                    section={row.thursday?.section}
-                    subject={row.thursday?.subject}
-                  />
-                </div>
-
-                {/* FRIDAY */}
-                <div>
-                  <ScheduleCell
-                    section={row.friday?.section}
-                    subject={row.friday?.subject}
-                  />
-                </div>
-              </div>
-            ))}
-
-            {schedule.length === 0 && (
-              <div className="flex h-64 items-center justify-center">
-                <p className="text-sm text-gray-400">No schedule available.</p>
-              </div>
-            )}
+                );
+              }}
+            />
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

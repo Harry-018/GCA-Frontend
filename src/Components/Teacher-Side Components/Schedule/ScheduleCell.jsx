@@ -1,32 +1,19 @@
-const ScheduleCell = ({ section, subject }) => {
-
-  if (!section && !subject) {
-    return <div className="h-full" />;
-  }
-  
-  const isLunchTime = section === "Lunch Time";
+const ScheduleCell = ({ section, subject, room }) => {
+  if (!subject) return null;
 
   return (
-    <div
-      className={`flex h-full flex-col justify-center px-2 py-2 sm:px-5 sm:py-4 ${
-        isLunchTime ? "bg-red-50" : ""
-      }`}
-    >
-      <p
-        className={`font-[PoppinsBold] text-[7px] sm:text-[9px] ${
-          isLunchTime ? "text-red-500" : "text-gray-600"
-        }`}
-      >
-        {section}
-      </p>
-
-      <p
-        className={`py-1 text-[7px] sm:py-2 sm:text-[9px] ${
-          isLunchTime ? "text-red-400" : "text-gray-500"
-        }`}
-      >
+    <div className="flex h-full flex-col items-center justify-center overflow-hidden px-1 text-center">
+      <span className="truncate text-[10px] font-[PoppinsBold] text-swamp-green sm:text-xs">
         {subject}
-      </p>
+      </span>
+
+      <span className="truncate text-[9px] text-gray-600 sm:text-[10px]">
+        {section}
+      </span>
+
+      <span className="truncate text-[9px] text-gray-500 sm:text-[10px]">
+        Room: {room}
+      </span>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   User,
   ChevronDown,
@@ -13,21 +13,48 @@ import {
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logoImg from "../assets/logowbg.png";
 import authStore from "../stores/authStore";
+import { getSchoolInformation } from "../requests/settingsRequests";
 
 const SCHOOL = {
   name: "Grace Christian Academy",
   fullName: "Grace Christian Academy Cavite Inc.",
 };
 
-const USER = {
-  name: "Ms. Rosary Mendez",
-  role: "Teacher Account",
-};
-
 const TeacherHeader = ({ onMenuToggle }) => {
   const [userMenu, setUserMenu] = useState(false);
+  const [schoolinfo, setSchoolinfo] = useState({
+    school_name: SCHOOL.name,
+    school_logo: logoImg,
+  });
+
   const navigate = useNavigate();
   const logout = authStore((state) => state.logout);
+  const user = authStore((state) => state.user);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadSchoolInformation = async () => {
+      try {
+        const response = await getSchoolInformation();
+
+        if (!cancelled && response) {
+          setSchoolinfo({
+            school_name: response.school_name || SCHOOL.name,
+            school_logo: response.school_logo || logoImg,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load school information:", error);
+      }
+    };
+
+    loadSchoolInformation();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -57,18 +84,18 @@ const TeacherHeader = ({ onMenuToggle }) => {
 
           <Link to="/teacher" className="flex min-w-0 items-center gap-x-2">
             <img
-              src={logoImg}
-              alt={SCHOOL.name}
+              src={schoolinfo.school_logo}
+              alt={schoolinfo.school_name}
               className="h-7 rounded-full sm:h-8 lg:h-10"
             />
 
             <div className="min-w-0">
               <p className="whitespace-nowrap text-[7px] tracking-widest text-gray-200 sm:text-[9px] sm:tracking-[0.15em] lg:text-2xs lg:tracking-[0.18em]">
-                {SCHOOL.fullName}
+                {schoolinfo.school_name}
               </p>
 
               <p className="whitespace-nowrap font-[PoppinsBold] text-[9px] text-bone sm:text-[11px] lg:text-xs">
-                {SCHOOL.name}
+                {schoolinfo.school_name}
               </p>
             </div>
           </Link>
@@ -129,8 +156,9 @@ const TeacherHeader = ({ onMenuToggle }) => {
               className="flex items-center gap-x-2 text-bone transition-colors duration-300 hover:text-swamp-green"
             >
               <User size={20} className="hidden lg:block" />
-              <span className="hidden font-[PoppinsBold] lg:inline">
-                {USER.name}
+
+              <span className="hidden font-[PoppinsBold] lg:inline uppercase">
+                {user?.full_name}
               </span>
 
               <ChevronDown
@@ -144,12 +172,12 @@ const TeacherHeader = ({ onMenuToggle }) => {
             {userMenu && (
               <div className="absolute right-0 top-full py-2 w-44 sm:w-56 overflow-hidden rounded-2xl border border-gray-100 bg-bone shadow-xl">
                 <div className="border-b border-gray-100 px-3 py-3 sm:px-4 sm:py-4">
-                  <p className="font-[PoppinsBold] text-[11px] text-gray-800 sm:text-sm">
-                    {USER.name}
+                  <p className="font-[PoppinsBold] text-[11px] text-gray-800 sm:text-sm uppercase">
+                    {user?.full_name}
                   </p>
 
                   <p className="py-1 text-[9px] text-gray-400 sm:text-[11px]">
-                    {USER.role}
+                    {user?.role === "teacher" ? "Teacher Account" : ""}
                   </p>
                 </div>
 
