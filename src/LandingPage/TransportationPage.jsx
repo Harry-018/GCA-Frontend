@@ -141,7 +141,7 @@ const TransportationPage = () => {
                   </div>
 
                   <div className="flex min-w-0 flex-col">
-                    <p className="whitespace-nowrap font-[PoppinsBold] text-sm text-swamp-green sm:text-base lg:text-lg">
+                    <p className="font-[PoppinsBold] text-sm text-swamp-green sm:text-base lg:text-lg">
                       {value}
                     </p>
                     <p className="text-sm text-ashlight">{label}</p>

@@ -25,7 +25,7 @@ const SectionCard = ({ level, syGradeLevelId, sectionCount }) => {
       <button
         type="button"
         onClick={handleSections}
-        className="h-9 rounded-full border border-swamp-green bg-swamp-green px-4 text-[11px] font-[Poppins] text-white"
+        className="h-9 rounded-full border border-swamp-green bg-swamp-green px-4 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white"
       >
         Sections
       </button>

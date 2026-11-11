@@ -18,12 +18,12 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
   }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-3xl rounded-2xl border border-gray-300 bg-[#f4f6ff] p-5 shadow-lg">
+      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-gray-300 bg-[#f4f6ff] p-5 shadow-lg">
         <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
           Student Information
         </h2>
         {/* Information */}
-        <div className="grid grid-cols-1 gap-x-8 py-5 text-[11px] text-gray-500 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-x-8 py-5 text-[11px] lg:text-xs xl:text-sm text-gray-500 md:grid-cols-3">
           {/* Student Information */}
           <div className="flex flex-col gap-y-2">
             <div className="flex h-5 items-center">
@@ -154,7 +154,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
             type="button"
             onClick={handleSubmit}
             disabled={saving}
-            className="flex h-8 flex-1 items-center justify-center rounded-full bg-[#9caf7d] font-[PoppinsBold] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-8 flex-1 items-center justify-center rounded-full bg-swamp-green font-[PoppinsBold] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>

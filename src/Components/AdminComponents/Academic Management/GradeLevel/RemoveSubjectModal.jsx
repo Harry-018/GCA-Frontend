@@ -11,7 +11,7 @@ const RemoveSubjectModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="w-full max-w-md rounded-2xl bg-[#f8f9ff] p-6 shadow-lg">
-        <h2 className="font-[Poppins] text-sm font-semibold text-[#ff7777]">
+        <h2 className=" text-sm font-[PoppinsBold] text-reject">
           Remove Subject
         </h2>
 
@@ -34,7 +34,7 @@ const RemoveSubjectModal = ({
           <button
             type="button"
             onClick={onRemove}
-            className="flex-1 rounded-full bg-[#ff7777] px-4 py-2 font-[Poppins] text-xs font-semibold text-white"
+            className="flex-1 rounded-full bg-reject px-4 py-2 text-xs font-[PoppinsBold] text-white"
             title={subjectName}
           >
             Remove

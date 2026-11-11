@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   User,
   ChevronDown,
@@ -10,21 +10,49 @@ import {
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import logoImg from "../assets/logowbg.png";
 import authStore from "../stores/authStore";
+import { getSchoolInformation } from "../requests/settingsRequests";
 
 const SCHOOL = {
   name: "Grace Christian Academy",
   fullName: "Grace Christian Academy Cavite Inc.",
 };
 
-const USER = {
-  name: "ROMASANTA, ROSALINE M.",
-  role: "Parent Account",
-};
-
 const ParentsHeader = ({ onMenuToggle }) => {
   const [userMenu, setUserMenu] = useState(false);
+  const [schoolinfo, setSchoolinfo] = useState({
+    school_name: SCHOOL.name,
+    school_logo: logoImg,
+  });
+
   const navigate = useNavigate();
   const logout = authStore((state) => state.logout);
+  const user = authStore((state) => state.user);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadSchoolInformation = async () => {
+      try {
+        const response = await getSchoolInformation();
+
+        if (!cancelled && response) {
+          setSchoolinfo({
+            school_name: response.school_name || SCHOOL.name,
+            school_logo: response.school_logo || logoImg,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load school information:", error);
+      }
+    };
+
+    loadSchoolInformation();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const handleLogout = () => {
     logout();
     setUserMenu(false);
@@ -41,6 +69,7 @@ const ParentsHeader = ({ onMenuToggle }) => {
       )}
 
       <nav className="relative z-50 flex h-16 w-full items-center justify-between bg-[#0c2423] px-4 text-xs inset-shadow-med sm:h-20 sm:px-10">
+        {/* Left: Hamburger + Logo */}
         <div className="flex items-center gap-x-2 sm:gap-x-4">
           <button
             type="button"
@@ -52,31 +81,31 @@ const ParentsHeader = ({ onMenuToggle }) => {
 
           <Link to="/parents" className="flex min-w-0 items-center gap-x-2">
             <img
-              src={logoImg}
-              alt={SCHOOL.name}
+              src={schoolinfo.school_logo}
+              alt={schoolinfo.school_name}
               className="h-7 rounded-full sm:h-8 lg:h-10"
             />
 
             <div className="min-w-0">
               <p className="whitespace-nowrap text-[7px] tracking-widest text-gray-200 sm:text-[9px] sm:tracking-[0.15em] lg:text-2xs lg:tracking-[0.18em]">
-                {SCHOOL.fullName}
+                {schoolinfo.school_name} Cavite Inc.
               </p>
 
               <p className="whitespace-nowrap font-[PoppinsBold] text-[9px] text-bone sm:text-[11px] lg:text-xs">
-                {SCHOOL.name}
+                {schoolinfo.school_name}
               </p>
             </div>
           </Link>
         </div>
 
-        {/* Right: Nav links + Profile */}
+        {/* Right: Navigation + Profile */}
         <div className="flex items-center gap-x-5 sm:gap-x-8 lg:gap-x-10">
           <div className="hidden items-center gap-x-5 lg:flex lg:gap-x-8 xl:gap-x-10">
             <NavLink
               to="/parents"
               end
               className={({ isActive }) =>
-                `flex items-center gap-x-2 font-[Poppins] tracking-wide transition-colors duration-300 ${
+                `flex items-center gap-x-2 tracking-wide transition-colors duration-300 ${
                   isActive
                     ? "font-[PoppinsBold] border-b-2 border-swamp-green pb-1 text-swamp-green"
                     : "text-bone hover:text-swamp-green"
@@ -96,8 +125,9 @@ const ParentsHeader = ({ onMenuToggle }) => {
               className="flex items-center gap-x-2 text-bone transition-colors duration-300 hover:text-swamp-green"
             >
               <User size={20} className="hidden lg:block" />
-              <span className="hidden font-[PoppinsBold] lg:inline">
-                {USER.name}
+
+              <span className="hidden font-[PoppinsBold] uppercase lg:inline">
+                {user?.full_name || "Parent"}
               </span>
 
               <ChevronDown
@@ -109,14 +139,14 @@ const ParentsHeader = ({ onMenuToggle }) => {
             </button>
 
             {userMenu && (
-              <div className="absolute right-0 top-full py-2 w-44 sm:w-56 overflow-hidden rounded-2xl border border-gray-100 bg-bone shadow-xl">
+              <div className="absolute right-0 top-full w-44 overflow-hidden rounded-2xl border border-gray-100 bg-bone py-2 shadow-xl sm:w-56">
                 <div className="border-b border-gray-100 px-3 py-3 sm:px-4 sm:py-4">
-                  <p className="font-[PoppinsBold] text-[11px] text-gray-800 sm:text-sm">
-                    {USER.name}
+                  <p className="font-[PoppinsBold] text-[11px] text-gray-800 uppercase sm:text-sm">
+                    {user?.full_name || "Parent"}
                   </p>
 
                   <p className="py-1 text-[9px] text-gray-400 sm:text-[11px]">
-                    {USER.role}
+                    {user?.role === "parent" ? "Parent Account" : ""}
                   </p>
                 </div>
 

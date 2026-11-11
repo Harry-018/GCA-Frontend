@@ -42,8 +42,8 @@ const AddGradeLevelModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="max-h-[95vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-sm">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
+        <h2 className=" text-[9px] font-[PoppinsBold] text-swamp-green sm:text-sm">
           Add Grade Level
         </h2>
 
@@ -106,7 +106,7 @@ const AddGradeLevelModal = ({
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 text-[9px] font-[PoppinsBold] text-[#555555] transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             Cancel
           </button>
@@ -117,7 +117,7 @@ const AddGradeLevelModal = ({
             disabled={
               saving || !grade_level_id || availableGradeLevels.length === 0
             }
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="rounded-full bg-swamp-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             {saving ? "Adding..." : "Add"}
           </button>

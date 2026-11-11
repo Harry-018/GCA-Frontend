@@ -176,14 +176,14 @@ const Notification = () => {
       <div className="flex min-h-0 flex-1 flex-col gap-3">
         {/* Email Logs Header */}
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-sm font-[PoppinsBold] text-[#91a77c]">
+          <h2 className="text-sm font-[PoppinsBold] text-swamp-green">
             Email Logs
           </h2>
 
           <button
             type="button"
             onClick={() => setIsSendOpen(true)}
-            className="rounded-full bg-swamp-green px-5 py-2 text-[11px] font-[Poppins] text-white transition-colors hover:bg-[#7f966a]"
+            className="rounded-full bg-swamp-green px-5 py-2 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white transition-colors hover:bg-swamp-green/80"
           >
             Send Notification
           </button>

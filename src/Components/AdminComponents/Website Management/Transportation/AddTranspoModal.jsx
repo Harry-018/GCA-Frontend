@@ -122,7 +122,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
 
             <button
               type="submit"
-              className="flex-1 rounded-full bg-[#9caf7c] px-4 py-2 font-[Poppins] text-[9px] sm:text-xs text-white"
+              className="flex-1 rounded-full bg-swamp-green px-4 py-2 font-[Poppins] text-[9px] sm:text-xs text-white"
             >
               {routeData ? "Save" : "Add"}
             </button>

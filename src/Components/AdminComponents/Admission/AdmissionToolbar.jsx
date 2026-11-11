@@ -54,7 +54,7 @@ const AdmissionToolbar = ({
               <button
                 type="button"
                 onClick={onApproveSelected}
-                className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-swamp-green px-4 text-[11px] font-medium text-white transition hover:bg-swamp-green sm:px-5 sm:text-xs"
+                className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-swamp-green px-4 text-[11px] text-white transition hover:bg-swamp-green sm:px-5 sm:text-xs"
               >
                 Approve Selected
               </button>
@@ -62,7 +62,7 @@ const AdmissionToolbar = ({
               <button
                 type="button"
                 onClick={onClearSelection}
-                className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-gray-300 px-4 text-[11px] font-medium text-gray-600 transition hover:bg-bone sm:px-5 sm:text-xs"
+                className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-gray-300 px-4 text-[11px] text-gray-600 transition hover:bg-bone sm:px-5 sm:text-xs"
               >
                 Clear
               </button>
@@ -88,13 +88,13 @@ const AdmissionToolbar = ({
               }
             }}
             placeholder="Search Applicants"
-            className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-[11px] text-gray-700 outline-none focus:border-[#9caf88] sm:text-xs"
+            className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-[11px] text-gray-700 outline-none focus:border-swamp-green sm:text-xs"
           />
         </div>
 
         <button
           onClick={onSearch}
-          className="inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full bg-[#9aae82] px-6 text-[11px] font-medium text-white transition hover:bg-[#879d70] sm:text-xs"
+          className="inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full bg-swamp-green px-6 text-[11px] text-white transition hover:bg-swamp-green/80 sm:text-xs"
         >
           Search
         </button>

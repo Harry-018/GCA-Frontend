@@ -44,13 +44,13 @@ const UserToolbar = ({
             if (e.key === "Enter") onSearch?.();
           }}
           placeholder={searchPlaceholder}
-          className="h-8 w-full min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f5f6fc] px-3 font-[Poppins] text-[11px] text-gray-700 outline-none placeholder:text-gray-400 focus:border-[#9caf7b] sm:px-4 sm:text-xs md:w-52 md:flex-none lg:w-58"
+          className="h-8 w-full min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f5f6fc] px-3 font-[Poppins] text-[11px] text-gray-700 outline-none placeholder:text-gray-400 focus:border-swamp-green sm:px-4 sm:text-xs md:w-52 md:flex-none lg:w-58"
         />
 
         <button
           type="button"
           onClick={onSearch}
-          className="inline-flex h-8 shrink-0 items-center rounded-full bg-[#9caf7b] px-4 font-[Poppins] text-[11px] text-white transition hover:bg-[#8da06e] sm:px-6 sm:text-xs"
+          className="inline-flex h-8 shrink-0 items-center rounded-full bg-swamp-green px-4 font-[Poppins] text-[11px] text-white transition hover:bg-swamp-green/80 sm:px-6 sm:text-xs"
         >
           Search
         </button>

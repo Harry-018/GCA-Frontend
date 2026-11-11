@@ -54,7 +54,7 @@ const ScheduleTable = ({ schedules, onEdit, onRemove }) => {
                       <button
                         type="button"
                         onClick={() => onRemove(schedule)}
-                        className="rounded-xl bg-[#ff7272] px-3.5 py-1 text-[11px] text-white transition hover:bg-[#f45f5f] lg:text-xs xl:text-sm"
+                        className="rounded-xl bg-reject px-3.5 py-1 text-[11px] text-white transition hover:bg-reject/80 lg:text-xs xl:text-sm"
                       >
                         Remove
                       </button>

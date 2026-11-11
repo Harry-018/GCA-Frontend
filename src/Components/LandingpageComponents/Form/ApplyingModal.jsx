@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const ApplyingModal = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-100 px-4 py-8 font-[Poppins] sm:px-5">
+    <div className="flex min-h-dvh items-center justify-center bg-neutral-100 px-4 py-8 font-[Poppins] sm:px-5">
       <div className="flex w-full max-w-sm flex-col items-center gap-y-5 rounded-2xl bg-[#f3f5ff] px-6 py-10 shadow-md sm:max-w-3xl sm:gap-y-7 sm:px-8 sm:py-14 md:max-w-5xl md:px-16 md:py-20">
         {/* Icon */}
         <Mail

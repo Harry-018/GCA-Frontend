@@ -467,7 +467,7 @@ const Admission = () => {
 
           return (
             <span
-              className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${
+              className={`rounded-full px-3 py-1 text-xs capitalize ${
                 STATUS_STYLES[status.toLowerCase()] ??
                 "bg-gray-100 text-gray-600"
               }`}
@@ -509,7 +509,7 @@ const Admission = () => {
                 <button
                   type="button"
                   onClick={() => handleRejectApplicant(applicant)}
-                  className="rounded-full bg-[#ff7272] px-4 py-1 text-[11px] text-white hover:bg-[#f45f5f] lg:text-xs xl:text-sm"
+                  className="rounded-full bg-reject px-4 py-1 text-[11px] text-white hover:bg-reject/80 lg:text-xs xl:text-sm"
                 >
                   Reject
                 </button>

@@ -118,7 +118,7 @@ body {
     height: 5px;
     margin-left: 3px;
     border-radius: 9999px;
-    background-color: #97a97c;
+    background-color: var(--color-swamp-green);
     animation: loading-dot 1.2s infinite ease-in-out both;
   }
 
@@ -196,7 +196,7 @@ body {
   }
 
   & .react-calendar__tile {
-    @apply max-w-full cursor-pointer rounded-md bg-transparent text-xs font-medium transition-all duration-150 hover:text-lime-green;
+    @apply max-w-full cursor-pointer rounded-md bg-transparent text-xs transition-all duration-150 hover:text-lime-green;
 
     &:enabled:hover,
     &:enabled:focus {
@@ -213,13 +213,13 @@ body {
   }
 
   & .react-calendar__tile--active {
-    @apply bg-swamp-green font-semibold text-white shadow-md;
+    @apply bg-swamp-green font-[PoppinsBold] text-white shadow-md;
   }
 }
 
 .custom-datepicker {
   width: 100%;
-  min-height: 5vh;
+  min-height: 2.5rem;
 }
 
 .custom-datepicker .react-date-picker__wrapper {
@@ -239,8 +239,8 @@ body {
 }
 
 .custom-datepicker .react-date-picker__calendar-button svg {
-  stroke: #97a97c;
-  text-decoration-color: #97a97c;
+  stroke: var(--color-swamp-green);
+  text-decoration-color: var(--color-swamp-green);
 }
 
 .custom-datepicker .react-date-picker__clear-button svg {
@@ -251,8 +251,12 @@ body {
   --fc-border-color: #dcded8;
   --fc-page-bg-color: #f4f5fc;
   --fc-neutral-bg-color: #f4f5fc;
-  --fc-today-bg-color: rgba(156, 175, 124, 0.08);
-  --fc-now-indicator-color: #9caf7e;
+  --fc-today-bg-color: color-mix(
+    in srgb,
+    var(--color-swamp-green) 8%,
+    transparent
+  );
+  --fc-now-indicator-color: var(--color-swamp-green);
 }
 
 .gca-calendar .fc {
@@ -267,7 +271,7 @@ body {
 }
 
 .gca-calendar .fc-col-header-cell {
-  background: #9caf7e;
+  background: var(--color-swamp-green);
   border-color: rgba(255, 255, 255, 0.2);
 }
 
@@ -338,11 +342,11 @@ body {
 
 /* NOW INDICATOR */
 .gca-calendar .fc-timegrid-now-indicator-line {
-  border-color: #9caf7e;
+  border-color: var(--color-swamp-green);
 }
 
 .gca-calendar .fc-timegrid-now-indicator-arrow {
-  border-color: #9caf7e;
+  border-color: var(--color-swamp-green);
 }
 
 @theme {

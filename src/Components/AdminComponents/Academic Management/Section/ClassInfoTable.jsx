@@ -60,7 +60,7 @@ const ClassInfoTable = ({
                       <button
                         type="button"
                         onClick={() => onRemove(student)}
-                        className="rounded-full bg-[#ff7777] px-4 py-1.5 font-[PoppinsBold] text-2xs text-white transition hover:opacity-80"
+                        className="rounded-full bg-reject px-4 py-1.5 font-[PoppinsBold] text-2xs text-white transition hover:opacity-80"
                       >
                         Remove
                       </button>

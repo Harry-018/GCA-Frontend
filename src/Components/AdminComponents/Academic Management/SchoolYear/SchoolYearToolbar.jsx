@@ -28,7 +28,7 @@ function SchoolYearToolbar({
             className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
               activeFilter === filter.value
                 ? "bg-swamp-green text-white"
-                : "text-gray-500 hover:bg-[#e4e8dd]"
+                : "text-gray-500 hover:bg-swamp-green/20"
             }`}
           >
             {filter.label}

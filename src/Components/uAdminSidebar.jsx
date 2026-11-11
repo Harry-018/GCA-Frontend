@@ -68,7 +68,7 @@ const SidebarContent = () => {
           />
         )}
 
-        <h1 className="text-2xs font-medium text-gray-700 lg:text-2xs xl:text-xs">
+        <h1 className="text-2xs text-gray-700 lg:text-2xs xl:text-xs">
           {schoolName}
         </h1>
       </div>
@@ -91,8 +91,8 @@ const SidebarContent = () => {
                   lg:text-2xs xl:px-6 xl:text-xs
                   ${
                     isActive(item)
-                      ? "bg-[#9caf7b] text-white"
-                      : "text-gray-600 hover:bg-[#e9eddc]"
+                      ? "bg-swamp-green text-white"
+                      : "text-gray-600 hover:bg-swamp-green/20"
                   }
                 `}
               >
@@ -107,7 +107,7 @@ const SidebarContent = () => {
         <button
           type="button"
           onClick={handleLogout}
-          className="mt-auto flex items-center gap-2 rounded-full bg-red-50 px-7 py-3 text-left text-xs font-medium text-red-400 transition hover:bg-red-100 hover:text-red-500"
+          className="mt-auto flex items-center gap-2 rounded-full bg-red-50 px-7 py-3 text-left text-xs text-red-400 transition hover:bg-red-100 hover:text-red-500"
         >
           <LogOut size={14} />
           Logout

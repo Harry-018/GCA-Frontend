@@ -16,7 +16,7 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
         >
           {/* Card Header */}
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-base">
+            <h3 className=" text-[9px] font-[PoppinsBold] text-swamp-green sm:text-base">
               {option.name}
             </h3>
 
@@ -35,21 +35,21 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
           <div className="flex flex-col gap-1.5 pt-3">
             <p className="font-[Poppins] text-[9px] text-[#777777] sm:text-xs">
               Due Date:{" "}
-              <span className="font-medium text-[#555555]">
+              <span className=" text-[#555555]">
                 {option.dueDate || "N/A"}
               </span>
             </p>
 
             <p className="font-[Poppins] text-[9px] text-[#777777] sm:text-xs">
               Discount:{" "}
-              <span className="font-semibold text-[#555555]">
+              <span className="font-[PoppinsBold] text-[#555555]">
                 {formatCurrency(option.discount)}
               </span>
             </p>
 
             <p className="font-[Poppins] text-[9px] text-[#777777] sm:text-xs">
               Monthly Installment:{" "}
-              <span className="font-semibold text-[#555555]">
+              <span className="font-[PoppinsBold] text-[#555555]">
                 {formatCurrency(option.installment)}
               </span>
             </p>
@@ -57,9 +57,9 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
 
           {/* Total */}
           <div className="mt-4 flex flex-wrap justify-between gap-2">
-            <span className="font-[Poppins] text-xs font-semibold">TOTAL:</span>
+            <span className=" text-xs font-[PoppinsBold]">TOTAL:</span>
 
-            <span className="font-[PoppinsBold] text-sm font-bold text-swamp-green">
+            <span className="font-[PoppinsBold] text-sm font-[PoppinsBold] text-swamp-green">
               ₱{formatCurrency(option.totalBoys)} - ₱
               {formatCurrency(option.totalGirls)}
             </span>

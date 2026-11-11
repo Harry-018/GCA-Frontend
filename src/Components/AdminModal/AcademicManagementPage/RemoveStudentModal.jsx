@@ -32,7 +32,7 @@ const RemoveStudentModal = ({
         <div className="px-6 py-5">
           <p className="text-sm text-gray-600">
             Are you sure you want to remove{" "}
-            <span className="font-semibold text-gray-800">{studentName}</span>{" "}
+            <span className="font-[PoppinsBold] text-gray-800">{studentName}</span>{" "}
             from this section?
           </p>
 

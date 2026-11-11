@@ -8,19 +8,19 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen gap-8 overflow-hidden bg-[#ebe9e4] px-4 py-4 font-[Poppins]">
+    <div className="flex h-dvh gap-8 overflow-hidden bg-[#ebe9e4] px-4 py-4 font-[Poppins]">
       <header className="fixed left-0 top-0 z-30 flex h-14 w-full items-center gap-x-3 bg-[#0c2423] px-4 shadow-lg lg:hidden">
         <button
           type="button"
           onClick={() => setSidebarOpen((prev) => !prev)}
-          className="-ml-1 text-bone transition hover:text-swamp-green"
+          className="-ml-1 flex h-9 w-9 items-center justify-center text-bone transition hover:text-swamp-green"
         >
           <Menu size={22} />
         </button>
 
         <img src={logo} alt="Logo" className="h-7 rounded-full object-cover" />
 
-        <span className="font-[PoppinsBold] text-[11px] text-bone">
+        <span className="font-[PoppinsBold] text-[11px] lg:text-xs xl:text-sm text-bone">
           Grace Christian Academy
         </span>
       </header>

@@ -116,7 +116,7 @@ const AdminSubjects = () => {
     <div className="flex min-h-0 flex-1 flex-col gap-4 bg-[#ebe9e4] font-[Poppins]">
       <SettingHeader />
 
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-y-2 gap-3">
         <div>
           <h1 className="font-[PoppinsBold] text-base text-swamp-green sm:text-lg">
             Subjects

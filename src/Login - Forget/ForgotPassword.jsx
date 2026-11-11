@@ -64,7 +64,7 @@ const ForgotPassword = () => {
                 </p>
               </div>
 
-              <h1 className="font-Handpicked-seashells text-2xl font-bold text-swamp-green sm:text-3xl">
+              <h1 className="font-Handpicked-seashells text-2xl font-[PoppinsBold] text-swamp-green sm:text-3xl">
                 FORGOT PASSWORD?
               </h1>
 
@@ -78,7 +78,7 @@ const ForgotPassword = () => {
               <div className="py-2 sm:py-4">
                 <label
                   htmlFor="email"
-                  className="font-Handmade text-base font-bold text-gray-700 sm:text-lg"
+                  className="font-Handmade text-base font-[PoppinsBold] text-gray-700 sm:text-lg"
                 >
                   Email
                 </label>
@@ -111,7 +111,7 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-full border border-swamp-green py-2.5 font-Handpicked-seashells text-base font-bold text-swamp-green transition-all duration-500 ease-in-out hover:bg-[#91a77a] hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 sm:py-3 sm:text-lg"
+                className="w-full rounded-full border border-swamp-green py-2.5 font-Handpicked-seashells text-base font-[PoppinsBold] text-swamp-green transition-all duration-500 ease-in-out hover:bg-swamp-green hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 sm:py-3 sm:text-lg"
               >
                 {loading ? "SENDING..." : "SEND RESET LINK"}
               </button>

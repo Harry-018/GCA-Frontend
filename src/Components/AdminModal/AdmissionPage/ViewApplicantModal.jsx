@@ -14,7 +14,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
   const sections = [
     {
       title: "Student Information",
-      className: "col-span-2",
+      className: "sm:col-span-2",
       columns: 2,
       fields: [
         ["Grade Level", student.gradeLevel],
@@ -79,8 +79,8 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
-      <div className="w-full max-w-175 rounded-2xl bg-bone p-4 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
-        <div className="grid grid-cols-3 gap-2.5">
+      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-175 overflow-y-auto rounded-2xl bg-bone p-4 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+        <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
           {sections.map((section) => (
             <div
               key={section.title}
@@ -102,7 +102,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
                 {section.fields.map(([label, value]) => (
                   <div
                     key={label}
-                    className="grid grid-cols-[100px_1fr] text-[11px] text-gray-600"
+                    className="grid grid-cols-[100px_1fr] text-[11px] lg:text-xs xl:text-sm text-gray-600"
                   >
                     <span>{label}:</span>
 
@@ -116,8 +116,8 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
           ))}
 
           {applicant.status === "Rejected" && applicant.rejectionReason && (
-            <div className="col-span-3 rounded-xl border border-[#f47773] px-3 py-3">
-              <h2 className="py-3 text-xs font-[PoppinsBold] text-[#f47773]">
+            <div className="sm:col-span-3 rounded-xl border border-reject px-3 py-3">
+              <h2 className="py-3 text-xs font-[PoppinsBold] text-reject">
                 Reason for Rejection
               </h2>
               <p className="text-xs text-gray-600">
@@ -131,7 +131,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-gray-400 px-9 py-1.5 text-[11px] font-medium text-gray-700 transition hover:bg-gray-100"
+            className="rounded-full border border-gray-400 px-9 py-1.5 text-[11px] lg:text-xs xl:text-sm text-gray-700 transition hover:bg-gray-100"
           >
             Close
           </button>

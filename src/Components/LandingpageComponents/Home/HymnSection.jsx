@@ -1,11 +1,11 @@
 const HymnSection = ({ title, videoSrc }) => {
   return (
     <div className="flex w-full flex-col items-center px-5 py-8">
-      <h2 className="text-center font-[SuperJoyful] text-lg leading-tight text-swamp-green uppercase sm:text-xl md:text-2xl">
+      <h2 className="text-center font-[SuperJoyful] text-lg leading-tight text-swamp-green uppercase sm:text-xl md:text-4xl">
         {title}
       </h2>
 
-      <div className="w-full max-w-3xl py-8">
+      <div className="w-full max-w-7xl py-8">
         <video
           className="aspect-video w-full rounded-2xl object-cover shadow-lg"
           controls

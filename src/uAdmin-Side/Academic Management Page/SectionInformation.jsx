@@ -8,6 +8,7 @@ import DataTable from "../../Components/DataTable.jsx";
 import AddStudentToSectionModal from "../../Components/AdminModal/AcademicManagementPage/AddStudentToSectionModal.jsx";
 import PromoteStudentModal from "../../Components/AdminModal/AcademicManagementPage/PromoteStudentModal.jsx";
 import RemoveStudentModal from "../../Components/AdminModal/AcademicManagementPage/RemoveStudentModal.jsx";
+import PromotionErrorModal from "../../Components/AdminModal/AcademicManagementPage/ErrorModal.jsx";
 
 import {
   getSectionDetails,
@@ -46,6 +47,8 @@ const SectionInformation = () => {
   const [isAddStudentOpen, setIsAddStudentOpen] = useState(false);
 
   const [isPromoteStudentOpen, setIsPromoteStudentOpen] = useState(false);
+  const [isPromotionErrorOpen, setIsPromotionErrorOpen] = useState(false);
+  const [promotionErrorMessage, setPromotionErrorMessage] = useState("");
 
   const [isRemoveStudentOpen, setIsRemoveStudentOpen] = useState(false);
   const [removeStudentTarget, setRemoveStudentTarget] = useState(null);
@@ -208,6 +211,14 @@ const SectionInformation = () => {
       await loadSection();
     } catch (error) {
       console.error("Failed to promote students:", error);
+
+      const message =
+        error.response?.data?.error ||
+        error.response?.data?.message ||
+        "An unexpected error occurred while promoting students.";
+
+      setPromotionErrorMessage(message);
+      setIsPromotionErrorOpen(true);
     }
   };
 
@@ -237,7 +248,7 @@ const SectionInformation = () => {
         <button
           type="button"
           onClick={() => handleRemoveStudent(row.original)}
-          className="rounded-full border  px-3 py-1.5 text-xs font-medium text-egg bg-reject hover:bg-reject/80"
+          className="rounded-full border  px-3 py-1.5 text-xs text-egg bg-reject hover:bg-reject/80"
         >
           Remove
         </button>
@@ -312,6 +323,14 @@ const SectionInformation = () => {
         gradeLevels={gradeLevels}
         currentSyGradeLevelId={section?.sy_grade_level_id}
         onPromote={handlePromoteStudents}
+      />
+      <PromotionErrorModal
+        isOpen={isPromotionErrorOpen}
+        errorMessage={promotionErrorMessage}
+        onClose={() => {
+          setIsPromotionErrorOpen(false);
+          setPromotionErrorMessage("");
+        }}
       />
     </div>
   );

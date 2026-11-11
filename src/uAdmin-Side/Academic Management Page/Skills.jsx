@@ -139,9 +139,9 @@ const Skills = () => {
 
         return (
           <span
-            className={`rounded-full px-3 py-1 text-xs  text-[11px] font-medium ${
+            className={`rounded-full px-3 py-1 text-xs  text-[11px] lg:text-xs xl:text-sm ${
               status === "active"
-                ? "bg-[#e7eedf] text-[#71865c]"
+                ? "bg-swamp-lite text-lime-dark"
                 : "bg-gray-100 text-gray-500"
             }`}
           >
@@ -174,7 +174,7 @@ const Skills = () => {
             type="button"
             onClick={() => handleRemove(skill)}
             title="Archive skill"
-            className="rounded-full bg-[#ff7272] px-4 py-1 text-[11px] text-white hover:bg-[#f45f5f] lg:text-xs xl:text-sm"
+            className="rounded-full bg-reject px-4 py-1 text-[11px] text-white hover:bg-reject/80 lg:text-xs xl:text-sm"
           >
             Remove
           </button>
@@ -204,14 +204,14 @@ const Skills = () => {
                   )}`,
                 )
               }
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[12px] text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[12px] lg:text-xs xl:text-sm text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
             <button
               type="button"
               onClick={() => setIsAddOpen(true)}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[12px] font-[Poppins] text-white hover:bg-[#899d6d]"
+              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[12px] lg:text-xs xl:text-sm font-[Poppins] text-white hover:bg-swamp-green/80"
             >
               Assign Skill
             </button>

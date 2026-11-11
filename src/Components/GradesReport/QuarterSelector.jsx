@@ -18,7 +18,7 @@ const QuarterSelector = ({
               className={`rounded-full px-2 py-1 text-[8px] font-[PoppinsBold] uppercase transition sm:px-3 sm:py-2 sm:text-[9px] md:px-4 ${
                 isSelected
                   ? "bg-swamp-green text-white"
-                  : "text-swamp-green hover:bg-[#9caf7d]/10"
+                  : "text-swamp-green hover:bg-swamp-green/10"
               }`}
             >
               {quarter.label}

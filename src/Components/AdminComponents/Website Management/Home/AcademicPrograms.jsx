@@ -12,7 +12,7 @@ const AcademicPrograms = ({
   return (
     <section className="rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-[9px] sm:text-sm font-bold text-swamp-green">
+        <h2 className="text-[9px] sm:text-sm font-[PoppinsBold] text-swamp-green">
           Academic Programs
         </h2>
 
@@ -28,7 +28,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-full bg-swamp-green px-5 py-2 text-[9px] sm:text-xs font-medium text-white hover:bg-lime-green"
+            className="rounded-full bg-swamp-green px-5 py-2 text-[9px] sm:text-xs text-white hover:bg-lime-green"
           >
             Add
           </button>
@@ -36,7 +36,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onRemove}
-            className="rounded-full bg-[#f27777] px-4 py-2 text-[9px] sm:text-xs font-medium text-white hover:bg-[#e56666]"
+            className="rounded-full bg-reject px-4 py-2 text-[9px] sm:text-xs text-white hover:bg-reject/80"
           >
             Remove
           </button>
@@ -55,8 +55,8 @@ const AcademicPrograms = ({
               onClick={() => onProgramChange?.(program.name)}
               className={`rounded-full px-3 py-1 text-[9px] sm:text-xs transition ${
                 isActive
-                  ? "bg-[#a8ba88] font-medium text-white"
-                  : "text-gray-600 hover:bg-[#a8ba88]/20"
+                  ? "bg-swamp-green text-white"
+                  : "text-gray-600 hover:bg-swamp-green/20"
               }`}
             >
               {program.name}

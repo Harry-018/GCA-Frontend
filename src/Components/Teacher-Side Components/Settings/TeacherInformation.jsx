@@ -49,7 +49,7 @@ const TeacherInformation = ({ teacher }) => {
             <h2 className="font-[PoppinsBold] text-lg uppercase leading-tight sm:text-2xl lg:text-3xl">
               {teacher.first_name} {teacher.last_name}
             </h2>
-            <p className="py-1 text-xs font-medium tracking-wide text-white/75 sm:text-base">
+            <p className="py-1 text-xs tracking-wide text-white/75 sm:text-base">
               Faculty member
             </p>
           </div>
@@ -80,7 +80,7 @@ const TeacherInformation = ({ teacher }) => {
                 />
               )}
               <div className="min-w-0">
-                <span className="text-2xs font-medium uppercase tracking-wide text-white/60">
+                <span className="text-2xs uppercase tracking-wide text-white/60">
                   {detail.label}
                 </span>
                 <span className="wrap-break-word block text-xs font-[Poppins] text-white sm:whitespace-nowrap sm:text-sm">

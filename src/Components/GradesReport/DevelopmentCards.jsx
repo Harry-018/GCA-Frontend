@@ -46,7 +46,7 @@ const DevelopmentCards = ({ developments, onGradeChange }) => {
               <button
                 type="button"
                 onClick={() => handleOpen(development.id)}
-                className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-[#9caf7d]/30 bg-[#9caf7d]/10 px-2.5 py-1.5 text-[9px] font-[PoppinsBold] uppercase text-[#082d2a] transition hover:bg-[#9caf7d]/20"
+                className="flex shrink-0 items-center gap-1 whitespace-nowrap rounded-full border border-swamp-green/30 bg-swamp-green/10 px-2.5 py-1.5 text-[9px] sm:text-xs font-[PoppinsBold] uppercase text-[#082d2a] transition hover:bg-swamp-green/20"
               >
                 See More
                 <ChevronDown size={12} className="-rotate-90" />

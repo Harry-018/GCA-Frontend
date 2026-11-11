@@ -167,7 +167,7 @@ const AdminSkills = () => {
       <SettingHeader />
 
       {/* Header */}
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-y-2 gap-3">
         <div className="">
           <h1 className="font-[PoppinsBold] text-base text-swamp-green sm:text-lg">
             {subject?.subject_name || ""} Skills

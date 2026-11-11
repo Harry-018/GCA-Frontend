@@ -48,7 +48,7 @@ const AnnouncementCard = ({
         <button
           type="button"
           onClick={onEdit}
-          className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[11px] text-white hover:bg-[#899d6d]"
+          className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[11px] lg:text-xs xl:text-sm text-white hover:bg-swamp-green/80"
         >
           Edit
         </button>
@@ -56,7 +56,7 @@ const AnnouncementCard = ({
         <button
           type="button"
           onClick={onRemove}
-          className="h-8 shrink-0 rounded-full bg-[#f27773] px-4 text-[11px] text-white hover:bg-[#ed6661]"
+          className="h-8 shrink-0 rounded-full bg-reject px-4 text-[11px] lg:text-xs xl:text-sm text-white hover:bg-reject/80"
         >
           Remove
         </button>

@@ -43,7 +43,7 @@ const SkillsTable = ({ subjects = [], onEdit, onRemove }) => {
                     <button
                       type="button"
                       onClick={() => onRemove(subject)}
-                      className="rounded-xl bg-[#ff7272] px-3.5 py-1 text-2xs text-white transition hover:bg-[#f45f5f] sm:text-[11px] lg:text-xs xl:text-sm"
+                      className="rounded-xl bg-reject px-3.5 py-1 text-2xs text-white transition hover:bg-reject/80 sm:text-[11px] lg:text-xs xl:text-sm"
                     >
                       Remove
                     </button>

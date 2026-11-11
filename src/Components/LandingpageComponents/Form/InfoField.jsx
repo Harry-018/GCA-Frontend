@@ -36,7 +36,7 @@ const InfoField = ({
 
   return (
     <label className={`flex min-w-0 flex-col gap-1 ${className}`}>
-      <span className="flex items-center justify-between text-xs font-medium text-neutral-600">
+      <span className="flex items-center justify-between text-xs text-neutral-600">
         <span>
           {label}
           {required && <b className="text-red-400"> *</b>}

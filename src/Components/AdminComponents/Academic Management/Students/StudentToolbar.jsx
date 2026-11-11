@@ -85,14 +85,14 @@ const StudentToolbar = ({
                 if (event.key === "Enter") onSearch();
               }}
               placeholder="Search Student"
-              className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-6 pr-3 text-[9px] text-gray-700 outline-none focus:border-[#9caf88] sm:w-48 sm:pl-8 sm:pr-4 sm:text-xs lg:w-44 xl:w-52"
+              className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-6 pr-3 text-[9px] text-gray-700 outline-none focus:border-swamp-green sm:w-48 sm:pl-8 sm:pr-4 sm:text-xs lg:w-44 xl:w-52"
             />
           </div>
 
           <button
             type="button"
             onClick={onSearch}
-            className="h-8 shrink-0 rounded-full bg-[#9caf88] px-3 text-[9px] font-medium text-white transition hover:bg-[#879b72] sm:px-6 sm:text-xs"
+            className="h-8 shrink-0 rounded-full bg-swamp-green px-3 text-[9px] text-white transition hover:bg-swamp-green/80 sm:px-6 sm:text-xs"
           >
             Search
           </button>

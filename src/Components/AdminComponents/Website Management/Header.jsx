@@ -40,7 +40,7 @@ const Header = ({ activeTab = "home", onTabChange }) => {
             key={item.key}
             type="button"
             onClick={() => handleClick(item)}
-            className={`whitespace-nowrap pb-1 text-[9px] font-medium transition sm:text-[11px] md:text-sm ${
+            className={`whitespace-nowrap pb-1 text-[9px] transition sm:text-[11px] md:text-sm ${
               isActive
                 ? "text-swamp-green underline underline-offset-8"
                 : "text-gray-600 hover:text-swamp-green"

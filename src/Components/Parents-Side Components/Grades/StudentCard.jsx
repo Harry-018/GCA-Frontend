@@ -19,10 +19,10 @@ const StudentCard = ({
             <UserRound size={24} className="hidden lg:block" />
           </div>
           <div className="min-w-0">
-            <span className="text-[8px] font-bold uppercase text-white/60 md:text-[9px]">
+            <span className="text-[8px] font-[PoppinsBold] uppercase text-white/60 md:text-[9px]">
               Enrolled Student
             </span>
-            <h2 className="text-sm font-bold leading-tight sm:text-base lg:text-xl">
+            <h2 className="text-sm font-[PoppinsBold] leading-tight sm:text-base lg:text-xl">
               <span className="block">{lastName},</span>
               <span className="block">{firstName}</span>
             </h2>
@@ -45,7 +45,7 @@ const StudentCard = ({
           <div className="flex min-w-0 items-center gap-2 lg:mt-0 lg:gap-3 lg:border-l lg:border-white/15 lg:pl-5 xl:pl-8">
             <IdCard size={15} className="shrink-0 text-swamp-green" />
             <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="text-[8px] font-bold uppercase leading-tight text-white/60 lg:text-[9px]">
+              <span className="text-[8px] font-[PoppinsBold] uppercase leading-tight text-white/60 lg:text-[9px]">
                 Student ID Number
               </span>
               <span className="truncate text-2xs font-[PoppinsBold] uppercase sm:text-xs">

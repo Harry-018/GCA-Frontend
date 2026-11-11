@@ -27,7 +27,7 @@ const RemoveChildrenActivityModal = ({
         <div className="rounded-lg border border-gray-300 bg-bone p-3">
           <p className="text-[9px] text-gray-500 sm:text-xs">Activity:</p>
 
-          <p className="mt-1 text-[10px] font-medium text-gray-700 sm:text-sm">
+          <p className="mt-1 text-[10px] text-gray-700 sm:text-sm">
             {activity.activity_title}
           </p>
         </div>
@@ -53,7 +53,7 @@ const RemoveChildrenActivityModal = ({
             type="button"
             onClick={() => onConfirm(activity.activity_id)}
             disabled={loading}
-            className="flex-1 rounded-full bg-[#f27777] px-4 py-2 text-[9px] font-medium text-white transition hover:bg-[#e56666] disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="flex-1 rounded-full bg-reject px-4 py-2 text-[9px] text-white transition hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             {loading ? "Removing..." : "Remove"}
           </button>

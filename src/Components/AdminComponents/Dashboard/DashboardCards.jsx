@@ -15,17 +15,17 @@ const DashboardCards = ({ cards }) => {
           return (
             <div key={card.title} className={cardClass}>
               <div className="flex items-start justify-between gap-2">
-                <p className="line-clamp-1 text-2xs font-medium text-[#9caf7b] xl:text-xs">
+                <p className="line-clamp-1 text-2xs text-swamp-green xl:text-xs">
                   {card.title}
                 </p>
 
                 <Icon
                   size={14}
-                  className="shrink-0 text-[#9caf7b] xl:size-4"
+                  className="shrink-0 text-swamp-green xl:size-4"
                 />
               </div>
 
-              <p className="text-lg font-bold text-[#9caf7b] sm:text-xl xl:text-2xl">
+              <p className="text-lg font-[PoppinsBold] text-swamp-green sm:text-xl xl:text-2xl">
                 {card.value}
               </p>
             </div>
@@ -39,17 +39,17 @@ const DashboardCards = ({ cards }) => {
           return (
             <div key={card.title} className={cardClass}>
               <div className="flex items-start justify-between gap-2">
-                <p className="line-clamp-1 text-2xs font-medium text-[#9caf7b] xl:text-xs">
+                <p className="line-clamp-1 text-2xs text-swamp-green xl:text-xs">
                   {card.title}
                 </p>
 
                 <Icon
                   size={14}
-                  className="shrink-0 text-[#9caf7b] xl:size-4"
+                  className="shrink-0 text-swamp-green xl:size-4"
                 />
               </div>
 
-              <p className="text-lg font-bold text-[#9caf7b] sm:text-xl xl:text-2xl">
+              <p className="text-lg font-[PoppinsBold] text-swamp-green sm:text-xl xl:text-2xl">
                 {card.value}
               </p>
             </div>

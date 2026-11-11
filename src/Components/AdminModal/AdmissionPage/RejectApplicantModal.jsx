@@ -23,7 +23,7 @@ const RejectApplicantModal = ({
           <X size={18} />
         </button>
 
-        <h2 className="text-base font-bold text-[#f47773]">{title}</h2>
+        <h2 className="text-base font-[PoppinsBold] text-reject">{title}</h2>
 
         <div className="flex items-center gap-4 py-5">
           <label className="w-20 shrink-0 text-xs text-gray-600">
@@ -51,7 +51,7 @@ const RejectApplicantModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-9 flex-1 rounded-full border border-gray-500 bg-transparent text-xs font-semibold text-gray-500 hover:bg-gray-100"
+            className="h-9 flex-1 rounded-full border border-gray-500 bg-transparent text-xs font-[PoppinsBold] text-gray-500 hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -60,7 +60,7 @@ const RejectApplicantModal = ({
             type="button"
             onClick={onReject}
             disabled={!selectedReason}
-            className="h-9 flex-1 rounded-full bg-[#f47773] text-xs font-semibold text-white hover:bg-[#ed6b67] disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 flex-1 rounded-full bg-reject text-xs font-[PoppinsBold] text-white hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Reject
           </button>

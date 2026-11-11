@@ -112,7 +112,7 @@ const WeeklySchedule = () => {
     <div className="flex w-full min-w-0 flex-col items-center rounded-2xl bg-egg p-3 shadow-sm sm:p-5 md:p-6">
       {/* Header */}
       <div className="mb-4 w-full max-w-7xl sm:mb-5">
-        <h2 className="font-[PoppinsBold] text-base text-[#9caf7e] sm:text-lg">
+        <h2 className="font-[PoppinsBold] text-base text-swamp-green sm:text-lg">
           WEEKLY SCHEDULE
         </h2>
 
@@ -154,7 +154,7 @@ const WeeklySchedule = () => {
                 const { event, timeText } = eventInfo;
 
                 return (
-                  <div className="event-card flex h-full w-full flex-col justify-between overflow-hidden rounded-md border border-[#7f9464] bg-[#9caf7e] px-1 py-1 text-white shadow-sm sm:rounded-lg sm:px-2 sm:py-1.5">
+                  <div className="event-card flex h-full w-full flex-col justify-between overflow-hidden rounded-md border border-swamp-green/80 bg-swamp-green px-1 py-1 text-white shadow-sm sm:rounded-lg sm:px-2 sm:py-1.5">
                     <p className="break-words font-[PoppinsBold] text-[10px] leading-tight text-white sm:text-xs md:text-sm">
                       {event.title}
                     </p>

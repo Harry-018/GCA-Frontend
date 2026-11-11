@@ -1,20 +1,14 @@
 import { Mail, MapPin, Phone, UserRound } from "lucide-react";
 
 const PersonalInformation = ({ fullName, contactNo, email, address }) => {
-  const [lastName, firstName] = fullName.split(",").map((part) => part.trim());
-
   const details = [
     {
       label: "Contact No. :",
-      value: contactNo,
+      value: contactNo || "No contact number provided",
     },
     {
       label: "Email:",
-      value: email,
-    },
-    {
-      label: "Address:",
-      value: address || "No address provided",
+      value: email || "No email provided",
     },
   ];
 
@@ -25,15 +19,14 @@ const PersonalInformation = ({ fullName, contactNo, email, address }) => {
           <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-swamp-green ring-1 ring-white/20 sm:size-14">
             <UserRound size={26} strokeWidth={1.5} />
           </div>
+
           <div>
             <p className="py-1 text-[9px] font-[PoppinsBold] uppercase tracking-widest text-swamp-green sm:text-2xs sm:tracking-[0.18em]">
               Personal information
             </p>
+
             <p className="font-[PoppinsBold] text-lg uppercase leading-tight text-white sm:text-2xl">
-              {lastName}
-            </p>
-            <p className="py-1 text-xs font-[Poppins] font-medium tracking-wide text-white/75 sm:text-base">
-              {firstName}
+              {fullName || "Parent Name"}
             </p>
           </div>
         </div>
@@ -42,22 +35,26 @@ const PersonalInformation = ({ fullName, contactNo, email, address }) => {
           {details.map((detail) => (
             <div
               key={detail.label}
-              className={`flex min-w-0 items-start gap-3 ${detail.label === "Address:" ? "sm:col-span-2" : ""}`}
+              className={`flex min-w-0 items-start gap-3 ${
+                detail.label === "Address:" ? "sm:col-span-2" : ""
+              }`}
             >
               {detail.label === "Contact No. :" ? (
-                <Phone size={16} className="py-0.5 shrink-0 text-swamp-green" />
+                <Phone size={16} className="shrink-0 py-0.5 text-swamp-green" />
               ) : detail.label === "Email:" ? (
-                <Mail size={16} className="py-0.5 shrink-0 text-swamp-green" />
+                <Mail size={16} className="shrink-0 py-0.5 text-swamp-green" />
               ) : (
                 <MapPin
                   size={16}
-                  className="py-0.5 shrink-0 text-swamp-green"
+                  className="shrink-0 py-0.5 text-swamp-green"
                 />
               )}
+
               <div className="min-w-0">
-                <p className="text-2xs font-[Poppins] font-medium uppercase tracking-wide text-white/60">
+                <p className="text-2xs font-[Poppins] uppercase tracking-wide text-white/60">
                   {detail.label}
                 </p>
+
                 <p className="wrap-break-word text-xs font-[Poppins] text-white sm:text-sm">
                   {detail.value}
                 </p>

@@ -8,7 +8,7 @@ const TeacherLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col justify-between">
+    <div className="flex min-h-dvh flex-col justify-between">
       <TeacherHeader onMenuToggle={() => setSidebarOpen((prev) => !prev)} />
 
       <TeacherSidebar
@@ -16,7 +16,7 @@ const TeacherLayout = () => {
         onClose={() => setSidebarOpen(false)}
       />
 
-      <div className="flex-1 justify-center bg-egg font-[Poppins] text-egg-dark lg:flex lg:min-h-0 lg:flex-col lg:justify-start">
+      <div className="flex-1 justify-center bg-egg font-[Poppins] text-egg-dark flex lg:min-h-0 lg:flex-col lg:justify-start">
         <Outlet />
       </div>
 

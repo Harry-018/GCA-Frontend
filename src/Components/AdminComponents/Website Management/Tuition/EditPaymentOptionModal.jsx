@@ -25,8 +25,8 @@ const EditPaymentOptionModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="max-h-[95vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
+        <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-swamp-green">
           Edit Payment Option
         </h2>
 
@@ -91,7 +91,7 @@ const EditPaymentOptionModal = ({
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone disabled:opacity-50"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone disabled:opacity-50"
           >
             Close
           </button>
@@ -100,7 +100,7 @@ const EditPaymentOptionModal = ({
             type="button"
             onClick={handleSave}
             disabled={saving}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green disabled:opacity-50"
+            className="rounded-full bg-swamp-green px-5 py-2 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>

@@ -21,7 +21,7 @@ const UserHeader = ({ activeTab, onTabChange }) => {
           key={tab.value}
           type="button"
           onClick={() => onTabChange(tab.value)}
-          className={`shrink-0 whitespace-nowrap pb-1 text-[11px] font-medium transition lg:text-xs xl:text-sm ${
+          className={`shrink-0 whitespace-nowrap pb-1 text-[11px] transition lg:text-xs xl:text-sm ${
             activeTab === tab.value
               ? "text-swamp-green underline underline-offset-8"
               : "text-gray-600 hover:text-swamp-green"

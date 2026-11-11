@@ -50,14 +50,14 @@ const ContactInformation = ({ contact, onManage }) => {
               key={detail.label}
               className={`flex min-w-0 flex-col gap-1 ${detail.label === "Address" ? "lg:col-span-2 xl:col-span-1" : ""}`}
             >
-              <span className="whitespace-nowrap text-2xs font-medium uppercase tracking-wide text-gray-500">
+              <span className="whitespace-nowrap text-2xs uppercase tracking-wide text-gray-500">
                 {detail.label}
               </span>
 
               <span className={`wrap-break-word text-xs font-[Poppins] text-[#0c2423] sm:text-sm ${
                   detail.label === "Address"
-                    ? "whitespace-pre-line md:whitespace-nowrap xl:whitespace-normal"
-                    : "sm:whitespace-nowrap"
+                    ? "whitespace-pre-line"
+                    : ""
                 }`}
               >
                 {detail.value}

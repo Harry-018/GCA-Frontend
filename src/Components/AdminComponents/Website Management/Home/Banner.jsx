@@ -9,7 +9,7 @@ const Banner = ({
   return (
     <section className="rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
       <div className="flex items-center justify-between">
-        <h2 className="rounded-full text-xs sm:text-sm font-bold text-swamp-green">
+        <h2 className="rounded-full text-xs sm:text-sm font-[PoppinsBold] text-swamp-green">
           Banner
         </h2>
 

@@ -34,7 +34,7 @@ const SectionCard = ({
             event.stopPropagation();
             onRemove();
           }}
-          className="absolute right-3 top-3 text-[12px] text-reject hover:text-egg hover:bg-reject py-1 px-2 rounded-full"
+          className="absolute right-3 top-3 text-[12px] lg:text-xs xl:text-sm text-reject hover:text-egg hover:bg-reject py-1 px-2 rounded-full"
         >
           Remove
         </button>

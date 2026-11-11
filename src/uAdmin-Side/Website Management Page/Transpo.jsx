@@ -132,7 +132,7 @@ const Transpo = () => {
             setEditingRoute(null);
             setAddOpen(true);
           }}
-          className="rounded-full bg-swamp-green px-5 py-2 text-[9px] font-medium text-white transition hover:bg-[#7d965f] sm:text-xs"
+          className="rounded-full bg-swamp-green px-5 py-2 text-[9px] text-white transition hover:bg-swamp-green/80 sm:text-xs"
         >
           Add
         </button>

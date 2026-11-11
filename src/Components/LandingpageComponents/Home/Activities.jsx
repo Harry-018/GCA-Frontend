@@ -173,7 +173,7 @@ const Activities = ({ title, activities }) => {
               type="button"
               onClick={() => scrollToActivity(index)}
               aria-label={`Show activity group ${index + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 ${index === currentIndex ? "w-7 bg-swamp-green" : "w-2 bg-swamp-green/25 hover:bg-swamp-green/50"}`}
+              className={`flex h-6 items-center rounded-full transition-all duration-300 before:h-2 before:rounded-full before:transition-all ${index === currentIndex ? "w-7 before:w-7 before:bg-swamp-green" : "w-6 before:w-2 before:bg-swamp-green/25 hover:before:bg-swamp-green/50"}`}
             />
           ))}
         </div>

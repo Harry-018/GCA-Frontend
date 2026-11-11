@@ -58,7 +58,7 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
           <div>
-            <h2 className="font-[PoppinsBold] text-lg text-[#9caf7e]">
+            <h2 className="font-[PoppinsBold] text-lg text-swamp-green">
               SCHEDULE
             </h2>
             <p className="mt-1 font-[Poppins] text-base text-gray-500">
@@ -99,15 +99,15 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
               eventContent={(eventInfo) => {
                 const { event } = eventInfo;
                 return (
-                  <div className="flex event-card w-full h-full flex-col overflow-hidden rounded-lg border border-[#7f9464] bg-[#9caf7e] px-2 py-1.5 text-white shadow-sm justify-between ">
+                  <div className="flex event-card w-full h-full flex-col overflow-hidden rounded-lg border border-swamp-green/80 bg-swamp-green px-2 py-1.5 text-white shadow-sm justify-between ">
                     <p className="truncate font-[PoppinsBold] text-[14px] text-wrap leading-tight text-white">
                       {event.title}
                     </p>
                     <div>
-                      <p className="truncate font-[PoppinsBold] text-[12px] leading-tight text-white">
+                      <p className="truncate font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
                         {event.extendedProps.room}
                       </p>
-                      <p className="truncate font-[PoppinsBold] text-[12px] leading-tight text-white">
+                      <p className="truncate font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
                         {event.extendedProps.teacher}
                       </p>
                     </div>
@@ -122,7 +122,7 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
           <button
             type="button"
             onClick={onClose}
-            className="h-9 rounded-full bg-[#9caf7e] px-8 font-[PoppinsBold] text-xs text-white transition hover:bg-[#899d6d]"
+            className="h-9 rounded-full bg-swamp-green px-8 font-[PoppinsBold] text-xs text-white transition hover:bg-swamp-green/80"
           >
             Close
           </button>

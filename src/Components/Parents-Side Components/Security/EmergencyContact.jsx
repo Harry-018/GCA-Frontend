@@ -1,23 +1,18 @@
 import { ArrowUpRight, HeartPulse } from "lucide-react";
 
-const EmergencyContact = ({
-  fullName,
-  contactNo,
-  relationship,
-  onManage,
-}) => {
+const EmergencyContact = ({ fullName, contactNo, relationship, onManage }) => {
   const contactDetails = [
     {
       label: "Full Name:",
-      value: fullName,
+      value: fullName || "No emergency contact provided",
     },
     {
       label: "Contact No. :",
-      value: contactNo,
+      value: contactNo || "No contact number provided",
     },
     {
       label: "Relation to Student:",
-      value: relationship,
+      value: relationship || "Not specified",
     },
   ];
 
@@ -56,12 +51,14 @@ const EmergencyContact = ({
               className={`flex min-w-0 flex-col gap-1 
                 ${detail.label === "Relation to Student:" ? "lg:col-span-2 xl:col-span-1" : ""}`}
             >
-              <p className="whitespace-nowrap text-2xs font-medium uppercase tracking-wide text-gray-500 sm:text-sm">
+              <p className="whitespace-nowrap text-2xs uppercase tracking-wide text-gray-500 sm:text-sm">
                 {detail.label}
               </p>
 
-              <p className={`text-[#0c2423] 
-                ${detail.label === "Full Name:" ? "whitespace-nowrap text-[11px]" : "wrap-break-word text-xs"} font-[Poppins] sm:whitespace-nowrap sm:text-sm`}>
+              <p
+                className={`text-[#0c2423] 
+                ${detail.label === "Full Name:" ? "wrap-break-word text-[11px]" : "wrap-break-word text-xs sm:whitespace-nowrap"} font-[Poppins] sm:text-sm`}
+              >
                 {detail.value}
               </p>
             </div>

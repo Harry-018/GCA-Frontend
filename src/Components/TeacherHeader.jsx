@@ -108,7 +108,7 @@ const TeacherHeader = ({ onMenuToggle }) => {
               to="/teacher"
               end
               className={({ isActive }) =>
-                `flex items-center gap-x-2 font-[Poppins] tracking-wide transition-colors duration-300 ${
+                `flex items-center gap-x-2 tracking-wide transition-colors duration-300 ${
                   isActive
                     ? "font-[PoppinsBold] border-b-2 border-swamp-green pb-1 text-swamp-green"
                     : "text-bone hover:text-swamp-green"
@@ -122,7 +122,7 @@ const TeacherHeader = ({ onMenuToggle }) => {
             <NavLink
               to="/teacher/attendance"
               className={({ isActive }) =>
-                `flex items-center gap-x-2 font-[Poppins] tracking-wide transition-colors duration-300 ${
+                `flex items-center gap-x-2 tracking-wide transition-colors duration-300 ${
                   isActive
                     ? "font-[PoppinsBold] border-b-2 border-swamp-green pb-1 text-swamp-green"
                     : "text-bone hover:text-swamp-green"
@@ -136,7 +136,7 @@ const TeacherHeader = ({ onMenuToggle }) => {
             <NavLink
               to="/teacher/grades"
               className={({ isActive }) =>
-                `flex items-center gap-x-2 font-[Poppins] tracking-wide transition-colors duration-300 ${
+                `flex items-center gap-x-2 tracking-wide transition-colors duration-300 ${
                   isActive
                     ? "font-[PoppinsBold] border-b-2 border-swamp-green pb-1 text-swamp-green"
                     : "text-bone hover:text-swamp-green"

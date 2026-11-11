@@ -135,7 +135,7 @@ const TeacherRegistrationPage = () => {
   // --------------------------------------------------
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex min-h-dvh items-center justify-center">
         <p className="text-sm text-gray-600">
           Verifying registration invitation...
         </p>
@@ -148,9 +148,9 @@ const TeacherRegistrationPage = () => {
   // --------------------------------------------------
   if (!invitation) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-beige px-4">
+      <div className="flex min-h-dvh items-center justify-center bg-beige px-4">
         <div className="w-full max-w-md rounded-xl bg-bone p-8 text-center shadow">
-          <h1 className="mb-3 text-xl font-semibold text-egg-dark">
+          <h1 className="mb-3 text-xl font-[PoppinsBold] text-egg-dark">
             Registration Link Invalid
           </h1>
 
@@ -167,9 +167,9 @@ const TeacherRegistrationPage = () => {
   // --------------------------------------------------
   if (submitted) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-egg px-4">
+      <div className="flex min-h-dvh items-center justify-center bg-egg px-4">
         <div className="w-full max-w-md rounded-xl bg-bone p-8 text-center shadow">
-          <h1 className="mb-3 text-xl font-semibold text-swamp-green">
+          <h1 className="mb-3 text-xl font-[PoppinsBold] text-swamp-green">
             Registration Submitted
           </h1>
 
@@ -184,11 +184,11 @@ const TeacherRegistrationPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-egg px-4 py-10">
+    <div className="min-h-dvh bg-egg px-4 py-10">
       <div className="mx-auto max-w-4xl rounded-xl bg-bone p-6 shadow-md md:p-8">
         {/* Header */}
         <div className="mb-8 border-b border-gray-200 pb-5">
-          <h1 className="text-2xl font-semibold text-swamp-green">
+          <h1 className="text-2xl font-[PoppinsBold] text-swamp-green">
             Teacher Registration
           </h1>
 
@@ -210,12 +210,12 @@ const TeacherRegistrationPage = () => {
           {/* Account / Invitation */}
           {/* ---------------------------------------- */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-egg-dark">
+            <h2 className="mb-4 text-lg font-[PoppinsBold] text-egg-dark">
               Registration Account
             </h2>
 
             <div>
-              <label className="mb-1 block text-sm font-medium text-gray-700">
+              <label className="mb-1 block text-sm text-gray-700">
                 Email Address
               </label>
 
@@ -237,7 +237,7 @@ const TeacherRegistrationPage = () => {
           {/* Personal Information */}
           {/* ---------------------------------------- */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-egg-dark">
+            <h2 className="mb-4 text-lg font-[PoppinsBold] text-egg-dark">
               Personal Information
             </h2>
 
@@ -341,7 +341,7 @@ const TeacherRegistrationPage = () => {
           {/* Address */}
           {/* ---------------------------------------- */}
           <section>
-            <h2 className="mb-4 text-lg font-semibold text-egg-dark">
+            <h2 className="mb-4 text-lg font-[PoppinsBold] text-egg-dark">
               Address
             </h2>
 
@@ -395,7 +395,7 @@ const TeacherRegistrationPage = () => {
             <button
               type="submit"
               disabled={submitting}
-              className="rounded-md bg-swamp-green px-6 py-2.5 text-sm font-medium text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md bg-swamp-green px-6 py-2.5 text-sm text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? "Submitting..." : "Submit Registration"}
             </button>
@@ -420,7 +420,7 @@ const FormInput = ({
 }) => {
   return (
     <div>
-      <label className="mb-1 block text-sm font-medium text-gray-700">
+      <label className="mb-1 block text-sm text-gray-700">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </label>
@@ -451,7 +451,7 @@ const FormSelect = ({
 }) => {
   return (
     <div>
-      <label className="mb-1 block text-sm font-medium text-gray-700">
+      <label className="mb-1 block text-sm text-gray-700">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </label>

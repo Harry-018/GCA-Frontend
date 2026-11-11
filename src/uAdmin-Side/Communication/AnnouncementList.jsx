@@ -201,7 +201,7 @@ const AnnouncementList = () => {
             <button
               type="button"
               onClick={() => navigate("/admin/communication")}
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[11px] text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[11px] lg:text-xs xl:text-sm text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
@@ -209,7 +209,7 @@ const AnnouncementList = () => {
             <button
               type="button"
               onClick={() => setIsAddOpen(true)}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[11px] font-[PoppinsBold] text-white hover:bg-[#899d6d]"
+              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-white hover:bg-swamp-green/80"
             >
               + Add Announcement
             </button>

@@ -17,7 +17,7 @@ const EditScheduleModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center font-[Poppins] justify-center bg-black/20 p-5">
       <div className="w-full max-w-md rounded-2xl bg-[#f4f5fc] px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
-        <h2 className="font-[PoppinsBold] text-[12px] text-swamp-green">
+        <h2 className="font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm text-swamp-green">
           Edit Schedule
         </h2>
 
@@ -181,7 +181,7 @@ const EditScheduleModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="h-7.5 rounded-full border border-gray-400 bg-transparent font-[PoppinsBold] text-[11px] text-gray-500"
+            className="h-7.5 rounded-full border border-gray-400 bg-transparent font-[PoppinsBold] text-[11px] lg:text-xs xl:text-sm text-gray-500"
           >
             Cancel
           </button>
@@ -189,7 +189,7 @@ const EditScheduleModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="h-7.5 rounded-full bg-[#9aae7b] font-[PoppinsBold] text-[11px] text-bone"
+            className="h-7.5 rounded-full bg-swamp-green font-[PoppinsBold] text-[11px] lg:text-xs xl:text-sm text-bone"
           >
             Save
           </button>

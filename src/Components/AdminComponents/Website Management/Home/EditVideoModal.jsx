@@ -14,8 +14,8 @@ const EditVideoModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="max-h-[95vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-sm">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
+        <h2 className=" text-[9px] font-[PoppinsBold] text-swamp-green sm:text-sm">
           Edit Video
         </h2>
 
@@ -63,7 +63,7 @@ const EditVideoModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] font-semibold text-[#555555] transition hover:bg-bone sm:text-xs"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 text-[9px] font-[PoppinsBold] text-[#555555] transition hover:bg-bone sm:text-xs"
           >
             Close
           </button>
@@ -72,7 +72,7 @@ const EditVideoModal = ({
             type="button"
             onClick={onSave}
             disabled={loading}
-            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             {loading ? (
               <>

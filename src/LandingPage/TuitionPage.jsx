@@ -4,6 +4,7 @@ import TuitionBanner from "../Components/LandingpageComponents/Tuition/TuitionBa
 import TuitionFees from "../Components/LandingpageComponents/Tuition/TuitionFees";
 import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
+import HomeSidebar from "../Components/HomeSidebar.jsx";
 
 import {
   getTuition,
@@ -18,6 +19,7 @@ const BANNER_PROPS = {
 };
 
 const TuitionPage = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [gradeLevels, setGradeLevels] = useState([]);
   const [activeLevel, setActiveLevel] = useState("");
   const [tuitionData, setTuitionData] = useState([]);
@@ -178,7 +180,9 @@ const TuitionPage = () => {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <LoginHeader />
+      <LoginHeader onMenuToggle={() => setSidebarOpen(true)} />
+
+      <HomeSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex w-full flex-col overflow-x-hidden">
         <div className="flex w-full flex-1 flex-col bg-egg px-3 pt-4 pb-10 font-[Poppins] text-egg-dark sm:px-5 sm:pt-6 sm:pb-12 lg:px-6 lg:pt-7 lg:pb-14">

@@ -76,7 +76,7 @@ const Footer = () => {
                     onClick={() =>
                       window.scrollTo({ top: 0, behavior: "smooth" })
                     }
-                    className="flex w-fit items-center gap-1.5 rounded-lg bg-bone/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-bone/20 hover:text-lime-green"
+                    className="flex w-fit items-center gap-1.5 rounded-lg bg-bone/10 px-2.5 py-1.5 text-[9px] sm:text-xs transition-colors hover:bg-bone/20 hover:text-lime-green"
                   >
                     <Icon className="h-3 w-3 shrink-0 text-lime-green" />
                     {link.label}
@@ -95,7 +95,7 @@ const Footer = () => {
                     onClick={() =>
                       window.scrollTo({ top: 0, behavior: "smooth" })
                     }
-                    className="flex w-fit items-center gap-1.5 rounded-lg bg-bone/10 px-2.5 py-1.5 text-[9px] transition-colors hover:bg-bone/20 hover:text-lime-green"
+                    className="flex w-fit items-center gap-1.5 rounded-lg bg-bone/10 px-2.5 py-1.5 text-[9px] sm:text-xs transition-colors hover:bg-bone/20 hover:text-lime-green"
                   >
                     <Icon className="h-3 w-3 shrink-0 text-lime-green" />
                     {link.label}

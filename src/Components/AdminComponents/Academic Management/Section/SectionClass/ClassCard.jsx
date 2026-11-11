@@ -23,7 +23,7 @@ const ClassCard = ({ section, onDelete, onClassInformation }) => {
         <button
           type="button"
           onClick={onClassInformation}
-          className="h-9 w-full whitespace-nowrap rounded-full bg-[#9caf7e] font-[Poppins] text-xs text-white hover:bg-[#899d6d]"
+          className="h-9 w-full whitespace-nowrap rounded-full bg-swamp-green font-[Poppins] text-xs text-white hover:bg-swamp-green/80"
         >
           Class Information
         </button>

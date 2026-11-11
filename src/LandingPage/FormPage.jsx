@@ -233,7 +233,7 @@ function FormPage() {
                 type="button"
                 onClick={() => setStep(1)}
                 disabled={step === 1}
-                className="w-full rounded-md bg-[#f5f4f2] px-6 py-2.5 text-sm font-semibold uppercase text-neutral-500 shadow-sm transition hover:bg-neutral-200 disabled:opacity-50 sm:w-auto"
+                className="w-full rounded-md bg-[#f5f4f2] px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-neutral-500 shadow-sm transition hover:bg-neutral-200 disabled:opacity-50 sm:w-auto"
               >
                 Prev
               </button>
@@ -245,7 +245,7 @@ function FormPage() {
                   (step === 1 && !formData.grade_level_id) ||
                   (step === 2 && !agreed)
                 }
-                className="w-full rounded-md bg-swamp-green px-6 py-2.5 text-sm font-semibold uppercase text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto"
+                className="w-full rounded-md bg-swamp-green px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto"
               >
                 {step === 1 ? "Next" : "Review"}
               </button>
@@ -266,12 +266,12 @@ function FormPage() {
       />
 
       {isSubmitting && (
-        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40">
-          <div className="flex w-70 flex-col items-center gap-4 rounded-xl bg-bone p-6 shadow-xl">
+        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40 px-4">
+          <div className="flex w-full max-w-70 flex-col items-center gap-4 rounded-xl bg-bone p-6 shadow-xl">
             <Loader2 size={32} className="animate-spin text-swamp-green" />
 
             <div className="text-center">
-              <p className="text-sm font-semibold text-neutral-700">
+              <p className="text-sm font-[PoppinsBold] text-neutral-700">
                 Submitting Application
               </p>
 
