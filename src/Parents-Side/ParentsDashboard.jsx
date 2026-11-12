@@ -81,9 +81,9 @@ const ParentsDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-swamp-green" />
-        <p className="text-sm text-gray-400">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-linear-to-br from-[#0f2419] via-[#1c3a28] to-parent-accent font-[Poppins]">
+        <Loader2 size={32} className="animate-spin text-parent-pale" />
+        <p className="text-sm text-white/70">
           Loading Dashboard
           <span className="loading-dots">
             <span></span>
@@ -97,14 +97,14 @@ const ParentsDashboard = () => {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
+      <div className="flex min-h-screen items-center justify-center bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
         <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#ebe9e4] px-5 py-6 font-[Poppins] cursor-default">
+    <div className="min-h-screen bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] px-5 py-6 font-[Poppins] cursor-default">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
         {/* Students */}
         <div className="flex flex-col gap-4 rounded-3xl">
@@ -119,7 +119,7 @@ const ParentsDashboard = () => {
           ))}
         </div>
 
-        <span className="mx-auto max-w-7xl w-full text-sm font-[PoppinsBold] text-swamp-green sm:text-lg md:text-md uppercase">
+        <span className="mx-auto max-w-7xl w-full text-sm font-[PoppinsBold] text-parent-green sm:text-lg md:text-md uppercase">
           Recent Announcements
         </span>
         <div
@@ -138,7 +138,7 @@ const ParentsDashboard = () => {
             <div
               key={i}
               className={`h-2 w-2 rounded-full transition-all ${
-                i === activeIndex ? "w-4 bg-black" : "bg-black/30"
+                i === activeIndex ? "w-4 bg-parent-accent" : "bg-parent-accent/30"
               }`}
             />
           ))}

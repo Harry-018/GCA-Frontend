@@ -2,9 +2,9 @@ import { MessageSquareText } from "lucide-react";
 
 function Remarks({ remarks, quarters, selectedQuarter, onQuarterChange }) {
   return (
-    <div className="flex flex-col gap-4 rounded-3xl border border-swamp-green/10 bg-bone p-4 shadow-sm font-[Poppins] md:p-6">
+    <div className="flex flex-col gap-4 rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm font-[Poppins] md:p-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h2 className="flex items-center gap-2 text-sm font-[PoppinsBold] text-swamp-green md:text-lg">
+        <h2 className="flex items-center gap-2 text-sm font-[PoppinsBold] text-parent-green md:text-lg">
           <MessageSquareText className="size-5 md:size-6" />
           Teacher Remarks
         </h2>
@@ -22,8 +22,8 @@ function Remarks({ remarks, quarters, selectedQuarter, onQuarterChange }) {
                 onClick={() => onQuarterChange(quarterNumber)}
                 className={`rounded-full px-3 py-1.5 text-[9px] font-[PoppinsBold] transition lg:text-2xs ${
                   isSelected
-                    ? "bg-swamp-green text-white"
-                    : "bg-gray-100 text-swamp-green hover:bg-swamp-green/10"
+                    ? "bg-linear-to-r from-[#1c3a28] to-parent-accent text-white shadow-sm"
+                    : "bg-[#f3f8f1] text-parent-green hover:bg-parent-accent/10"
                 }`}
               >
                 {quarter}
@@ -33,9 +33,9 @@ function Remarks({ remarks, quarters, selectedQuarter, onQuarterChange }) {
         </div>
       </div>
 
-      <div className="rounded-xl border border-gray-200 bg-gray-50 px-4 py-4 md:px-5 md:py-5">
+      <div className="rounded-xl border border-parent-accent/15 bg-[#f3f8f1] px-4 py-4 md:px-5 md:py-5">
         <p className="text-xs md:text-sm leading-7 text-gray-600">{remarks}</p>
-        <p className="border-t border-gray-200 pt-3 text-xs md:text-sm font-[PoppinsBold] text-swamp-green">
+        <p className="border-t border-parent-accent/15 pt-3 text-xs md:text-sm font-[PoppinsBold] text-parent-green">
           Thank you and God bless!
         </p>
       </div>

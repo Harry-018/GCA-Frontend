@@ -13,7 +13,7 @@ const GradeModal = ({
         
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4">
-          <h2 className="text-xs font-[PoppinsBold] text-swamp-green md:text-sm lg:text-base">
+          <h2 className="text-xs font-[PoppinsBold] text-parent-green md:text-sm lg:text-base">
             {title}
           </h2>
 
@@ -38,8 +38,8 @@ const GradeModal = ({
                 onClick={() => onQuarterChange(quarterNumber)}
                 className={`rounded-full px-2 py-2 text-[9px] font-[PoppinsBold] transition lg:text-2xs ${
                   isSelected
-                    ? "bg-swamp-green text-white"
-                    : "text-swamp-green hover:bg-swamp-green/10"
+                    ? "bg-linear-to-r from-[#1c3a28] to-parent-accent text-white shadow-sm"
+                    : "text-parent-green hover:bg-parent-accent/10"
                 }`}
               >
                 {quarter}
@@ -55,12 +55,12 @@ const GradeModal = ({
               key={item.skill}
               className={`flex items-center justify-between py-3 ${
                 index !== items.length - 1
-                  ? "border-b border-gray-300"
+                  ? "border-b border-parent-accent/15"
                   : ""
               }`}
             >
               <div className="flex min-w-0 flex-col gap-1 pr-4">
-                <p className="text-2xs font-[PoppinsBold] text-swamp-green lg:text-xs">
+                <p className="text-2xs font-[PoppinsBold] text-parent-green lg:text-xs">
                   {item.skill}
                 </p>
 
@@ -71,7 +71,7 @@ const GradeModal = ({
                 )}
               </div>
 
-              <span className="shrink-0 text-2xl px-5 font-[PoppinsBold] text-swamp-green lg:text-3xl">
+              <span className="shrink-0 text-2xl px-5 font-[PoppinsBold] text-parent-green lg:text-3xl">
                 {item.grade}
               </span>
             </div>

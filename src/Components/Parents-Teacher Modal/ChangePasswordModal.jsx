@@ -35,9 +35,9 @@ const ChangePasswordModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/20 px-4 py-6">
-      <div className="my-auto w-full max-w-md rounded-2xl bg-[#F5F6FF] px-4 py-4 shadow-lg sm:px-5">
+      <div className="my-auto w-full max-w-md rounded-2xl bg-[#f3f8f1] px-4 py-4 shadow-lg sm:px-5">
         <div className="flex flex-col gap-1">
-          <h2 className="text-sm font-[PoppinsBold] text-swamp-green">
+          <h2 className="text-sm font-[PoppinsBold] text-parent-green">
             Security Settings
           </h2>
           <p className="text-2xs text-gray-600">
@@ -63,7 +63,7 @@ const ChangePasswordModal = ({
                   onChange={(e) =>
                     handleChange(field.key, e.target.value)
                   }
-                  className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 pr-10 text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none placeholder:text-gray-400 focus:border-swamp-green"
+                  className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 pr-10 text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none placeholder:text-gray-400 focus:border-parent-accent"
                 />
 
                 {field.key !== "current" && (
@@ -97,7 +97,7 @@ const ChangePasswordModal = ({
           <button
             type="button"
             onClick={handleSave}
-            className="rounded-full bg-swamp-green px-6 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:bg-swamp-green/80"
+            className="rounded-full bg-linear-to-r from-[#1c3a28] to-parent-accent px-6 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:from-[#0f2419] hover:to-parent-accent"
           >
             SAVE
           </button>
