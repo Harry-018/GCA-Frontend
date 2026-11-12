@@ -11,7 +11,7 @@ import {
 } from "../requests/settingsRequests.js";
 
 const inputClass =
-  "w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-xs sm:text-sm text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green focus:ring-1 focus:ring-lime-green";
+  "w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-xs sm:text-sm text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent focus:ring-1 focus:ring-lime-green";
 
 const labelClass = "font-[Poppins] text-xs sm:text-sm text-[#555555]";
 
@@ -212,7 +212,7 @@ const AdminSectionName = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <SettingHeader />
 
       <div className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto">
@@ -243,7 +243,7 @@ const AdminSectionName = () => {
                 type="button"
                 onClick={handleAddSection}
                 disabled={!newSection.trim() || saving}
-                className="flex shrink-0 items-center gap-1 rounded-full bg-swamp-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex shrink-0 items-center gap-1 rounded-full bg-parent-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Plus size={14} strokeWidth={2.5} />
 
@@ -254,13 +254,13 @@ const AdminSectionName = () => {
 
           <div className="pt-6">
             {loading ? (
-              <div className="rounded-2xl border border-dashed border-[#cfcfcf] px-6 py-10 text-center">
+              <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
                 <p className="font-[Poppins] text-sm text-[#999999]">
                   Loading section names...
                 </p>
               </div>
             ) : sectionNames.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-[#cfcfcf] px-6 py-10 text-center">
+              <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
                 <p className="font-[Poppins] text-sm text-[#999999]">
                   No section names yet. Add one above to get started.
                 </p>
@@ -278,7 +278,7 @@ const AdminSectionName = () => {
                       key={section.section_name_id}
                       className={`flex w-full flex-col gap-y-4 rounded-2xl border bg-bone p-4 shadow-sm transition sm:p-5 ${
                         isEditing
-                          ? "border-lime-green ring-1 ring-lime-green"
+                          ? "border-parent-accent ring-1 ring-lime-green"
                           : isPendingArchive
                             ? "border-red-300"
                             : "border-gray-100"
@@ -300,7 +300,7 @@ const AdminSectionName = () => {
                               }
                             }}
                             autoFocus
-                            className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-1.5 text-xs font-[Poppins] text-[#555555] outline-none focus:border-lime-green"
+                            className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-1.5 text-xs font-[Poppins] text-[#555555] outline-none focus:border-parent-accent"
                             aria-label={`Edit section name ${section.section_name}`}
                           />
 
@@ -309,7 +309,7 @@ const AdminSectionName = () => {
                             onClick={handleSaveSection}
                             disabled={saving}
                             aria-label="Save section name"
-                            className="shrink-0 rounded-full bg-swamp-green p-2 text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40"
+                            className="shrink-0 rounded-full bg-parent-green p-2 text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-40"
                           >
                             <Check size={14} />
                           </button>
@@ -356,7 +356,7 @@ const AdminSectionName = () => {
                         </div>
                       ) : (
                         <div className="flex items-center justify-between gap-2">
-                          <h2 className="truncate font-[PoppinsBold] text-md text-swamp-green">
+                          <h2 className="truncate font-[PoppinsBold] text-md text-parent-green">
                             {section.section_name}
                           </h2>
 
@@ -365,7 +365,7 @@ const AdminSectionName = () => {
                               type="button"
                               onClick={() => startEditSection(section)}
                               aria-label={`Edit ${section.section_name}`}
-                              className="rounded-full p-2 text-gray-500 transition hover:text-swamp-green"
+                              className="rounded-full p-2 text-gray-500 transition hover:text-parent-green"
                             >
                               <Pencil size={15} />
                             </button>
@@ -405,13 +405,13 @@ const AdminSectionName = () => {
           </div>
 
           {loadingArchived ? (
-            <div className="rounded-2xl border border-dashed border-[#cfcfcf] px-6 py-10 text-center">
+            <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
               <p className="font-[Poppins] text-sm text-[#999999]">
                 Loading archived section names...
               </p>
             </div>
           ) : archivedSectionNames.length === 0 ? (
-            <div className="rounded-2xl border border-dashed border-[#cfcfcf] px-6 py-10 text-center">
+            <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
               <p className="font-[Poppins] text-sm text-[#999999]">
                 No archived section names.
               </p>
@@ -427,7 +427,7 @@ const AdminSectionName = () => {
                     key={section.section_name_id}
                     className={`flex w-full flex-col gap-y-4 rounded-2xl border bg-bone p-4 shadow-sm transition sm:p-5 ${
                       isPendingRestore
-                        ? "border-swamp-green ring-1 ring-swamp-green"
+                        ? "border-parent-green ring-1 ring-parent-accent"
                         : "border-gray-100"
                     }`}
                   >
@@ -445,7 +445,7 @@ const AdminSectionName = () => {
                             type="button"
                             onClick={confirmRestoreSection}
                             disabled={saving}
-                            className="rounded-full bg-swamp-green px-3 py-1.5 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40"
+                            className="rounded-full bg-parent-green px-3 py-1.5 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-40"
                           >
                             Restore
                           </button>
@@ -470,7 +470,7 @@ const AdminSectionName = () => {
                           type="button"
                           onClick={() => requestRestoreSection(section)}
                           aria-label={`Restore ${section.section_name}`}
-                          className="rounded-full p-2 text-gray-400 transition hover:text-swamp-green"
+                          className="rounded-full p-2 text-gray-400 transition hover:text-parent-green"
                         >
                           <RotateCcw size={15} />
                         </button>

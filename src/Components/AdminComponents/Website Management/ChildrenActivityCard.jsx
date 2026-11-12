@@ -6,11 +6,11 @@ const ChildrenActivityCard = ({
   onRemove,
 }) => {
   return (
-    <div className="flex h-full min-h-0 w-full shrink-0 flex-col rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
+    <div className="flex h-full min-h-0 w-full shrink-0 flex-col rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
       <div>
         <label className="text-[9px] sm:text-xs text-gray-600">Title:</label>
 
-        <div className="mt-1 min-h-8.75 rounded-lg border border-gray-300 bg-bone px-3 py-2 text-[9px] sm:text-xs text-gray-500">
+        <div className="mt-1 min-h-8.75 rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 text-[9px] sm:text-xs text-gray-500">
           {title}
         </div>
       </div>
@@ -21,7 +21,7 @@ const ChildrenActivityCard = ({
           Description:
         </label>
 
-        <div className="mt-1 h-full flex-1 rounded-lg border border-gray-300 bg-bone px-3 py-2 text-[9px] sm:text-xs leading-relaxed text-gray-500">
+        <div className="mt-1 h-full flex-1 rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 text-[9px] sm:text-xs leading-relaxed text-gray-500">
           {description}
         </div>
       </div>
@@ -44,7 +44,7 @@ const ChildrenActivityCard = ({
         <button
           type="button"
           onClick={onEdit}
-          className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-[9px] sm:text-xs text-gray-600 transition hover:bg-gray-100"
+          className="flex-1 rounded-full border border-parent-accent/25 px-4 py-2 text-[9px] sm:text-xs text-gray-600 transition hover:bg-gray-100"
         >
           Edit
         </button>

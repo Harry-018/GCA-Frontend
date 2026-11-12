@@ -5,7 +5,7 @@ const ParentsToolbar = ({ searchValue, onSearchChange, onSearch }) => {
   return (
     <div className="flex w-full flex-col gap-2 py-1 md:h-11 md:flex-row md:items-center md:justify-between md:gap-0">
       <div className="flex items-center gap-2">
-        <h2 className="font-[PoppinsBold] text-md text-swamp-green">Parents</h2>
+        <h2 className="font-[PoppinsBold] text-md text-parent-green">Parents</h2>
       </div>
 
       <div className="ml-auto flex w-full items-center gap-2 md:w-auto md:flex-none md:ml-3">
@@ -20,14 +20,14 @@ const ParentsToolbar = ({ searchValue, onSearchChange, onSearch }) => {
             value={searchValue}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search Parent"
-            className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-xs text-gray-700 outline-none focus:border-swamp-green"
+            className="h-8 w-full rounded-full border border-parent-accent/25 bg-white/80 pl-8 pr-4 text-xs text-gray-700 outline-none focus:border-parent-green"
           />
         </div>
 
         <button
           type="button"
           onClick={onSearch}
-          className="h-8 shrink-0 rounded-full bg-swamp-green px-6 text-xs text-white transition hover:bg-swamp-green/80"
+          className="h-8 shrink-0 rounded-full bg-parent-green px-6 text-xs text-white transition hover:bg-parent-accent"
         >
           Search
         </button>

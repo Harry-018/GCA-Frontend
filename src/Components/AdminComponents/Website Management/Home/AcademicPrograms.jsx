@@ -10,9 +10,9 @@ const AcademicPrograms = ({
     programs.find((program) => program.name === selectedProgram) || programs[0];
 
   return (
-    <section className="rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
+    <section className="rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-[9px] sm:text-sm font-[PoppinsBold] text-swamp-green">
+        <h2 className="text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
           Academic Programs
         </h2>
 
@@ -20,7 +20,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onEdit}
-            className="rounded-full border border-gray-300 px-5 py-2 text-[9px] sm:text-xs text-gray-600 hover:bg-gray-100"
+            className="rounded-full border border-parent-accent/25 px-5 py-2 text-[9px] sm:text-xs text-gray-600 hover:bg-gray-100"
           >
             Edit
           </button>
@@ -28,7 +28,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-full bg-swamp-green px-5 py-2 text-[9px] sm:text-xs text-white hover:bg-lime-green"
+            className="rounded-full bg-parent-green px-5 py-2 text-[9px] sm:text-xs text-white hover:bg-parent-accent"
           >
             Add
           </button>
@@ -55,8 +55,8 @@ const AcademicPrograms = ({
               onClick={() => onProgramChange?.(program.name)}
               className={`rounded-full px-3 py-1 text-[9px] sm:text-xs transition ${
                 isActive
-                  ? "bg-swamp-green text-white"
-                  : "text-gray-600 hover:bg-swamp-green/20"
+                  ? "bg-parent-green text-white"
+                  : "text-gray-600 hover:bg-parent-accent/15"
               }`}
             >
               {program.name}
@@ -75,7 +75,7 @@ const AcademicPrograms = ({
                   Min. Age:
                 </label>
 
-                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-gray-300 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
+                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-parent-accent/25 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
                   {activeProgram.minAge}
                 </div>
               </div>
@@ -85,7 +85,7 @@ const AcademicPrograms = ({
                   Max. Age:
                 </label>
 
-                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-gray-300 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
+                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-parent-accent/25 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
                   {activeProgram.maxAge}
                 </div>
               </div>
@@ -109,7 +109,7 @@ const AcademicPrograms = ({
               Description:
             </label>
 
-            <div className="mt-1 min-h-15 rounded-lg border border-gray-300 bg-bone px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
+            <div className="mt-1 min-h-15 rounded-lg border border-parent-accent/25 bg-bone px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
               {activeProgram.description}
             </div>
           </div>

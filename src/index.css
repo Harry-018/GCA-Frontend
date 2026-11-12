@@ -16,6 +16,12 @@
   }
 }
 
+@media (max-width: 425px) {
+  table th {
+    white-space: nowrap;
+  }
+}
+
 body {
   margin: 0;
   font-family: "Poppins", "PoppinsBold";
@@ -351,6 +357,10 @@ body {
 
 @theme {
   --color-forest-green: #133215;
+  --color-parent-green: #2f6b45;
+  --color-parent-accent: #3f7a4f;
+  --color-parent-mint: #a9d6b8;
+  --color-parent-pale: #d7efdd;
   --color-lime-green: #92b775;
   --color-swamp-green: #97a97c;
   --color-swamp-lite: #e5ecda;

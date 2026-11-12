@@ -69,8 +69,8 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className=" text-sm font-[PoppinsBold] text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className=" text-sm font-[PoppinsBold] text-parent-green">
           Edit School Year
         </h2>
 
@@ -87,7 +87,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
                 name="schoolYear"
                 value={formData.schoolYear}
                 disabled
-                className="w-full rounded-lg border border-gray-300 bg-gray-100 px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none"
+                className="w-full rounded-lg border border-parent-accent/25 bg-gray-100 px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none"
               />
             </div>
 
@@ -100,7 +100,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
                 name="sy_status"
                 value={formData.sy_status}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-swamp-green"
+                className="w-full rounded-lg border border-parent-accent/25 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-parent-green"
               >
                 <option value="draft">Draft</option>
                 <option value="active">Active</option>
@@ -119,7 +119,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
               name="enrollment_status"
               value={formData.enrollment_status}
               onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-swamp-green"
+              className="w-full rounded-lg border border-parent-accent/25 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-parent-green"
             >
               <option value="open">Open</option>
               <option value="closed">Closed</option>
@@ -139,7 +139,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
                 value={formData.start}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-swamp-green"
+                className="w-full rounded-lg border border-parent-accent/25 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-parent-green"
               />
             </div>
 
@@ -154,7 +154,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
                 value={formData.end}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-swamp-green"
+                className="w-full rounded-lg border border-parent-accent/25 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-600 outline-none focus:border-parent-green"
               />
             </div>
           </div>
@@ -164,14 +164,14 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
+              className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="w-1/2 rounded-full bg-swamp-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-swamp-green/80"
+              className="w-1/2 rounded-full bg-parent-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
             >
               Edit
             </button>

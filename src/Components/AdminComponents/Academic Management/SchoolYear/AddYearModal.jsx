@@ -52,8 +52,8 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className=" text-sm font-[PoppinsBold] text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className=" text-sm font-[PoppinsBold] text-parent-green">
           Add School Year
         </h2>
 
@@ -71,7 +71,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.schoolYear}
                 placeholder="----"
                 disabled
-                className="w-full rounded-lg border border-gray-300 bg-gray-100 px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none"
+                className="w-full rounded-lg border border-parent-accent/25 bg-gray-100 px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none"
               />
             </div>
 
@@ -84,7 +84,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 name="enrollment_status"
                 value={formData.enrollment_status}
                 onChange={handleChange}
-                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-swamp-green"
+                className="w-full rounded-lg border border-parent-accent/25 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-parent-green"
               >
                 <option value="closed">Closed</option>
                 <option value="open">Open</option>
@@ -105,7 +105,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.start}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-swamp-green"
+                className="w-full rounded-lg border border-parent-accent/25 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-parent-green"
               />
             </div>
 
@@ -120,7 +120,7 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.end}
                 onChange={handleChange}
                 required
-                className="w-full rounded-lg border border-gray-300 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-swamp-green"
+                className="w-full rounded-lg border border-parent-accent/25 bg-bone px-2 py-1 font-[Poppins] text-2xs text-gray-500 outline-none focus:border-parent-green"
               />
             </div>
           </div>
@@ -130,14 +130,14 @@ const AddYearModal = ({ isOpen, onClose, onAdd }) => {
             <button
               type="button"
               onClick={handleClose}
-              className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
+              className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="w-1/2 rounded-full bg-swamp-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-swamp-green/80"
+              className="w-1/2 rounded-full bg-parent-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
             >
               Add
             </button>

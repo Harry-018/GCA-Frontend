@@ -20,8 +20,8 @@ const GradeLevelCard = ({
             onClick={() => onGradeChange(grade.grade_level_id)}
             className={`rounded-full px-4 py-2 font-[Poppins] text-[9px] sm:text-xs transition ${
               activeGrade === grade.grade_level_id
-                ? "bg-swamp-green text-white"
-                : "text-[#555555] hover:bg-swamp-green/20"
+                ? "bg-parent-green text-white"
+                : "text-[#555555] hover:bg-parent-accent/15"
             }`}
           >
             {grade.grade_level_name}
@@ -30,9 +30,9 @@ const GradeLevelCard = ({
       </div>
 
       {/* Grade Level Card */}
-      <div className="flex flex-1 flex-col rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-4 shadow-sm sm:p-7">
+      <div className="flex flex-1 flex-col rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-sm sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className=" text-[9px] sm:text-sm font-[PoppinsBold] uppercase text-swamp-green">
+          <h3 className=" text-[9px] sm:text-sm font-[PoppinsBold] uppercase text-parent-green">
             {title}
           </h3>
 
@@ -40,7 +40,7 @@ const GradeLevelCard = ({
             <button
               type="button"
               onClick={onEdit}
-              className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs text-[#555555] transition hover:bg-bone"
+              className="rounded-full border border-parent-accent/30 px-5 py-2 font-[Poppins] text-[9px] sm:text-xs text-[#555555] transition hover:bg-bone"
             >
               Edit
             </button>
@@ -62,7 +62,7 @@ const GradeLevelCard = ({
               key={fee.key || fee.name}
               className={`flex items-center justify-between py-3.5 ${
                 index !== fees.length - 1
-                  ? "border-b border-[#dddddd]"
+                  ? "border-b border-parent-accent/20"
                   : "border-b border-[#aaaaaa]"
               }`}
             >
@@ -91,7 +91,7 @@ const GradeLevelCard = ({
             Subtotal:
           </span>
 
-          <span className=" text-[9px] font-[PoppinsBold] text-swamp-green sm:text-base">
+          <span className=" text-[9px] font-[PoppinsBold] text-parent-green sm:text-base">
             {subtotal}
           </span>
         </div>

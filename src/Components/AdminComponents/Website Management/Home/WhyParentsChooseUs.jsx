@@ -1,15 +1,15 @@
 const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
   return (
-    <section className="rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
+    <section className="rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
       <div className="flex items-center justify-between">
-        <h2 className="rounded-full text-xs sm:text-sm font-[PoppinsBold] text-swamp-green">
+        <h2 className="rounded-full text-xs sm:text-sm font-[PoppinsBold] text-parent-green">
           Why Parent's Choose Us?
         </h2>
 
         <button
           type="button"
           onClick={onAdd}
-          className="rounded-full bg-swamp-green px-5 py-2 text-[9px] sm:text-xs text-white transition hover:bg-lime-green"
+          className="rounded-full bg-parent-green px-5 py-2 text-[9px] sm:text-xs text-white transition hover:bg-parent-accent"
         >
           Add
         </button>
@@ -19,14 +19,14 @@ const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
       <div className="flex flex-col gap-3 pt-10">
         {reasons.map((reason) => (
           <div key={reason.id} className="flex flex-wrap items-center gap-2">
-            <div className="min-w-0 flex-1 rounded-lg border border-gray-300 bg-bone px-3 py-2.5 text-[9px] sm:text-xs text-gray-500">
+            <div className="min-w-0 flex-1 rounded-lg border border-parent-accent/25 bg-bone px-3 py-2.5 text-[9px] sm:text-xs text-gray-500">
               {reason.text}
             </div>
 
             <button
               type="button"
               onClick={() => onEdit?.(reason)}
-              className="rounded-full border border-gray-300 px-5 py-2 text-[9px] sm:text-xs text-gray-600 transition hover:bg-gray-100"
+              className="rounded-full border border-parent-accent/25 px-5 py-2 text-[9px] sm:text-xs text-gray-600 transition hover:bg-gray-100"
             >
               Edit
             </button>

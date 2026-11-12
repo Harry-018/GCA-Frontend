@@ -3,7 +3,7 @@ import React from "react";
 const ParentsTable = ({ parents, columns }) => {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-bone shadow-sm">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-sm">
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto thin-scrollbar">
           <table className="w-full border-separate border-spacing-0">
             <thead className="sticky top-0">
@@ -11,7 +11,7 @@ const ParentsTable = ({ parents, columns }) => {
                 {columns.map((column) => (
                   <th
                     key={column.key}
-                    className="whitespace-nowrap px-6 py-5 text-left text-xs font-[PoppinsBold] text-swamp-green lg:text-sm xl:text-base"
+                    className="whitespace-nowrap px-6 py-5 text-left text-xs font-[PoppinsBold] text-parent-green lg:text-sm xl:text-base"
                   >
                     {column.label}
                   </th>
@@ -23,7 +23,7 @@ const ParentsTable = ({ parents, columns }) => {
               {parents.map((parent, index) => (
                 <tr
                   key={parent.id}
-                  className="border-b border-gray-200 text-[11px] text-gray-600 last:border-b-0 lg:text-xs xl:text-sm"
+                  className="border-b border-parent-accent/15 text-[11px] text-gray-600 last:border-b-0 lg:text-xs xl:text-sm"
                 >
                   {columns.map((column) => (
                     <td

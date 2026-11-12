@@ -39,7 +39,7 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
   if (!isOpen) return null;
 
   const inputStyle =
-    "w-full rounded-lg border border-gray-300 bg-bone px-3 py-2 text-xs text-gray-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green";
+    "w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 text-xs text-gray-700 outline-none focus:border-parent-green focus:ring-1 focus:ring-parent-accent";
 
   const labelStyle = "text-2xs text-gray-600";
 
@@ -64,10 +64,10 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-gray-200 bg-[#f4f6ff] p-5 shadow-lg">
+      <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-[PoppinsBold] text-swamp-green">Add Announcement</h2>
+          <h2 className="text-sm font-[PoppinsBold] text-parent-green">Add Announcement</h2>
 
           <button
             type="button"
@@ -208,14 +208,14 @@ const AddAnnouncementModal = ({ isOpen, onClose, onAdd }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-1/2 rounded-full border border-gray-300 px-4 py-2 text-xs font-[PoppinsBold] text-gray-500 transition-colors hover:bg-gray-100"
+              className="w-1/2 rounded-full border border-parent-accent/25 px-4 py-2 text-xs font-[PoppinsBold] text-gray-500 transition-colors hover:bg-gray-100"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="w-1/2 rounded-full bg-swamp-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition-colors hover:bg-swamp-green/80"
+              className="w-1/2 rounded-full bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition-colors hover:bg-parent-accent"
             >
               Add
             </button>

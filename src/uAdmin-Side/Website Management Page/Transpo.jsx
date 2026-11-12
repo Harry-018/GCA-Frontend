@@ -117,12 +117,12 @@ const Transpo = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header activeTab="transportation" />
 
       {/* Page header */}
       <div className="flex items-center justify-between px-1">
-        <h2 className="text-sm font-[PoppinsBold] text-swamp-green sm:text-base">
+        <h2 className="text-sm font-[PoppinsBold] text-parent-green sm:text-base">
           Transportation
         </h2>
 
@@ -132,7 +132,7 @@ const Transpo = () => {
             setEditingRoute(null);
             setAddOpen(true);
           }}
-          className="rounded-full bg-swamp-green px-5 py-2 text-[9px] text-white transition hover:bg-swamp-green/80 sm:text-xs"
+          className="rounded-full bg-parent-green px-5 py-2 text-[9px] text-white transition hover:bg-parent-accent sm:text-xs"
         >
           Add
         </button>
@@ -155,7 +155,7 @@ const Transpo = () => {
           routes.map((cityGroup) => (
             <section key={cityGroup.city} className="pb-6">
               <div className="pb-3">
-                <h2 className="rounded-full text-md font-[PoppinsBold] text-swamp-green">
+                <h2 className="rounded-full text-md font-[PoppinsBold] text-parent-green">
                   {cityGroup.city}
                 </h2>
               </div>

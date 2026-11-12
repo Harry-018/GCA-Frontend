@@ -20,7 +20,7 @@ const RemoveStudentModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="w-full max-w-md rounded-2xl bg-bone shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
           <div className="flex items-center gap-3">
             <h2 className="font-[PoppinsBold] text-base text-gray-700">
               Remove Student
@@ -43,12 +43,12 @@ const RemoveStudentModal = ({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-2 border-t border-gray-200 px-6 py-4">
+        <div className="flex justify-end gap-2 border-t border-parent-accent/15 px-6 py-4">
           <button
             type="button"
             onClick={onCancel}
             disabled={loading}
-            className="rounded-full border border-gray-300 px-5 py-2 text-xs text-gray-600 hover:bg-gray-100 disabled:opacity-50"
+            className="rounded-full border border-parent-accent/25 px-5 py-2 text-xs text-gray-600 hover:bg-gray-100 disabled:opacity-50"
           >
             Cancel
           </button>

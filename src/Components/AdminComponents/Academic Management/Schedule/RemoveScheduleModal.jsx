@@ -5,7 +5,7 @@ const RemoveScheduleModal = ({ isOpen, onClose, scheduleName, onRemove }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
-      <div className="flex w-full max-w-md flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
+      <div className="flex w-full max-w-md flex-col gap-y-5 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg">
         <h2 className="font-[PoppinsBold] text-base text-reject">
           Remove Schedule
         </h2>
@@ -28,7 +28,7 @@ const RemoveScheduleModal = ({ isOpen, onClose, scheduleName, onRemove }) => {
           <button
             type="button"
             onClick={onClose}
-            className="h-9 flex-1 rounded-full border border-gray-300 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+            className="h-9 flex-1 rounded-full border border-parent-accent/25 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>

@@ -62,8 +62,8 @@ const SendNotificationModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4 font-[Poppins]">
-      <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-gray-200 bg-[#f4f6ff] p-5 shadow-lg">
-        <h2 className="text-sm font-[PoppinsBold] text-swamp-green">
+      <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className="text-sm font-[PoppinsBold] text-parent-green">
           Send Notification
         </h2>
 
@@ -80,7 +80,7 @@ const SendNotificationModal = ({
                 value={selectedReminder}
                 onChange={(e) => setSelectedReminder(e.target.value)}
                 disabled={notificationTemplates.length === 0 || sending}
-                className="w-full appearance-none rounded-lg border border-gray-300 bg-bone px-3 py-1.5 pr-8 text-xs text-gray-600 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
+                className="w-full appearance-none rounded-lg border border-parent-accent/25 bg-bone px-3 py-1.5 pr-8 text-xs text-gray-600 outline-none focus:border-parent-green disabled:cursor-not-allowed disabled:bg-gray-100"
               >
                 {notificationTemplates.length === 0 ? (
                   <option value="">No reminders</option>
@@ -112,7 +112,7 @@ const SendNotificationModal = ({
                   onChange={(e) => setSelectedRecipient(e.target.value)}
                   disabled
                   // ={notificationAudiences.length === 0 || sending}
-                  className="w-full appearance-none rounded-lg border border-gray-300 bg-bone px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full appearance-none rounded-lg border border-parent-accent/25 bg-bone px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-parent-green disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   {notificationAudiences.length === 0 ? (
                     <option value="">No recipients</option>
@@ -138,7 +138,7 @@ const SendNotificationModal = ({
                   value={selectedPayment}
                   onChange={(e) => setSelectedPayment(e.target.value)}
                   disabled={paymentOptions.length === 0 || sending}
-                  className="w-full appearance-none rounded-lg border border-gray-300 bg-bone px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
+                  className="w-full appearance-none rounded-lg border border-parent-accent/25 bg-bone px-3 py-1.5 pr-7 text-xs text-gray-600 outline-none focus:border-parent-green disabled:cursor-not-allowed disabled:bg-gray-100"
                 >
                   {paymentOptions.length === 0 ? (
                     <option value="">No payment options</option>
@@ -163,7 +163,7 @@ const SendNotificationModal = ({
               type="button"
               onClick={onClose}
               disabled={sending}
-              className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-xs font-[PoppinsBold] text-gray-500 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 rounded-full border border-parent-accent/25 px-4 py-2 text-xs font-[PoppinsBold] text-gray-500 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Cancel
             </button>
@@ -176,7 +176,7 @@ const SendNotificationModal = ({
                 notificationAudiences.length === 0 ||
                 paymentOptions.length === 0
               }
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-swamp-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition-colors hover:bg-swamp-green/80 disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition-colors hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-60"
             >
               {sending && <Loader2 size={14} className="animate-spin" />}
 

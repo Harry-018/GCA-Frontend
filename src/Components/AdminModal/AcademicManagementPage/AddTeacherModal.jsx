@@ -3,8 +3,8 @@ import React from "react";
 const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-gray-300 bg-[#f4f6ff] p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl border border-parent-accent/25 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
           Add Teacher
         </h2>
 
@@ -28,7 +28,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
             name="email"
             value={email}
             onChange={onChange}
-            className="h-7 w-full rounded-lg border border-gray-400 bg-bone px-3 text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none focus:border-swamp-green"
+            className="h-7 w-full rounded-lg border border-gray-400 bg-bone px-3 text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none focus:border-parent-green"
           />
         </div>
 
@@ -45,7 +45,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
           <button
             type="button"
             onClick={() => onSend(email)}
-            className="flex h-8 flex-1 items-center justify-center rounded-full bg-swamp-green font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
+            className="flex h-8 flex-1 items-center justify-center rounded-full bg-parent-green font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
           >
             Send
           </button>

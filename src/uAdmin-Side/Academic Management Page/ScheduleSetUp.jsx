@@ -332,7 +332,7 @@ const ScheduleSetUp = () => {
             <button
               type="button"
               onClick={() => handleEdit(row.original)}
-              className="rounded-full border border-gray-300 px-3 py-1 text-xs text-gray-600 transition hover:bg-gray-100"
+              className="rounded-full border border-parent-accent/25 px-3 py-1 text-xs text-gray-600 transition hover:bg-gray-100"
             >
               Edit
             </button>
@@ -351,7 +351,7 @@ const ScheduleSetUp = () => {
   );
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
       <ScheduleToolbar
         sectionName={section}

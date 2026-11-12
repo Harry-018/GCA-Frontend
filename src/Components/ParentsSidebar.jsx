@@ -104,7 +104,7 @@ const ParentsSidebar = ({ open, onClose }) => {
           </p>
         </div>
 
-        {/* Navigation */}
+        {/* Navigation */}  
         <nav className="flex-1 px-3 py-4">
           {NAV_LINKS.map(({ to, label, icon: Icon, end }) => (
             <NavLink

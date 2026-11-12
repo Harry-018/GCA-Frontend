@@ -161,7 +161,7 @@ const Notification = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header
         activeTab={activeTab}
         onTabChange={(tab) => {
@@ -176,14 +176,14 @@ const Notification = () => {
       <div className="flex min-h-0 flex-1 flex-col gap-3">
         {/* Email Logs Header */}
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-sm font-[PoppinsBold] text-swamp-green">
+          <h2 className="text-sm font-[PoppinsBold] text-parent-green">
             Email Logs
           </h2>
 
           <button
             type="button"
             onClick={() => setIsSendOpen(true)}
-            className="rounded-full bg-swamp-green px-5 py-2 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white transition-colors hover:bg-swamp-green/80"
+            className="rounded-full bg-parent-green px-5 py-2 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white transition-colors hover:bg-parent-accent"
           >
             Send Notification
           </button>

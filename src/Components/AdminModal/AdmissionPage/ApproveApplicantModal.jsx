@@ -24,8 +24,8 @@ const ApproveApplicantModal = ({
   const today = new Date().toISOString().split("T")[0];
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
-      <div className="w-full max-w-102.5 rounded-2xl bg-[#f5f6ff] px-6 py-5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
-        <h2 className="text-base font-[PoppinsBold] text-swamp-green">
+      <div className="w-full max-w-102.5 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-6 py-5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+        <h2 className="text-base font-[PoppinsBold] text-parent-green">
           {title}
         </h2>
 
@@ -42,7 +42,7 @@ const ApproveApplicantModal = ({
         </div>
 
         <div>
-          <h3 className="pb-3 text-sm font-[PoppinsBold] text-swamp-green">
+          <h3 className="pb-3 text-sm font-[PoppinsBold] text-parent-green">
             {scheduleTitle}
           </h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
@@ -123,7 +123,7 @@ const ApproveApplicantModal = ({
             type="button"
             onClick={onApprove}
             disabled={!isScheduleComplete}
-            className="rounded-full bg-swamp-green px-8 py-2 text-xs font-[Poppins] text-white transition hover:bg-swamp-green disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-swamp-green"
+            className="rounded-full bg-parent-green px-8 py-2 text-xs font-[Poppins] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-parent-accent"
           >
             {approveLabel}
           </button>

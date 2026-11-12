@@ -13,11 +13,13 @@ const SectionCard = ({ level, syGradeLevelId, sectionCount }) => {
   };
 
   return (
-    <div className="flex w-full justify-between min-h-30 flex-col gap-y-5 rounded-2xl bg-[#f4f5fc] p-5 shadow-md">
-      <div className="flex items-center justify-between">
-        <h2 className="font-[PoppinsBold] text-sm text-swamp-green">{level}</h2>
+    <div className="group relative flex min-h-30 w-full flex-col justify-between gap-y-5 overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+      <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
 
-        <span className="text-xs text-gray-500">
+      <div className="flex items-center justify-between pt-1.5">
+        <h2 className="font-[PoppinsBold] text-sm text-parent-green">{level}</h2>
+
+        <span className="rounded-full bg-parent-pale px-2.5 py-1 text-xs font-[PoppinsBold] text-parent-green">
           {sectionCount} section{sectionCount !== 1 ? "s" : ""}
         </span>
       </div>
@@ -25,7 +27,7 @@ const SectionCard = ({ level, syGradeLevelId, sectionCount }) => {
       <button
         type="button"
         onClick={handleSections}
-        className="h-9 rounded-full border border-swamp-green bg-swamp-green px-4 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white"
+        className="h-9 rounded-full border border-parent-green bg-parent-green px-4 text-[11px] font-[Poppins] text-white transition hover:bg-parent-accent hover:border-parent-accent lg:text-xs xl:text-sm"
       >
         Sections
       </button>

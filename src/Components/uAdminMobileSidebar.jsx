@@ -6,6 +6,7 @@ import {
   Users,
   Bell,
   Globe,
+  History,
   Settings,
   LogOut,
   X,
@@ -23,6 +24,7 @@ const MENU_ITEMS = [
   { label: "User Accounts", icon: Users, path: "/admin/users" },
   { label: "Communication", icon: Bell, path: "/admin/communication" },
   { label: "Website Management", icon: Globe, path: "/admin/website" },
+  { label: "Activity Logs", icon: History, path: "/admin/activity-logs" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];
 
@@ -77,7 +79,7 @@ const MobileNavLink = ({ item, active, onNavigate }) => {
         transition-colors
         ${
           active
-            ? "bg-swamp-green/20 text-swamp-green"
+            ? "bg-parent-accent/15 text-parent-green"
             : "text-gray-400 hover:bg-bone/5 hover:text-white"
         }
       `}

@@ -21,9 +21,9 @@ const EditContactModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/20 px-4 py-6">
       <form
         onSubmit={handleSubmit}
-        className="my-auto w-full max-w-md rounded-2xl bg-[#F5F6FF] px-5 py-4 shadow-lg"
+        className="my-auto w-full max-w-md rounded-2xl bg-[#f3f8f1] px-5 py-4 shadow-lg"
       >
-        <h2 className="text-sm font-[PoppinsBold] text-swamp-green">
+        <h2 className="text-sm font-[PoppinsBold] text-parent-green">
           Edit Contact Information
         </h2>
 
@@ -44,7 +44,7 @@ const EditContactModal = ({
               onChange={(e) => onContactNoChange(e.target.value)}
               disabled={saving}
               required
-              className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 text-[11px] lg:text-xs xl:text-sm text-gray-700 outline-none focus:border-swamp-green disabled:opacity-60"
+              className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 text-[11px] lg:text-xs xl:text-sm text-gray-700 outline-none focus:border-parent-accent disabled:opacity-60"
               placeholder="Enter contact number"
             />
           </div>
@@ -65,7 +65,7 @@ const EditContactModal = ({
               onChange={(e) => onEmailChange(e.target.value)}
               disabled={saving}
               required
-              className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 text-[11px] lg:text-xs xl:text-sm text-gray-700 outline-none focus:border-swamp-green disabled:opacity-60"
+              className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 text-[11px] lg:text-xs xl:text-sm text-gray-700 outline-none focus:border-parent-accent disabled:opacity-60"
               placeholder="Enter email"
             />
           </div>
@@ -93,7 +93,7 @@ const EditContactModal = ({
           <button
             type="submit"
             disabled={saving}
-            className="rounded-full bg-swamp-green px-6 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:bg-swamp-green/80 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full bg-linear-to-r from-[#1c3a28] to-parent-accent px-6 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:from-[#0f2419] hover:to-parent-accent disabled:cursor-not-allowed disabled:opacity-60"
           >
             {saving ? "SAVING..." : "SAVE"}
           </button>

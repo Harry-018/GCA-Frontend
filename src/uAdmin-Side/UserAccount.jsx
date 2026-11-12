@@ -70,6 +70,8 @@ const UserAccount = () => {
   // Modal
   const [modalAction, setModalAction] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [disableReason, setDisableReason] = useState("");
+  const [customDisableReason, setCustomDisableReason] = useState("");
 
   const loadUserAccounts = async () => {
     try {
@@ -126,11 +128,15 @@ const UserAccount = () => {
   const openModal = (action, user) => {
     setModalAction(action);
     setSelectedUser(user);
+    setDisableReason("");
+    setCustomDisableReason("");
   };
 
   const closeModal = () => {
     setModalAction(null);
     setSelectedUser(null);
+    setDisableReason("");
+    setCustomDisableReason("");
   };
 
   // -----------------------------
@@ -140,6 +146,14 @@ const UserAccount = () => {
   const handleConfirm = async () => {
     if (!selectedUser || !modalAction) return;
 
+    if (
+      modalAction === "disable" &&
+      (!disableReason ||
+        (disableReason === "Other" && !customDisableReason.trim()))
+    ) {
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -148,7 +162,12 @@ const UserAccount = () => {
       }
 
       if (modalAction === "disable") {
-        await disableUserAccount(selectedUser.user_id);
+        const reason =
+          disableReason === "Other"
+            ? customDisableReason.trim()
+            : disableReason;
+
+        await disableUserAccount(selectedUser.user_id, reason);
       }
 
       if (modalAction === "reactivate") {
@@ -264,7 +283,7 @@ const UserAccount = () => {
             <button
               type="button"
               onClick={() => openModal("invite", user)}
-              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] lg:text-xs xl:text-sm font-[Poppins] "
+              className="rounded-full text-egg px-3 py-1.5 bg-parent-green text-[12px] lg:text-xs xl:text-sm font-[Poppins] "
             >
               Invite
             </button>
@@ -288,7 +307,7 @@ const UserAccount = () => {
             <button
               type="button"
               onClick={() => openModal("reactivate", user)}
-              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] lg:text-xs xl:text-sm font-[Poppins] "
+              className="rounded-full text-egg px-3 py-1.5 bg-parent-green text-[12px] lg:text-xs xl:text-sm font-[Poppins] "
             >
               Reactivate
             </button>
@@ -301,7 +320,7 @@ const UserAccount = () => {
   ];
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins] sm:gap-3">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins] sm:gap-3">
       <UserHeader activeTab={status} onTabChange={handleStatusChange} />
 
       <div className="flex min-h-0 flex-1 flex-col gap-2">
@@ -331,7 +350,7 @@ const UserAccount = () => {
               type="button"
               onClick={() => setPage((prev) => prev - 1)}
               disabled={page <= 1 || loading}
-              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md border border-parent-accent/25 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
             >
               Previous
             </button>
@@ -340,7 +359,7 @@ const UserAccount = () => {
               type="button"
               onClick={() => setPage((prev) => prev + 1)}
               disabled={page >= pagination.totalPages || loading}
-              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md border border-parent-accent/25 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
             >
               Next
             </button>
@@ -357,6 +376,11 @@ const UserAccount = () => {
         email={selectedUser?.email}
         confirmLabel={modalConfig?.confirmLabel}
         danger={modalConfig?.danger}
+        showReason={modalAction === "disable"}
+        reason={disableReason}
+        onReasonChange={setDisableReason}
+        customReason={customDisableReason}
+        onCustomReasonChange={setCustomDisableReason}
       />
     </div>
   );

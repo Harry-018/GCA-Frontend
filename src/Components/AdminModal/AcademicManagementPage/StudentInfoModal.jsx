@@ -18,8 +18,8 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
   }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-gray-300 bg-[#f4f6ff] p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
+      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-parent-accent/25 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
           Student Information
         </h2>
         {/* Information */}
@@ -38,7 +38,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
                 value={formData.lrn}
                 onChange={handleChange}
                 disabled={saving}
-                className="h-6 w-25 rounded-lg border border-gray-300 bg-bone px-2 text-2xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
+                className="h-6 w-25 rounded-lg border border-parent-accent/25 bg-bone px-2 text-2xs text-gray-700 outline-none focus:border-parent-green disabled:cursor-not-allowed disabled:bg-gray-100"
               />
             </div>
             <div className="flex h-5 items-center">
@@ -75,7 +75,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
                 value={formData.stu_status}
                 onChange={handleChange}
                 disabled={saving}
-                className="h-7 w-36 border border-gray-300 bg-[#f5f5f5] rounded-2xl  px-2 text-2xs leading-none text-egg-dark outline-none disabled:cursor-not-allowed disabled:opacity-60"
+                className="h-7 w-36 border border-parent-accent/25 bg-white/80 rounded-2xl  px-2 text-2xs leading-none text-egg-dark outline-none disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {statusOptions.map((status) => (
                   <option key={status} value={status}>
@@ -154,7 +154,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
             type="button"
             onClick={handleSubmit}
             disabled={saving}
-            className="flex h-8 flex-1 items-center justify-center rounded-full bg-swamp-green font-[PoppinsBold] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-8 flex-1 items-center justify-center rounded-full bg-parent-green font-[PoppinsBold] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>

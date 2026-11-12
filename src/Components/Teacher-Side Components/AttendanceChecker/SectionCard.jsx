@@ -1,15 +1,20 @@
 import React from "react";
 
-const SectionCard = ({ sections, selectedId, onSelect }) => {
+const SectionCard = ({ sections = [], selectedId, onSelect }) => {
   return (
     <div className="flex w-full flex-col gap-3 p-2 sm:gap-4 sm:p-3 md:gap-5 md:p-4 lg:p-6">
       <h2 className="flex items-center gap-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-sm md:text-md">
         <span>Class Sections:</span>
       </h2>
 
-      <div className="grid grid-cols-2 gap-1.5 sm:gap-3 md:grid-cols-3 lg:grid-cols-none lg:flex lg:gap-5">
-        {sections.map((section) => {
-          const isSelected = section.id === selectedId;
+      {sections.length === 0 ? (
+        <p className="rounded-xl bg-bone px-4 py-5 text-sm text-gray-500">
+          No adviser sections available.
+        </p>
+      ) : (
+        <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:flex lg:flex-wrap">
+          {sections.map((section) => {
+            const isSelected = String(section.id) === String(selectedId);
 
           return (
             <button
@@ -23,7 +28,7 @@ const SectionCard = ({ sections, selectedId, onSelect }) => {
                   : "bg-bone text-gray-600"
               }`}
             >
-              <span className="text-[10px] font-[PoppinsBold] uppercase tracking-wide sm:text-xs md:text-sm">
+              <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide sm:text-xs md:text-sm">
                 {section.name}
               </span>
               <span className="text-[9px] font-[PoppinsBold] uppercase tracking-wide sm:text-2xs md:text-xs">
@@ -33,6 +38,7 @@ const SectionCard = ({ sections, selectedId, onSelect }) => {
           );
         })}
       </div>
+      )}
     </div>
   );
 };

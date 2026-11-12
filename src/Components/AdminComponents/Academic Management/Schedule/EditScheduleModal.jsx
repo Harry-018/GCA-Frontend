@@ -16,8 +16,8 @@ const EditScheduleModal = ({
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center font-[Poppins] justify-center bg-black/20 p-5">
-      <div className="w-full max-w-md rounded-2xl bg-[#f4f5fc] px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
-        <h2 className="font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
+        <h2 className="font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm text-parent-green">
           Edit Schedule
         </h2>
 
@@ -54,7 +54,7 @@ const EditScheduleModal = ({
             name="subject"
             value={formData.subject}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+            className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
           >
             <option value="">Select Subject</option>
 
@@ -76,7 +76,7 @@ const EditScheduleModal = ({
             name="teacher"
             value={formData.teacher}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+            className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
           >
             <option value="">Select Teacher</option>
 
@@ -99,7 +99,7 @@ const EditScheduleModal = ({
               name="day"
               value={formData.day}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Day</option>
 
@@ -120,7 +120,7 @@ const EditScheduleModal = ({
               name="room"
               value={formData.room}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Room</option>
 
@@ -144,7 +144,7 @@ const EditScheduleModal = ({
               name="from"
               value={formData.from}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Time</option>
 
@@ -163,7 +163,7 @@ const EditScheduleModal = ({
               name="to"
               value={formData.to}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-400 outline-none"
             >
               <option value="">Select Time</option>
 
@@ -189,7 +189,7 @@ const EditScheduleModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="h-7.5 rounded-full bg-swamp-green font-[PoppinsBold] text-[11px] lg:text-xs xl:text-sm text-bone"
+            className="h-7.5 rounded-full bg-parent-green font-[PoppinsBold] text-[11px] lg:text-xs xl:text-sm text-bone"
           >
             Save
           </button>

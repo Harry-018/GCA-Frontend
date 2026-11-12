@@ -11,7 +11,7 @@ const RemoveChildrenActivityModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
-      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-[#f7f8ff] p-5 shadow-md sm:p-6">
+      <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-md sm:p-6">
         {/* Header */}
         <div className="mb-5">
           <h2 className="text-sm font-[PoppinsBold] text-reject sm:text-base">
@@ -24,7 +24,7 @@ const RemoveChildrenActivityModal = ({
         </div>
 
         {/* Activity */}
-        <div className="rounded-lg border border-gray-300 bg-bone p-3">
+        <div className="rounded-lg border border-parent-accent/25 bg-bone p-3">
           <p className="text-[9px] text-gray-500 sm:text-xs">Activity:</p>
 
           <p className="mt-1 text-[10px] text-gray-700 sm:text-sm">
@@ -44,7 +44,7 @@ const RemoveChildrenActivityModal = ({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="flex-1 rounded-full border border-gray-300 px-4 py-2 text-[9px] text-gray-600 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="flex-1 rounded-full border border-parent-accent/25 px-4 py-2 text-[9px] text-gray-600 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             Cancel
           </button>

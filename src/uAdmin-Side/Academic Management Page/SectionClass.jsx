@@ -147,13 +147,13 @@ const SectionClass = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
 
       <div className="flex min-h-0 flex-1 flex-col gap-4 pY-2">
         <div className="flex flex-wrap items-center justify-between gap-x-3 ">
           <div className="flex items-center gap-x-3">
-            <h1 className="font-[PoppinsBold] text-sm text-swamp-green">
+            <h1 className="font-[PoppinsBold] text-sm text-parent-green">
               {level}
             </h1>
           </div>
@@ -162,7 +162,7 @@ const SectionClass = () => {
             <button
               type="button"
               onClick={() => navigate("/admin/academic/section")}
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-xs text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-parent-accent/25 bg-bone px-4 text-xs text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
@@ -170,7 +170,7 @@ const SectionClass = () => {
             <button
               type="button"
               onClick={handleAddSection}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 font-[Poppins] text-xs text-white hover:bg-swamp-green/80"
+              className="h-8 shrink-0 rounded-full bg-parent-green px-4 font-[Poppins] text-xs text-white hover:bg-parent-accent"
             >
               + Assign Section
             </button>

@@ -293,7 +293,7 @@ const SubmissionDocs = () => {
             <button
               type="button"
               onClick={() => handleEnrollClick(applicant)}
-              className="rounded-full bg-swamp-green px-4 py-1 text-[11px] text-white hover:bg-swamp-green lg:text-xs xl:text-sm"
+              className="rounded-full bg-parent-green px-4 py-1 text-[11px] text-white hover:bg-parent-accent lg:text-xs xl:text-sm"
             >
               Enroll
             </button>
@@ -309,7 +309,7 @@ const SubmissionDocs = () => {
             <button
               type="button"
               onClick={() => handleResched(applicant)}
-              className="rounded-full border border-gray-300 px-4 py-1 text-[11px] text-gray-600 hover:bg-gray-100 lg:text-xs xl:text-sm"
+              className="rounded-full border border-parent-accent/25 px-4 py-1 text-[11px] text-gray-600 hover:bg-gray-100 lg:text-xs xl:text-sm"
             >
               Resched
             </button>
@@ -341,11 +341,11 @@ const SubmissionDocs = () => {
         <p className="text-center text-sm text-red-400">{error}</p>
       ) : applicants.length === 0 ? (
         <div className="flex flex-1 bg-bone rounded-2xl flex-col items-center justify-center gap-4">
-          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-swamp-green/10">
-            <FileText size={32} className="text-swamp-green" />
+          <div className="flex h-16 w-16 items-center justify-center rounded-full bg-parent-accent/10">
+            <FileText size={32} className="text-parent-green" />
           </div>
 
-          <h2 className="text-base font-[PoppinsBold] uppercase text-swamp-green lg:text-lg">
+          <h2 className="text-base font-[PoppinsBold] uppercase text-parent-green lg:text-lg">
             Submitted Documents
           </h2>
 
@@ -374,7 +374,7 @@ const SubmissionDocs = () => {
                   type="button"
                   disabled={pagination.page <= 1 || loading}
                   onClick={handlePreviousPage}
-                  className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-full border border-parent-accent/25 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Previous
                 </button>
@@ -387,7 +387,7 @@ const SubmissionDocs = () => {
                     pagination.page >= pagination.totalPages
                   }
                   onClick={handleNextPage}
-                  className="rounded-full bg-swamp-green px-4 py-1.5 text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-full bg-parent-green px-4 py-1.5 text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Next
                 </button>

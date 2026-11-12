@@ -25,7 +25,7 @@ const StudentToolbar = ({
   return (
     <div className="flex w-full flex-col gap-3 py-1 md:min-h-11 md:flex-row md:flex-wrap md:items-center md:justify-between">
       <div className="flex min-w-0 shrink-0 flex-wrap items-center gap-2">
-        <h2 className="font-[PoppinsBold] text-xs text-swamp-green sm:text-sm md:text-md">
+        <h2 className="font-[PoppinsBold] text-xs text-parent-green sm:text-sm md:text-md">
           Students
         </h2>
 
@@ -36,7 +36,7 @@ const StudentToolbar = ({
             onChange={onSchoolYearChange}
             disabled={loading || schoolYears.length === 0}
             aria-label="Filter students by school year"
-            className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-gray-300 bg-bone py-1 pl-2.5 pr-7 text-[10px] text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
+            className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-parent-accent/25 bg-bone py-1 pl-2.5 pr-7 text-[10px] text-gray-600 outline-none transition hover:border-parent-accent focus:border-parent-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
           >
             {schoolYears.length === 0 && (
               <option value="">No school years</option>
@@ -60,7 +60,7 @@ const StudentToolbar = ({
             id="student-status-filter"
             value={activeFilter}
             onChange={(e) => onFilterChange(e.target.value)}
-            className="h-8 w-24 cursor-pointer appearance-none rounded-full border border-gray-300 bg-bone px-2.5 pr-7 text-[9px] leading-none text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green sm:w-24 sm:px-3 sm:pr-8 sm:text-xs"
+            className="h-8 w-24 cursor-pointer appearance-none rounded-full border border-parent-accent/25 bg-bone px-2.5 pr-7 text-[9px] leading-none text-gray-600 outline-none transition hover:border-parent-accent focus:border-parent-green sm:w-24 sm:px-3 sm:pr-8 sm:text-xs"
           >
             {filters.map((filter) => (
               <option key={filter} value={filter}>
@@ -85,14 +85,14 @@ const StudentToolbar = ({
                 if (event.key === "Enter") onSearch();
               }}
               placeholder="Search Student"
-              className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-6 pr-3 text-[9px] text-gray-700 outline-none focus:border-swamp-green sm:w-48 sm:pl-8 sm:pr-4 sm:text-xs lg:w-44 xl:w-52"
+              className="h-8 w-full rounded-full border border-parent-accent/25 bg-white/80 pl-6 pr-3 text-[9px] text-gray-700 outline-none focus:border-parent-green sm:w-48 sm:pl-8 sm:pr-4 sm:text-xs lg:w-44 xl:w-52"
             />
           </div>
 
           <button
             type="button"
             onClick={onSearch}
-            className="h-8 shrink-0 rounded-full bg-swamp-green px-3 text-[9px] text-white transition hover:bg-swamp-green/80 sm:px-6 sm:text-xs"
+            className="h-8 shrink-0 rounded-full bg-parent-green px-3 text-[9px] text-white transition hover:bg-parent-accent sm:px-6 sm:text-xs"
           >
             Search
           </button>

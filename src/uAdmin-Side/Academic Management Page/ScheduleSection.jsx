@@ -44,12 +44,12 @@ const ScheduleSection = () => {
   }, [syGradeLevelId]);
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
       <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto">
         <div className="flex items-center justify-between gap-2 py-2">
           <div className="flex items-center gap-2">
-            <h1 className="font-[PoppinsBold] text-md text-swamp-green">
+            <h1 className="font-[PoppinsBold] text-md text-parent-green">
               {level} :
             </h1>
             <span className="whitespace-nowrap font-[Poppins] text-sm text-gray-600">
@@ -59,7 +59,7 @@ const ScheduleSection = () => {
           <button
             type="button"
             onClick={() => navigate(-1)}
-            className="rounded-full border bg-bone px-4 py-1 font-[Poppins] text-sm text-gray-500 transition hover:text-swamp-green"
+            className="rounded-full border bg-bone px-4 py-1 font-[Poppins] text-sm text-gray-500 transition hover:text-parent-green"
           >
             Go Back
           </button>

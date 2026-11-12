@@ -13,8 +13,8 @@ const EditSkillModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-[#f8f9ff] p-6 shadow-lg">
-        <h2 className="font-[Poppins] text-base text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg">
+        <h2 className="font-[Poppins] text-base text-parent-green">
           Edit Skill
         </h2>
 
@@ -28,7 +28,7 @@ const EditSkillModal = ({
             type="text"
             value={skillName}
             onChange={onSkillNameChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-swamp-green"
+            className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-parent-green"
           />
         </div>
 
@@ -42,7 +42,7 @@ const EditSkillModal = ({
             type="text"
             value={description}
             onChange={onDescriptionChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-swamp-green"
+            className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 font-[Poppins] text-sm text-gray-600 outline-none focus:border-parent-green"
           />
         </div>
 
@@ -51,7 +51,7 @@ const EditSkillModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 rounded-full border border-gray-300 px-4 py-2 font-[Poppins] text-xs text-gray-600"
+            className="flex-1 rounded-full border border-parent-accent/25 px-4 py-2 font-[Poppins] text-xs text-gray-600"
           >
             Cancel
           </button>
@@ -59,7 +59,7 @@ const EditSkillModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="flex-1 rounded-full bg-swamp-green px-4 py-2 font-[Poppins] text-xs text-white"
+            className="flex-1 rounded-full bg-parent-green px-4 py-2 font-[Poppins] text-xs text-white"
           >
             Save
           </button>

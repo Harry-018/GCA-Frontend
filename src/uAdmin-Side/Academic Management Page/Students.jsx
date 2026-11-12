@@ -249,7 +249,7 @@ const Students = () => {
           <button
             type="button"
             onClick={() => handleView(row.original)}
-            className="rounded-full bg-swamp-green px-4 py-1 text-xs text-white"
+            className="rounded-full bg-parent-green px-4 py-1 text-xs text-white"
           >
             Edit
           </button>
@@ -260,7 +260,7 @@ const Students = () => {
   );
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
 
       <div className="flex min-h-0 flex-1 flex-col gap-2">
@@ -307,7 +307,7 @@ const Students = () => {
               type="button"
               disabled={pagination.page === 1 || loading}
               onClick={handlePreviousPage}
-              className="rounded-full border border-gray-300 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full border border-parent-accent/25 px-4 py-1.5 text-xs text-gray-600 transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40"
             >
               Previous
             </button>
@@ -320,7 +320,7 @@ const Students = () => {
                 pagination.page >= pagination.totalPages
               }
               onClick={handleNextPage}
-              className="rounded-full bg-swamp-green px-4 py-1.5 text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full bg-parent-green px-4 py-1.5 text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Next
             </button>

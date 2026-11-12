@@ -13,9 +13,9 @@ const ClassInformationToolbar = ({
 }) => {
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-[#f4f5fc] p-6 shadow-md md:flex-nowrap">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-md md:flex-nowrap">
         <div className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2">
-          <span className="font-[PoppinsBold] text-[11px] text-swamp-green sm:text-sm">
+          <span className="font-[PoppinsBold] text-[11px] text-parent-green sm:text-sm">
             Teacher:
           </span>
 
@@ -28,7 +28,7 @@ const ClassInformationToolbar = ({
           <button
             type="button"
             onClick={onChangeTeacher}
-            className="flex shrink-0 items-center gap-1 rounded-full px-3 py-2 text-[10px] text-gray-600 transition hover:border-swamp-green hover:text-swamp-green sm:text-xs"
+            className="flex shrink-0 items-center gap-1 rounded-full px-3 py-2 text-2xs text-gray-600 transition hover:border-parent-accent hover:text-parent-green sm:text-xs"
           >
             <Pencil size={11} />
             Change
@@ -37,7 +37,7 @@ const ClassInformationToolbar = ({
           <button
             type="button"
             onClick={onGoBack}
-            className="shrink-0 rounded-full border border-gray-300 px-4 py-2 text-[10px] text-gray-600 transition hover:bg-gray-100 sm:text-xs"
+            className="shrink-0 rounded-full border border-parent-accent/25 px-4 py-2 text-2xs text-gray-600 transition hover:bg-gray-100 sm:text-xs"
           >
             Go Back
           </button>
@@ -46,7 +46,7 @@ const ClassInformationToolbar = ({
 
       {/* Class List Toolbar */}
       <div className="flex flex-col gap-3 px-1 md:flex-row md:items-center md:justify-between md:gap-3">
-        <h2 className="font-[PoppinsBold] text-base text-swamp-green">
+        <h2 className="font-[PoppinsBold] text-base text-parent-green">
           Class List
         </h2>
 
@@ -55,7 +55,7 @@ const ClassInformationToolbar = ({
             <button
               type="button"
               onClick={onPromoteStudent}
-              className="shrink-0 rounded-full bg-swamp-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-swamp-green/80 sm:px-5 sm:text-xs"
+              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
             >
               Promote Student
             </button>
@@ -63,7 +63,7 @@ const ClassInformationToolbar = ({
             <button
               type="button"
               onClick={onAddStudent}
-              className="shrink-0 rounded-full bg-swamp-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-swamp-green/80 sm:px-5 sm:text-xs"
+              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
             >
               Add Student
             </button>
@@ -75,13 +75,13 @@ const ClassInformationToolbar = ({
               value={searchValue}
               onChange={(event) => onSearchChange(event.target.value)}
               placeholder="Search Student"
-              className="h-9 min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f4f5fc] px-4 text-[11px] text-gray-600 outline-none focus:border-swamp-green sm:text-xs md:w-48 md:flex-none lg:w-52"
+              className="h-9 min-w-0 flex-1 rounded-full border border-parent-accent/25 bg-linear-to-br from-bone via-white to-parent-pale/60 px-4 text-[11px] text-gray-600 outline-none focus:border-parent-green sm:text-xs md:w-48 md:flex-none lg:w-52"
             />
 
             <button
               type="button"
               onClick={onSearch}
-              className="h-9 shrink-0 rounded-full bg-swamp-green px-5 font-[PoppinsBold] text-[11px] text-white transition hover:bg-swamp-green/80 sm:px-6 sm:text-xs"
+              className="h-9 shrink-0 rounded-full bg-parent-green px-5 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-6 sm:text-xs"
             >
               Search
             </button>

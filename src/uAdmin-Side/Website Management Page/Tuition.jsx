@@ -638,7 +638,7 @@ const Tuition = () => {
 
   if (loading && gradeLevels.length === 0) {
     return (
-      <div className="flex min-h-0 flex-1 items-center justify-center bg-[#ebe9e4] font-[Poppins]">
+      <div className="flex min-h-0 flex-1 items-center justify-center bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
         <p className="text-sm text-neutral-500">Loading tuition...</p>
       </div>
     );
@@ -649,7 +649,7 @@ const Tuition = () => {
   /* ---------------------------------------- */
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header activeTab="tuition" />
 
       <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto p-4">

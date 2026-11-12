@@ -10,9 +10,11 @@ const AnnouncementCard = ({
   onRemove,
 }) => {
   return (
-    <div className="flex w-full min-w-0 cursor-default flex-col gap-3 rounded-2xl border-2 border-transparent bg-[#f4f5fc] p-3 shadow-md transition hover:shadow-lg sm:gap-4 sm:p-5">
-      <div className="flex flex-col gap-1 xl:flex-row xl:items-start xl:justify-between xl:gap-2">
-        <h2 className="min-w-0 break-words font-[PoppinsBold] text-[13px] text-swamp-green sm:text-lg">
+    <div className="group relative flex w-full min-w-0 cursor-default flex-col gap-3 overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-3 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-parent-accent/30 hover:shadow-lg sm:gap-4 sm:p-5">
+      <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
+
+      <div className="flex flex-col gap-1 pt-1.5 xl:flex-row xl:items-start xl:justify-between xl:gap-2">
+        <h2 className="min-w-0 break-words font-[PoppinsBold] text-[13px] text-parent-green sm:text-lg">
           {title}
         </h2>
 
@@ -48,7 +50,7 @@ const AnnouncementCard = ({
         <button
           type="button"
           onClick={onEdit}
-          className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[11px] lg:text-xs xl:text-sm text-white hover:bg-swamp-green/80"
+          className="h-8 shrink-0 rounded-full bg-parent-green px-4 text-[11px] lg:text-xs xl:text-sm text-white hover:bg-parent-accent"
         >
           Edit
         </button>

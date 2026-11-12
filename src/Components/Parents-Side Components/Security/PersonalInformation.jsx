@@ -13,15 +13,15 @@ const PersonalInformation = ({ fullName, contactNo, email, address }) => {
   ];
 
   return (
-    <div className="w-full overflow-hidden rounded-2xl bg-[#0c2423] font-[Poppins] shadow-lg">
-      <div className="flex flex-col gap-7 bg-linear-to-br from-[#0c2423] via-[#123b35] to-[#279257] px-5 py-6 sm:px-8 sm:py-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
+    <div className="w-full overflow-hidden rounded-2xl bg-[#0f2419] font-[Poppins] shadow-lg">
+      <div className="flex flex-col gap-7 bg-linear-to-br from-[#0f2419] via-[#1c3a28] to-parent-accent px-5 py-6 sm:px-8 sm:py-8 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
         <div className="flex items-start gap-4 sm:gap-5">
-          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-swamp-green ring-1 ring-white/20 sm:size-14">
+          <div className="flex size-12 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-parent-mint ring-1 ring-white/20 sm:size-14">
             <UserRound size={26} strokeWidth={1.5} />
           </div>
 
           <div>
-            <p className="py-1 text-[9px] font-[PoppinsBold] uppercase tracking-widest text-swamp-green sm:text-2xs sm:tracking-[0.18em]">
+            <p className="py-1 text-[9px] font-[PoppinsBold] uppercase tracking-widest text-parent-mint sm:text-2xs sm:tracking-[0.18em]">
               Personal information
             </p>
 
@@ -40,13 +40,13 @@ const PersonalInformation = ({ fullName, contactNo, email, address }) => {
               }`}
             >
               {detail.label === "Contact No. :" ? (
-                <Phone size={16} className="shrink-0 py-0.5 text-swamp-green" />
+                <Phone size={16} className="shrink-0 py-0.5 text-parent-mint" />
               ) : detail.label === "Email:" ? (
-                <Mail size={16} className="shrink-0 py-0.5 text-swamp-green" />
+                <Mail size={16} className="shrink-0 py-0.5 text-parent-mint" />
               ) : (
                 <MapPin
                   size={16}
-                  className="shrink-0 py-0.5 text-swamp-green"
+                  className="shrink-0 py-0.5 text-parent-mint"
                 />
               )}
 

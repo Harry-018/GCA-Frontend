@@ -18,9 +18,9 @@ const SkillModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4 ">
       <form
         onSubmit={onSubmit}
-        className="w-full max-w-lg rounded-2xl bg-[#f4f5fc] p-6 shadow-lg"
+        className="w-full max-w-lg rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg"
       >
-        <h2 className="font-[PoppinsBold] text-base text-swamp-green">
+        <h2 className="font-[PoppinsBold] text-base text-parent-green">
           {isEditing ? "Edit Skill" : "Add Skill"}
         </h2>
 
@@ -34,7 +34,7 @@ const SkillModal = ({
               value={skillName}
               onChange={(e) => setSkillName(e.target.value)}
               autoFocus
-              className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+              className="mt-2 h-10 w-full rounded-xl border border-parent-accent/25 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-parent-green"
               placeholder="Enter skill name"
             />
           </div>
@@ -47,7 +47,7 @@ const SkillModal = ({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={4}
-              className="mt-2 w-full resize-none rounded-xl border border-gray-300 bg-bone p-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+              className="mt-2 w-full resize-none rounded-xl border border-parent-accent/25 bg-bone p-3 text-xs text-gray-700 outline-none focus:border-parent-green"
               placeholder="Describe the skill"
             />
           </div>
@@ -58,14 +58,14 @@ const SkillModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-9 flex-1 rounded-full border border-gray-300 text-xs text-gray-500 transition hover:bg-gray-100"
+            className="h-9 flex-1 rounded-full border border-parent-accent/25 text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
 
           <button
             type="submit"
-            className="h-9 flex-1 rounded-full bg-swamp-green text-xs text-white transition hover:bg-lime-green"
+            className="h-9 flex-1 rounded-full bg-parent-green text-xs text-white transition hover:bg-parent-accent"
           >
             {isEditing ? "Save" : "Add "}
           </button>

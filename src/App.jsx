@@ -56,6 +56,7 @@ import Skills from "./uAdmin-Side/Academic Management Page/Skills.jsx";
 import SchoolYear from "./uAdmin-Side/Academic Management Page/SchoolYear.jsx";
 import SubmissionDocs from "./uAdmin-Side/SubmissionDocs.jsx";
 import UserAccount from "./uAdmin-Side/UserAccount.jsx";
+import ActivityLogs from "./uAdmin-Side/ActivityLogs.jsx";
 import AdminSettings from "./uAdmin-Side/AdminSettings.jsx";
 import AdminSectionName from "./uAdmin-Side/AdminSectionName.jsx";
 import AdminSubjects from "./uAdmin-Side/AdminSubjects.jsx";
@@ -191,6 +192,7 @@ const App = () => {
               loader={submissionDocsLoader}
             />
             <Route path="users" element={<UserAccount />} />
+            <Route path="activity-logs" element={<ActivityLogs />} />
             <Route path="settings" element={<AdminSettings />} />
             <Route
               path="settings/section-name"

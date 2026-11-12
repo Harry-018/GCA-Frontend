@@ -138,7 +138,7 @@ const ApplicantTable = ({
                 type="button"
                 onClick={() => onView(applicant)}
                 title="View applicant"
-                className="rounded-lg bg-[#d9ddd8] px-3 py-1.5 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-[#4f5a50] transition hover:bg-[#cdd3cc] active:scale-95"
+                className="rounded-lg bg-parent-pale px-3 py-1.5 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-[#4f5a50] transition hover:bg-parent-mint active:scale-95"
               >
                 View
               </button>
@@ -149,7 +149,7 @@ const ApplicantTable = ({
                   type="button"
                   onClick={() => onApprove(applicant)}
                   title="Approve applicant"
-                  className="rounded-lg bg-swamp-green px-3 py-1.5 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white transition hover:brightness-95 active:scale-95"
+                  className="rounded-lg bg-parent-green px-3 py-1.5 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white transition hover:brightness-95 active:scale-95"
                 >
                   Approve
                 </button>
@@ -192,11 +192,11 @@ const ApplicantTable = ({
   });
 
   return (
-    <div className="min-h-0 flex-1 overflow-auto rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+    <div className="min-h-0 flex-1 overflow-auto rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
       <table className="w-full text-left text-sm">
         <thead className="sticky top-0 bg-bone">
           {table.getHeaderGroups().map((headerGroup) => (
-            <tr key={headerGroup.id} className="border-b border-gray-200">
+            <tr key={headerGroup.id} className="border-b border-parent-accent/15">
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}

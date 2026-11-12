@@ -32,7 +32,7 @@ const RescheduleModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
-      <div className="relative w-full max-w-102.5 rounded-2xl bg-[#f5f6fd] px-6 py-5 shadow-lg">
+      <div className="relative w-full max-w-102.5 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-6 py-5 shadow-lg">
         <button
           type="button"
           onClick={onClose}
@@ -41,7 +41,7 @@ const RescheduleModal = ({
           <X size={18} />
         </button>
 
-        <h2 className="text-base font-[PoppinsBold] text-swamp-green">
+        <h2 className="text-base font-[PoppinsBold] text-parent-green">
           {title}
         </h2>
 
@@ -69,7 +69,7 @@ const RescheduleModal = ({
         </div>
 
         <div>
-          <h3 className="pb-3 text-sm font-[PoppinsBold] text-swamp-green">
+          <h3 className="pb-3 text-sm font-[PoppinsBold] text-parent-green">
             New submission and assessment schedule:
           </h3>
 
@@ -154,7 +154,7 @@ const RescheduleModal = ({
             type="button"
             onClick={onSubmit}
             disabled={!isScheduleComplete}
-            className="rounded-full bg-swamp-green px-8 py-2 text-xs font-[Poppins] text-white transition hover:bg-swamp-green disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-swamp-green"
+            className="rounded-full bg-parent-green px-8 py-2 text-xs font-[Poppins] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-parent-accent"
           >
             Confirm Schedule
           </button>

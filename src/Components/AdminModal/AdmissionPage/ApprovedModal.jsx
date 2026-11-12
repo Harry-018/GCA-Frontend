@@ -13,7 +13,7 @@ const ApprovedModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4 font-[Poppins]">
       <div className="w-full max-w-md rounded-2xl bg-bone px-5 py-5 shadow-lg">
         <div className="flex flex-col gap-1">
-          <h2 className="text-sm font-[PoppinsBold] text-swamp-green text-center">
+          <h2 className="text-sm font-[PoppinsBold] text-parent-green text-center">
             {title}
           </h2>
           <p className="text-xs text-gray-600 text-center">
@@ -36,7 +36,7 @@ const ApprovedModal = ({
             className={`rounded-full px-6 py-1.5 text-md font-[PoppinsBold] text-white transition ${
               danger
                 ? "bg-reject hover:bg-reject/80"
-                : "bg-swamp-green hover:bg-swamp-green"
+                : "bg-parent-green hover:bg-parent-accent"
             }`}
           >
             {confirmLabel}

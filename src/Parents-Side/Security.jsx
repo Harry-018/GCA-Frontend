@@ -139,10 +139,10 @@ const Security = () => {
   // LOADING STATE
   if (loading) {
     return (
-      <div className="flex  min-h-screen flex-col items-center justify-center gap-3 bg-black font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-swamp-green" />
+      <div className="flex  min-h-screen flex-col items-center justify-center gap-3 bg-black to-parent-accent font-[Poppins]">
+        <Loader2 size={32} className="animate-spin text-parent-pale" />
 
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-white/70">
           Loading Account Settings
           <span className="loading-dots">
             <span></span>
@@ -157,23 +157,23 @@ const Security = () => {
   // ERROR STATE
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
+      <div className="flex min-h-screen items-center justify-center bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
         <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-full cursor-default bg-egg px-3 py-5 font-[Poppins] sm:px-6 sm:py-8 lg:px-10 lg:pt-5 lg:pb-10">
+    <div className="min-h-full cursor-default bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] px-3 py-5 font-[Poppins] sm:px-6 sm:py-8 lg:px-10 lg:pt-5 lg:pb-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 lg:gap-8">
         {/* PAGE HEADER */}
-        <div className="flex flex-col gap-2 border-b border-[#0c2423]/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex flex-col gap-2 border-b border-[#0f2419]/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="py-1 text-2xs font-[PoppinsBold] uppercase tracking-[0.2em] text-swamp-green">
+            <p className="py-1 text-2xs font-[PoppinsBold] uppercase tracking-[0.2em] text-parent-accent">
               Parent portal
             </p>
 
-            <h2 className="font-[PoppinsBold] text-xl uppercase leading-tight text-[#0c2423] sm:text-2xl lg:text-3xl">
+            <h2 className="font-[PoppinsBold] text-xl uppercase leading-tight text-[#0f2419] sm:text-2xl lg:text-3xl">
               Account Settings
             </h2>
           </div>

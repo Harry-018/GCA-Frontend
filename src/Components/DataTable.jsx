@@ -142,7 +142,7 @@ const DataTable = ({
                 <th
                   key={header.id}
                   style={getStickyStyle(header.column.id)}
-                  className={`px-4 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-500 ${
+                  className={`px-4 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-700 ${
                     stickyColumns.includes(header.column.id) ? "z-30" : ""
                   }`}
                 >

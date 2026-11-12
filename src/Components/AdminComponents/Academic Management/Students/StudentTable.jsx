@@ -14,39 +14,39 @@ const StudentTable = ({ applicants, onView }) => {
       {/* Mobile & Tablet: Sticky scroll (grade report design) */}
       <div className="flex min-h-0 flex-1 flex-col lg:hidden">
         {applicants.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-2 rounded-3xl border border-swamp-green/10 bg-bone py-10">
+          <div className="flex flex-col items-center justify-center gap-2 rounded-3xl border border-parent-accent/10 bg-bone py-10">
             <p className="text-sm text-gray-500">No Students Available</p>
           </div>
         ) : (
-          <div className="flex min-h-0 flex-1 flex-col rounded-3xl border border-swamp-green/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6">
+          <div className="flex min-h-0 flex-1 flex-col rounded-3xl border border-parent-accent/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6">
             <div className="no-scrollbar min-h-0 flex-1 overflow-x-auto overflow-y-auto">
               <div className="min-w-125">
                 <div
                   className={`${MOBILE_COLS} sticky top-0 z-30 grid items-center gap-0 bg-bone`}
                 >
                   <div className="sticky left-0 top-0 z-40 bg-bone py-3 pl-3 pr-2 sm:pl-4 sm:pr-3">
-                    <span className="whitespace-nowrap text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+                    <span className="whitespace-nowrap text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                       No. & Student
                     </span>
                   </div>
 
-                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                     Grade Level
                   </span>
 
-                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                     Section
                   </span>
 
-                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                     Status
                   </span>
 
-                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                     Payment
                   </span>
 
-                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+                  <span className="sticky whitespace-nowrap px-2 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                     Actions
                   </span>
                 </div>
@@ -86,7 +86,7 @@ const StudentTable = ({ applicants, onView }) => {
                         <button
                           type="button"
                           onClick={() => onView(applicant)}
-                          className="rounded-full bg-swamp-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:opacity-90 sm:px-5 sm:py-2 sm:text-xs"
+                          className="rounded-full bg-parent-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:opacity-90 sm:px-5 sm:py-2 sm:text-xs"
                         >
                           Edit
                         </button>
@@ -101,7 +101,7 @@ const StudentTable = ({ applicants, onView }) => {
       </div>
 
       {/* Desktop: Original table */}
-      <div className="hidden flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-bone shadow-sm lg:flex">
+      <div className="hidden flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-sm lg:flex">
         <div className="flex flex-1 flex-col overflow-x-auto overflow-y-auto min-h-0 thin-scrollbar">
           <table className="w-full min-w-176 border-separate border-spacing-0">
             <thead className="sticky top-0">
@@ -116,17 +116,17 @@ const StudentTable = ({ applicants, onView }) => {
                 ].map((column) => (
                   <th
                     key={column}
-                    className="whitespace-nowrap px-3 py-3 text-left text-[11px] font-[PoppinsBold] text-swamp-green sm:px-6 sm:py-5 sm:text-xs lg:px-2 lg:text-[11px] xl:px-6 xl:text-sm"
+                    className="whitespace-nowrap px-3 py-3 text-left text-[11px] font-[PoppinsBold] text-parent-green sm:px-6 sm:py-5 sm:text-xs lg:px-2 lg:text-[11px] xl:px-6 xl:text-sm"
                   >
                     {column}
                   </th>
                 ))}
 
-                <th className="whitespace-nowrap px-3 py-3 text-left text-[11px] font-[PoppinsBold] text-swamp-green sm:px-6 sm:py-5 sm:text-xs lg:px-2 lg:text-[11px] xl:px-6 xl:text-sm">
+                <th className="whitespace-nowrap px-3 py-3 text-left text-[11px] font-[PoppinsBold] text-parent-green sm:px-6 sm:py-5 sm:text-xs lg:px-2 lg:text-[11px] xl:px-6 xl:text-sm">
                   PAYMENT
                 </th>
 
-                <th className="whitespace-nowrap px-3 py-3 text-left text-[11px] font-[PoppinsBold] text-swamp-green sm:px-6 sm:py-5 sm:text-xs lg:px-2 lg:text-[11px] xl:px-6 xl:text-sm">
+                <th className="whitespace-nowrap px-3 py-3 text-left text-[11px] font-[PoppinsBold] text-parent-green sm:px-6 sm:py-5 sm:text-xs lg:px-2 lg:text-[11px] xl:px-6 xl:text-sm">
                   ACTION
                 </th>
               </tr>
@@ -136,7 +136,7 @@ const StudentTable = ({ applicants, onView }) => {
               {applicants.map((applicant, index) => (
                 <tr
                   key={applicant.id}
-                  className="border-b border-gray-200 text-2xs text-gray-600 last:border-b-0 sm:text-[11px] lg:text-xs xl:text-sm"
+                  className="border-b border-parent-accent/15 text-2xs text-gray-600 last:border-b-0 sm:text-[11px] lg:text-xs xl:text-sm"
                 >
                   <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
                     {index + 1}
@@ -169,7 +169,7 @@ const StudentTable = ({ applicants, onView }) => {
                   <td className="px-3 py-2 sm:px-6 sm:py-2.5 lg:px-2 xl:px-6">
                     <button
                       onClick={() => onView(applicant)}
-                      className="rounded-xl border border-gray-400 px-3.5 py-1 text-[11px] text-white bg-swamp-green lg:text-xs xl:text-sm"
+                      className="rounded-xl border border-gray-400 px-3.5 py-1 text-[11px] text-white bg-parent-green lg:text-xs xl:text-sm"
                     >
                       Edit
                     </button>

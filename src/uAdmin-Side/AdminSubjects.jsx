@@ -113,12 +113,12 @@ const AdminSubjects = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <SettingHeader />
 
       <div className="flex flex-wrap items-center justify-between gap-y-2 gap-3">
         <div>
-          <h1 className="font-[PoppinsBold] text-base text-swamp-green sm:text-lg">
+          <h1 className="font-[PoppinsBold] text-base text-parent-green sm:text-lg">
             Subjects
           </h1>
 
@@ -130,7 +130,7 @@ const AdminSubjects = () => {
         <button
           type="button"
           onClick={openAddModal}
-          className="flex h-9 items-center gap-2 rounded-full bg-swamp-green px-4 text-xs text-white transition hover:bg-lime-green"
+          className="flex h-9 items-center gap-2 rounded-full bg-parent-green px-4 text-xs text-white transition hover:bg-parent-accent"
         >
           Add Subject
         </button>
@@ -141,7 +141,7 @@ const AdminSubjects = () => {
           Loading subjects...
         </div>
       ) : subjects.length === 0 ? (
-        <div className="rounded-2xl border border-gray-200 bg-bone p-8 text-center text-sm text-gray-500">
+        <div className="rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 p-8 text-center text-sm text-gray-500">
           No subjects found.
         </div>
       ) : (
@@ -149,17 +149,17 @@ const AdminSubjects = () => {
           {subjects.map((subject) => (
             <div
               key={subject.subject_id}
-              className="flex h-36 flex-col justify-between rounded-2xl border border-gray-200 bg-bone p-5 shadow-[0_2px_4px_rgba(0,0,0,0.12)]"
+              className="flex h-36 flex-col justify-between rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 p-5 shadow-[0_2px_4px_rgba(0,0,0,0.12)]"
             >
               <div className="flex items-center gap-2">
-                <h2 className="font-[PoppinsBold] text-base text-swamp-green">
+                <h2 className="font-[PoppinsBold] text-base text-parent-green">
                   {subject.subject_name}
                 </h2>
 
                 <button
                   type="button"
                   onClick={() => openRenameModal(subject)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-swamp-green"
+                  className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-parent-green"
                   title="Rename subject"
                 >
                   <Pencil size={15} />
@@ -174,7 +174,7 @@ const AdminSubjects = () => {
                       `/admin/settings/subjects/${subject.subject_id}/skills`,
                     )
                   }
-                  className="w-full rounded-2xl bg-swamp-green px-3 py-1.5 text-sm text-egg hover:opacity-75"
+                  className="w-full rounded-2xl bg-parent-green px-3 py-1.5 text-sm text-egg hover:opacity-75"
                 >
                   Manage Skills
                 </button>
@@ -195,9 +195,9 @@ const AdminSubjects = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4">
           <form
             onSubmit={handleSubmit}
-            className="w-full max-w-md rounded-2xl bg-[#f4f5fc] p-6 shadow-lg"
+            className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg"
           >
-            <h2 className="font-[PoppinsBold] text-base text-swamp-green">
+            <h2 className="font-[PoppinsBold] text-base text-parent-green">
               {editingSubject ? "Rename Subject" : "Add New Subject"}
             </h2>
 
@@ -210,7 +210,7 @@ const AdminSubjects = () => {
                 onChange={(e) => setSubjectName(e.target.value)}
                 placeholder="Enter subject name"
                 autoFocus
-                className="mt-2 h-10 w-full rounded-xl border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+                className="mt-2 h-10 w-full rounded-xl border border-parent-accent/25 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-parent-green"
               />
             </div>
 
@@ -218,7 +218,7 @@ const AdminSubjects = () => {
               <button
                 type="button"
                 onClick={closeModal}
-                className="h-9 flex-1 rounded-full border border-gray-300 text-xs text-gray-500"
+                className="h-9 flex-1 rounded-full border border-parent-accent/25 text-xs text-gray-500"
               >
                 Cancel
               </button>
@@ -226,7 +226,7 @@ const AdminSubjects = () => {
               <button
                 type="submit"
                 disabled={!subjectName.trim()}
-                className="h-9 flex-1 rounded-full bg-swamp-green text-xs text-white disabled:cursor-not-allowed disabled:opacity-50"
+                className="h-9 flex-1 rounded-full bg-parent-green text-xs text-white disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {editingSubject ? "Save" : "Add"}
               </button>
@@ -236,7 +236,7 @@ const AdminSubjects = () => {
       )}
       {showRemoveModal && removingSubject && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4">
-          <div className="w-full max-w-md rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
+          <div className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg">
             <h2 className="font-[PoppinsBold] text-base text-reject">
               Remove Subject
             </h2>
@@ -258,7 +258,7 @@ const AdminSubjects = () => {
               <button
                 type="button"
                 onClick={closeRemoveModal}
-                className="h-9 flex-1 rounded-full border border-gray-300 text-xs text-gray-500 transition hover:bg-gray-100"
+                className="h-9 flex-1 rounded-full border border-parent-accent/25 text-xs text-gray-500 transition hover:bg-gray-100"
               >
                 Cancel
               </button>

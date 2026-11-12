@@ -27,8 +27,8 @@ const Header = ({ navItems }) => {
             to={item.path}
             className={`whitespace-nowrap pb-1 text-[11px] transition lg:text-xs xl:text-sm ${
               isActive(item)
-                ? "text-swamp-green underline underline-offset-8"
-                : "text-gray-600 hover:text-swamp-green"
+                ? "text-parent-green underline underline-offset-8"
+                : "text-gray-600 hover:text-parent-green"
             }`}
           >
             {item.name}
@@ -43,8 +43,8 @@ const Header = ({ navItems }) => {
             to={item.path}
             className={`whitespace-nowrap pb-1 text-[11px] transition lg:text-xs xl:text-sm ${
               isActive(item)
-                ? "text-swamp-green underline underline-offset-8"
-                : "text-gray-600 hover:text-swamp-green"
+                ? "text-parent-green underline underline-offset-8"
+                : "text-gray-600 hover:text-parent-green"
             }`}
           >
             {item.name}
