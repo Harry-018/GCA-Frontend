@@ -6,6 +6,7 @@ import {
   Users,
   Bell,
   Globe,
+  History,
   Settings,
   LogOut,
   X,
@@ -23,6 +24,7 @@ const MENU_ITEMS = [
   { label: "User Accounts", icon: Users, path: "/admin/users" },
   { label: "Communication", icon: Bell, path: "/admin/communication" },
   { label: "Website Management", icon: Globe, path: "/admin/website" },
+  { label: "Activity Logs", icon: History, path: "/admin/activity-logs" },
   { label: "Settings", icon: Settings, path: "/admin/settings" },
 ];
 
