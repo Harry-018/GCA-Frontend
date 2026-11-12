@@ -9,7 +9,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
         </h2>
 
         {/* Description */}
-        <p className="py-2 text-[11px] text-gray-600">
+        <p className="py-2 text-[11px] lg:text-xs xl:text-sm text-gray-600">
           Enter the email of the teacher to be added
         </p>
 
@@ -17,7 +17,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
         <div className="flex flex-col gap-y-1 py-4">
           <label
             htmlFor="teacher-email"
-            className="text-[11px] font-[PoppinsBold] text-gray-600"
+            className="text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-gray-600"
           >
             Email: <span className="text-red-500">*</span>
           </label>
@@ -28,7 +28,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
             name="email"
             value={email}
             onChange={onChange}
-            className="h-7 w-full rounded-lg border border-gray-400 bg-bone px-3 text-[11px] text-gray-600 outline-none focus:border-swamp-green"
+            className="h-7 w-full rounded-lg border border-gray-400 bg-bone px-3 text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none focus:border-swamp-green"
           />
         </div>
 
@@ -45,7 +45,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
           <button
             type="button"
             onClick={() => onSend(email)}
-            className="flex h-8 flex-1 items-center justify-center rounded-full bg-[#9caf7d] font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
+            className="flex h-8 flex-1 items-center justify-center rounded-full bg-swamp-green font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
           >
             Send
           </button>

@@ -170,7 +170,7 @@ const SectionClass = () => {
             <button
               type="button"
               onClick={handleAddSection}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 font-[Poppins] text-xs text-white hover:bg-[#899d6d]"
+              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 font-[Poppins] text-xs text-white hover:bg-swamp-green/80"
             >
               + Assign Section
             </button>

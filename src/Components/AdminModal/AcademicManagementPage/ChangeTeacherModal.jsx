@@ -68,7 +68,7 @@ const ChangeTeacherModal = ({
             type="button"
             disabled={!selectedTeacherId}
             onClick={handleChange}
-            className="h-10 flex-1 rounded-full bg-[#9caf7c] font-[PoppinsBold] text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            className="h-10 flex-1 rounded-full bg-swamp-green font-[PoppinsBold] text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Change
           </button>

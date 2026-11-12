@@ -202,7 +202,7 @@ const GradeLevels = () => {
 
       <div className="flex min-h-0 flex-1 flex-col py-2 text-[14px]">
         {/* Reuse the universal toolbar for school-year filtering. */}
-        <div className="flex items-center justify-between ">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <SectionToolbar
             pageTitle="Grade Levels"
             schoolYears={schoolYears}
@@ -215,7 +215,7 @@ const GradeLevels = () => {
               type="button"
               onClick={() => setIsAddOpen(true)}
               disabled={!selectedSchoolYearId || loading}
-              className="h-8 min-w-fit rounded-full bg-swamp-green px-4 text-[12px] text-white hover:bg-[#899d6d] disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-8 min-w-fit rounded-full bg-swamp-green px-4 text-[12px] lg:text-xs xl:text-sm text-white hover:bg-swamp-green/80 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Add Grade Level
             </button>

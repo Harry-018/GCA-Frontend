@@ -139,7 +139,7 @@ const CoreSubjects = () => {
             <button
               type="button"
               onClick={() => navigate("/admin/academic/grade-levels")}
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[12px] text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[12px] lg:text-xs xl:text-sm text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
@@ -150,7 +150,7 @@ const CoreSubjects = () => {
                 setSelectedSubjectIds([]);
                 setIsAddOpen(true);
               }}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[12px] font-[Poppins] text-white hover:bg-[#899d6d]"
+              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[12px] lg:text-xs xl:text-sm font-[Poppins] text-white hover:bg-swamp-green/80"
             >
               Assign Subjects
             </button>

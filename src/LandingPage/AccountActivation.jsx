@@ -85,7 +85,7 @@ const AccountActivation = () => {
 
   if (status === "verifying") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
+      <div className="flex min-h-dvh items-center justify-center bg-[#ebe9e4] font-[Poppins]">
         <p className="text-sm text-gray-500">Verifying activation link...</p>
       </div>
     );
@@ -93,7 +93,7 @@ const AccountActivation = () => {
 
   if (status === "error") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] px-4 font-[Poppins]">
+      <div className="flex min-h-dvh items-center justify-center bg-[#ebe9e4] px-4 font-[Poppins]">
         <div className="w-full max-w-md rounded-2xl border border-gray-300 bg-[#f4f6ff] p-6 text-center shadow-lg">
           <h1 className="font-[PoppinsBold] text-lg text-swamp-green">
             Account Activation
@@ -107,7 +107,7 @@ const AccountActivation = () => {
 
   if (status === "activated") {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] px-4 font-[Poppins]">
+      <div className="flex min-h-dvh items-center justify-center bg-[#ebe9e4] px-4 font-[Poppins]">
         <div className="w-full max-w-md rounded-2xl border border-gray-300 bg-[#f4f6ff] p-6 text-center shadow-lg">
           <h1 className="font-[PoppinsBold] text-lg text-swamp-green">
             Account Activated
@@ -131,7 +131,7 @@ const AccountActivation = () => {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] px-4 font-[Poppins]">
+    <div className="flex min-h-dvh items-center justify-center bg-[#ebe9e4] px-4 font-[Poppins]">
       <div className="w-full max-w-md rounded-2xl border border-gray-300 bg-[#f4f6ff] p-6 shadow-lg">
         <div className="mb-6 text-center">
           <h1 className="font-[PoppinsBold] text-lg text-swamp-green">
@@ -144,7 +144,7 @@ const AccountActivation = () => {
         </div>
 
         <div className="mb-5 rounded-lg border border-gray-200 bg-bone px-4 py-3">
-          <p className="text-[10px] text-gray-400">Account Email</p>
+          <p className="text-[10px] sm:text-xs text-gray-400">Account Email</p>
 
           <p className="mt-1 text-xs text-gray-600">
             {invitation?.email || "—"}
@@ -152,14 +152,14 @@ const AccountActivation = () => {
         </div>
 
         {error && (
-          <div className="mb-4 rounded-md bg-red-50 px-3 py-2 text-[11px] text-red-600">
+          <div className="mb-4 rounded-md bg-red-50 px-3 py-2 text-[11px] lg:text-xs xl:text-sm text-red-600">
             {error}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div>
-            <label className="mb-1 block text-[11px] text-gray-500">
+            <label className="mb-1 block text-[11px] lg:text-xs xl:text-sm text-gray-500">
               Password
             </label>
 
@@ -174,7 +174,7 @@ const AccountActivation = () => {
           </div>
 
           <div>
-            <label className="mb-1 block text-[11px] text-gray-500">
+            <label className="mb-1 block text-[11px] lg:text-xs xl:text-sm text-gray-500">
               Confirm Password
             </label>
 
@@ -188,7 +188,7 @@ const AccountActivation = () => {
             />
           </div>
 
-          <p className="text-[10px] text-gray-400">
+          <p className="text-[10px] sm:text-xs text-gray-400">
             Password must be at least 8 characters.
           </p>
 

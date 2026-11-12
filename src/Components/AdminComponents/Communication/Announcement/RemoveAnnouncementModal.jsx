@@ -15,7 +15,7 @@ const RemoveAnnouncementModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
       <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-base text-[#f27773]">
+        <h2 className="font-[PoppinsBold] text-base text-reject">
           Remove Announcement
         </h2>
 
@@ -39,7 +39,7 @@ const RemoveAnnouncementModal = ({
           <button
             type="button"
             onClick={handleRemove}
-            className="h-9 flex-1 rounded-full bg-[#f27773] font-[PoppinsBold] text-xs text-white transition hover:bg-[#ed6661]"
+            className="h-9 flex-1 rounded-full bg-reject font-[PoppinsBold] text-xs text-white transition hover:bg-reject/80"
           >
             Remove
           </button>

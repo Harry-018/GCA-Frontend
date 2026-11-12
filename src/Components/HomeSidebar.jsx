@@ -14,7 +14,7 @@ const SCHOOL = {
   name: "Grace Christian Academy",
 };
 
-const NAV_LINKS = [{ to: "/teacher", label: "TEACHER", icon: GraduationCap }];
+const NAV_LINKS = [];
 
 const QUICK_LINKS = [
   { to: "/", label: "HOME", icon: Home, end: true },
@@ -61,7 +61,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
         </div>
 
         <nav className="flex-1 overflow-y-auto px-3 py-4">
-          <p className="px-3 pb-2 text-[9px] font-[PoppinsBold] uppercase tracking-[0.2em] text-gray-500">
+          <p className="px-3 pb-2 text-[9px] sm:text-xs font-[PoppinsBold] uppercase tracking-[0.2em] text-gray-500">
             Quick Links
           </p>
 
@@ -72,7 +72,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
               end={end}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] tracking-wide transition-colors ${
+                `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] tracking-wide transition-colors ${
                   isActive
                     ? "bg-swamp-green/20 text-swamp-green"
                     : "text-gray-400 hover:bg-bone/5 hover:text-white"
@@ -91,7 +91,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
               end={end}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] tracking-wide transition-colors ${
+                `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] tracking-wide transition-colors ${
                   isActive
                     ? "bg-swamp-green/20 text-swamp-green"
                     : "text-gray-400 hover:bg-bone/5 hover:text-white"
@@ -109,7 +109,7 @@ const HomeSidebar = ({ open, onClose, hideLogin = false }) => {
             <button
               type="button"
               onClick={handleLogin}
-              className="flex w-full items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] text-lime-green transition-colors hover:bg-lime-green/10"
+              className="flex w-full items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-lime-green transition-colors hover:bg-lime-green/10"
             >
               <LogIn size={18} />
               LOGIN

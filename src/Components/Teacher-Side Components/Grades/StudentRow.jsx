@@ -12,7 +12,7 @@ const StudentRow = ({ student, columns, colCount, onGradesClick }) => {
             <button
               type="button"
               onClick={() => onGradesClick(student)}
-              className="rounded-full bg-[#9caf7d] px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:opacity-90"
+              className="rounded-full bg-swamp-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:opacity-90"
             >
               Grades
             </button>

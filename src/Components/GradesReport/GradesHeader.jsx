@@ -4,7 +4,7 @@ const GradesHeader = ({ student, onBack }) => {
   return (
     <div className="flex flex-col gap-3 sm:gap-4 md:gap-6">
       <div className="flex items-center justify-between px-1 py-1 sm:px-2 sm:py-2">
-        <h1 className="text-[11px] font-[PoppinsBold] uppercase text-[#9caf7d] sm:text-xs md:text-sm">
+        <h1 className="text-[11px] font-[PoppinsBold] uppercase text-swamp-green sm:text-xs md:text-sm">
           Student Grades
         </h1>
 

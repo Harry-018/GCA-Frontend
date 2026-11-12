@@ -24,7 +24,7 @@ const EditWebsiteInformationModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4 font-[Poppins]">
       <div className="w-full max-w-83 rounded-2xl bg-[#f4f5fc] px-3.5 py-4 shadow-[0_2px_5px_rgba(0,0,0,0.25)]">
-        <h2 className="text-sm font-semibold text-[#91a875]">
+        <h2 className="text-sm font-[PoppinsBold] text-swamp-green">
           Edit Website Information
         </h2>
 
@@ -62,7 +62,7 @@ const EditWebsiteInformationModal = ({
               type="text"
               value={typeof schoolName === "string" ? schoolName : ""}
               onChange={(e) => setSchoolName(e.target.value)}
-              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-bone px-3 text-2xs text-[#555555] outline-none focus:border-[#a0b884]"
+              className="h-7 w-full rounded-md border border-[#c8c8c8] bg-bone px-3 text-2xs text-[#555555] outline-none focus:border-swamp-green"
             />
           </div>
         </div>
@@ -72,7 +72,7 @@ const EditWebsiteInformationModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-7 flex-1 rounded-full border border-[#bdbdbd] bg-transparent text-2xs font-semibold text-[#707070] transition hover:bg-[#e8e8e8]"
+            className="h-7 flex-1 rounded-full border border-[#bdbdbd] bg-transparent text-2xs font-[PoppinsBold] text-[#707070] transition hover:bg-[#e8e8e8]"
           >
             Cancel
           </button>
@@ -80,7 +80,7 @@ const EditWebsiteInformationModal = ({
           <button
             type="button"
             onClick={handleSave}
-            className="h-7 flex-1 rounded-full bg-[#a0b884] text-2xs font-semibold text-white transition hover:bg-[#91a875]"
+            className="h-7 flex-1 rounded-full bg-swamp-green text-2xs font-[PoppinsBold] text-white transition hover:bg-swamp-green/80"
           >
             Save
           </button>

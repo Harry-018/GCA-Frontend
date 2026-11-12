@@ -20,7 +20,7 @@ const RecentApplicants = ({ applicants, headers }) => {
                 {headers.map((header) => (
                   <th
                     key={header}
-                    className="whitespace-nowrap px-3 py-3 text-[11px] font-bold text-swamp-green sm:px-7 sm:py-5 sm:text-xs lg:text-sm xl:text-base"
+                    className="whitespace-nowrap px-3 py-3 text-[11px] font-[PoppinsBold] text-swamp-green sm:px-7 sm:py-5 sm:text-xs lg:text-sm xl:text-base"
                   >
                     {header}
                   </th>

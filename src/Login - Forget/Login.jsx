@@ -174,7 +174,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 transition-all duration-300 ease-in-out hover:text-swamp-green sm:right-4"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 -mr-2 text-gray-400 transition-all duration-300 ease-in-out hover:text-swamp-green sm:right-4"
                   >
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
@@ -184,7 +184,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="font-[SuperJoyful] w-full rounded-full border border-[#a5b78d] py-2.5 text-base  text-swamp-green transition-all duration-500 ease-in-out hover:bg-[#91a77a] hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 sm:text-xl"
+                className="font-[SuperJoyful] w-full rounded-full border border-swamp-green py-2.5 text-base  text-swamp-green transition-all duration-500 ease-in-out hover:bg-swamp-green hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 sm:text-xl"
               >
                 {loading ? "LOGGING IN..." : "LOGIN"}
               </button>

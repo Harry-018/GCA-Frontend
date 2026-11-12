@@ -20,6 +20,9 @@ const DataTable = ({
   selectedRowIds = [],
   onSelectedRowIdsChange,
   getRowId,
+
+  // Optional sticky columns (array of column IDs)
+  stickyColumns = [],
 }) => {
   const enablePagination =
     pagination !== undefined && onPaginationChange !== undefined;
@@ -38,7 +41,7 @@ const DataTable = ({
                 }
               }}
               onChange={table.getToggleAllPageRowsSelectedHandler()}
-              className="h-4 w-4 cursor-pointer accent-[#9caf7e]"
+              className="h-4 w-4 cursor-pointer accent-swamp-green"
             />
           ),
           cell: ({ row }) => (
@@ -47,7 +50,7 @@ const DataTable = ({
               checked={row.getIsSelected()}
               disabled={!row.getCanSelect()}
               onChange={row.getToggleSelectedHandler()}
-              className="h-4 w-4 cursor-pointer accent-[#9caf7e]"
+              className="h-4 w-4 cursor-pointer accent-swamp-green"
             />
           ),
         },
@@ -95,16 +98,53 @@ const DataTable = ({
     }),
   });
 
+  // Calculate sticky column positions.
+  const stickyPositions = {};
+  let leftOffset = 0;
+
+  table.getVisibleLeafColumns().forEach((column) => {
+    if (stickyColumns.includes(column.id)) {
+      stickyPositions[column.id] = leftOffset;
+      leftOffset += column.columnDef.size || 150;
+    }
+  });
+
+  const getStickyStyle = (columnId) => {
+    if (!stickyColumns.includes(columnId)) return {};
+
+    const column = table.getColumn(columnId);
+    const width = column.columnDef.size || 150;
+
+    return {
+      position: "sticky",
+      left: `${stickyPositions[columnId]}px`,
+      width: `${width}px`,
+      minWidth: `${width}px`,
+      maxWidth: `${width}px`,
+      backgroundColor: "#f3f5fd",
+      zIndex: 10,
+      boxSizing: "border-box",
+    };
+  };
+
   return (
-    <div className="flex h-full min-h-0 w-full flex-col overflow-auto rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
-      <table className="w-full text-left text-sm">
-        <thead className="sticky top-0 bg-bone">
+    <div className="flex h-full flex-1 min-h-0 w-full flex-col overflow-auto no-scrollbar rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+      <table
+        className="w-full text-left text-sm"
+        style={{
+          minWidth: stickyColumns.length > 0 ? "max-content" : undefined,
+        }}
+      >
+        <thead className="sticky top-0 z-20 bg-bone">
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id} className="border-b border-gray-200">
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-500"
+                  style={getStickyStyle(header.column.id)}
+                  className={`px-4 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-500 ${
+                    stickyColumns.includes(header.column.id) ? "z-30" : ""
+                  }`}
                 >
                   {header.isPlaceholder
                     ? null
@@ -144,7 +184,11 @@ const DataTable = ({
                 className="border-b border-gray-100 last:border-0 hover:bg-bone/60"
               >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="px-4 py-3 text-gray-700">
+                  <td
+                    key={cell.id}
+                    style={getStickyStyle(cell.column.id)}
+                    className="px-4 py-3 text-gray-700"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}

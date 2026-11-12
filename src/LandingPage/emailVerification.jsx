@@ -94,11 +94,11 @@ const EmailVerificationPage = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#eeece8] px-4 font-[Poppins]">
+    <div className="flex min-h-dvh items-center justify-center bg-[#eeece8] px-4 font-[Poppins]">
       <div className="w-full max-w-md rounded-xl bg-bone p-6 shadow-sm sm:p-8">
         {/* Header */}
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-semibold text-[#3b3b3b]">
+          <h1 className="text-2xl font-[PoppinsBold] text-[#3b3b3b]">
             Verify Your Email
           </h1>
 
@@ -126,7 +126,7 @@ const EmailVerificationPage = () => {
           <form onSubmit={handleSendOtp} className="space-y-5">
             {/* Email */}
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-neutral-600">
+              <label className="mb-1.5 block text-sm text-neutral-600">
                 Email Address
               </label>
 
@@ -141,7 +141,7 @@ const EmailVerificationPage = () => {
 
             {/* Account Parent */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-neutral-600">
+              <label className="mb-2 block text-sm text-neutral-600">
                 Who will receive the parent account?
               </label>
 
@@ -194,7 +194,7 @@ const EmailVerificationPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="h-11 w-full rounded-md bg-swamp-green text-sm font-semibold uppercase text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-11 w-full rounded-md bg-swamp-green text-sm font-[PoppinsBold] uppercase text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Sending..." : "Send Verification Code"}
             </button>
@@ -205,7 +205,7 @@ const EmailVerificationPage = () => {
         {otpSent && (
           <form onSubmit={handleVerifyOtp} className="space-y-5">
             <div>
-              <label className="mb-1.5 block text-sm font-medium text-neutral-600">
+              <label className="mb-1.5 block text-sm text-neutral-600">
                 Verification Code
               </label>
 
@@ -216,19 +216,19 @@ const EmailVerificationPage = () => {
                 value={otp}
                 onChange={(e) => setOtp(e.target.value.replace(/\D/g, ""))}
                 placeholder="000000"
-                className="h-12 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-center text-xl font-semibold tracking-[0.4em] text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
+                className="h-12 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-center text-xl font-[PoppinsBold] tracking-[0.4em] text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
               />
 
               <p className="mt-2 text-center text-xs text-neutral-500">
                 Enter the 6-digit code sent to <br />
-                <span className="font-medium text-neutral-700">{email}</span>
+                <span className=" text-neutral-700">{email}</span>
               </p>
             </div>
 
             <button
               type="submit"
               disabled={loading || otp.length !== 6}
-              className="h-11 w-full rounded-md bg-swamp-green text-sm font-semibold uppercase text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-11 w-full rounded-md bg-swamp-green text-sm font-[PoppinsBold] uppercase text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Verifying..." : "Verify Email"}
             </button>
@@ -241,7 +241,7 @@ const EmailVerificationPage = () => {
                 setError("");
                 setMessage("");
               }}
-              className="w-full text-sm font-medium text-neutral-500 hover:text-neutral-700"
+              className="w-full text-sm text-neutral-500 hover:text-neutral-700"
             >
               Use a different email
             </button>
@@ -250,7 +250,7 @@ const EmailVerificationPage = () => {
 
         <Link
           to="/"
-          className="mt-4 block h-11 w-full text-center text-sm font-semibold uppercase text-ashlight transition"
+          className="mt-4 block h-11 w-full text-center text-sm font-[PoppinsBold] uppercase text-ashlight transition"
         >
           Go Home
         </Link>

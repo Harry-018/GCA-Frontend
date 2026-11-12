@@ -13,10 +13,10 @@ const AttendanceRow = ({ student, dates, layout = "stacked" }) => {
               className="flex justify-center"
             >
               <span
-                className={`flex h-5 w-5 items-center justify-center rounded text-[9px] font-[PoppinsBold] text-white ${
+                className={`flex h-5 w-5 items-center justify-center rounded text-[9px] sm:text-xs font-[PoppinsBold] text-white ${
                   isPresent
                     ? "bg-swamp-green"
-                    : "bg-[#f17a72]"
+                    : "bg-reject"
                 }`}
               >
                 {isPresent ? "P" : "A"}
@@ -52,7 +52,7 @@ const AttendanceRow = ({ student, dates, layout = "stacked" }) => {
               className={`flex h-4 w-4 items-center justify-center rounded text-[8px] font-[PoppinsBold] text-white sm:h-5 sm:w-5 sm:text-[9px] ${
                 isPresent
                   ? "bg-swamp-green"
-                  : "bg-[#f17a72]"
+                  : "bg-reject"
               }`}
             >
               {isPresent ? "P" : "A"}

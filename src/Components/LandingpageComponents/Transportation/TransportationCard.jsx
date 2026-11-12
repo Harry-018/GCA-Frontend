@@ -8,8 +8,8 @@ const TransportationCard = ({ location, distance, price }) => {
       </h3>
 
       <div className="flex items-end justify-between gap-3 border-t border-swamp-green/20 py-4">
-        <p className="min-w-0 wrap-break-word text-sm text-ashlight sm:text-base">
-          {distance} from school
+        <p className=" min-w-0 wrap-break-word text-sm text-ashlight sm:text-base">
+          {distance}km from school
         </p>
 
         <p className="shrink-0 font-[PoppinsBold] text-lg text-swamp-green sm:text-xl">

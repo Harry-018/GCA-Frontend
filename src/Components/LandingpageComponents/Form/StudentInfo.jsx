@@ -346,7 +346,7 @@ const StudentInfo = ({
               {/* Disability */}
               <div className="flex flex-col gap-3 rounded-lg border border-[#d4d5d9] bg-bone px-4 py-3 sm:flex-row sm:flex-wrap sm:items-end sm:gap-x-6 sm:gap-y-3">
                 <div className="flex w-full flex-col gap-2 sm:w-auto">
-                  <span className="text-sm font-medium text-neutral-600">
+                  <span className="text-sm text-neutral-600">
                     Is this Student disabled?
                   </span>
 
@@ -378,7 +378,7 @@ const StudentInfo = ({
                 </div>
 
                 <div className="flex w-full min-w-0 flex-col gap-1.5 sm:w-auto sm:flex-1 sm:flex-row sm:items-center sm:gap-2">
-                  <span className="text-xs font-medium text-neutral-600">
+                  <span className="text-xs text-neutral-600">
                     If yes, what is his/her disability?
                     <b className="text-red-400"> *</b>
                   </span>
@@ -635,7 +635,7 @@ const StudentInfo = ({
                   type="checkbox"
                   checked={agreed}
                   onChange={(e) => onAgreeChange?.(e.target.checked)}
-                  className="mt-0.5 h-4 w-4 rounded border-[#bfc4ca] text-[#9aae80]"
+                  className="mt-0.5 h-4 w-4 rounded border-[#bfc4ca] text-swamp-green"
                 />
                 I agree to the processing and use of my personal data in
                 accordance with the school's privacy policy and data protection

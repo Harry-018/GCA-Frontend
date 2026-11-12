@@ -57,7 +57,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="flex max-h-[85vh] w-full max-w-3xl flex-col rounded-2xl bg-bone shadow-xl">
+      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl flex-col rounded-2xl bg-bone shadow-xl">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
           <div>
@@ -104,7 +104,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
           <button
             type="button"
             onClick={handleSearch}
-            className="rounded-full bg-swamp-green px-5 text-xs text-white hover:bg-[#899d6d]"
+            className="rounded-full bg-swamp-green px-5 text-xs text-white hover:bg-swamp-green/80"
           >
             Search
           </button>
@@ -126,13 +126,13 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
                 <thead className="border-b border-gray-200 bg-bone">
                   <tr>
                     <th className="w-12 px-4 py-3"></th>
-                    <th className="px-4 py-3 font-semibold text-gray-500">
+                    <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">
                       Student Number
                     </th>
-                    <th className="px-4 py-3 font-semibold text-gray-500">
+                    <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">
                       Name
                     </th>
-                    <th className="px-4 py-3 font-semibold text-gray-500">
+                    <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">
                       LRN
                     </th>
                   </tr>
@@ -158,7 +158,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
                             checked={selected}
                             onChange={() => toggleStudent(student.stu_id)}
                             onClick={(event) => event.stopPropagation()}
-                            className="h-4 w-4 accent-[#9caf7e]"
+                            className="h-4 w-4 accent-swamp-green"
                           />
                         </td>
 

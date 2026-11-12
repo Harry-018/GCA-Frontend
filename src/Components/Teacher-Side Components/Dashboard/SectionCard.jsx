@@ -28,7 +28,7 @@ const SectionCard = ({
                 type="button"
                 onClick={() => onSelect(section.id)}
                 aria-pressed={isSelected}
-                className={`flex min-w-0 flex-col items-start gap-1 rounded-xl px-3 py-3 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-swamp-green focus-visible:ring-offset-2 sm:px-4 ${
+                className={`flex cursor-pointer min-w-0 flex-col items-start gap-1 rounded-xl px-3 py-3 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-swamp-green focus-visible:ring-offset-2 sm:px-4 ${
                   isSelected
                     ? "bg-swamp-green text-bone"
                     : "bg-bone text-gray-600 hover:bg-swamp-green/10"

@@ -21,7 +21,7 @@ const StudentTable = ({ students, columns = DEFAULT_COLUMNS }) => {
             {/* Header */}
             <div className="grid grid-cols-[minmax(110px,1.2fr)_repeat(4,1fr)] items-center gap-0">
               <div className="sticky left-0 z-10 bg-bone py-3 pl-3 sm:pl-4">
-                <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-[#9caf7d] sm:text-xs">
+                <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
                   ID & Student
                 </span>
               </div>

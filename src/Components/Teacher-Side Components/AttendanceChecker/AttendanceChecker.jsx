@@ -15,7 +15,7 @@ const AttendanceChecker = ({
           <div className="min-w-115">
             <div className="grid grid-cols-[minmax(80px,1fr)_0.9fr_0.7fr_1fr] items-center gap-0">
               <div className="sticky left-0 z-10 bg-bone py-2 pl-2 sm:py-3 sm:pl-4 md:py-3.5 md:pl-5">
-                <span className="text-[8px] font-[PoppinsBold] uppercase tracking-wide text-[#9caf7d] sm:text-2xs md:text-xs">
+                <span className="text-[8px] font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-2xs md:text-xs">
                   ID & Student
                 </span>
               </div>

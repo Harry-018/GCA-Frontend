@@ -9,7 +9,7 @@ const EditVideoPresentationModal = ({
 }) => {
   return (
     <div className="w-full max-w-105 rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-md">
-      <h2 className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green">
+      <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-swamp-green">
         Edit Video Presentation
       </h2>
 
@@ -48,7 +48,7 @@ const EditVideoPresentationModal = ({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full border border-[#bcbcbc] px-5 py-3 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone"
+          className="rounded-full border border-[#bcbcbc] px-5 py-3 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone"
         >
           Close
         </button>
@@ -56,7 +56,7 @@ const EditVideoPresentationModal = ({
         <button
           type="button"
           onClick={onSave}
-          className="rounded-full bg-swamp-green px-5 py-3 font-[Poppins] text-[9px] sm:text-xs font-semibold text-white transition hover:bg-lime-green"
+          className="rounded-full bg-swamp-green px-5 py-3 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-lime-green"
         >
           Save
         </button>

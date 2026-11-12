@@ -8,7 +8,7 @@ const ParentsLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen flex-col justify-between">
+    <div className="flex min-h-dvh flex-col justify-between">
       <ParentsHeader onMenuToggle={() => setSidebarOpen((prev) => !prev)} />
 
       <ParentsSidebar

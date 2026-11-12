@@ -7,7 +7,7 @@ const AttendanceTable = ({ students, dates }) => {
       <div className="w-full overflow-x-auto rounded-2xl bg-bone shadow-md no-scrollbar md:hidden">
         <div className="min-w-140">
           <div className="grid grid-cols-[minmax(110px,1.5fr)_repeat(8,minmax(32px,1fr))] items-center">
-            <span className="sticky left-0 z-10 bg-bone py-3 pl-3 pr-6 text-[9px] font-[PoppinsBold] uppercase text-[#9caf7d] sm:text-xs">
+            <span className="sticky left-0 z-10 bg-bone py-3 pl-3 pr-6 text-[9px] font-[PoppinsBold] uppercase text-swamp-green sm:text-xs">
               ID & Student
             </span>
 
@@ -67,7 +67,7 @@ const AttendanceTable = ({ students, dates }) => {
               {dates.map((date) => (
                 <span
                   key={date}
-                  className="text-center text-xs font-[PoppinsBold] uppercase text-[#9caf7d]"
+                  className="text-center text-xs font-[PoppinsBold] uppercase text-swamp-green"
                 >
                   {date}
                 </span>

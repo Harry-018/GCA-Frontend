@@ -12,8 +12,8 @@ const SessionExpiredModal = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-black/30 px-4 font-[Poppins]">
-      <div className="w-full max-w-105 rounded-[20px] border border-[#2d2d2d]/20 bg-[#f3f3f1] px-6 py-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
+    <div className="fixed inset-0 z-100 flex items-center justify-center overflow-y-auto bg-black/30 px-4 py-6 font-[Poppins]">
+      <div className="my-auto w-full max-w-105 rounded-[20px] border border-[#2d2d2d]/20 bg-[#f3f3f1] px-6 py-6 shadow-[0_4px_20px_rgba(0,0,0,0.2)]">
         <div className="flex flex-col items-center text-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-swamp-green/10">
             <LogIn size={22} className="text-swamp-green" />

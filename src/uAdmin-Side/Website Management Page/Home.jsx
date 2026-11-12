@@ -789,14 +789,14 @@ const Home = () => {
         {activeTab === "activities" && (
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-bold text-swamp-green sm:text-base">
+              <h2 className="text-sm font-[PoppinsBold] text-swamp-green sm:text-base">
                 Children Activities
               </h2>
 
               <button
                 type="button"
                 onClick={openAddActivity}
-                className="rounded-full bg-swamp-green px-5 py-2 text-[9px] font-medium text-white transition hover:bg-lime-green sm:text-xs"
+                className="rounded-full bg-swamp-green px-5 py-2 text-[9px] text-white transition hover:bg-lime-green sm:text-xs"
               >
                 Add
               </button>

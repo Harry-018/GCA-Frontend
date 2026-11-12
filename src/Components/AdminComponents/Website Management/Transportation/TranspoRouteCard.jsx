@@ -41,7 +41,7 @@ const TranspoRouteCard = ({ location, distance, price, onEdit, onRemove }) => {
         <button
           type="button"
           onClick={onRemove}
-          className="flex-1 rounded-full bg-[#f27777] px-4 py-2 text-[9px] sm:text-xs font-medium text-white transition hover:bg-[#e56666]"
+          className="flex-1 rounded-full bg-reject px-4 py-2 text-[9px] sm:text-xs text-white transition hover:bg-reject/80"
         >
           Remove
         </button>

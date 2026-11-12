@@ -158,7 +158,7 @@ const AddChildrenActivityModal = ({
             <button
               type="submit"
               disabled={loading}
-              className="flex-1 rounded-full bg-swamp-green px-4 py-2 text-[9px] font-medium text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+              className="flex-1 rounded-full bg-swamp-green px-4 py-2 text-[9px] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
             >
               {loading ? (
                 <span className="flex items-center justify-center gap-2">

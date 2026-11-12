@@ -32,7 +32,7 @@ const AccountSettings = ({ account, onChangePassword }) => {
 
         <div className="grid grid-cols-1 gap-5 border-t border-white/15 pt-5">
           <div className="flex min-w-0 flex-col gap-1">
-            <p className="text-2xs font-medium uppercase tracking-wide text-white/50">
+            <p className="text-2xs uppercase tracking-wide text-white/50">
               Email
             </p>
             <p className="wrap-break-word text-xs font-[Poppins] text-white sm:text-sm">
@@ -41,7 +41,7 @@ const AccountSettings = ({ account, onChangePassword }) => {
           </div>
           <div className="flex flex-col items-stretch gap-3 xl:flex-row xl:items-center xl:justify-between">
             <div className="flex min-w-0 flex-col gap-1">
-              <p className="text-2xs font-medium uppercase tracking-wide text-white/50">
+              <p className="text-2xs uppercase tracking-wide text-white/50">
                 Password
               </p>
               <p className="text-xs font-[Poppins] leading-snug text-white sm:text-sm">

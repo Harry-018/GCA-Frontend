@@ -2,7 +2,7 @@ import React from "react";
 
 const ReviewField = ({ label, value }) => (
   <div className="min-w-0">
-    <p className="mb-1 text-[9px] font-medium text-neutral-600">{label}</p>
+    <p className="mb-1 text-[9px] sm:text-xs text-neutral-600">{label}</p>
 
     <div className="truncate rounded-md border border-[#d4d5d9] bg-bone px-2.5 py-1.5 text-2xs text-neutral-700">
       {value || "N/A"}
@@ -12,7 +12,7 @@ const ReviewField = ({ label, value }) => (
 
 const ReviewSection = ({ title, children, layered = false }) => (
   <section>
-    <h2 className="mb-3 text-[9px] font-bold uppercase text-[#88a06f]">
+    <h2 className="mb-3 text-[9px] sm:text-xs font-[PoppinsBold] uppercase text-swamp-green">
       {title}
     </h2>
 
@@ -80,12 +80,12 @@ const ReviewFormModal = ({
       aria-modal="true"
       aria-labelledby="review-form-title"
     >
-      <div className="flex max-h-[calc(100vh-40px)] w-full max-w-200 flex-col rounded-xl bg-[#f2f4fd] p-4 shadow-xl sm:p-6">
+      <div className="flex max-h-[calc(100dvh-40px)] w-full max-w-200 flex-col rounded-xl bg-[#f2f4fd] p-4 shadow-xl sm:p-6">
         {/* HEADER */}
         <div className="mb-4 flex items-center justify-between">
           <h1
             id="review-form-title"
-            className="text-sm font-bold uppercase tracking-wide text-[#88a06f]"
+            className="text-sm font-[PoppinsBold] uppercase tracking-wide text-swamp-green"
           >
             Review Application
           </h1>
@@ -94,7 +94,7 @@ const ReviewFormModal = ({
             type="button"
             onClick={onClose}
             aria-label="Close review"
-            className="text-lg leading-none text-neutral-500 hover:text-neutral-800"
+            className="-m-1 px-2 py-1.5 text-lg leading-none text-neutral-500 hover:text-neutral-800"
           >
             &times;
           </button>
@@ -252,7 +252,7 @@ const ReviewFormModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-full rounded-md bg-bone px-5 py-2.5 text-xs font-bold uppercase text-neutral-600 shadow-sm sm:w-auto"
+            className="w-full rounded-md bg-bone px-5 py-2.5 text-xs font-[PoppinsBold] uppercase text-neutral-600 shadow-sm sm:w-auto"
           >
             Cancel
           </button>
@@ -260,7 +260,7 @@ const ReviewFormModal = ({
           <button
             type="button"
             onClick={onSubmit}
-            className="w-full rounded-md bg-[#9aae80] px-5 py-2.5 text-xs font-bold uppercase text-white shadow-sm sm:w-auto"
+            className="w-full rounded-md bg-swamp-green px-5 py-2.5 text-xs font-[PoppinsBold] uppercase text-white shadow-sm sm:w-auto"
           >
             Submit
           </button>

@@ -32,12 +32,12 @@ const ApproveApplicantModal = ({
         <div className="flex flex-col gap-2 py-6 text-xs text-gray-600">
           <div className="grid grid-cols-[105px_1fr]">
             <span>Send confirmation to:</span>
-            <span className="font-bold text-gray-700">{email}</span>
+            <span className="font-[PoppinsBold] text-gray-700">{email}</span>
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">
             <span>Purpose:</span>
-            <span className="font-bold text-gray-700">{purpose}</span>
+            <span className="font-[PoppinsBold] text-gray-700">{purpose}</span>
           </div>
         </div>
 
@@ -45,9 +45,9 @@ const ApproveApplicantModal = ({
           <h3 className="pb-3 text-sm font-[PoppinsBold] text-swamp-green">
             {scheduleTitle}
           </h3>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
             <div>
-              <label className="block pb-1 text-[11px] text-gray-600">
+              <label className="block pb-1 text-[11px] lg:text-xs xl:text-sm text-gray-600">
                 Select Date:
               </label>
 
@@ -58,12 +58,12 @@ const ApproveApplicantModal = ({
                 onChange={(event) =>
                   onScheduleChange("date", event.target.value)
                 }
-                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 text-center text-[11px] text-gray-600 outline-none"
+                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 text-center text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none"
               />
             </div>
 
             <div>
-              <label className="block pb-1 text-[11px] text-gray-600">
+              <label className="block pb-1 text-[11px] lg:text-xs xl:text-sm text-gray-600">
                 From:
               </label>
 
@@ -72,7 +72,7 @@ const ApproveApplicantModal = ({
                 onChange={(event) =>
                   onScheduleChange("from", event.target.value)
                 }
-                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] leading-8 text-gray-600 outline-none"
+                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] lg:text-xs xl:text-sm leading-8 text-gray-600 outline-none"
               >
                 <option value="">select time</option>
                 <option value="08:00">08:00 AM</option>
@@ -87,14 +87,14 @@ const ApproveApplicantModal = ({
             </div>
 
             <div>
-              <label className="block pb-1 text-[11px] text-gray-600">
+              <label className="block pb-1 text-[11px] lg:text-xs xl:text-sm text-gray-600">
                 To:
               </label>
 
               <select
                 value={schedule.to}
                 onChange={(event) => onScheduleChange("to", event.target.value)}
-                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] leading-8 text-gray-600 outline-none"
+                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] lg:text-xs xl:text-sm leading-8 text-gray-600 outline-none"
               >
                 <option value="">select time</option>
                 <option value="08:30">08:30 AM</option>
@@ -114,7 +114,7 @@ const ApproveApplicantModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-full border border-gray-400 px-8 py-2 text-xs font-medium text-gray-600 transition hover:bg-gray-100"
+            className="rounded-full border border-gray-400 px-8 py-2 text-xs text-gray-600 transition hover:bg-gray-100"
           >
             {cancelLabel}
           </button>

@@ -25,7 +25,7 @@ const StudentTable = ({ applicants, onView }) => {
                   className={`${MOBILE_COLS} sticky top-0 z-30 grid items-center gap-0 bg-bone`}
                 >
                   <div className="sticky left-0 top-0 z-40 bg-bone py-3 pl-3 pr-2 sm:pl-4 sm:pr-3">
-                    <span className="whitespace-nowrap text-2xs font-[PoppinsBold] uppercase tracking-wide text-[#9caf7d] sm:text-xs">
+                    <span className="whitespace-nowrap text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
                       No. & Student
                     </span>
                   </div>
@@ -86,7 +86,7 @@ const StudentTable = ({ applicants, onView }) => {
                         <button
                           type="button"
                           onClick={() => onView(applicant)}
-                          className="rounded-full bg-[#9caf7d] px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:opacity-90 sm:px-5 sm:py-2 sm:text-xs"
+                          className="rounded-full bg-swamp-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:opacity-90 sm:px-5 sm:py-2 sm:text-xs"
                         >
                           Edit
                         </button>

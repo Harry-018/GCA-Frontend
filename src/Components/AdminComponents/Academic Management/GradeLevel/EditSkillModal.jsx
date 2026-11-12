@@ -59,7 +59,7 @@ const EditSkillModal = ({
           <button
             type="button"
             onClick={onSave}
-            className="flex-1 rounded-full bg-[#9caf7c] px-4 py-2 font-[Poppins] text-xs text-white"
+            className="flex-1 rounded-full bg-swamp-green px-4 py-2 font-[Poppins] text-xs text-white"
           >
             Save
           </button>

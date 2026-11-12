@@ -243,7 +243,7 @@ const AdminSectionName = () => {
                 type="button"
                 onClick={handleAddSection}
                 disabled={!newSection.trim() || saving}
-                className="flex shrink-0 items-center gap-1 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-xs font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex shrink-0 items-center gap-1 rounded-full bg-swamp-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40"
               >
                 <Plus size={14} strokeWidth={2.5} />
 
@@ -339,7 +339,7 @@ const AdminSectionName = () => {
                               type="button"
                               onClick={confirmArchiveSection}
                               disabled={saving}
-                              className="rounded-full bg-red-400 px-3 py-1.5 text-[9px] font-[Poppins] font-semibold text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-40"
+                              className="rounded-full bg-red-400 px-3 py-1.5 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-red-500 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                               Archive
                             </button>
@@ -348,7 +348,7 @@ const AdminSectionName = () => {
                               type="button"
                               onClick={() => setPendingArchive(null)}
                               disabled={saving}
-                              className="rounded-full px-3 py-1.5 text-[9px] font-[Poppins] font-semibold text-gray-500 transition hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-40"
+                              className="rounded-full px-3 py-1.5 text-[9px] sm:text-xs font-[PoppinsBold] text-gray-500 transition hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-40"
                             >
                               Cancel
                             </button>
@@ -445,7 +445,7 @@ const AdminSectionName = () => {
                             type="button"
                             onClick={confirmRestoreSection}
                             disabled={saving}
-                            className="rounded-full bg-swamp-green px-3 py-1.5 text-[9px] font-[Poppins] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40"
+                            className="rounded-full bg-swamp-green px-3 py-1.5 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40"
                           >
                             Restore
                           </button>
@@ -454,7 +454,7 @@ const AdminSectionName = () => {
                             type="button"
                             onClick={() => setPendingRestore(null)}
                             disabled={saving}
-                            className="rounded-full px-3 py-1.5 text-[9px] font-[Poppins] font-semibold text-gray-500 transition hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-40"
+                            className="rounded-full px-3 py-1.5 text-[9px] sm:text-xs font-[PoppinsBold] text-gray-500 transition hover:text-gray-700 disabled:cursor-not-allowed disabled:opacity-40"
                           >
                             Cancel
                           </button>

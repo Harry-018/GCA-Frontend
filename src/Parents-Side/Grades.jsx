@@ -95,7 +95,7 @@ const Grades = () => {
 
         {/* Development Cards */}
         <div className="flex flex-col gap-3">
-          <h2 className="flex items-center gap-1.5 px-1 text-xs font-[PoppinsBold] uppercase text-[#9caf7d] sm:gap-2 sm:text-sm">
+          <h2 className="flex items-center gap-1.5 px-1 text-xs font-[PoppinsBold] uppercase text-swamp-green sm:gap-2 sm:text-sm">
             <GraduationCap size={16} />
             Grades
           </h2>

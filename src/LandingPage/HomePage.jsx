@@ -66,13 +66,13 @@ const HomePage = () => {
         <div className="flex flex-col items-center pt-5 bg-egg">
           <div className="flex w-full max-w-full flex-col lg:gap-5">
             <div className="flex w-full justify-center">
-              <h2 className="px-5 font-[SuperJoyful] uppercase text-swamp-green lg:text-2xl">
+              <h2 className="px-5 font-[SuperJoyful] uppercase text-swamp-green text-lg leading-tight sm:text-xl md:text-4xl">
                 Academic Programs
               </h2>
             </div>
 
             <div className="no-scrollbar flex snap-x snap-mandatory justify-center-safe gap-5 overflow-x-auto px-5 py-5">
-              <div className="grid  w-7xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid w-full max-w-7xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {(acadprog ?? []).map((program) => (
                   <AcademicCard
                     key={program.program_id}

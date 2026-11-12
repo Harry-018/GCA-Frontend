@@ -24,7 +24,7 @@ const TeacherToolbar = ({
         <select
           value={status}
           onChange={onStatusChange}
-          className="h-8 min-w-27.5 rounded-full border py-0 border-gray-300 bg-[#f7f7ff] px-4 text-xs text-gray-700 outline-none focus:border-[#9caf88]"
+          className="h-8 min-w-27.5 rounded-full border py-0 border-gray-300 bg-[#f7f7ff] px-4 text-xs text-gray-700 outline-none focus:border-swamp-green"
         >
           <option value="all">All</option>
           <option value="active">Active</option>
@@ -44,7 +44,7 @@ const TeacherToolbar = ({
             value={searchValue}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search Teacher"
-            className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-xs text-gray-700 outline-none focus:border-[#9caf88]"
+            className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-xs text-gray-700 outline-none focus:border-swamp-green"
           />
         </div>
 
@@ -52,7 +52,7 @@ const TeacherToolbar = ({
         <button
           type="button"
           onClick={onSearch}
-          className="h-8 shrink-0 rounded-full bg-[#9caf88] px-6 text-xs font-medium text-white transition hover:bg-[#879b72]"
+          className="h-8 shrink-0 rounded-full bg-swamp-green px-6 text-xs text-white transition hover:bg-swamp-green/80"
         >
           Search
         </button>
@@ -61,7 +61,7 @@ const TeacherToolbar = ({
         <button
           type="button"
           onClick={onAdd}
-          className="h-8 shrink-0 rounded-full bg-swamp-green px-5 text-xs font-medium text-white transition hover:opacity-90"
+          className="h-8 shrink-0 rounded-full bg-swamp-green px-5 text-xs text-white transition hover:opacity-90"
         >
           + Add Teacher
         </button>

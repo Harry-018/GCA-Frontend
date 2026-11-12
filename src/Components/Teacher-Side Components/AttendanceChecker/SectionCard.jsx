@@ -2,8 +2,8 @@ import React from "react";
 
 const SectionCard = ({ sections = [], selectedId, onSelect }) => {
   return (
-    <section className="flex w-full min-w-0 flex-col gap-3">
-      <h2 className="flex flex-wrap items-center gap-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-sm">
+    <div className="flex w-full flex-col gap-3 p-2 sm:gap-4 sm:p-3 md:gap-5 md:p-4 lg:p-6">
+      <h2 className="flex items-center gap-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-sm md:text-md">
         <span>Class Sections:</span>
       </h2>
 
@@ -16,30 +16,30 @@ const SectionCard = ({ sections = [], selectedId, onSelect }) => {
           {sections.map((section) => {
             const isSelected = String(section.id) === String(selectedId);
 
-            return (
-              <button
-                key={section.id}
-                type="button"
-                onClick={() => onSelect(section.id)}
-                aria-pressed={isSelected}
-                className={`flex min-w-0 flex-col items-start gap-1 rounded-xl px-3 py-3 text-left transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-swamp-green focus-visible:ring-offset-2 sm:px-4 ${
-                  isSelected
-                    ? "bg-swamp-green text-bone"
-                    : "bg-bone text-gray-600 hover:bg-swamp-green/10"
-                } lg:w-64 lg:flex-none`}
-              >
-                <span className="text-xs font-[PoppinsBold] uppercase tracking-wide sm:text-sm">
-                  {section.name}
-                </span>
-                <span className="text-[10px] font-[PoppinsBold] uppercase tracking-wide sm:text-xs">
-                  {section.level}
-                </span>
-              </button>
-            );
-          })}
-        </div>
+          return (
+            <button
+              key={section.id}
+              type="button"
+              onClick={() => onSelect(section.id)}
+              aria-pressed={isSelected}
+              className={`flex min-w-0 flex-col items-start gap-0.5 rounded-lg px-3 py-2 text-left transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-swamp-green sm:rounded-xl sm:gap-1 sm:px-4 sm:py-2.5 md:px-5 md:py-3 lg:w-70 lg:flex-none ${
+                isSelected
+                  ? "bg-swamp-green text-bone"
+                  : "bg-bone text-gray-600"
+              }`}
+            >
+              <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide sm:text-xs md:text-sm">
+                {section.name}
+              </span>
+              <span className="text-[9px] font-[PoppinsBold] uppercase tracking-wide sm:text-2xs md:text-xs">
+                {section.level}
+              </span>
+            </button>
+          );
+        })}
+      </div>
       )}
-    </section>
+    </div>
   );
 };
 

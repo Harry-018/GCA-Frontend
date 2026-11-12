@@ -53,11 +53,11 @@ const MobileBrand = () => {
 const MobileAccount = () => {
   return (
     <div className="border-b border-white/10 px-5 py-4">
-      <p className="truncate font-[PoppinsBold] text-[11px] text-white">
+      <p className="truncate font-[PoppinsBold] text-[11px] lg:text-xs xl:text-sm text-white">
         ADMIN ACCOUNT
       </p>
 
-      <p className="text-[9px] text-gray-400">Administrator</p>
+      <p className="text-[9px] sm:text-xs text-gray-400">Administrator</p>
     </div>
   );
 };
@@ -73,7 +73,7 @@ const MobileNavLink = ({ item, active, onNavigate }) => {
       onClick={onNavigate}
       className={`
         flex items-center gap-x-3 rounded-lg px-3 py-3
-        text-[11px] font-[PoppinsBold] tracking-wide
+        text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] tracking-wide
         transition-colors
         ${
           active
@@ -132,7 +132,7 @@ const MobileLogout = ({ onNavigate }) => {
       <button
         type="button"
         onClick={handleLogout}
-        className="flex w-full items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300"
+        className="flex w-full items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300"
       >
         <LogOut size={18} />
         LOG OUT

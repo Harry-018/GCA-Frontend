@@ -20,14 +20,14 @@ const SearchBar = ({
             value={studentName}
             onChange={(e) => setStudentName(e.target.value)}
             placeholder="Search Students"
-            className="h-7 w-full min-w-0 rounded-xl border border-gray-400 bg-transparent pl-7 pr-2.5 text-2xs outline-none placeholder:text-gray-500 focus:border-swamp-green sm:h-8 sm:pl-9 sm:px-4 sm:text-xs"
+            className="h-9 w-full min-w-0 rounded-xl border border-gray-400 bg-transparent pl-7 pr-2.5 text-2xs outline-none placeholder:text-gray-500 focus:border-swamp-green sm:h-8 sm:pl-9 sm:px-4 sm:text-xs"
           />
         </div>
 
         <button
           type="button"
           onClick={onSearch}
-          className="h-7 shrink-0 rounded-xl bg-gray-400 px-3 text-2xs font-[PoppinsBold] text-white transition-colors hover:bg-swamp-green sm:h-8 sm:px-5 sm:text-xs"
+          className="h-9 shrink-0 rounded-xl bg-gray-400 px-3 text-2xs font-[PoppinsBold] text-white transition-colors hover:bg-swamp-green sm:h-8 sm:px-5 sm:text-xs"
         >
           search
         </button>

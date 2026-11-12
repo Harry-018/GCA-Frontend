@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { Loader2 } from "lucide-react";
-import {
-  getParentContact,
-  getParentProfile,
-} from "../utils/data/Parents/account";
+
+import { getParentInfoByUserId } from "../requests/parentRequests.js";
+
 import PersonalInformation from "../Components/Parents-Side Components/Security/PersonalInformation";
 import EmergencyContact from "../Components/Parents-Side Components/Security/EmergencyContact";
 import AccountSettings from "../Components/Parents-Side Components/Security/AccountSettings";
@@ -41,27 +39,88 @@ const INITIAL_VISIBILITY = {
   confirm: false,
 };
 
-const PROFILE = getParentProfile();
+const INITIAL_CONTACT = {
+  contactNumber: "",
+  email: "",
+  relationship_type: "",
+  account_email: "",
+};
 
 const Security = () => {
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [contactData, setContactData] = useState(getParentContact());
+  const [parentInfo, setParentInfo] = useState(null);
+  const [contactData, setContactData] = useState(INITIAL_CONTACT);
+  const [formData, setFormData] = useState(INITIAL_CONTACT);
 
-  const [formData, setFormData] = useState(getParentContact());
+  // GET LOGGED-IN PARENT INFORMATION
+  useEffect(() => {
+    const fetchParentInfo = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
+        const response = await getParentInfoByUserId();
+
+        // Extract parent information from the "r" property.
+        const parent = response?.r;
+
+        if (!parent) {
+          throw new Error("Parent information not found.");
+        }
+
+        setParentInfo(parent);
+
+        const contact = {
+          contactNumber: parent.contact_number || "",
+          email: parent.email || "",
+          relationship: parent.relationship_type || "",
+          account_email: parent.account_email || "",
+        };
+
+        setContactData(contact);
+        setFormData(contact);
+      } catch (err) {
+        console.error("Failed to retrieve parent information:", err);
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Failed to load parent information.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchParentInfo();
+  }, []);
+
+  // FORMAT PARENT FULL NAME
+  const fullName = [
+    parentInfo?.first_name,
+    parentInfo?.middle_name,
+    parentInfo?.last_name,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
+  // CHANGE PASSWORD
   const handlePasswordUpdate = (passwords) => {
     setShowPasswordModal(false);
   };
 
+  // OPEN CONTACT MODAL
   const handleManageContact = () => {
     setFormData(contactData);
     setShowContactModal(true);
   };
 
+  // HANDLE CONTACT INPUTS
   const handleContactChange = (field, value) => {
     setFormData((prev) => ({
       ...prev,
@@ -69,24 +128,20 @@ const Security = () => {
     }));
   };
 
+  // SAVE CONTACT INFORMATION
   const handleSaveContact = () => {
     setContactData(formData);
     setShowContactModal(false);
 
-    /*
-      Later, this can become:
-
-      await axios.put(
-        "http://localhost:5000/parent/contact",
-        formData
-      );
-    */
+    // Connect this to the parent contact update endpoint later.
   };
 
+  // LOADING STATE
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black font-[Poppins]">
+      <div className="flex  min-h-screen flex-col items-center justify-center gap-3 bg-black font-[Poppins]">
         <Loader2 size={32} className="animate-spin text-swamp-green" />
+
         <p className="text-sm text-gray-400">
           Loading Account Settings
           <span className="loading-dots">
@@ -99,6 +154,7 @@ const Security = () => {
     );
   }
 
+  // ERROR STATE
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
@@ -108,17 +164,20 @@ const Security = () => {
   }
 
   return (
-    <div className="min-h-full cursor-default bg-[#ebe9e4] px-3 py-5 font-[Poppins] sm:px-6 sm:py-8 lg:px-10 lg:pt-5 lg:pb-10">
+    <div className="min-h-full cursor-default bg-egg px-3 py-5 font-[Poppins] sm:px-6 sm:py-8 lg:px-10 lg:pt-5 lg:pb-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 lg:gap-8">
+        {/* PAGE HEADER */}
         <div className="flex flex-col gap-2 border-b border-[#0c2423]/10 pb-5 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="py-1 text-2xs font-[PoppinsBold] uppercase tracking-[0.2em] text-swamp-green">
               Parent portal
             </p>
+
             <h2 className="font-[PoppinsBold] text-xl uppercase leading-tight text-[#0c2423] sm:text-2xl lg:text-3xl">
               Account Settings
             </h2>
           </div>
+
           <p className="max-w-xs text-xs leading-relaxed text-gray-500 sm:text-right">
             Keep your contact details current and your account protected.
           </p>
@@ -126,23 +185,22 @@ const Security = () => {
 
         {/* PERSONAL INFORMATION */}
         <PersonalInformation
-          fullName={PROFILE.fullName}
+          fullName={fullName}
           contactNo={contactData.contactNumber}
           email={contactData.email}
-          address={contactData.address}
         />
 
         {/* CONTACT + ACCOUNT SETTINGS */}
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1.7fr_1fr] lg:gap-6">
           <EmergencyContact
-            fullName={PROFILE.emergencyFullName}
+            fullName={fullName}
             contactNo={contactData.contactNumber}
-            relationship={PROFILE.relationship}
+            relationship={contactData.relationship_type}
             onManage={handleManageContact}
           />
 
           <AccountSettings
-            email={contactData.email}
+            email={contactData.account_email}
             password="Change Password"
             onChangePassword={() => setShowPasswordModal(true)}
           />

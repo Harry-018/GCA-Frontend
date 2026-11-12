@@ -52,7 +52,7 @@ const RemoveModal = ({
           {message || (
             <>
               Are you sure you want to remove{" "}
-              <span className="font-semibold text-[#3b3b3b]">{itemName}</span>?
+              <span className="font-[PoppinsBold] text-[#3b3b3b]">{itemName}</span>?
             </>
           )}
         </div>
@@ -82,7 +82,7 @@ const RemoveModal = ({
             type="button"
             onClick={handleRemove}
             disabled={deleting}
-            className="rounded-full bg-reject px-4 py-2 text-sm text-white transition hover:bg-red-400 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-full bg-reject px-4 py-2 text-sm text-white transition hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {deleting ? "Removing..." : "Remove"}
           </button>

@@ -111,7 +111,7 @@ const PromoteStudentModal = ({
 
           {/* School Year */}
           <div>
-            <label className="mb-2 block text-xs font-medium text-gray-600">
+            <label className="mb-2 block text-xs text-gray-600">
               Target School Year
             </label>
 
@@ -132,7 +132,7 @@ const PromoteStudentModal = ({
 
           {/* Grade Level */}
           <div>
-            <label className="mb-2 block text-xs font-medium text-gray-600">
+            <label className="mb-2 block text-xs text-gray-600">
               Target Grade Level
             </label>
 
@@ -155,7 +155,7 @@ const PromoteStudentModal = ({
             </select>
           </div>
 
-          <p className="text-[11px] leading-5 text-gray-500">
+          <p className="text-[11px] lg:text-xs xl:text-sm leading-5 text-gray-500">
             Students will be promoted to the selected school year and grade
             level. They will not be assigned to a section automatically.
           </p>

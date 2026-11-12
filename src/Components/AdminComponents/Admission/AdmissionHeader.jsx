@@ -11,7 +11,7 @@ const AdmissionHeader = ({ tabs }) => {
           key={tab.label}
           type="button"
           onClick={() => navigate(tab.path)}
-          className={`whitespace-nowrap pb-1 text-2xs font-medium transition sm:text-[11px] lg:text-xs xl:text-sm ${
+          className={`whitespace-nowrap pb-1 text-2xs transition sm:text-[11px] lg:text-xs xl:text-sm ${
             pathname === tab.path
               ? "text-swamp-green underline underline-offset-8"
               : "text-gray-600 hover:text-swamp-green"

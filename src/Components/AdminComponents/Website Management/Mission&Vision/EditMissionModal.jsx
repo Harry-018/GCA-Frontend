@@ -13,8 +13,8 @@ const EditMissionModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="max-h-[95vh] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-[9px] sm:text-sm font-semibold text-swamp-green">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
+        <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-swamp-green">
           Edit Mission
         </h2>
 
@@ -53,7 +53,7 @@ const EditMissionModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] sm:text-xs font-semibold text-[#555555] transition hover:bg-bone"
+            className="rounded-full border border-[#bcbcbc] px-5 py-2 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone"
           >
             Close
           </button>
@@ -62,7 +62,7 @@ const EditMissionModal = ({
             type="button"
             onClick={onSave}
             disabled={loading}
-            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-[9px] font-semibold text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             {loading ? (
               <>

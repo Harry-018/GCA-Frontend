@@ -11,7 +11,7 @@ const AddSkillModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-sm font-semibold text-swamp-green">
+        <h2 className=" text-sm font-[PoppinsBold] text-swamp-green">
           Add Skills
         </h2>
 
@@ -39,7 +39,7 @@ const AddSkillModal = ({
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => onToggle(skillId)}
-                      className="h-3.5 w-3.5 accent-[#91a77a]"
+                      className="h-3.5 w-3.5 accent-swamp-green"
                     />
 
                     <div className="flex min-w-0 flex-col">
@@ -48,7 +48,7 @@ const AddSkillModal = ({
                       </span>
 
                       {skill.description && (
-                        <span className="font-[Poppins] text-[10px] text-gray-400">
+                        <span className="font-[Poppins] text-[10px] sm:text-xs text-gray-400">
                           {skill.description}
                         </span>
                       )}
@@ -69,7 +69,7 @@ const AddSkillModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="w-1/2 rounded-full border border-gray-300 py-1.5 font-[Poppins] text-xs font-semibold text-gray-500 transition hover:bg-gray-100"
+            className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -78,7 +78,7 @@ const AddSkillModal = ({
             type="button"
             onClick={onAdd}
             disabled={selectedSkillIds.length === 0}
-            className="w-1/2 rounded-full bg-[#91a77a] py-1.5 font-[Poppins] text-xs font-semibold text-white transition hover:bg-[#7d9367] disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-1/2 rounded-full bg-swamp-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-swamp-green/80 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Add Selected
           </button>

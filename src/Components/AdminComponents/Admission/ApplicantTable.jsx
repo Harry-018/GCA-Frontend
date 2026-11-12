@@ -114,7 +114,7 @@ const ApplicantTable = ({
 
           return (
             <span
-              className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${
+              className={`rounded-full px-3 py-1 text-xs capitalize ${
                 STATUS_STYLES[status.toLowerCase()] ??
                 "bg-gray-100 text-gray-600"
               }`}
@@ -138,7 +138,7 @@ const ApplicantTable = ({
                 type="button"
                 onClick={() => onView(applicant)}
                 title="View applicant"
-                className="rounded-lg bg-[#d9ddd8] px-3 py-1.5 text-[11px] font-[Poppins] text-[#4f5a50] transition hover:bg-[#cdd3cc] active:scale-95"
+                className="rounded-lg bg-[#d9ddd8] px-3 py-1.5 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-[#4f5a50] transition hover:bg-[#cdd3cc] active:scale-95"
               >
                 View
               </button>
@@ -149,7 +149,7 @@ const ApplicantTable = ({
                   type="button"
                   onClick={() => onApprove(applicant)}
                   title="Approve applicant"
-                  className="rounded-lg bg-swamp-green px-3 py-1.5 text-[11px] font-[Poppins] text-white transition hover:brightness-95 active:scale-95"
+                  className="rounded-lg bg-swamp-green px-3 py-1.5 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white transition hover:brightness-95 active:scale-95"
                 >
                   Approve
                 </button>
@@ -161,7 +161,7 @@ const ApplicantTable = ({
                   type="button"
                   onClick={() => onReject(applicant)}
                   title="Reject applicant"
-                  className="rounded-lg bg-[#f47773] px-3 py-1.5 text-[11px] font-[Poppins] text-white transition hover:bg-[#ed6b67] active:scale-95"
+                  className="rounded-lg bg-reject px-3 py-1.5 text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-white transition hover:bg-reject/80 active:scale-95"
                 >
                   Reject
                 </button>
@@ -200,7 +200,7 @@ const ApplicantTable = ({
               {headerGroup.headers.map((header) => (
                 <th
                   key={header.id}
-                  className="px-4 py-3 text-xs font-semibold tracking-wide text-gray-500"
+                  className="px-4 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-500"
                 >
                   {flexRender(
                     header.column.columnDef.header,

@@ -19,7 +19,7 @@ const SettingHeader = () => {
           <NavLink
             key={item.path}
             to={item.path}
-            className={`shrink-0 whitespace-nowrap pb-1 text-[11px] font-medium transition lg:text-xs xl:text-sm ${
+            className={`shrink-0 whitespace-nowrap pb-1 text-[11px] transition lg:text-xs xl:text-sm ${
               isActive
                 ? "text-swamp-green underline underline-offset-8"
                 : "text-gray-600 hover:text-swamp-green"

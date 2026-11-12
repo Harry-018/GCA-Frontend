@@ -267,7 +267,7 @@ const SubmissionDocs = () => {
 
         return (
           <span
-            className={`rounded-full px-3 py-1 text-xs font-medium capitalize ${
+            className={`rounded-full px-3 py-1 text-xs capitalize ${
               status.toLowerCase() === "approved"
                 ? "bg-green-400/10 text-green-700"
                 : status.toLowerCase() === "rejected"
@@ -301,7 +301,7 @@ const SubmissionDocs = () => {
             <button
               type="button"
               onClick={() => handleRejectClick(applicant)}
-              className="rounded-full bg-[#ff7272] px-4 py-1 text-[11px] text-white hover:bg-[#f45f5f] lg:text-xs xl:text-sm"
+              className="rounded-full bg-reject px-4 py-1 text-[11px] text-white hover:bg-reject/80 lg:text-xs xl:text-sm"
             >
               Reject
             </button>

@@ -13,7 +13,7 @@ const RenameClass = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
       <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-base text-[#9caf7e]">
+        <h2 className="font-[PoppinsBold] text-base text-swamp-green">
           Rename Class
         </h2>
 
@@ -26,7 +26,7 @@ const RenameClass = ({
             value={newName}
             onChange={(event) => onNameChange(event.target.value)}
             placeholder={className}
-            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-600 outline-none focus:border-[#9caf7e]"
+            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-600 outline-none focus:border-swamp-green"
           />
         </div>
 
@@ -43,7 +43,7 @@ const RenameClass = ({
           <button
             type="button"
             onClick={onRename}
-            className="h-9 flex-1 rounded-full bg-[#9caf7e] font-[PoppinsBold] text-xs text-white transition hover:bg-[#899d6d]"
+            className="h-9 flex-1 rounded-full bg-swamp-green font-[PoppinsBold] text-xs text-white transition hover:bg-swamp-green/80"
           >
             Rename
           </button>

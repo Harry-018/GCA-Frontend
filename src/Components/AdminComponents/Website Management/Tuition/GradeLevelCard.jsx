@@ -20,8 +20,8 @@ const GradeLevelCard = ({
             onClick={() => onGradeChange(grade.grade_level_id)}
             className={`rounded-full px-4 py-2 font-[Poppins] text-[9px] sm:text-xs transition ${
               activeGrade === grade.grade_level_id
-                ? "bg-[#a8ba88] font-medium text-white"
-                : "text-[#555555] hover:bg-[#a8ba88]/20"
+                ? "bg-swamp-green text-white"
+                : "text-[#555555] hover:bg-swamp-green/20"
             }`}
           >
             {grade.grade_level_name}
@@ -32,7 +32,7 @@ const GradeLevelCard = ({
       {/* Grade Level Card */}
       <div className="flex flex-1 flex-col rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-4 shadow-sm sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="font-[Poppins] text-[9px] sm:text-sm font-semibold uppercase text-swamp-green">
+          <h3 className=" text-[9px] sm:text-sm font-[PoppinsBold] uppercase text-swamp-green">
             {title}
           </h3>
 
@@ -48,7 +48,7 @@ const GradeLevelCard = ({
             <button
               type="button"
               onClick={onRemove}
-              className="rounded-full bg-[#f47777] px-4 py-2 font-[Poppins] text-[9px] sm:text-xs font-medium text-white transition hover:bg-[#ed6868]"
+              className="rounded-full bg-reject px-4 py-2 font-[Poppins] text-[9px] sm:text-xs text-white transition hover:bg-reject/80"
             >
               Remove
             </button>
@@ -87,11 +87,11 @@ const GradeLevelCard = ({
 
         {/* Subtotal */}
         <div className="mt-auto flex flex-wrap items-center justify-between gap-2 pt-7">
-          <span className="font-[Poppins] text-[9px] font-medium text-[#333333] sm:text-sm">
+          <span className="font-[Poppins] text-[9px] text-[#333333] sm:text-sm">
             Subtotal:
           </span>
 
-          <span className="font-[Poppins] text-[9px] font-semibold text-swamp-green sm:text-base">
+          <span className=" text-[9px] font-[PoppinsBold] text-swamp-green sm:text-base">
             {subtotal}
           </span>
         </div>

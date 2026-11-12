@@ -1,9 +1,19 @@
-import { useRef, useState, useEffect } from 'react'
-import axios from 'axios'
-import { CalendarDays, School, DoorOpen, Clock3, UserRound, Loader2 } from "lucide-react";
-import { getParentStudents, getAnnouncements } from '../utils/data/Parents/dashboard'
-import StudentInfo from '../Components/Parents-Side Components/Dashboard/StudentInfo'
-import Announcement from '../Components/Parents-Side Components/Dashboard/Announcement'
+import { useRef, useState, useEffect } from "react";
+import axios from "axios";
+import {
+  CalendarDays,
+  School,
+  DoorOpen,
+  Clock3,
+  UserRound,
+  Loader2,
+} from "lucide-react";
+import {
+  getParentStudents,
+  getAnnouncements,
+} from "../utils/data/Parents/dashboard";
+import StudentInfo from "../Components/Parents-Side Components/Dashboard/StudentInfo";
+import Announcement from "../Components/Parents-Side Components/Dashboard/Announcement";
 
 const INFO_FIELDS = [
   { key: "classSchedule", label: "Class Schedule", icon: CalendarDays },
@@ -18,9 +28,9 @@ const ID_FIELDS = [
   { key: "studentId", label: "Student ID Number" },
 ];
 
-const SCHOOL_YEAR_FIELD = { 
-  key: "sy", 
-  label: "School Year" 
+const SCHOOL_YEAR_FIELD = {
+  key: "sy",
+  label: "School Year",
 };
 
 const API_URL = "http://localhost:5000/students";
@@ -59,9 +69,7 @@ const ParentsDashboard = () => {
     const element = scrollRef.current;
     if (!element) return;
     const handleScroll = () => {
-      const index = Math.round(
-        element.scrollLeft / element.clientWidth
-      );
+      const index = Math.round(element.scrollLeft / element.clientWidth);
       setActiveIndex(Math.min(index, announcements.length - 1));
     };
 
@@ -90,9 +98,7 @@ const ParentsDashboard = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#ebe9e4] font-[Poppins]">
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
@@ -100,7 +106,6 @@ const ParentsDashboard = () => {
   return (
     <div className="min-h-screen bg-[#ebe9e4] px-5 py-6 font-[Poppins] cursor-default">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
-
         {/* Students */}
         <div className="flex flex-col gap-4 rounded-3xl">
           {displayStudents.map((s, i) => (
@@ -117,7 +122,10 @@ const ParentsDashboard = () => {
         <span className="mx-auto max-w-7xl w-full text-sm font-[PoppinsBold] text-swamp-green sm:text-lg md:text-md uppercase">
           Recent Announcements
         </span>
-        <div ref={scrollRef} className="mx-auto max-w-7xl w-full overflow-x-auto lg:overflow-visible no-scrollbar snap-mandatory transition-smooth">
+        <div
+          ref={scrollRef}
+          className="mx-auto max-w-7xl w-full overflow-x-auto lg:overflow-visible no-scrollbar snap-mandatory transition-smooth"
+        >
           <div className="flex gap-4 lg:grid lg:grid-cols-2 lg:gap-5">
             {announcements.map((a, i) => (
               <Announcement key={i} {...a} />
@@ -137,7 +145,7 @@ const ParentsDashboard = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default ParentsDashboard;

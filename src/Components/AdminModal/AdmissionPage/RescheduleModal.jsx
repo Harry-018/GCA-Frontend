@@ -48,21 +48,21 @@ const RescheduleModal = ({
         <div className="flex flex-col gap-2 py-5 text-xs text-gray-600">
           <div className="grid grid-cols-[105px_1fr]">
             <span>Applicant:</span>
-            <span className="font-bold text-gray-700">
+            <span className="font-[PoppinsBold] text-gray-700">
               {applicant.last_name}, {applicant.first_name}
             </span>
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">
             <span>Applicant ID:</span>
-            <span className="font-bold text-gray-700">
+            <span className="font-[PoppinsBold] text-gray-700">
               {applicant.application_no}
             </span>
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">
             <span>Grade Level:</span>
-            <span className="font-bold text-gray-700">
+            <span className="font-[PoppinsBold] text-gray-700">
               {applicant.grade_level}
             </span>
           </div>
@@ -73,9 +73,9 @@ const RescheduleModal = ({
             New submission and assessment schedule:
           </h3>
 
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
             <div>
-              <label className="block pb-1 text-[11px] text-gray-600">
+              <label className="block pb-1 text-[11px] lg:text-xs xl:text-sm text-gray-600">
                 Select Date:
               </label>
 
@@ -85,12 +85,12 @@ const RescheduleModal = ({
                 onChange={(event) =>
                   onScheduleChange("date", event.target.value)
                 }
-                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 text-center text-[11px] text-gray-600 outline-none"
+                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 text-center text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none"
               />
             </div>
 
             <div>
-              <label className="block pb-1 text-[11px] text-gray-600">
+              <label className="block pb-1 text-[11px] lg:text-xs xl:text-sm text-gray-600">
                 From:
               </label>
 
@@ -106,7 +106,7 @@ const RescheduleModal = ({
                     onScheduleChange("to", "");
                   }
                 }}
-                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] leading-8 text-gray-600 outline-none"
+                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] lg:text-xs xl:text-sm leading-8 text-gray-600 outline-none"
               >
                 <option value="">select time</option>
 
@@ -119,7 +119,7 @@ const RescheduleModal = ({
             </div>
 
             <div>
-              <label className="block pb-1 text-[11px] text-gray-600">
+              <label className="block pb-1 text-[11px] lg:text-xs xl:text-sm text-gray-600">
                 To:
               </label>
 
@@ -127,7 +127,7 @@ const RescheduleModal = ({
                 value={schedule.to}
                 onChange={(event) => onScheduleChange("to", event.target.value)}
                 disabled={!schedule.from}
-                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] leading-8 text-gray-600 outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                className="h-8 w-full rounded-lg border border-gray-400 bg-transparent px-2 py-0 text-start text-[11px] lg:text-xs xl:text-sm leading-8 text-gray-600 outline-none disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <option value="">select time</option>
 
@@ -145,7 +145,7 @@ const RescheduleModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-gray-400 px-8 py-2 text-xs font-medium text-gray-600 transition hover:bg-gray-100"
+            className="rounded-full border border-gray-400 px-8 py-2 text-xs text-gray-600 transition hover:bg-gray-100"
           >
             Cancel
           </button>

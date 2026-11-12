@@ -25,7 +25,7 @@ const ApprovedModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-full border border-gray-400 px-5 py-1.5 text-md font-semibold text-gray-500 transition hover:bg-gray-100"
+            className="rounded-full border border-gray-400 px-5 py-1.5 text-md font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
           >
             CANCEL
           </button>
@@ -35,7 +35,7 @@ const ApprovedModal = ({
             onClick={onConfirm}
             className={`rounded-full px-6 py-1.5 text-md font-[PoppinsBold] text-white transition ${
               danger
-                ? "bg-[#ff7272] hover:bg-[#f45f5f]"
+                ? "bg-reject hover:bg-reject/80"
                 : "bg-swamp-green hover:bg-swamp-green"
             }`}
           >

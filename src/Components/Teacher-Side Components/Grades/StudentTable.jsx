@@ -11,7 +11,7 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
           <div className="min-w-125">
             <div className="grid grid-cols-[minmax(100px,1.2fr)_1fr_0.8fr_0.7fr] items-center gap-0">
               <div className="sticky left-0 z-10 bg-bone py-3 pl-3 sm:pl-4">
-                <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-[#9caf7d] sm:text-xs">
+                <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
                   ID & Student
                 </span>
               </div>
@@ -56,7 +56,7 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
                     <button
                       type="button"
                       onClick={() => onGradesClick(student)}
-                      className="rounded-full bg-[#9caf7d] px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:opacity-90 sm:px-5 sm:py-2 sm:text-xs"
+                      className="rounded-full bg-swamp-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:opacity-90 sm:px-5 sm:py-2 sm:text-xs"
                     >
                       Grades
                     </button>
@@ -93,7 +93,7 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
                           <button
                             type="button"
                             onClick={() => onGradesClick(student)}
-                            className="rounded-full bg-[#9caf7d] px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:opacity-90"
+                            className="rounded-full bg-swamp-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:opacity-90"
                           >
                             Grades
                           </button>

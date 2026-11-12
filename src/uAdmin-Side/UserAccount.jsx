@@ -239,7 +239,7 @@ const UserAccount = () => {
           : "—";
         return (
           <span
-            className={`rounded-full px-3 py-1 text-xs font-medium ${
+            className={`rounded-full px-3 py-1 text-xs ${
               status === "active"
                 ? "bg-green-100 text-green-700"
                 : status === "pending"
@@ -264,7 +264,7 @@ const UserAccount = () => {
             <button
               type="button"
               onClick={() => openModal("invite", user)}
-              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] font-[Poppins] "
+              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] lg:text-xs xl:text-sm font-[Poppins] "
             >
               Invite
             </button>
@@ -276,7 +276,7 @@ const UserAccount = () => {
             <button
               type="button"
               onClick={() => openModal("disable", user)}
-              className="rounded-full text-egg px-3 py-1.5 bg-reject text-[12px] font-[Poppins] "
+              className="rounded-full text-egg px-3 py-1.5 bg-reject text-[12px] lg:text-xs xl:text-sm font-[Poppins] "
             >
               Disable
             </button>
@@ -288,7 +288,7 @@ const UserAccount = () => {
             <button
               type="button"
               onClick={() => openModal("reactivate", user)}
-              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] font-[Poppins] "
+              className="rounded-full text-egg px-3 py-1.5 bg-swamp-green text-[12px] lg:text-xs xl:text-sm font-[Poppins] "
             >
               Reactivate
             </button>

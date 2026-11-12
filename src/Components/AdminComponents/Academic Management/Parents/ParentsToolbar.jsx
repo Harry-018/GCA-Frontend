@@ -20,14 +20,14 @@ const ParentsToolbar = ({ searchValue, onSearchChange, onSearch }) => {
             value={searchValue}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search Parent"
-            className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-xs text-gray-700 outline-none focus:border-[#9caf88]"
+            className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-xs text-gray-700 outline-none focus:border-swamp-green"
           />
         </div>
 
         <button
           type="button"
           onClick={onSearch}
-          className="h-8 shrink-0 rounded-full bg-[#9caf88] px-6 text-xs font-medium text-white transition hover:bg-[#879b72]"
+          className="h-8 shrink-0 rounded-full bg-swamp-green px-6 text-xs text-white transition hover:bg-swamp-green/80"
         >
           Search
         </button>

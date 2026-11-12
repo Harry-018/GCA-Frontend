@@ -18,7 +18,7 @@ const GradeLevelCard = ({ name, onSkills, onRemove }) => {
         <button
           type="button"
           onClick={onRemove}
-          className="flex-1 rounded-full bg-[#ff7777] px-3 py-2 font-[Poppins] text-2xs text-white"
+          className="flex-1 rounded-full bg-reject px-3 py-2 font-[Poppins] text-2xs text-white"
         >
           Remove
         </button>

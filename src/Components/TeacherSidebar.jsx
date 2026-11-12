@@ -73,10 +73,10 @@ const TeacherSidebar = ({ open, onClose }) => {
 
         {/* User info */}
         <div className="border-b border-white/10 px-5 py-4">
-          <p className="truncate font-[PoppinsBold] text-[11px] text-white">
+          <p className="truncate font-[PoppinsBold] text-[11px] lg:text-xs xl:text-sm text-white">
             {USER.name}
           </p>
-          <p className="text-[9px] text-gray-400">{USER.role}</p>
+          <p className="text-[9px] sm:text-xs text-gray-400">{USER.role}</p>
         </div>
 
         {/* Nav links */}
@@ -88,7 +88,7 @@ const TeacherSidebar = ({ open, onClose }) => {
               end={end}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] tracking-wide transition-colors ${
+                `flex items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] tracking-wide transition-colors ${
                   isActive
                     ? "bg-swamp-green/20 text-swamp-green"
                     : "text-gray-400 hover:bg-bone/5 hover:text-white"
@@ -106,7 +106,7 @@ const TeacherSidebar = ({ open, onClose }) => {
           <button
             type="button"
             onClick={handleLogout}
-            className="flex w-full items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] font-[PoppinsBold] text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300"
+            className="flex w-full items-center gap-x-3 rounded-lg px-3 py-3 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300"
           >
             <LogOut size={18} />
             LOG OUT

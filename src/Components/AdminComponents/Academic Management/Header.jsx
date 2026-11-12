@@ -25,7 +25,7 @@ const Header = ({ navItems }) => {
           <NavLink
             key={item.name}
             to={item.path}
-            className={`whitespace-nowrap pb-1 text-[11px] font-medium transition lg:text-xs xl:text-sm ${
+            className={`whitespace-nowrap pb-1 text-[11px] transition lg:text-xs xl:text-sm ${
               isActive(item)
                 ? "text-swamp-green underline underline-offset-8"
                 : "text-gray-600 hover:text-swamp-green"
@@ -41,7 +41,7 @@ const Header = ({ navItems }) => {
           <NavLink
             key={item.name}
             to={item.path}
-            className={`whitespace-nowrap pb-1 text-[11px] font-medium transition lg:text-xs xl:text-sm ${
+            className={`whitespace-nowrap pb-1 text-[11px] transition lg:text-xs xl:text-sm ${
               isActive(item)
                 ? "text-swamp-green underline underline-offset-8"
                 : "text-gray-600 hover:text-swamp-green"

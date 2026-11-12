@@ -21,7 +21,7 @@ const ReasonCard = ({ reason, index }) => {
   return (
     <div
       data-reason-card
-      className="group flex w-70 max-w-85 shrink-0 snap-start flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200/80 bg-[#f4f5fc] px-5 py-5 text-center shadow-[0_3px_5px_rgba(55,55,55,0.16)] transition-all duration-300 hover:-translate-y-1 hover:border-lime-dark/40 hover:shadow-[0_8px_16px_rgba(55,55,55,0.16)] sm:w-[45vw] lg:w-full lg:max-w-none lg:flex-row lg:justify-start lg:text-left lg:px-7"
+      className="group flex w-70 max-w-[calc(100vw-2.5rem)] shrink-0 snap-start flex-col items-center justify-center gap-3 rounded-2xl border border-slate-200/80 bg-[#f4f5fc] px-5 py-5 text-center shadow-[0_3px_5px_rgba(55,55,55,0.16)] transition-all duration-300 hover:-translate-y-1 hover:border-lime-dark/40 hover:shadow-[0_8px_16px_rgba(55,55,55,0.16)] sm:w-[45vw] lg:w-full lg:max-w-none lg:flex-row lg:justify-start lg:text-left lg:px-7"
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-lime-dark/15 text-swamp-green transition-colors group-hover:bg-lime-dark/25">
         <Icon aria-hidden="true" className="h-4.5 w-4.5" strokeWidth={2.2} />
@@ -122,11 +122,7 @@ const WhyChooseUs = ({ title, reasons }) => {
               type="button"
               onClick={() => scrollToCard(index)}
               aria-label={`Go to reason ${index + 1}`}
-              className={`h-2 rounded-full transition-all duration-300 ${
-                index === activeIndex
-                  ? "w-6 bg-lime-dark"
-                  : "w-2 bg-swamp-green/30 hover:bg-swamp-green/50"
-              }`}
+              className={`flex h-6 items-center rounded-full transition-all duration-300 before:h-2 before:rounded-full before:transition-all ${index === activeIndex ? "w-6 before:w-6 before:bg-lime-dark" : "w-6 before:w-2 before:bg-swamp-green/30 hover:before:bg-swamp-green/50"}`}
             />
           ))}
         </div>

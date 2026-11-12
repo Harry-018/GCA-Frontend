@@ -10,7 +10,7 @@ const Header = ({ activeTab = "Announcements", onTabChange }) => {
           key={tab}
           type="button"
           onClick={() => onTabChange?.(tab)}
-          className={`shrink-0 whitespace-nowrap pb-1 text-[11px] font-medium transition lg:text-xs xl:text-sm ${
+          className={`shrink-0 whitespace-nowrap pb-1 text-[11px] transition lg:text-xs xl:text-sm ${
             activeTab === tab
               ? "text-swamp-green underline underline-offset-8"
               : "text-gray-600 hover:text-swamp-green"

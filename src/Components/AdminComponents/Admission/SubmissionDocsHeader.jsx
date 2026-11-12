@@ -12,7 +12,7 @@ const DateFilter = ({ date, onDateChange }) => {
         type="date"
         value={date}
         onChange={onDateChange}
-        className="h-8 min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f7f7ff] px-3 text-[11px] text-gray-700 outline-none focus:border-[#9caf88] sm:w-36 sm:flex-none sm:text-xs"
+        className="h-8 min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f7f7ff] px-3 text-[11px] text-gray-700 outline-none focus:border-swamp-green sm:w-36 sm:flex-none sm:text-xs"
       />
     </div>
   );
@@ -43,7 +43,7 @@ const SearchInput = ({
         onChange={onSearchChange}
         onKeyDown={handleKeyDown}
         placeholder="Search Applicants"
-        className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-[11px] text-gray-700 outline-none focus:border-[#9caf88] sm:text-xs"
+        className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-[11px] text-gray-700 outline-none focus:border-swamp-green sm:text-xs"
       />
     </div>
   );
@@ -55,7 +55,7 @@ const SearchButton = ({ onSearch }) => {
     <button
       type="button"
       onClick={onSearch}
-      className="h-8 shrink-0 whitespace-nowrap rounded-full bg-[#9aae82] px-6 text-[11px] font-medium text-white transition hover:bg-[#879d70] sm:text-xs"
+      className="h-8 shrink-0 whitespace-nowrap rounded-full bg-swamp-green px-6 text-[11px] text-white transition hover:bg-swamp-green/80 sm:text-xs"
     >
       Search
     </button>

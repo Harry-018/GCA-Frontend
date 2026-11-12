@@ -20,7 +20,7 @@ const GradeModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="text-2xs text-gray-600 transition hover:text-gray-900"
+            className="rounded-md px-3 py-2 text-2xs text-gray-600 transition hover:text-gray-900"
           >
             Close
           </button>

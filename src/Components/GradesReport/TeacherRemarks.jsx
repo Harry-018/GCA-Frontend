@@ -27,7 +27,7 @@ const TeacherRemarks = ({ remark, onSave }) => {
     <div className="rounded-2xl bg-slate-50 px-3 py-3 shadow-md sm:rounded-3xl sm:px-5 sm:py-5 md:px-6 md:py-6">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1.5 sm:gap-2.5">
-          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-[#9caf7d]/15 sm:h-8 sm:w-8">
+          <div className="flex h-6 w-6 items-center justify-center rounded-full bg-swamp-green/15 sm:h-8 sm:w-8">
             <MessageSquareText size={10} className="text-swamp-green" />
           </div>
           <h2 className="text-2xs font-[PoppinsBold] uppercase text-swamp-green sm:text-sm">

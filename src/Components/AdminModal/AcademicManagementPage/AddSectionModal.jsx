@@ -16,7 +16,7 @@ const AddSectionModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
       <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-[#f4f5fc] p-6 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-base text-[#9caf7e]">
+        <h2 className="font-[PoppinsBold] text-base text-swamp-green">
           Assign Section
         </h2>
 
@@ -26,7 +26,7 @@ const AddSectionModal = ({
           <select
             value={sectionNameId}
             onChange={(event) => onSectionNameChange(event.target.value)}
-            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-500 outline-none focus:border-[#9caf7e]"
+            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-500 outline-none focus:border-swamp-green"
           >
             <option value="">Select Section</option>
 
@@ -44,7 +44,7 @@ const AddSectionModal = ({
           <select
             value={teacherId}
             onChange={(event) => onTeacherChange(event.target.value)}
-            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-500 outline-none focus:border-[#9caf7e]"
+            className="h-10 w-full rounded-md border border-gray-300 bg-bone px-3 text-xs text-gray-500 outline-none focus:border-swamp-green"
           >
             <option value="">Select Teacher</option>
 
@@ -72,7 +72,7 @@ const AddSectionModal = ({
             className={`h-9 flex-1 rounded-full font-[PoppinsBold] text-xs text-white transition ${
               !sectionNameId || !teacherId
                 ? "cursor-not-allowed bg-gray-300"
-                : "bg-[#9caf7e] hover:bg-[#899d6d]"
+                : "bg-swamp-green hover:bg-swamp-green/80"
             }`}
           >
             Assign

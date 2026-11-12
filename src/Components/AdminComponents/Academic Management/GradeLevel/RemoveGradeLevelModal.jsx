@@ -24,7 +24,7 @@ const RemoveGradeLevelModal = ({
               <span className="font-[PoppinsBold] text-12px">{gradeLevel}</span>
               .
             </p>
-            <p className="pt-2 text-[12px] leading-5 text-reject">
+            <p className="pt-2 text-[12px] lg:text-xs xl:text-sm leading-5 text-reject">
               {errorMessage}
             </p>
           </div>
@@ -36,7 +36,7 @@ const RemoveGradeLevelModal = ({
               from the selected school year?
             </p>
 
-            <p className="pt-2 text-[12px] text-egg-dark/80">
+            <p className="pt-2 text-[12px] lg:text-xs xl:text-sm text-egg-dark/80">
               The grade level will be archived and can be added again later.
             </p>
           </>
@@ -47,7 +47,7 @@ const RemoveGradeLevelModal = ({
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-semibold text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-[PoppinsBold] text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {errorMessage ? "Close" : "Cancel"}
           </button>
@@ -57,7 +57,7 @@ const RemoveGradeLevelModal = ({
               type="button"
               onClick={onRemove}
               disabled={isSubmitting}
-              className="w-1/2 rounded-full bg-reject py-1.5 text-xs font-semibold text-white hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-40"
+              className="w-1/2 rounded-full bg-reject py-1.5 text-xs font-[PoppinsBold] text-white hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isSubmitting ? "Removing..." : "Remove"}
             </button>

@@ -48,7 +48,7 @@ const UserActionModal = ({
             onClick={onConfirm}
             className={`flex h-9 flex-1 items-center justify-center rounded-full font-[PoppinsBold] text-xs text-white transition ${
               danger
-                ? "bg-reject hover:bg-red-500"
+                ? "bg-reject hover:bg-reject/80"
                 : "bg-swamp-green hover:bg-lime-green"
             }`}
           >
