@@ -28,8 +28,10 @@ export const inviteUserAccount = async (user_id) => {
   return response.data;
 };
 
-export const disableUserAccount = async (user_id) => {
-  const response = await API.patch(`/api/user-accounts/${user_id}/disable`);
+export const disableUserAccount = async (user_id, reason) => {
+  const response = await API.patch(`/api/user-accounts/${user_id}/disable`, {
+    reason,
+  });
 
   return response.data;
 };

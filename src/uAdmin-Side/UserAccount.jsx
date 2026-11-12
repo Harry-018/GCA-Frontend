@@ -70,6 +70,8 @@ const UserAccount = () => {
   // Modal
   const [modalAction, setModalAction] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+  const [disableReason, setDisableReason] = useState("");
+  const [customDisableReason, setCustomDisableReason] = useState("");
 
   const loadUserAccounts = async () => {
     try {
@@ -126,11 +128,15 @@ const UserAccount = () => {
   const openModal = (action, user) => {
     setModalAction(action);
     setSelectedUser(user);
+    setDisableReason("");
+    setCustomDisableReason("");
   };
 
   const closeModal = () => {
     setModalAction(null);
     setSelectedUser(null);
+    setDisableReason("");
+    setCustomDisableReason("");
   };
 
   // -----------------------------
@@ -140,6 +146,14 @@ const UserAccount = () => {
   const handleConfirm = async () => {
     if (!selectedUser || !modalAction) return;
 
+    if (
+      modalAction === "disable" &&
+      (!disableReason ||
+        (disableReason === "Other" && !customDisableReason.trim()))
+    ) {
+      return;
+    }
+
     try {
       setLoading(true);
 
@@ -148,7 +162,12 @@ const UserAccount = () => {
       }
 
       if (modalAction === "disable") {
-        await disableUserAccount(selectedUser.user_id);
+        const reason =
+          disableReason === "Other"
+            ? customDisableReason.trim()
+            : disableReason;
+
+        await disableUserAccount(selectedUser.user_id, reason);
       }
 
       if (modalAction === "reactivate") {
@@ -357,6 +376,11 @@ const UserAccount = () => {
         email={selectedUser?.email}
         confirmLabel={modalConfig?.confirmLabel}
         danger={modalConfig?.danger}
+        showReason={modalAction === "disable"}
+        reason={disableReason}
+        onReasonChange={setDisableReason}
+        customReason={customDisableReason}
+        onCustomReasonChange={setCustomDisableReason}
       />
     </div>
   );
