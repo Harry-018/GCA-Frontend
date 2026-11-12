@@ -12,7 +12,7 @@ const DateFilter = ({ date, onDateChange }) => {
         type="date"
         value={date}
         onChange={onDateChange}
-        className="h-8 min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f7f7ff] px-3 text-[11px] text-gray-700 outline-none focus:border-swamp-green sm:w-36 sm:flex-none sm:text-xs"
+        className="h-8 min-w-0 flex-1 rounded-full border border-parent-accent/25 bg-white/80 px-3 text-[11px] text-gray-700 outline-none focus:border-parent-green sm:w-36 sm:flex-none sm:text-xs"
       />
     </div>
   );
@@ -43,7 +43,7 @@ const SearchInput = ({
         onChange={onSearchChange}
         onKeyDown={handleKeyDown}
         placeholder="Search Applicants"
-        className="h-8 w-full rounded-full border border-gray-300 bg-[#f7f7ff] pl-8 pr-4 text-[11px] text-gray-700 outline-none focus:border-swamp-green sm:text-xs"
+        className="h-8 w-full rounded-full border border-parent-accent/25 bg-white/80 pl-8 pr-4 text-[11px] text-gray-700 outline-none focus:border-parent-green sm:text-xs"
       />
     </div>
   );
@@ -55,7 +55,7 @@ const SearchButton = ({ onSearch }) => {
     <button
       type="button"
       onClick={onSearch}
-      className="h-8 shrink-0 whitespace-nowrap rounded-full bg-swamp-green px-6 text-[11px] text-white transition hover:bg-swamp-green/80 sm:text-xs"
+      className="h-8 shrink-0 whitespace-nowrap rounded-full bg-parent-green px-6 text-[11px] text-white transition hover:bg-parent-accent sm:text-xs"
     >
       Search
     </button>
@@ -92,7 +92,7 @@ const SubmissionDocsHeader = ({
 }) => {
   return (
     <div className="flex w-full flex-col gap-4 py-4 sm:gap-3 md:flex-row md:items-center md:justify-between">
-      <h2 className="text-xs font-[PoppinsBold] text-swamp-green sm:text-sm lg:text-base">
+      <h2 className="text-xs font-[PoppinsBold] text-parent-green sm:text-sm lg:text-base">
         {title}
       </h2>
 

@@ -179,7 +179,7 @@ const AnnouncementList = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header
         activeTab={activeTab}
         onTabChange={(tab) => {
@@ -193,7 +193,7 @@ const AnnouncementList = () => {
 
       <div className="flex min-h-0 flex-1 flex-col gap-4 px-2 pb-4 sm:px-4">
         <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-[PoppinsBold] text-sm text-swamp-green sm:text-base">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-[PoppinsBold] text-sm text-parent-green sm:text-base">
             <h2>Announcements</h2>
           </div>
 
@@ -201,7 +201,7 @@ const AnnouncementList = () => {
             <button
               type="button"
               onClick={() => navigate("/admin/communication")}
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[11px] lg:text-xs xl:text-sm text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-parent-accent/25 bg-bone px-4 text-[11px] lg:text-xs xl:text-sm text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
@@ -209,7 +209,7 @@ const AnnouncementList = () => {
             <button
               type="button"
               onClick={() => setIsAddOpen(true)}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-white hover:bg-swamp-green/80"
+              className="h-8 shrink-0 rounded-full bg-parent-green px-4 text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-white hover:bg-parent-accent"
             >
               + Add Announcement
             </button>
@@ -217,13 +217,13 @@ const AnnouncementList = () => {
         </div>
 
         {loading ? (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-gray-200 bg-bone p-10 shadow-sm">
+          <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 p-10 shadow-sm">
             <span className="font-[Poppins] text-sm text-gray-500">
               Loading announcements...
             </span>
           </div>
         ) : announcements.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-gray-200 bg-bone p-10 shadow-sm">
+          <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 p-10 shadow-sm">
             <span className="font-[Poppins] text-sm text-gray-500">
               No announcements for this grade level.
             </span>

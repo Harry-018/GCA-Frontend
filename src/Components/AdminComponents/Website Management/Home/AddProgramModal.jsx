@@ -17,15 +17,15 @@ const AddProgramModal = ({
   if (!isOpen) return null;
 
   const selectStyle =
-    "w-full appearance-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 pr-7 font-[Poppins] text-[9px] sm:text-2xs text-[#777777] outline-none focus:border-lime-green";
+    "w-full appearance-none rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 pr-7 font-[Poppins] text-[9px] sm:text-2xs text-[#777777] outline-none focus:border-parent-accent";
 
   const chevronClass =
     "pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500";
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-swamp-green">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
           Add Program
         </h2>
 
@@ -67,7 +67,7 @@ const AddProgramModal = ({
               type="file"
               accept="image/*"
               onChange={(e) => onChange?.("image", e.target.files?.[0] || null)}
-              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none file:mr-2 file:border-0 file:bg-transparent file:font-[Poppins] file:text-[9px] file:text-[#777777] focus:border-lime-green"
+              className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none file:mr-2 file:border-0 file:bg-transparent file:font-[Poppins] file:text-[9px] file:text-[#777777] focus:border-parent-accent"
             />
           </div>
         </div>
@@ -87,7 +87,7 @@ const AddProgramModal = ({
               value={minAge}
               onChange={(e) => onChange?.("minAge", e.target.value)}
               placeholder="Age"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent"
             />
           </div>
 
@@ -104,7 +104,7 @@ const AddProgramModal = ({
               value={maxAge}
               onChange={(e) => onChange?.("maxAge", e.target.value)}
               placeholder="Age"
-              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+              className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent"
             />
           </div>
         </div>
@@ -120,7 +120,7 @@ const AddProgramModal = ({
             onChange={(e) => onChange?.("description", e.target.value)}
             rows={3}
             placeholder=""
-            className="w-full resize-none rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+            className="w-full resize-none rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent"
           />
         </div>
 
@@ -129,7 +129,7 @@ const AddProgramModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone"
+            className="rounded-full border border-parent-accent/30 px-5 py-2 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone"
           >
             Close
           </button>
@@ -138,7 +138,7 @@ const AddProgramModal = ({
             type="button"
             onClick={onAdd}
             disabled={loading}
-            className="flex items-center justify-center gap-2 rounded-full bg-swamp-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="flex items-center justify-center gap-2 rounded-full bg-parent-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             {loading ? (
               <>

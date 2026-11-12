@@ -37,8 +37,8 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-[#f8f9ff] p-5 shadow-lg">
-        <h2 className="font-[Poppins] text-[9px] sm:text-base text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className="font-[Poppins] text-[9px] sm:text-base text-parent-green">
           {routeData ? "Edit Route" : "Add Route"}
         </h2>
 
@@ -53,7 +53,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
               value={formData.city}
               onChange={handleChange}
               required
-              className="h-10 w-full rounded-lg border border-gray-300 bg-bone font-[Poppins] text-xs sm:text-sm outline-none focus:border-swamp-green"
+              className="h-10 w-full rounded-lg border border-parent-accent/25 bg-bone font-[Poppins] text-xs sm:text-sm outline-none focus:border-parent-green"
             >
               <option value="" disabled>
                 Select city
@@ -75,7 +75,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
               value={formData.location}
               onChange={handleChange}
               required
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-parent-green"
             />
           </div>
 
@@ -91,7 +91,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
                 value={formData.distance}
                 onChange={handleChange}
                 required
-                className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
+                className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-parent-green"
               />
             </div>
 
@@ -106,7 +106,7 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
                 value={formData.price}
                 onChange={handleChange}
                 required
-                className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-swamp-green"
+                className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 font-[Poppins] text-[9px] sm:text-sm outline-none focus:border-parent-green"
               />
             </div>
           </div>
@@ -115,14 +115,14 @@ const AddTranspoModal = ({ isOpen, routeData = null, onClose, onSubmit }) => {
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-full border border-gray-300 px-4 py-2 font-[Poppins] text-[9px] sm:text-xs text-gray-600"
+              className="flex-1 rounded-full border border-parent-accent/25 px-4 py-2 font-[Poppins] text-[9px] sm:text-xs text-gray-600"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="flex-1 rounded-full bg-swamp-green px-4 py-2 font-[Poppins] text-[9px] sm:text-xs text-white"
+              className="flex-1 rounded-full bg-parent-green px-4 py-2 font-[Poppins] text-[9px] sm:text-xs text-white"
             >
               {routeData ? "Save" : "Add"}
             </button>

@@ -12,8 +12,8 @@ const RemoveGradeLevelModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
           Remove Grade Level
         </h2>
 
@@ -47,7 +47,7 @@ const RemoveGradeLevelModal = ({
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-[PoppinsBold] text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[PoppinsBold] text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {errorMessage ? "Close" : "Cancel"}
           </button>

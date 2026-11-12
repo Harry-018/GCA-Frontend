@@ -11,7 +11,7 @@ const RejectModal = ({
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
-      <div className="relative w-full max-w-md rounded-2xl bg-[#f5f6fd] px-6 py-5 shadow-lg">
+      <div className="relative w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-6 py-5 shadow-lg">
         <h2 className="text-base font-[PoppinsBold] text-reject">Reject Applicant</h2>
         <p className="pt-4 text-xs leading-6 text-gray-600">
           Upon clicking &quot;Reject&quot;, you confirm that this
@@ -25,7 +25,7 @@ const RejectModal = ({
           <select
             value={rejectionReasonId}
             onChange={(event) => setRejectionReasonId(event.target.value)}
-            className="h-9 flex-1 rounded-md border border-gray-300 bg-bone px-2 text-xs text-gray-600 outline-none focus:border-reject"
+            className="h-9 flex-1 rounded-md border border-parent-accent/25 bg-bone px-2 text-xs text-gray-600 outline-none focus:border-reject"
           >
             <option value="">Select a reason</option>
             {rejectionReasons.map((reason) => (

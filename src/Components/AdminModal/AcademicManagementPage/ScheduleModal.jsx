@@ -54,11 +54,11 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5 backdrop-blur-sm">
-      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-[#f4f5fc] shadow-lg">
+      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 shadow-lg">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+        <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-5">
           <div>
-            <h2 className="font-[PoppinsBold] text-lg text-swamp-green">
+            <h2 className="font-[PoppinsBold] text-lg text-parent-green">
               SCHEDULE
             </h2>
             <p className="mt-1 font-[Poppins] text-base text-gray-500">
@@ -99,7 +99,7 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
               eventContent={(eventInfo) => {
                 const { event } = eventInfo;
                 return (
-                  <div className="flex event-card w-full h-full flex-col overflow-hidden rounded-lg border border-swamp-green/80 bg-swamp-green px-2 py-1.5 text-white shadow-sm justify-between ">
+                  <div className="flex event-card w-full h-full flex-col overflow-hidden rounded-lg border border-parent-green/80 bg-parent-green px-2 py-1.5 text-white shadow-sm justify-between ">
                     <p className="truncate font-[PoppinsBold] text-[14px] text-wrap leading-tight text-white">
                       {event.title}
                     </p>
@@ -118,11 +118,11 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
           </div>
         </div>
         {/* Actions */}
-        <div className="flex justify-end border-t border-gray-200 px-6 py-4">
+        <div className="flex justify-end border-t border-parent-accent/15 px-6 py-4">
           <button
             type="button"
             onClick={onClose}
-            className="h-9 rounded-full bg-swamp-green px-8 font-[PoppinsBold] text-xs text-white transition hover:bg-swamp-green/80"
+            className="h-9 rounded-full bg-parent-green px-8 font-[PoppinsBold] text-xs text-white transition hover:bg-parent-accent"
           >
             Close
           </button>

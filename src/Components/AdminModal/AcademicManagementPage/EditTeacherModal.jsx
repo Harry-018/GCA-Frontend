@@ -27,8 +27,8 @@ const EditTeacherModal = ({ teacher, onClose, onSave, saving = false }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-gray-300 bg-[#f4f6ff] p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
+      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-parent-accent/25 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
           Teacher Information
         </h2>
 
@@ -72,7 +72,7 @@ const EditTeacherModal = ({ teacher, onClose, onSave, saving = false }) => {
                 value={formData.teacher_status}
                 onChange={handleChange}
                 disabled={saving}
-                className="h-7 w-36 border border-gray-300 bg-[#f5f5f5] rounded-2xl  px-2 text-2xs leading-none text-egg-dark outline-none disabled:cursor-not-allowed disabled:opacity-60"
+                className="h-7 w-36 border border-parent-accent/25 bg-white/80 rounded-2xl  px-2 text-2xs leading-none text-egg-dark outline-none disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {statusOptions.map((status) => (
                   <option key={status} value={status}>
@@ -171,7 +171,7 @@ const EditTeacherModal = ({ teacher, onClose, onSave, saving = false }) => {
             type="button"
             onClick={handleSubmit}
             disabled={saving}
-            className="flex h-8 flex-1 items-center justify-center rounded-full bg-swamp-green font-[PoppinsBold] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-8 flex-1 items-center justify-center rounded-full bg-parent-green font-[PoppinsBold] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>

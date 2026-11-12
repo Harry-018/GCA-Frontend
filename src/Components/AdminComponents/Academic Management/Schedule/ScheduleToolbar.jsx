@@ -12,7 +12,7 @@ const ScheduleToolbar = ({
   return (
     <div className="flex w-full flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
       <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-        <h2 className="font-[PoppinsBold] text-sm text-swamp-green sm:text-md">
+        <h2 className="font-[PoppinsBold] text-sm text-parent-green sm:text-md">
           {sectionName}
         </h2>
 
@@ -31,7 +31,7 @@ const ScheduleToolbar = ({
               onClick={() => onDayChange?.(day.value)}
               className={`rounded-full px-3 py-2 text-xs transition ${
                 activeDay === day.value
-                  ? "bg-swamp-green font-[PoppinsBold] text-white"
+                  ? "bg-parent-green font-[PoppinsBold] text-white"
                   : "text-gray-600 hover:bg-gray-100"
               }`}
             >
@@ -45,7 +45,7 @@ const ScheduleToolbar = ({
           <button
             type="button"
             onClick={onViewSchedule}
-            className="rounded-full border border-gray-400 bg-[#f7f8ff] px-5 py-2 font-[Poppins] text-xs text-gray-600 transition hover:bg-gray-100"
+            className="rounded-full border border-gray-400 bg-linear-to-br from-bone via-white to-parent-pale/60 px-5 py-2 font-[Poppins] text-xs text-gray-600 transition hover:bg-gray-100"
           >
             View Schedule
           </button>
@@ -53,7 +53,7 @@ const ScheduleToolbar = ({
           <button
             type="button"
             onClick={onAddSchedule}
-            className="rounded-full bg-swamp-green px-5 py-2 font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
+            className="rounded-full bg-parent-green px-5 py-2 font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
           >
            + Add Schedule
           </button>

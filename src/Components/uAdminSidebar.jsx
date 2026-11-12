@@ -61,7 +61,7 @@ const SidebarContent = () => {
   return (
     <>
       {/* School logo */}
-      <div className="flex items-center gap-2 rounded-2xl border border-gray-200 bg-bone px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+      <div className="flex items-center gap-2 rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
         {schoolLogo && (
           <img
             src={schoolLogo}
@@ -76,7 +76,7 @@ const SidebarContent = () => {
       </div>
 
       {/* Navigation container */}
-      <div className="flex flex-1 flex-col rounded-2xl border border-gray-200 bg-bone px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+      <div className="flex flex-1 flex-col rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
         <nav className="flex flex-col gap-4">
           {MENU_ITEMS.map((item) => {
             const Icon = item.icon;
@@ -93,8 +93,8 @@ const SidebarContent = () => {
                   lg:text-2xs xl:px-6 xl:text-xs
                   ${
                     isActive(item)
-                      ? "bg-swamp-green text-white"
-                      : "text-gray-600 hover:bg-swamp-green/20"
+                      ? "bg-parent-green text-white"
+                      : "text-gray-600 hover:bg-parent-accent/15"
                   }
                 `}
               >

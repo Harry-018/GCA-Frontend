@@ -29,7 +29,7 @@ const SectionToolbar = ({
 
   return (
     <div className="flex min-h-11 max-w-full flex-wrap items-center gap-2 px-4 py-1">
-      <h2 className="text-md font-[PoppinsBold] text-swamp-green">
+      <h2 className="text-md font-[PoppinsBold] text-parent-green">
         {pageTitle}
       </h2>
 
@@ -38,7 +38,7 @@ const SectionToolbar = ({
         value={selectedSchoolYearId}
         onChange={(event) => onSchoolYearChange?.(event.target.value)}
         disabled={loading || schoolYears.length === 0}
-        className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-gray-300 bg-bone py-1 pl-2.5 pr-7 text-2xs text-gray-600 outline-none transition hover:border-swamp-green focus:border-swamp-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
+        className="h-8 max-w-44 cursor-pointer appearance-none rounded-full border border-parent-accent/25 bg-bone py-1 pl-2.5 pr-7 text-2xs text-gray-600 outline-none transition hover:border-parent-accent focus:border-parent-green disabled:cursor-not-allowed disabled:opacity-60 sm:text-xs"
       >
         {loading && <option value="">Loading...</option>}
 

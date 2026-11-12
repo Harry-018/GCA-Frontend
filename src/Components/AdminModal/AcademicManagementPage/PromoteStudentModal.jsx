@@ -79,9 +79,9 @@ const PromoteStudentModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="w-full max-w-md rounded-2xl bg-bone shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
           <div>
-            <h2 className="font-[PoppinsBold] text-base text-swamp-green">
+            <h2 className="font-[PoppinsBold] text-base text-parent-green">
               Promote Students
             </h2>
 
@@ -118,7 +118,7 @@ const PromoteStudentModal = ({
             <select
               value={targetSchoolYearId}
               onChange={handleSchoolYearChange}
-              className="h-10 w-full rounded-lg border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green"
+              className="h-10 w-full rounded-lg border border-parent-accent/25 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-parent-green"
             >
               <option value="">Select school year</option>
 
@@ -140,7 +140,7 @@ const PromoteStudentModal = ({
               value={targetGradeLevelId}
               onChange={(event) => setTargetGradeLevelId(event.target.value)}
               disabled={!targetSchoolYearId}
-              className="h-10 w-full rounded-lg border border-gray-300 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-swamp-green disabled:cursor-not-allowed disabled:bg-gray-100"
+              className="h-10 w-full rounded-lg border border-parent-accent/25 bg-bone px-3 text-xs text-gray-700 outline-none focus:border-parent-green disabled:cursor-not-allowed disabled:bg-gray-100"
             >
               <option value="">Select grade level</option>
 
@@ -162,11 +162,11 @@ const PromoteStudentModal = ({
         </div>
 
         {/* Footer */}
-        <div className="flex justify-end gap-2 border-t border-gray-200 px-6 py-4">
+        <div className="flex justify-end gap-2 border-t border-parent-accent/15 px-6 py-4">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-gray-300 px-5 py-2 text-xs text-gray-600 hover:bg-gray-100"
+            className="rounded-full border border-parent-accent/25 px-5 py-2 text-xs text-gray-600 hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -175,7 +175,7 @@ const PromoteStudentModal = ({
             type="button"
             disabled={!selectedAcademicPlacement}
             onClick={handlePromote}
-            className="rounded-full bg-swamp-green px-5 py-2 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-full bg-parent-green px-5 py-2 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
           >
             Promote Students
           </button>

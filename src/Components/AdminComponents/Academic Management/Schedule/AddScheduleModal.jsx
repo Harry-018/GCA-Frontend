@@ -19,7 +19,7 @@ const AddScheduleModal = ({
       <div className="bg-bone flex w-full max-w-md flex-col gap-1 rounded-2xl bg- p-5">
         {/* Header */}
         <div className="mb-3">
-          <h2 className="font-[PoppinsBold] text-sm text-swamp-green">
+          <h2 className="font-[PoppinsBold] text-sm text-parent-green">
             Add Schedule
           </h2>
           <p className="mt-1 font-[Poppins] text-2xs text-gray-500">
@@ -35,7 +35,7 @@ const AddScheduleModal = ({
             name="subject"
             value={formData.subject}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
+            className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
           >
             <option value="">Select Subject</option>
             {subjects.map((subject) => (
@@ -54,7 +54,7 @@ const AddScheduleModal = ({
             name="teacher"
             value={formData.teacher}
             onChange={onChange}
-            className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
+            className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
           >
             <option value="">Select Teacher</option>
             {teachers.map((teacher) => (
@@ -75,7 +75,7 @@ const AddScheduleModal = ({
               name="day"
               value={formData.day}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Day</option>
               {days.map((day) => (
@@ -94,7 +94,7 @@ const AddScheduleModal = ({
               name="room"
               value={formData.room}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Room</option>
               {rooms.map((room) => (
@@ -116,7 +116,7 @@ const AddScheduleModal = ({
               name="from"
               value={formData.from}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Time</option>
               {times.map((time) => (
@@ -133,7 +133,7 @@ const AddScheduleModal = ({
               name="to"
               value={formData.to}
               onChange={onChange}
-              className="h-8 w-full rounded-lg border border-gray-300 bg-bone px-2.5 py-1 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
+              className="h-8 w-full rounded-lg border border-parent-accent/25 bg-bone px-2.5 py-1 text-left font-[Poppins] text-2xs leading-none text-gray-600 outline-none"
             >
               <option value="">Select Time</option>
               {times.map((time) => (
@@ -149,14 +149,14 @@ const AddScheduleModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="rounded-lg border border-gray-300 px-4 py-2 font-[Poppins] text-2xs text-gray-600 transition hover:bg-gray-200"
+            className="rounded-lg border border-parent-accent/25 px-4 py-2 font-[Poppins] text-2xs text-gray-600 transition hover:bg-gray-200"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-lg bg-swamp-green px-4 py-2 font-[PoppinsBold] text-2xs text-white transition hover:opacity-90"
+            className="rounded-lg bg-parent-green px-4 py-2 font-[PoppinsBold] text-2xs text-white transition hover:opacity-90"
           >
             Add Schedule
           </button>

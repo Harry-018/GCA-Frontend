@@ -73,7 +73,7 @@ const RemoveModal = ({
             type="button"
             onClick={handleClose}
             disabled={deleting}
-            className="rounded-full border border-gray-300 px-4 py-2 text-sm  text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-full border border-parent-accent/25 px-4 py-2 text-sm  text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Cancel
           </button>

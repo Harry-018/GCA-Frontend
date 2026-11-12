@@ -59,9 +59,9 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl flex-col rounded-2xl bg-bone shadow-xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
           <div>
-            <h2 className="font-[PoppinsBold] text-base text-swamp-green">
+            <h2 className="font-[PoppinsBold] text-base text-parent-green">
               Add Students
             </h2>
 
@@ -80,7 +80,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
         </div>
 
         {/* Search */}
-        <div className="flex gap-2 border-b border-gray-200 p-4">
+        <div className="flex gap-2 border-b border-parent-accent/15 p-4">
           <div className="relative flex-1">
             <Search
               size={15}
@@ -97,14 +97,14 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
                 }
               }}
               placeholder="Search student..."
-              className="h-9 w-full rounded-full border border-gray-300 bg-bone pl-9 pr-4 text-xs text-gray-600 outline-none focus:border-swamp-green"
+              className="h-9 w-full rounded-full border border-parent-accent/25 bg-bone pl-9 pr-4 text-xs text-gray-600 outline-none focus:border-parent-green"
             />
           </div>
 
           <button
             type="button"
             onClick={handleSearch}
-            className="rounded-full bg-swamp-green px-5 text-xs text-white hover:bg-swamp-green/80"
+            className="rounded-full bg-parent-green px-5 text-xs text-white hover:bg-parent-accent"
           >
             Search
           </button>
@@ -121,9 +121,9 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
               No eligible students found.
             </p>
           ) : (
-            <div className="overflow-hidden rounded-xl border border-gray-200 bg-bone">
+            <div className="overflow-hidden rounded-xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50">
               <table className="w-full text-left text-xs">
-                <thead className="border-b border-gray-200 bg-bone">
+                <thead className="border-b border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50">
                   <tr>
                     <th className="w-12 px-4 py-3"></th>
                     <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">
@@ -158,7 +158,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
                             checked={selected}
                             onChange={() => toggleStudent(student.stu_id)}
                             onClick={(event) => event.stopPropagation()}
-                            className="h-4 w-4 accent-swamp-green"
+                            className="h-4 w-4 accent-parent-green"
                           />
                         </td>
 
@@ -189,7 +189,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between border-t border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between border-t border-parent-accent/15 px-6 py-4">
           <span className="text-xs text-gray-500">
             {selectedStudentIds.length} student
             {selectedStudentIds.length !== 1 ? "s" : ""} selected
@@ -199,7 +199,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-gray-300 px-5 py-2 text-xs text-gray-600 hover:bg-gray-100"
+              className="rounded-full border border-parent-accent/25 px-5 py-2 text-xs text-gray-600 hover:bg-gray-100"
             >
               Cancel
             </button>
@@ -208,7 +208,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
               type="button"
               disabled={selectedStudentIds.length === 0}
               onClick={handleAdd}
-              className="rounded-full bg-swamp-green px-5 py-2 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full bg-parent-green px-5 py-2 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
             >
               Add Students
             </button>

@@ -27,8 +27,8 @@ function SchoolYearToolbar({
             }}
             className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
               activeFilter === filter.value
-                ? "bg-swamp-green text-white"
-                : "text-gray-500 hover:bg-swamp-green/20"
+                ? "bg-parent-green text-white"
+                : "text-gray-500 hover:bg-parent-accent/15"
             }`}
           >
             {filter.label}
@@ -41,7 +41,7 @@ function SchoolYearToolbar({
         <button
           type="button"
           onClick={onAddSchoolYear}
-          className="rounded-full bg-swamp-green px-5 py-2 font-[Poppins] text-xs text-white transition hover:bg-lime-green"
+          className="rounded-full bg-parent-green px-5 py-2 font-[Poppins] text-xs text-white transition hover:bg-parent-accent"
         >
           Add School Year
         </button>
@@ -58,12 +58,12 @@ function SchoolYearToolbar({
             value={searchValue}
             onChange={(event) => onSearchChange?.(event.target.value)}
             placeholder="Search School Year"
-            className="w-full min-w-0 flex-1 rounded-full border border-gray-300 bg-[#f7f7fc] px-3 py-2 font-[Poppins] text-xs outline-none focus:border-lime-green sm:w-56 sm:flex-none"
+            className="w-full min-w-0 flex-1 rounded-full border border-parent-accent/25 bg-white/80 px-3 py-2 font-[Poppins] text-xs outline-none focus:border-parent-accent sm:w-56 sm:flex-none"
           />
 
           <button
             type="submit"
-            className="flex shrink-0 items-center gap-1.5 rounded-full bg-swamp-green px-6 py-2 font-[Poppins] text-xs text-white transition hover:bg-lime-green"
+            className="flex shrink-0 items-center gap-1.5 rounded-full bg-parent-green px-6 py-2 font-[Poppins] text-xs text-white transition hover:bg-parent-accent"
           >
             Search
           </button>

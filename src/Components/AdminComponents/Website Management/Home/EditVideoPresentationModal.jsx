@@ -8,8 +8,8 @@ const EditVideoPresentationModal = ({
   onSave,
 }) => {
   return (
-    <div className="w-full max-w-105 rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-md">
-      <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-swamp-green">
+    <div className="w-full max-w-105 rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-md">
+      <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
         Edit Video Presentation
       </h2>
 
@@ -24,7 +24,7 @@ const EditVideoPresentationModal = ({
           value={videoTitle}
           onChange={(e) => onChange?.("videoTitle", e.target.value)}
           placeholder="Grace Christian Learning Hymn"
-          className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+          className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent"
         />
       </div>
 
@@ -39,7 +39,7 @@ const EditVideoPresentationModal = ({
           value={video}
           onChange={(e) => onChange?.("video", e.target.value)}
           placeholder="Upload Video max 100mb"
-          className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green"
+          className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-3 font-[Poppins] text-[9px] sm:text-2xs text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent"
         />
       </div>
 
@@ -48,7 +48,7 @@ const EditVideoPresentationModal = ({
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full border border-[#bcbcbc] px-5 py-3 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone"
+          className="rounded-full border border-parent-accent/30 px-5 py-3 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone"
         >
           Close
         </button>
@@ -56,7 +56,7 @@ const EditVideoPresentationModal = ({
         <button
           type="button"
           onClick={onSave}
-          className="rounded-full bg-swamp-green px-5 py-3 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-lime-green"
+          className="rounded-full bg-parent-green px-5 py-3 text-[9px] sm:text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
         >
           Save
         </button>

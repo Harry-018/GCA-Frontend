@@ -88,7 +88,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
                 section.className || ""
               }`}
             >
-              <h2 className="py-4 text-xs font-[PoppinsBold] text-swamp-green">
+              <h2 className="py-4 text-xs font-[PoppinsBold] text-parent-green">
                 {section.title}
               </h2>
 

@@ -10,8 +10,8 @@ const AddSkillModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className=" text-sm font-[PoppinsBold] text-swamp-green">
+      <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className=" text-sm font-[PoppinsBold] text-parent-green">
           Add Skills
         </h2>
 
@@ -20,7 +20,7 @@ const AddSkillModal = ({
             Select Skills:
           </label>
 
-          <div className="max-h-64 overflow-y-auto rounded-lg border border-gray-300 bg-bone">
+          <div className="max-h-64 overflow-y-auto rounded-lg border border-parent-accent/25 bg-bone">
             {skills.length === 0 ? (
               <p className="px-3 py-4 text-center font-[Poppins] text-2xs text-gray-400">
                 No available skills.
@@ -39,7 +39,7 @@ const AddSkillModal = ({
                       type="checkbox"
                       checked={isSelected}
                       onChange={() => onToggle(skillId)}
-                      className="h-3.5 w-3.5 accent-swamp-green"
+                      className="h-3.5 w-3.5 accent-parent-green"
                     />
 
                     <div className="flex min-w-0 flex-col">
@@ -69,7 +69,7 @@ const AddSkillModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="w-1/2 rounded-full border border-gray-300 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
+            className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -78,7 +78,7 @@ const AddSkillModal = ({
             type="button"
             onClick={onAdd}
             disabled={selectedSkillIds.length === 0}
-            className="w-1/2 rounded-full bg-swamp-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-swamp-green/80 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-1/2 rounded-full bg-parent-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-40"
           >
             Add Selected
           </button>

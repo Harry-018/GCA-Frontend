@@ -162,7 +162,7 @@ const Skills = () => {
               type="button"
               onClick={() => handleRestore(skill)}
               title="Restore skill"
-              className="rounded-full bg-swamp-green px-4 py-1 text-[11px] text-white hover:bg-swamp-green lg:text-xs xl:text-sm"
+              className="rounded-full bg-parent-green px-4 py-1 text-[11px] text-white hover:bg-parent-accent lg:text-xs xl:text-sm"
             >
               Reassign
             </button>
@@ -183,12 +183,12 @@ const Skills = () => {
     },
   ];
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col  bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col  bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
       <div className="flex min-h-0 flex-1 flex-col gap-2 py-4">
         {/* HEADER */}
         <div className="flex w-full flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-xl py-2 font-[Poppins]">
-          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-[PoppinsBold] text-sm text-swamp-green sm:text-base">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 font-[PoppinsBold] text-sm text-parent-green sm:text-base">
             <h2>{subject} :</h2>
             <span className="font-[Poppins] text-xs text-gray-600 sm:text-sm">
               S.Y {SCHOOL_YEAR}
@@ -204,14 +204,14 @@ const Skills = () => {
                   )}`,
                 )
               }
-              className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[12px] lg:text-xs xl:text-sm text-gray-500 hover:bg-gray-100"
+              className="h-8 shrink-0 rounded-full border border-parent-accent/25 bg-bone px-4 text-[12px] lg:text-xs xl:text-sm text-gray-500 hover:bg-gray-100"
             >
               Go Back
             </button>
             <button
               type="button"
               onClick={() => setIsAddOpen(true)}
-              className="h-8 shrink-0 rounded-full bg-swamp-green px-4 text-[12px] lg:text-xs xl:text-sm font-[Poppins] text-white hover:bg-swamp-green/80"
+              className="h-8 shrink-0 rounded-full bg-parent-green px-4 text-[12px] lg:text-xs xl:text-sm font-[Poppins] text-white hover:bg-parent-accent"
             >
               Assign Skill
             </button>

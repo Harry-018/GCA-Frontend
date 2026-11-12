@@ -7,7 +7,7 @@ const PromotionErrorModal = ({ isOpen, errorMessage, onClose }) => {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-4">
       <div className="w-full max-w-md rounded-2xl bg-bone shadow-xl">
-        <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
           <h2 className="font-[PoppinsBold] text-base text-reject">
             Promotion Failed
           </h2>
@@ -38,7 +38,7 @@ const PromotionErrorModal = ({ isOpen, errorMessage, onClose }) => {
           </div>
         </div>
 
-        <div className="flex justify-end border-t border-gray-200 px-6 py-4">
+        <div className="flex justify-end border-t border-parent-accent/15 px-6 py-4">
           <button
             type="button"
             onClick={onClose}

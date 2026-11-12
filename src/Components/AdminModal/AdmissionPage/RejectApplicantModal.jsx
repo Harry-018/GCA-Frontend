@@ -14,7 +14,7 @@ const RejectApplicantModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
-      <div className="relative w-full max-w-md rounded-2xl bg-[#f5f6fd] px-6 py-5 shadow-lg">
+      <div className="relative w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-6 py-5 shadow-lg">
         <button
           type="button"
           onClick={onClose}

@@ -36,8 +36,8 @@ const EditWebsiteModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-lg">
-        <h2 className=" text-[9px] font-[PoppinsBold] text-swamp-green sm:text-sm md:text-base">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+        <h2 className=" text-[9px] font-[PoppinsBold] text-parent-green sm:text-sm md:text-base">
           Edit Website Information
         </h2>
 
@@ -49,7 +49,7 @@ const EditWebsiteModal = ({
             </label>
 
             {/* Logo Preview */}
-            <div className="flex min-h-32 items-center justify-center rounded-lg border border-dashed border-[#cfcfcf] bg-bone p-4">
+            <div className="flex min-h-32 items-center justify-center rounded-lg border border-dashed border-parent-accent/25 bg-bone p-4">
               {logoPreview ? (
                 <img
                   src={logoPreview}
@@ -69,7 +69,7 @@ const EditWebsiteModal = ({
               accept="image/*"
               onChange={handleFileChange}
               disabled={saving}
-              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 text-[9px] text-[#555555] file:mr-3 file:rounded-md file:border-0 file:bg-swamp-green file:px-3 file:py-1.5 file: file:text-[9px] file:font-[PoppinsBold] file:text-white hover:file:bg-lime-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-2xs"
+              className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 text-[9px] text-[#555555] file:mr-3 file:rounded-md file:border-0 file:bg-parent-green file:px-3 file:py-1.5 file: file:text-[9px] file:font-[PoppinsBold] file:text-white hover:file:bg-parent-green disabled:cursor-not-allowed disabled:opacity-50 sm:text-2xs"
             />
 
             <p className="font-[Poppins] text-[9px] text-[#999999] sm:text-2xs">
@@ -89,7 +89,7 @@ const EditWebsiteModal = ({
               onChange={(e) => onChange?.("schoolName", e.target.value)}
               placeholder="Enter school name"
               disabled={saving}
-              className="w-full rounded-lg border border-[#cfcfcf] bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-lime-green disabled:opacity-50 sm:text-2xs"
+              className="w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent disabled:opacity-50 sm:text-2xs"
             />
           </div>
         </div>
@@ -100,7 +100,7 @@ const EditWebsiteModal = ({
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="rounded-full border border-[#bcbcbc] px-5 py-2 text-[9px] font-[PoppinsBold] text-[#555555] transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
+            className="rounded-full border border-parent-accent/30 px-5 py-2 text-[9px] font-[PoppinsBold] text-[#555555] transition hover:bg-bone disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
           >
             Close
           </button>
@@ -109,7 +109,7 @@ const EditWebsiteModal = ({
             type="button"
             onClick={onSave}
             disabled={saving}
-            className="rounded-full bg-swamp-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-lime-green disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
+            className="rounded-full bg-parent-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-40 sm:text-xs"
           >
             {saving ? "Saving..." : "Save"}
           </button>

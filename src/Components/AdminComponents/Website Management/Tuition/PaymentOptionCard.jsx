@@ -12,11 +12,11 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
       {options.map((option) => (
         <div
           key={option.id}
-          className="flex flex-1 flex-col rounded-2xl border border-[#dddddd] bg-[#f4f5fc] p-5 shadow-sm"
+          className="flex flex-1 flex-col rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-sm"
         >
           {/* Card Header */}
           <div className="flex flex-wrap items-center justify-between gap-2">
-            <h3 className=" text-[9px] font-[PoppinsBold] text-swamp-green sm:text-base">
+            <h3 className=" text-[9px] font-[PoppinsBold] text-parent-green sm:text-base">
               {option.name}
             </h3>
 
@@ -24,7 +24,7 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
               <button
                 type="button"
                 onClick={() => onEdit(option)}
-                className="rounded-full border border-[#bcbcbc] px-5 py-2 font-[Poppins] text-[9px] text-[#555555] transition hover:bg-bone sm:text-xs"
+                className="rounded-full border border-parent-accent/30 px-5 py-2 font-[Poppins] text-[9px] text-[#555555] transition hover:bg-bone sm:text-xs"
               >
                 Edit
               </button>
@@ -59,7 +59,7 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
           <div className="mt-4 flex flex-wrap justify-between gap-2">
             <span className=" text-xs font-[PoppinsBold]">TOTAL:</span>
 
-            <span className="font-[PoppinsBold] text-sm font-[PoppinsBold] text-swamp-green">
+            <span className="font-[PoppinsBold] text-sm font-[PoppinsBold] text-parent-green">
               ₱{formatCurrency(option.totalBoys)} - ₱
               {formatCurrency(option.totalGirls)}
             </span>

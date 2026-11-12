@@ -181,7 +181,7 @@ const AdminSkills = () => {
         <button
           type="button"
           onClick={() => openEditModal(row.original)}
-          className="shrink-0 whitespace-nowrap rounded-full bg-swamp-green px-4 py-1 text-[11px] text-white transition hover:bg-swamp-green/80 lg:text-xs xl:text-sm"
+          className="shrink-0 whitespace-nowrap rounded-full bg-parent-green px-4 py-1 text-[11px] text-white transition hover:bg-parent-accent lg:text-xs xl:text-sm"
         >
           Edit
         </button>
@@ -202,7 +202,7 @@ const AdminSkills = () => {
             className={`shrink-0 whitespace-nowrap rounded-full px-4 py-1 text-[11px] text-white transition disabled:cursor-not-allowed disabled:opacity-50 lg:text-xs xl:text-sm ${
               skill.isEnabled
                 ? "bg-reject hover:bg-reject/80"
-                : "bg-swamp-green hover:bg-swamp-green/80"
+                : "bg-parent-green hover:bg-parent-accent"
             }`}
           >
             {skill.isEnabled ? "Disable" : "Enable"}
@@ -213,13 +213,13 @@ const AdminSkills = () => {
   ];
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <SettingHeader />
 
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-y-2 gap-3">
         <div>
-          <h1 className="font-[PoppinsBold] text-base text-swamp-green sm:text-lg">
+          <h1 className="font-[PoppinsBold] text-base text-parent-green sm:text-lg">
             {subject?.subject_name || ""} Skills
           </h1>
 
@@ -231,7 +231,7 @@ const AdminSkills = () => {
         <button
           type="button"
           onClick={() => navigate("/admin/settings/subjects")}
-          className="h-8 shrink-0 rounded-full border border-gray-300 bg-bone px-4 text-[11px] text-gray-500 transition hover:bg-gray-100 lg:text-xs xl:text-sm"
+          className="h-8 shrink-0 rounded-full border border-parent-accent/25 bg-bone px-4 text-[11px] text-gray-500 transition hover:bg-gray-100 lg:text-xs xl:text-sm"
         >
           Go Back
         </button>

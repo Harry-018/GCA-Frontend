@@ -7,16 +7,16 @@ const Banner = ({
   onEdit,
 }) => {
   return (
-    <section className="rounded-2xl border border-gray-200 bg-[#f7f8ff] p-4 shadow-md">
+    <section className="rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
       <div className="flex items-center justify-between">
-        <h2 className="rounded-full text-xs sm:text-sm font-[PoppinsBold] text-swamp-green">
+        <h2 className="rounded-full text-xs sm:text-sm font-[PoppinsBold] text-parent-green">
           Banner
         </h2>
 
         <button
           type="button"
           onClick={onEdit}
-          className="rounded-full border border-gray-300 px-5 py-2 text-[9px] sm:text-xs text-gray-600 transition hover:bg-gray-100"
+          className="rounded-full border border-parent-accent/25 px-5 py-2 text-[9px] sm:text-xs text-gray-600 transition hover:bg-gray-100"
         >
           Edit
         </button>
@@ -39,7 +39,7 @@ const Banner = ({
           Banner Image:
         </label>
 
-        <div className="mt-1 overflow-hidden rounded-lg border border-gray-300 bg-bone">
+        <div className="mt-1 overflow-hidden rounded-lg border border-parent-accent/25 bg-bone">
           {image ? (
             <img
               src={image}
@@ -57,7 +57,7 @@ const Banner = ({
       <div className="pt-4">
         <label className="text-[9px] sm:text-xs text-gray-600">Title:</label>
 
-        <div className="mt-1 rounded-lg border border-gray-300 bg-bone px-3 py-3 text-[9px] sm:text-xs text-gray-500">
+        <div className="mt-1 rounded-lg border border-parent-accent/25 bg-bone px-3 py-3 text-[9px] sm:text-xs text-gray-500">
           {title}
         </div>
       </div>
@@ -65,7 +65,7 @@ const Banner = ({
       <div className="pt-4">
         <label className="text-[9px] sm:text-xs text-gray-600">Quote:</label>
 
-        <div className="mt-1 rounded-lg border border-gray-300 bg-bone px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
+        <div className="mt-1 rounded-lg border border-parent-accent/25 bg-bone px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
           {quote}
         </div>
       </div>

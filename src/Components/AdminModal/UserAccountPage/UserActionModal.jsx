@@ -49,10 +49,10 @@ const UserActionModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4 ">
-      <div className="flex w-full max-w-md flex-col gap-y-4 rounded-2xl bg-[#f4f5fc] p-5 shadow-lg sm:p-6">
+      <div className="flex w-full max-w-md flex-col gap-y-4 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg sm:p-6">
         <h2
           className={`font-[PoppinsBold] text-sm sm:text-base ${
-            danger ? "text-reject" : "text-swamp-green"
+            danger ? "text-reject" : "text-parent-green"
           }`}
         >
           {title}
@@ -81,7 +81,7 @@ const UserActionModal = ({
                 onClick={() => setIsReasonOpen((prev) => !prev)}
                 aria-haspopup="listbox"
                 aria-expanded={isReasonOpen}
-                className="flex w-full items-center justify-between rounded-lg border border-gray-300 bg-bone px-3 py-2 font-[Poppins] text-xs outline-none transition focus:border-swamp-green"
+                className="flex w-full items-center justify-between rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-xs outline-none transition focus:border-parent-green"
               >
                 <span className={reason ? "text-gray-700" : "text-gray-400"}>
                   {reason || "Select a reason"}
@@ -96,7 +96,7 @@ const UserActionModal = ({
               </button>
 
               {isReasonOpen && (
-                <div className="absolute z-20 mt-1 w-full overflow-hidden rounded-lg border border-gray-300 bg-bone shadow-lg">
+                <div className="absolute z-20 mt-1 w-full overflow-hidden rounded-lg border border-parent-accent/25 bg-bone shadow-lg">
                   <ul role="listbox" className="max-h-48 overflow-y-auto py-1">
                     {REASON_OPTIONS.map((option) => (
                       <li key={option}>
@@ -105,9 +105,9 @@ const UserActionModal = ({
                           role="option"
                           aria-selected={reason === option}
                           onClick={() => handleReasonChange(option)}
-                          className={`block w-full px-3 py-2 text-left font-[Poppins] text-xs transition hover:bg-swamp-green/10 ${
+                          className={`block w-full px-3 py-2 text-left font-[Poppins] text-xs transition hover:bg-parent-accent/10 ${
                             reason === option
-                              ? "bg-swamp-green/15 text-swamp-green"
+                              ? "bg-parent-accent/10 text-parent-green"
                               : "text-gray-600"
                           }`}
                         >
@@ -127,7 +127,7 @@ const UserActionModal = ({
                 onChange={(e) => onCustomReasonChange?.(e.target.value)}
                 placeholder="Type your reason for disabling this account."
                 rows={3}
-                className="w-full resize-none rounded-lg border border-gray-300 bg-bone px-3 py-2 font-[Poppins] text-xs text-gray-700 outline-none placeholder:text-gray-400 focus:border-swamp-green"
+                className="w-full resize-none rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-xs text-gray-700 outline-none placeholder:text-gray-400 focus:border-parent-green"
               />
             )}
           </div>
@@ -137,7 +137,7 @@ const UserActionModal = ({
           <button
             type="button"
             onClick={handleClose}
-            className="flex h-9 flex-1 items-center justify-center rounded-full border border-gray-300 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+            className="flex h-9 flex-1 items-center justify-center rounded-full border border-parent-accent/25 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -149,7 +149,7 @@ const UserActionModal = ({
             className={`flex h-9 flex-1 items-center justify-center rounded-full font-[PoppinsBold] text-xs text-white transition disabled:cursor-not-allowed disabled:opacity-50 ${
               danger
                 ? "bg-reject hover:bg-reject/80"
-                : "bg-swamp-green hover:bg-lime-green"
+                : "bg-parent-green hover:bg-parent-accent"
             }`}
           >
             {confirmLabel}

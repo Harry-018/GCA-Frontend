@@ -2,10 +2,10 @@ import React from "react";
 
 const TeacherTable = ({ teachers, loading, onView, onEdit }) => {
   return (
-    <div className="overflow-hidden rounded-lg border border-gray-200">
+    <div className="overflow-hidden rounded-lg border border-parent-accent/15">
       <table className="w-full text-xs">
-        <thead className="bg-[#f7f7ff]">
-          <tr className="border-b border-gray-200">
+        <thead className="bg-white/80">
+          <tr className="border-b border-parent-accent/15">
             <th className="px-4 py-3 text-left">Teacher No.</th>
 
             <th className="px-4 py-3 text-left">Name</th>
@@ -61,7 +61,7 @@ const TeacherTable = ({ teachers, loading, onView, onEdit }) => {
                     <button
                       type="button"
                       onClick={() => onView(teacher.teacher_id)}
-                      className="rounded-md border border-gray-300 px-3 py-1 text-[11px] lg:text-xs xl:text-sm hover:bg-gray-100"
+                      className="rounded-md border border-parent-accent/25 px-3 py-1 text-[11px] lg:text-xs xl:text-sm hover:bg-gray-100"
                     >
                       View
                     </button>
@@ -69,7 +69,7 @@ const TeacherTable = ({ teachers, loading, onView, onEdit }) => {
                     <button
                       type="button"
                       onClick={() => onEdit(teacher.teacher_id)}
-                      className="rounded-md bg-swamp-green px-3 py-1 text-[11px] lg:text-xs xl:text-sm text-white hover:opacity-90"
+                      className="rounded-md bg-parent-green px-3 py-1 text-[11px] lg:text-xs xl:text-sm text-white hover:opacity-90"
                     >
                       Edit
                     </button>

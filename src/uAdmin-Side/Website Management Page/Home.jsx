@@ -708,7 +708,7 @@ const Home = () => {
     }
   };
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-[#ebe9e4] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
       <nav className="flex w-full flex-wrap items-center gap-3 sm:gap-5">
@@ -719,8 +719,8 @@ const Home = () => {
             onClick={() => setActiveTab(item.key)}
             className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 text-[9px] overflow-x-auto font-[Poppins] transition sm:text-xs ${
               activeTab === item.key
-                ? "bg-swamp-green text-white"
-                : "text-gray-600 hover:text-swamp-green"
+                ? "bg-parent-green text-white"
+                : "text-gray-600 hover:text-parent-green"
             }`}
           >
             {item.label}
@@ -789,14 +789,14 @@ const Home = () => {
         {activeTab === "activities" && (
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-[PoppinsBold] text-swamp-green sm:text-base">
+              <h2 className="text-sm font-[PoppinsBold] text-parent-green sm:text-base">
                 Children Activities
               </h2>
 
               <button
                 type="button"
                 onClick={openAddActivity}
-                className="rounded-full bg-swamp-green px-5 py-2 text-[9px] text-white transition hover:bg-lime-green sm:text-xs"
+                className="rounded-full bg-parent-green px-5 py-2 text-[9px] text-white transition hover:bg-parent-accent sm:text-xs"
               >
                 Add
               </button>

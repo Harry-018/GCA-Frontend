@@ -14,12 +14,12 @@ const ClassInfoTable = ({
   onRemove,
 }) => {
   return (
-    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-gray-200 bg-bone shadow-sm">
+    <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-sm">
       <div className="flex min-h-0 flex-1 flex-col overflow-y-auto thin-scrollbar">
         <div className="overflow-x-auto">
           <table className="w-full min-w-190 border-separate border-spacing-0">
             <thead className="sticky top-0">
-              <tr className="bg-bone text-left text-xs font-[PoppinsBold] uppercase text-swamp-green lg:text-sm xl:text-base">
+              <tr className="bg-bone text-left text-xs font-[PoppinsBold] uppercase text-parent-green lg:text-sm xl:text-base">
                 <th className="whitespace-nowrap px-6 py-4">No.</th>
 
                 {columns.map((column) => (
@@ -43,7 +43,7 @@ const ClassInfoTable = ({
               {students.map((student, index) => (
                 <tr
                   key={student.id ?? index}
-                  className={`border-b border-gray-200 last:border-b-0 ${
+                  className={`border-b border-parent-accent/15 last:border-b-0 ${
                     index % 2 === 0 ? "bg-bone" : "bg-bone"
                   }`}
                 >
