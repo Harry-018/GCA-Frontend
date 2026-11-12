@@ -34,11 +34,12 @@ const ParentsHeader = ({ onMenuToggle }) => {
     const loadSchoolInformation = async () => {
       try {
         const response = await getSchoolInformation();
+        const schoolInformation = response?.data ?? response;
 
-        if (!cancelled && response) {
+        if (!cancelled && schoolInformation) {
           setSchoolinfo({
-            school_name: response.school_name || SCHOOL.name,
-            school_logo: response.school_logo || logoImg,
+            school_name: schoolInformation.school_name || SCHOOL.name,
+            school_logo: schoolInformation.school_logo || logoImg,
           });
         }
       } catch (error) {
@@ -52,7 +53,6 @@ const ParentsHeader = ({ onMenuToggle }) => {
       cancelled = true;
     };
   }, []);
-
   const handleLogout = () => {
     logout();
     setUserMenu(false);

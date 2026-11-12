@@ -79,7 +79,7 @@ const MobileNavLink = ({ item, active, onNavigate }) => {
         transition-colors
         ${
           active
-            ? "bg-parent-accent/15 text-parent-green"
+            ? "bg-parent-accent/15 text-white"
             : "text-gray-400 hover:bg-bone/5 hover:text-white"
         }
       `}

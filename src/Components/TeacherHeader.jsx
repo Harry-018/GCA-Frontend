@@ -22,6 +22,7 @@ const SCHOOL = {
 
 const TeacherHeader = ({ onMenuToggle }) => {
   const [userMenu, setUserMenu] = useState(false);
+
   const [schoolinfo, setSchoolinfo] = useState({
     school_name: SCHOOL.name,
     school_logo: logoImg,
@@ -37,11 +38,12 @@ const TeacherHeader = ({ onMenuToggle }) => {
     const loadSchoolInformation = async () => {
       try {
         const response = await getSchoolInformation();
+        const schoolInformation = response?.data ?? response;
 
-        if (!cancelled && response) {
+        if (!cancelled && schoolInformation) {
           setSchoolinfo({
-            school_name: response.school_name || SCHOOL.name,
-            school_logo: response.school_logo || logoImg,
+            school_name: schoolInformation.school_name || SCHOOL.name,
+            school_logo: schoolInformation.school_logo || logoImg,
           });
         }
       } catch (error) {
@@ -72,7 +74,7 @@ const TeacherHeader = ({ onMenuToggle }) => {
       )}
 
       <nav className="relative z-50 flex h-16 w-full items-center justify-between bg-[#0c2423] px-4 text-xs inset-shadow-med sm:h-20 sm:px-10">
-        {/* Left: Hamburger (mobile) + Logo */}
+        {/* Left: Hamburger + School Logo */}
         <div className="flex items-center gap-x-2 sm:gap-x-4">
           <button
             type="button"
@@ -101,7 +103,7 @@ const TeacherHeader = ({ onMenuToggle }) => {
           </Link>
         </div>
 
-        {/* Right: Nav links + Profile */}
+        {/* Right: Navigation + Profile */}
         <div className="flex items-center gap-x-5 sm:gap-x-8 lg:gap-x-10">
           <div className="hidden items-center gap-x-5 lg:flex lg:gap-x-8 xl:gap-x-10">
             <NavLink
