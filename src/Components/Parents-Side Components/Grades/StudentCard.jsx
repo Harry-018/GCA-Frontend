@@ -33,10 +33,10 @@ const StudentCard = ({
           <div className="flex min-w-0 items-center gap-2 lg:mt-0 lg:gap-3 lg:border-l lg:border-white/15 lg:pl-5 xl:pl-8">
             <GraduationCap size={15} className="shrink-0 text-parent-mint" />
             <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="text-[8px] font-[PoppinsBold] uppercase leading-tight text-white/60 lg:text-[9px] xl:whitespace-nowrap">
-                Learner Reference Number
+              <span className="text-[9px] font-[PoppinsBold] uppercase leading-tight text-white/60 sm:text-xs lg:text-[11px] xl:whitespace-nowrap">
+                LRN
               </span>
-              <span className="truncate text-2xs font-[PoppinsBold] uppercase sm:text-xs">
+              <span className="truncate text-xs font-[PoppinsBold] uppercase sm:text-sm lg:text-base">
                 {learnerReferenceNumber}
               </span>
             </div>
@@ -45,10 +45,10 @@ const StudentCard = ({
           <div className="flex min-w-0 items-center gap-2 lg:mt-0 lg:gap-3 lg:border-l lg:border-white/15 lg:pl-5 xl:pl-8">
             <IdCard size={15} className="shrink-0 text-parent-mint" />
             <div className="flex min-w-0 flex-col gap-0.5">
-              <span className="text-[8px] font-[PoppinsBold] uppercase leading-tight text-white/60 lg:text-[9px]">
-                Student ID Number
+              <span className="text-[9px] font-[PoppinsBold] uppercase leading-tight text-white/60 sm:text-xs lg:text-[11px]">
+                Student ID
               </span>
-              <span className="truncate text-2xs font-[PoppinsBold] uppercase sm:text-xs">
+              <span className="truncate text-xs font-[PoppinsBold] uppercase sm:text-sm lg:text-base">
                 {studentId}
               </span>
             </div>

@@ -1,7 +1,7 @@
 import React from "react";
 
 const StatCard = ({ title, value, icon: Icon }) => (
-  <div className="group relative flex min-h-17 flex-col justify-between gap-2 overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:min-h-20 sm:p-4 xl:min-h-22.5">
+  <div className="group relative flex min-h-17 flex-col justify-between gap-2 overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:min-h-20 sm:p-4 xl:min-h-22.5">
     <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
 
     <div className="flex items-start justify-between gap-2 pt-1.5">

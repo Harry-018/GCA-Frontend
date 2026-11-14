@@ -18,7 +18,7 @@ const SkillModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4 ">
       <form
         onSubmit={onSubmit}
-        className="w-full max-w-lg rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg"
+        className="w-full max-w-lg rounded-2xl bg-bone p-6 shadow-lg"
       >
         <h2 className="font-[PoppinsBold] text-base text-parent-green">
           {isEditing ? "Edit Skill" : "Add Skill"}

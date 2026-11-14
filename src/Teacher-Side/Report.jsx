@@ -421,7 +421,7 @@ const Report = () => {
           const presentCount = student.present_count ?? 0;
 
           return (
-            <span className="font-[PoppinsBold] text-swamp-green">
+            <span className="font-[PoppinsBold] text-parent-green">
               {presentCount}
             </span>
           );
@@ -454,7 +454,7 @@ const Report = () => {
 
         if (status === "present") {
           return (
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-swamp-green text-xs font-[PoppinsBold] text-white">
+            <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-parent-green text-xs font-[PoppinsBold] text-white">
               P
             </span>
           );
@@ -479,15 +479,15 @@ const Report = () => {
 
   if (loadingSections) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#ebe9e4] font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-swamp-green" />
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
+        <Loader2 size={32} className="animate-spin text-parent-green" />
         <p className="text-sm text-gray-500">Loading assigned sections...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen cursor-default bg-[#ebe9e4] px-3 py-4 font-[Poppins] sm:px-5 sm:py-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+    <div className="min-h-screen cursor-default bg-egg px-3 py-4 font-[Poppins] sm:px-5 sm:py-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 lg:min-h-0 lg:flex-1">
         <SectionCard
           sections={sections}
@@ -522,7 +522,7 @@ const Report = () => {
 
         {loadingReport ? (
           <div className="flex items-center justify-center gap-3 py-10">
-            <Loader2 size={24} className="animate-spin text-swamp-green" />
+            <Loader2 size={24} className="animate-spin text-parent-green" />
             <p className="text-sm text-gray-500">
               Loading attendance report...
             </p>

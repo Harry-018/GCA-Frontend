@@ -121,9 +121,9 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
               No eligible students found.
             </p>
           ) : (
-            <div className="overflow-hidden rounded-xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50">
+            <div className="overflow-hidden rounded-xl border border-parent-accent/20 bg-bone">
               <table className="w-full text-left text-xs">
-                <thead className="border-b border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50">
+                <thead className="border-b border-parent-accent/20 bg-bone">
                   <tr>
                     <th className="w-12 px-4 py-3"></th>
                     <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">

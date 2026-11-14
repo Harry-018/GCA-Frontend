@@ -3,7 +3,7 @@ const ScheduleCell = ({ section, subject, room }) => {
 
   return (
     <div className="flex h-full flex-col items-center justify-center overflow-hidden px-1 text-center">
-      <span className="truncate text-[10px] font-[PoppinsBold] text-swamp-green sm:text-xs">
+      <span className="truncate text-[10px] font-[PoppinsBold] text-parent-green sm:text-xs">
         {subject}
       </span>
 

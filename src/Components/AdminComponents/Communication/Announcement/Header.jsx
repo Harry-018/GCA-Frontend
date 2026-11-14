@@ -4,7 +4,7 @@ const TABS = ["Announcements", "Notifications"];
 
 const Header = ({ activeTab = "Announcements", onTabChange }) => {
   return (
-    <header className="flex w-full flex-nowrap items-center gap-x-5 overflow-x-auto rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)] no-scrollbar sm:gap-x-7 sm:px-4 sm:py-5">
+    <header className="flex w-full min-h-16 flex-nowrap items-center gap-x-5 overflow-x-auto rounded-2xl border border-parent-accent/20 bg-bone px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)] no-scrollbar sm:min-h-18 sm:gap-x-7 sm:px-4 sm:py-5">
       {TABS.map((tab) => (
         <button
           key={tab}

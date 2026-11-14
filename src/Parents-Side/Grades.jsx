@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
-import { GraduationCap, Loader2 } from 'lucide-react'
+import { GraduationCap, Loader2, Printer } from 'lucide-react'
 import {
   getParentQuarters,
   getParentGradeData,
 } from '../utils/data/Parents/grades'
+import schoolLogo from '../assets/logowbg.png'
 import StudentCard from '../Components/Parents-Side Components/Grades/StudentCard'
 import Remarks from '../Components/Parents-Side Components/Grades/Remarks'
 import DevelopmentCard from '../Components/Parents-Side Components/Grades/DevelopmentCard'
@@ -47,8 +48,55 @@ const Grades = () => {
 
   const student = gradeData.student;
   const attendance = gradeData.attendance;
-  const gradesData = gradeData.developments[selectedQuarter] || [];
   const remarks = gradeData.remarks[selectedQuarter] || "";
+  const developments = QUARTERS.flatMap(
+    (_, index) => gradeData.developments[index + 1] || [],
+  ).filter(
+    (development, index, allDevelopments) =>
+      allDevelopments.findIndex(
+        ({ title }) => title === development.title,
+      ) === index,
+  );
+
+  const getDevelopmentGrades = (title) => {
+    const skills = new Map();
+
+    QUARTERS.forEach((_, index) => {
+      const quarter = index + 1;
+      const development = (gradeData.developments[quarter] || []).find(
+        (item) => item.title === title,
+      );
+
+      (development?.grades || []).forEach(({ skill, description, grade }) => {
+        const item = skills.get(skill) || {
+          skill,
+          description: description || "",
+          grades: {},
+        };
+        item.grades[quarter] = grade;
+        skills.set(skill, item);
+      });
+    });
+
+    return [...skills.values()];
+  };
+
+  const formatGrade = (grade) =>
+    grade == null || String(grade).trim() === "" ? "-" : grade;
+
+  const handlePrint = () => {
+    window.print();
+  };
+
+  const printDate = new Intl.DateTimeFormat("en-PH", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(new Date());
+
+  const studentName = [student.firstName, student.lastName]
+    .filter(Boolean)
+    .join(" ");
 
   const handleGradesClick = (development) => {
     setSelectedDevelopment(development.title);
@@ -60,9 +108,9 @@ const Grades = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-linear-to-br from-[#0f2419] via-[#1c3a28] to-parent-accent font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-pale" />
-        <p className="text-sm text-white/70">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
+        <Loader2 size={32} className="animate-spin text-parent-green" />
+        <p className="text-sm text-gray-500">
           Loading Grades
           <span className="loading-dots">
             <span></span>
@@ -76,7 +124,7 @@ const Grades = () => {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
+      <div className="flex min-h-screen items-center justify-center bg-egg font-[Poppins]">
         <p className="text-sm text-red-400">
           {error}
         </p>
@@ -85,8 +133,8 @@ const Grades = () => {
   }
 
   return (
-    <div className="min-h-screen w-full overflow-x-hidden bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] px-4 py-5 font-[Poppins] cursor-default sm:px-5 sm:py-6">
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+    <div className="min-h-screen w-full overflow-x-hidden bg-egg px-4 py-5 font-[Poppins] cursor-default print:min-h-0 print:bg-white print:p-0 sm:px-5 sm:py-6">
+      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 print:hidden">
 
         <StudentCard
           {...student}
@@ -95,13 +143,23 @@ const Grades = () => {
 
         {/* Development Cards */}
         <div className="flex flex-col gap-3">
-          <h2 className="flex items-center gap-1.5 px-1 text-xs font-[PoppinsBold] uppercase text-parent-green sm:gap-2 sm:text-sm">
-            <GraduationCap size={16} />
-            Grades
-          </h2>
+          <div className="flex items-center justify-between gap-3 px-1">
+            <h2 className="flex items-center gap-1.5 text-xs font-[PoppinsBold] uppercase text-parent-green sm:gap-2 sm:text-sm">
+              <GraduationCap size={16} />
+              Grades
+            </h2>
+            <button
+              type="button"
+              onClick={handlePrint}
+              className="flex shrink-0 items-center gap-2 rounded-full bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white shadow-sm transition hover:bg-parent-accent sm:text-xs"
+            >
+              <Printer size={15} />
+              Print Grades
+            </button>
+          </div>
 
           <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            {gradesData.map((development) => (
+            {developments.map((development) => (
               <DevelopmentCard
                 key={development.title}
                 title={development.title}
@@ -119,14 +177,118 @@ const Grades = () => {
         />
       </div>
 
+      <article className="mx-auto hidden w-full max-w-204 bg-white px-8 py-6 font-[Arial] text-black print:block print:max-w-none print:px-0 print:py-0">
+        <header className="relative flex min-h-20 items-center justify-center border-b border-gray-400 pb-4">
+          <img
+            src={schoolLogo}
+            alt="Grace Christian Academy logo"
+            className="absolute left-0 size-16 object-contain"
+          />
+          <div className="text-center">
+            <p className="text-xs font-semibold">Grace Christian Academy</p>
+            <h1 className="mt-1 text-lg font-bold uppercase">
+              Grace Christian Academy
+            </h1>
+            <p className="text-xs">Student Academic Record</p>
+          </div>
+        </header>
+
+        <h2 className="mt-6 text-center text-base font-bold uppercase tracking-wide">
+          Unofficial Certificate of Grades
+        </h2>
+
+        <p className="mt-4 text-right text-xs underline">{printDate}</p>
+        <p className="text-right text-xs">Date</p>
+
+        <p className="mt-7 text-sm font-bold">To Whom It May Concern:</p>
+        <p className="mt-4 text-justify text-sm leading-6">
+          This is to certify that <strong>{studentName || "-"}</strong>, with
+          Student ID <strong>{student.studentId || "-"}</strong> and Learner
+          Reference Number{" "}
+          <strong>{student.learnerReferenceNumber || "-"}</strong>, has the
+          following recorded skill grades:
+        </p>
+
+        <table className="mt-5 w-full table-fixed border-collapse text-xs">
+          <thead>
+            <tr>
+              <th className="w-[52%] border border-black px-2 py-2 text-left">
+                Skill
+              </th>
+              {QUARTERS.map((quarter) => (
+                <th
+                  key={quarter}
+                  className="border border-black px-2 py-2 text-center"
+                >
+                  {quarter}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          {developments.map((development) => (
+            <tbody key={development.title}>
+              <tr>
+                <th
+                  colSpan={QUARTERS.length + 1}
+                  className="border border-black bg-gray-100 px-2 py-2 text-left"
+                >
+                  {development.title}
+                </th>
+              </tr>
+              {getDevelopmentGrades(development.title).map((item) => (
+                <tr key={item.skill}>
+                  <td className="border border-black px-2 py-1.5">
+                    {item.skill}
+                  </td>
+                  {QUARTERS.map((_, index) => (
+                    <td
+                      key={index}
+                      className="border border-black px-2 py-1.5 text-center"
+                    >
+                      {formatGrade(item.grades[index + 1])}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          ))}
+        </table>
+
+        <h3 className="mt-6 text-sm font-bold uppercase">Teacher Remarks</h3>
+        <table className="mt-2 w-full border-collapse text-xs">
+          <thead>
+            <tr>
+              <th className="w-1/4 border border-black px-2 py-2 text-left">
+                Quarter
+              </th>
+              <th className="border border-black px-2 py-2 text-left">
+                Remarks
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {QUARTERS.map((quarter, index) => {
+              const remark = gradeData.remarks[index + 1];
+
+              return (
+                <tr key={quarter}>
+                  <td className="border border-black px-2 py-2">{quarter}</td>
+                  <td className="border border-black px-2 py-2">
+                    {remark?.trim() || "No remarks"}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </article>
+
       {/* Grade Modal */}
       {selectedDevelopment && (
         <GradeModal
           title={selectedDevelopment}
-          items={gradesData.find(({ title }) => title === selectedDevelopment)?.grades || []}
+          items={getDevelopmentGrades(selectedDevelopment)}
           quarters={QUARTERS}
-          selectedQuarter={selectedQuarter}
-          onQuarterChange={setSelectedQuarter}
           onClose={handleCloseModal}
         />
       )}

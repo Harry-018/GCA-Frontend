@@ -12,7 +12,7 @@ const SectionCard = ({
       <button
         type="button"
         onClick={onClick}
-        className="group relative flex w-full flex-col gap-y-5 overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-parent-accent/40 hover:shadow-lg"
+        className="group relative flex w-full flex-col gap-y-5 overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-5 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-parent-accent/40 hover:shadow-lg"
       >
         <span className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
 

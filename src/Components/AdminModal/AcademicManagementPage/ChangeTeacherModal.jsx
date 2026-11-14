@@ -30,7 +30,7 @@ const ChangeTeacherModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-5">
-      <div className="w-full max-w-sm rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+      <div className="w-full max-w-sm rounded-2xl bg-bone p-5 shadow-lg">
         <h2 className="font-[PoppinsBold] text-sm text-parent-green">
           Change Teacher
         </h2>

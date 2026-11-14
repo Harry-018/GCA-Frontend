@@ -5,7 +5,7 @@ const RemoveScheduleModal = ({ isOpen, onClose, scheduleName, onRemove }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
-      <div className="flex w-full max-w-md flex-col gap-y-5 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg">
+      <div className="flex w-full max-w-md flex-col gap-y-5 rounded-2xl bg-bone p-6 shadow-lg">
         <h2 className="font-[PoppinsBold] text-base text-reject">
           Remove Schedule
         </h2>

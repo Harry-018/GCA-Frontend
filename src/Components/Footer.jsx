@@ -166,14 +166,16 @@ const Footer = () => {
               learn and grow.
             </p>
           </div>
-          <a
-            href="https://www.google.com/maps/search/?api=1&query=Grace+Christian+Academy+306+Purok+4+Barangay+Cabuco+Trece+Martires+Cavite"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 w-fit rounded-full border border-lime-green/50 px-4 py-2 text-2xs font-[PoppinsBold] uppercase tracking-wider text-lime-green transition-colors hover:bg-lime-green hover:text-[#062421]"
-          >
-            View Location
-          </a>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <a
+              href="https://www.google.com/maps/search/?api=1&query=Grace+Christian+Academy+306+Purok+4+Barangay+Cabuco+Trece+Martires+Cavite"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-fit rounded-full border border-lime-green/50 px-4 py-2 text-2xs font-[PoppinsBold] uppercase tracking-wider text-lime-green transition-colors hover:bg-lime-green hover:text-[#062421]"
+            >
+              View Location
+            </a>
+          </div>
         </div>
       </div>
 

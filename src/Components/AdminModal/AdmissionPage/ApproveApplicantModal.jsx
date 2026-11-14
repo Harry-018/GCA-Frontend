@@ -24,7 +24,7 @@ const ApproveApplicantModal = ({
   const today = new Date().toISOString().split("T")[0];
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
-      <div className="w-full max-w-102.5 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-6 py-5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+      <div className="w-full max-w-102.5 rounded-2xl bg-bone px-6 py-5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
         <h2 className="text-base font-[PoppinsBold] text-parent-green">
           {title}
         </h2>

@@ -73,7 +73,7 @@ const EditAnnouncementModal = ({ isOpen, onClose, onSave, announcement }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+      <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-sm font-[PoppinsBold] text-parent-green">

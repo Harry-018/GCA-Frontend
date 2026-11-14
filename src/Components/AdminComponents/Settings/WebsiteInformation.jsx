@@ -7,7 +7,7 @@ const WebsiteInformation = ({
   onEdit,
 }) => {
   return (
-    <div className="flex w-full flex-col rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-4 py-3 font-[Poppins] shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
+    <div className="flex w-full flex-col rounded-2xl bg-bone px-4 py-3 font-[Poppins] shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-[9px] font-[PoppinsBold] text-parent-green sm:text-md lg:text-sm">
           Website Information

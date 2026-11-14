@@ -24,7 +24,7 @@ const SubjectModal = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-3 sm:p-5">
-      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-4 overflow-y-auto rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-lg sm:p-6">
+      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-4 overflow-y-auto rounded-2xl bg-bone p-4 shadow-lg sm:p-6">
         <h2 className="font-[PoppinsBold] text-sm text-parent-green sm:text-base">
           Subjects
         </h2>
@@ -45,7 +45,7 @@ const SubjectModal = ({ isOpen, onClose }) => {
           {subjects.map((subject) => (
             <div
               key={subject.code}
-              className="grid grid-cols-[90px_1fr] border-b border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 text-xs text-gray-500 sm:grid-cols-[120px_1fr]"
+              className="grid grid-cols-[90px_1fr] border-b border-parent-accent/20 bg-bone text-xs text-gray-500 sm:grid-cols-[120px_1fr]"
             >
               <div className="border-r border-parent-accent/15 px-2 py-3 sm:px-4">
                 {subject.code}

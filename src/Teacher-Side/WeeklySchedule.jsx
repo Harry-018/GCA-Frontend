@@ -109,10 +109,11 @@ const WeeklySchedule = () => {
   }
 
   return (
-    <div className="flex w-full min-w-0 flex-col items-center rounded-2xl bg-egg p-3 shadow-sm sm:p-5 md:p-6">
+    <div className="relative flex w-full min-w-0 flex-col items-center overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] sm:p-5 md:p-6">
+      <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
       {/* Header */}
       <div className="mb-4 w-full max-w-7xl sm:mb-5">
-        <h2 className="font-[PoppinsBold] text-base text-swamp-green sm:text-lg">
+        <h2 className="font-[PoppinsBold] text-base text-parent-green sm:text-lg">
           WEEKLY SCHEDULE
         </h2>
 
@@ -154,7 +155,7 @@ const WeeklySchedule = () => {
                 const { event, timeText } = eventInfo;
 
                 return (
-                  <div className="event-card flex h-full w-full flex-col justify-between overflow-hidden rounded-md border border-swamp-green/80 bg-swamp-green px-1 py-1 text-white shadow-sm sm:rounded-lg sm:px-2 sm:py-1.5">
+                  <div className="event-card flex h-full w-full flex-col justify-between overflow-hidden rounded-md border border-parent-green/80 bg-parent-green px-1 py-1 text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:rounded-lg sm:px-2 sm:py-1.5">
                     <p className="break-words font-[PoppinsBold] text-[10px] leading-tight text-white sm:text-xs md:text-sm">
                       {event.title}
                     </p>

@@ -192,7 +192,7 @@ const ApplicantTable = ({
   });
 
   return (
-    <div className="min-h-0 flex-1 overflow-auto rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+    <div className="min-h-0 flex-1 overflow-auto rounded-2xl border border-parent-accent/20 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
       <table className="w-full text-left text-sm">
         <thead className="sticky top-0 bg-bone">
           {table.getHeaderGroups().map((headerGroup) => (

@@ -15,7 +15,7 @@ const ReportFilters = ({
   onSaveReport,
 }) => {
   return (
-    <div className="flex w-full flex-col gap-2 rounded-2xl bg-bone p-2 shadow-md sm:p-3 md:flex-row md:items-center md:justify-between md:gap-4 md:p-4">
+    <div className="flex w-full flex-col gap-2 rounded-2xl border border-parent-accent/15 bg-bone p-2 shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:shadow-lg sm:p-3 md:flex-row md:items-center md:justify-between md:gap-4 md:p-4">
       {/* Search */}
       <div className="flex w-full items-center gap-1.5 sm:gap-2 md:w-auto">
         <div className="relative min-w-0 flex-1 md:w-52 md:flex-none">
@@ -28,14 +28,14 @@ const ReportFilters = ({
             value={studentName}
             onChange={(e) => onStudentNameChange(e.target.value)}
             placeholder="Search Students"
-            className="h-9 w-full min-w-0 rounded-xl border border-gray-300 bg-transparent pl-7 pr-2 text-[9px] text-gray-500 outline-none placeholder:text-gray-500 focus:border-swamp-green sm:h-8 sm:pl-9 sm:px-3 sm:text-xs md:w-full md:flex-none"
+            className="h-9 w-full min-w-0 rounded-xl border border-gray-300 bg-transparent pl-7 pr-2 text-[9px] text-gray-500 outline-none placeholder:text-gray-500 focus:border-parent-green sm:h-8 sm:pl-9 sm:px-3 sm:text-xs md:w-full md:flex-none"
           />
         </div>
 
         <button
           type="button"
           onClick={onSearch}
-          className="h-9 shrink-0 rounded-xl bg-gray-400 px-2.5 text-[9px] font-[PoppinsBold] text-white transition-colors hover:bg-swamp-green sm:h-8 sm:px-4 sm:text-xs"
+          className="h-9 shrink-0 rounded-xl bg-gray-400 px-2.5 text-[9px] font-[PoppinsBold] text-white transition-colors hover:bg-parent-green sm:h-8 sm:px-4 sm:text-xs"
         >
           search
         </button>
@@ -60,7 +60,7 @@ const ReportFilters = ({
         <button
           type="button"
           onClick={onSaveReport}
-          className="h-9 shrink-0 rounded-xl bg-swamp-green px-2 text-[9px] font-[PoppinsBold] text-white transition-colors hover:bg-swamp-green sm:h-8 sm:px-4 sm:text-xs"
+          className="h-9 shrink-0 rounded-xl bg-parent-green px-2 text-[9px] font-[PoppinsBold] text-white transition-colors hover:bg-parent-green sm:h-8 sm:px-4 sm:text-xs"
         >
           Download
         </button>

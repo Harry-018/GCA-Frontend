@@ -8,7 +8,7 @@ const EditVideoPresentationModal = ({
   onSave,
 }) => {
   return (
-    <div className="w-full max-w-105 rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-md">
+    <div className="w-full max-w-105 rounded-2xl border border-parent-accent/20 bg-bone p-5 shadow-md">
       <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
         Edit Video Presentation
       </h2>

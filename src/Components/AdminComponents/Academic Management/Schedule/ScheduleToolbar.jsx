@@ -45,7 +45,7 @@ const ScheduleToolbar = ({
           <button
             type="button"
             onClick={onViewSchedule}
-            className="rounded-full border border-gray-400 bg-linear-to-br from-bone via-white to-parent-pale/60 px-5 py-2 font-[Poppins] text-xs text-gray-600 transition hover:bg-gray-100"
+            className="rounded-full border border-gray-400 bg-bone px-5 py-2 font-[Poppins] text-xs text-gray-600 transition hover:bg-gray-100"
           >
             View Schedule
           </button>

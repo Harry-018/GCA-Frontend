@@ -8,7 +8,7 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-dvh gap-8 overflow-hidden bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] px-4 py-4 font-[Poppins]">
+    <div className="flex h-dvh gap-8 overflow-hidden bg-egg px-4 py-4 font-[Poppins]">
       <header className="fixed left-0 top-0 z-30 flex h-14 w-full items-center gap-x-3 bg-[#0c2423] px-4 shadow-lg lg:hidden">
         <button
           type="button"

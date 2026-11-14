@@ -309,7 +309,7 @@ const Attendance = () => {
                   event.target.value,
                 )
               }
-              className={`rounded-lg cursor-pointer border py-2 text-xs font-[Poppins] outline-none focus:border-swamp-green ${
+              className={`rounded-lg cursor-pointer border py-2 text-xs font-[Poppins] outline-none focus:border-parent-green ${
                 currentStatus === "present"
                   ? "border-green-200 bg-green-50 cursor-pointer text-green-700"
                   : "border-red-200 cursor-pointer bg-red-50 text-red-700"
@@ -349,7 +349,7 @@ const Attendance = () => {
   if (loading && sections.length === 0) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-swamp-green" />
+        <Loader2 size={32} className="animate-spin text-parent-green" />
         <p className="text-sm text-gray-500">Loading attendance...</p>
       </div>
     );
@@ -434,7 +434,7 @@ const Attendance = () => {
                     pageIndex: previous.pageIndex - 1,
                   }))
                 }
-                className="rounded-full border border-gray-300 px-4 py-2.5 text-xs text-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full border border-gray-300 px-4 py-2.5 text-xs text-gray-600 transition-colors duration-200 hover:border-parent-accent/40 hover:bg-parent-pale/40 hover:text-parent-green disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Previous
               </button>
@@ -450,7 +450,7 @@ const Attendance = () => {
                     pageIndex: previous.pageIndex + 1,
                   }))
                 }
-                className="rounded-full bg-swamp-green px-4 py-2.5 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full bg-parent-green px-4 py-2.5 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Next
               </button>

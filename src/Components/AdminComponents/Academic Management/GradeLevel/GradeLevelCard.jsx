@@ -2,7 +2,7 @@ import React from "react";
 
 const GradeLevelCard = ({ name, onSkills, onRemove }) => {
   return (
-    <div className="flex min-h-23.5 w-full flex-col justify-between gap-5 rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
+    <div className="flex min-h-23.5 w-full flex-col justify-between gap-5 rounded-2xl border border-parent-accent/15 bg-bone p-4 shadow-md">
       <h3 className="font-[Poppins] text-lg text-parent-green">{name}</h3>
 
       {/* Actions */}

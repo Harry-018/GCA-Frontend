@@ -58,7 +58,7 @@ const AddChildrenActivityModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
-      <div className="w-full max-w-lg rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-md sm:p-6">
+      <div className="w-full max-w-lg rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-md sm:p-6">
         {/* Header */}
         <div className="mb-5">
           <h2 className="text-sm font-[PoppinsBold] text-parent-green sm:text-base">

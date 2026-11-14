@@ -30,7 +30,7 @@ const GradeLevelCard = ({
       </div>
 
       {/* Grade Level Card */}
-      <div className="flex flex-1 flex-col rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-sm sm:p-7">
+      <div className="flex flex-1 flex-col rounded-2xl border border-parent-accent/20 bg-bone p-4 shadow-sm sm:p-7">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className=" text-[9px] sm:text-sm font-[PoppinsBold] uppercase text-parent-green">
             {title}

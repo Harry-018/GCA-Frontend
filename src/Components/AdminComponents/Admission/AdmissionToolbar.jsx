@@ -41,7 +41,11 @@ const AdmissionToolbar = ({
           <button
             type="button"
             onClick={onToggleSelectionMode}
-            className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-parent-green px-4 text-[11px] font-[Poppins] text-white transition hover:bg-parent-accent sm:px-7 sm:text-xs"
+            className={`inline-flex h-8 items-center whitespace-nowrap rounded-full px-4 text-[11px] font-[Poppins] text-white transition sm:px-7 sm:text-xs ${
+              selectionMode
+                ? "bg-reject hover:bg-reject/80"
+                : "bg-parent-green hover:bg-parent-accent"
+            }`}
           >
             {selectionMode ? "Cancel" : "Select"}
           </button>
