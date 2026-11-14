@@ -9,14 +9,12 @@ import { getActivityLogs } from "../utils/data/Admin/activityLogs.js";
 const ACTION_STYLES = {
   create: "bg-green-100 text-green-700",
   update: "bg-blue-100 text-blue-700",
-  delete: "bg-red-100 text-red-700",
   login: "bg-yellow-100 text-yellow-700",
 };
 
 const ACTION_LABELS = {
   create: "Created",
   update: "Updated",
-  delete: "Deleted",
   login: "Logged In",
 };
 
@@ -52,10 +50,7 @@ const ActivityLogs = () => {
 
   const totalPages = Math.max(1, Math.ceil(filteredLogs.length / limit));
 
-  const paginatedLogs = filteredLogs.slice(
-    (page - 1) * limit,
-    page * limit,
-  );
+  const paginatedLogs = filteredLogs.slice((page - 1) * limit, page * limit);
 
   const handleActionChange = (newAction) => {
     setAction(newAction);
@@ -152,10 +147,7 @@ const ActivityLogs = () => {
 
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins] sm:gap-3">
-      <ActivityLogsHeader
-        activeTab={action}
-        onTabChange={handleActionChange}
-      />
+      <ActivityLogsHeader activeTab={action} onTabChange={handleActionChange} />
 
       <div className="flex min-h-0 flex-1 flex-col gap-2">
         <ActivityLogsToolbar

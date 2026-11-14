@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 
-import { getParentInfoByUserId } from "../requests/parentRequests.js";
+import {
+  getParentInfoByUserId,
+  editParentInfo,
+} from "../requests/parentRequests.js";
 
 import PersonalInformation from "../Components/Parents-Side Components/Security/PersonalInformation";
 import EmergencyContact from "../Components/Parents-Side Components/Security/EmergencyContact";
@@ -51,6 +54,7 @@ const Security = () => {
   const [showContactModal, setShowContactModal] = useState(false);
 
   const [loading, setLoading] = useState(true);
+  const [savingContact, setSavingContact] = useState(false);
   const [error, setError] = useState("");
 
   const [parentInfo, setParentInfo] = useState(null);
@@ -66,7 +70,6 @@ const Security = () => {
 
         const response = await getParentInfoByUserId();
 
-        // Extract parent information from the "r" property.
         const parent = response?.r;
 
         if (!parent) {
@@ -78,7 +81,7 @@ const Security = () => {
         const contact = {
           contactNumber: parent.contact_number || "",
           email: parent.email || "",
-          relationship: parent.relationship_type || "",
+          relationship_type: parent.relationship_type || "",
           account_email: parent.account_email || "",
         };
 
@@ -116,7 +119,13 @@ const Security = () => {
 
   // OPEN CONTACT MODAL
   const handleManageContact = () => {
-    setFormData(contactData);
+    setFormData({
+      contactNumber: contactData.contactNumber,
+      email: contactData.email,
+      relationship_type: contactData.relationship_type,
+      account_email: contactData.account_email,
+    });
+
     setShowContactModal(true);
   };
 
@@ -129,17 +138,51 @@ const Security = () => {
   };
 
   // SAVE CONTACT INFORMATION
-  const handleSaveContact = () => {
-    setContactData(formData);
-    setShowContactModal(false);
+  const handleSaveContact = async () => {
+    if (savingContact) return;
 
-    // Connect this to the parent contact update endpoint later.
+    try {
+      setSavingContact(true);
+
+      const updatedData = {
+        contact_number: formData.contactNumber.trim(),
+        email: formData.email.trim(),
+      };
+
+      const response = await editParentInfo(updatedData);
+
+      if (!response?.success) {
+        throw new Error(
+          response?.message || "Unable to update contact information.",
+        );
+      }
+
+      // Update displayed contact information only after successful API request.
+      setContactData((prev) => ({
+        ...prev,
+        contactNumber: updatedData.contact_number,
+        email: updatedData.email,
+      }));
+
+      setShowContactModal(false);
+      alert(response.message || "Contact information updated successfully.");
+    } catch (err) {
+      console.error("Update Parent Contact Error:", err);
+
+      alert(
+        err.response?.data?.message ||
+          err.message ||
+          "Unable to update contact information.",
+      );
+    } finally {
+      setSavingContact(false);
+    }
   };
 
   // LOADING STATE
   if (loading) {
     return (
-      <div className="flex  min-h-screen flex-col items-center justify-center gap-3 bg-black to-parent-accent font-[Poppins]">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black to-parent-accent font-[Poppins]">
         <Loader2 size={32} className="animate-spin text-parent-pale" />
 
         <p className="text-sm text-white/70">
@@ -222,12 +265,10 @@ const Security = () => {
           <EditContactModal
             contactNo={formData.contactNumber}
             email={formData.email}
-            address={formData.address}
             onContactNoChange={(value) =>
               handleContactChange("contactNumber", value)
             }
             onEmailChange={(value) => handleContactChange("email", value)}
-            onAddressChange={(value) => handleContactChange("address", value)}
             onCancel={() => setShowContactModal(false)}
             onSave={handleSaveContact}
           />
