@@ -1,6 +1,6 @@
 const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
   return (
-    <section className="rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
+    <section className="rounded-2xl border border-parent-accent/15 bg-bone p-4 shadow-md">
       <div className="flex items-center justify-between">
         <h2 className="rounded-full text-xs sm:text-sm font-[PoppinsBold] text-parent-green">
           Why Parent's Choose Us?

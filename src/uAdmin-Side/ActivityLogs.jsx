@@ -21,10 +21,11 @@ const ACTION_LABELS = {
 };
 
 const ActivityLogs = () => {
-  const [logs] = useState(() => getActivityLogs());
+  const [logs] = useState(() =>
+    getActivityLogs().filter((log) => log.role === "admin"),
+  );
 
   const [action, setAction] = useState("all");
-  const [role, setRole] = useState("all");
 
   const [search, setSearch] = useState("");
   const [searchInput, setSearchInput] = useState("");
@@ -37,7 +38,6 @@ const ActivityLogs = () => {
 
     return logs.filter((log) => {
       const matchesAction = action === "all" || log.action === action;
-      const matchesRole = role === "all" || log.role === role;
 
       const matchesSearch =
         !keyword ||
@@ -46,9 +46,9 @@ const ActivityLogs = () => {
           .toLowerCase()
           .includes(keyword);
 
-      return matchesAction && matchesRole && matchesSearch;
+      return matchesAction && matchesSearch;
     });
-  }, [logs, action, role, search]);
+  }, [logs, action, search]);
 
   const totalPages = Math.max(1, Math.ceil(filteredLogs.length / limit));
 
@@ -59,11 +59,6 @@ const ActivityLogs = () => {
 
   const handleActionChange = (newAction) => {
     setAction(newAction);
-    setPage(1);
-  };
-
-  const handleRoleChange = (newRole) => {
-    setRole(newRole);
     setPage(1);
   };
 
@@ -151,7 +146,7 @@ const ActivityLogs = () => {
   ];
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins] sm:gap-3">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-2 bg-egg font-[Poppins] sm:gap-3">
       <ActivityLogsHeader
         activeTab={action}
         onTabChange={handleActionChange}
@@ -159,8 +154,6 @@ const ActivityLogs = () => {
 
       <div className="flex min-h-0 flex-1 flex-col gap-2">
         <ActivityLogsToolbar
-          activeRole={role}
-          onRoleChange={handleRoleChange}
           search={searchInput}
           onSearchChange={setSearchInput}
           onSearch={handleSearch}

@@ -25,7 +25,7 @@ const EditPaymentOptionModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+      <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-parent-accent/20 bg-bone p-5 shadow-lg">
         <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
           Edit Payment Option
         </h2>

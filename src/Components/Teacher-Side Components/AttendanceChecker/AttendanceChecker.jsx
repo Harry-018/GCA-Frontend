@@ -8,27 +8,27 @@ const AttendanceChecker = ({
   onAttendanceChange,
 }) => {
   return (
-    <div className="rounded-3xl border border-swamp-green/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+    <div className="rounded-3xl border border-parent-accent/15 bg-bone p-2 shadow-[0_2px_4px_rgba(0,0,0,0.18)] sm:p-4 md:p-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="flex flex-col gap-2 lg:min-h-0 lg:flex-1">
         {/* Mobile & Tablet: Sticky scroll */}
         <div className="no-scrollbar overflow-x-auto lg:hidden">
           <div className="min-w-115">
             <div className="grid grid-cols-[minmax(80px,1fr)_0.9fr_0.7fr_1fr] items-center gap-0">
               <div className="sticky left-0 z-10 bg-bone py-2 pl-2 sm:py-3 sm:pl-4 md:py-3.5 md:pl-5">
-                <span className="text-[8px] font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-2xs md:text-xs">
+                <span className="text-[8px] font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-2xs md:text-xs">
                   ID & Student
                 </span>
               </div>
 
-              <span className="px-1 py-2 text-[8px] font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:py-3 sm:text-2xs md:py-3.5 md:text-xs">
+              <span className="px-1 py-2 text-[8px] font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:py-3 sm:text-2xs md:py-3.5 md:text-xs">
                 LRN
               </span>
 
-              <span className="px-1 py-2 text-[8px] font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:py-3 sm:text-2xs md:py-3.5 md:text-xs">
+              <span className="px-1 py-2 text-[8px] font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:py-3 sm:text-2xs md:py-3.5 md:text-xs">
                 Gender
               </span>
 
-              <span className="px-1 py-2 text-start text-[8px] font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:py-3 sm:text-2xs md:py-3.5 md:text-xs">
+              <span className="px-1 py-2 text-start text-[8px] font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:py-3 sm:text-2xs md:py-3.5 md:text-xs">
                 Attendance
               </span>
             </div>
@@ -37,7 +37,7 @@ const AttendanceChecker = ({
               {students.map((student) => (
                 <div
                   key={student.id}
-                  className="grid grid-cols-[minmax(80px,1fr)_0.9fr_0.7fr_1fr] items-center gap-0 border-t border-gray-100"
+                  className="grid grid-cols-[minmax(80px,1fr)_0.9fr_0.7fr_1fr] items-center gap-0 border-t border-gray-100 transition-colors duration-200 hover:bg-parent-pale/30"
                 >
                   <div className="sticky left-0 z-10 min-w-0 bg-bone py-2 pl-2 sm:py-3 sm:pl-4 md:py-3.5 md:pl-5">
                     <p className="min-w-0 truncate text-[8px] text-gray-500 sm:text-2xs md:text-xs">
@@ -74,7 +74,7 @@ const AttendanceChecker = ({
                             ? { color: "#16a34a" }
                             : { color: "#dc2626" }
                         }
-                        className={`h-8 shrink-0 appearance-none rounded-lg border border-gray-200 bg-bone py-1 pl-7 pr-7 text-[9px] font-[Poppins] outline-none focus:border-swamp-green sm:h-9 sm:text-2xs md:h-10 md:text-sm ${(attendance[student.id] || student.attendance || "Present") === "Present" ? "text-green-700" : "text-red-700"}`}
+                        className={`h-8 shrink-0 appearance-none rounded-lg border border-gray-200 bg-bone py-1 pl-7 pr-7 text-[9px] font-[Poppins] outline-none focus:border-parent-green sm:h-9 sm:text-2xs md:h-10 md:text-sm ${(attendance[student.id] || student.attendance || "Present") === "Present" ? "text-green-700" : "text-red-700"}`}
                       >
                         {attendanceOptions?.map((option) => (
                           <option
@@ -111,7 +111,7 @@ const AttendanceChecker = ({
           <div className="no-scrollbar min-h-0 flex-1 overflow-auto">
             <div>
               <div
-                className="grid items-center gap-2 rounded-xl bg-[#e4e6f0] px-5 py-3 text-left text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:gap-3 xl:gap-4 xl:px-6"
+                className="grid items-center gap-2 rounded-xl bg-parent-pale/60 px-5 py-3 text-left text-xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:gap-3 xl:gap-4 xl:px-6"
                 style={{ gridTemplateColumns: `1.2fr 1.5fr 2fr 1fr 1.2fr` }}
               >
                 <span>School ID</span>
@@ -125,7 +125,7 @@ const AttendanceChecker = ({
                 {students.map((student) => (
                   <div
                     key={student.id}
-                    className="grid items-center gap-2 rounded-xl border-b border-gray-200 bg-bone px-5 py-2.5 text-left text-xs text-slate-600 last:border-b-0 xl:gap-3 xl:px-6"
+                    className="grid items-center gap-2 rounded-xl border-b border-gray-200 bg-bone px-5 py-2.5 text-left text-xs text-slate-600 transition-colors duration-200 last:border-b-0 hover:bg-parent-pale/30 xl:gap-3 xl:px-6"
                     style={{ gridTemplateColumns: `1.2fr 1.5fr 2fr 1fr 1.2fr` }}
                   >
                     <span className="min-w-0 whitespace-nowrap">
@@ -149,7 +149,7 @@ const AttendanceChecker = ({
                         onChange={(e) =>
                           onAttendanceChange(student.id, e.target.value)
                         }
-                        className={`h-9 shrink-0 appearance-none rounded-lg border border-gray-200 bg-bone py-1 pl-7 pr-7 text-xs font-[Poppins] outline-none focus:border-swamp-green ${
+                        className={`h-9 shrink-0 appearance-none rounded-lg border border-gray-200 bg-bone py-1 pl-7 pr-7 text-xs font-[Poppins] outline-none focus:border-parent-green ${
                           (attendance[student.id] ||
                             student.attendance ||
                             "Present") === "Present"

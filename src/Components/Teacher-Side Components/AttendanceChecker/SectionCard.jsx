@@ -3,7 +3,7 @@ import React from "react";
 const SectionCard = ({ sections = [], selectedId, onSelect }) => {
   return (
     <div className="flex w-full flex-col gap-3 p-2 sm:gap-4 sm:p-3 md:gap-5 md:p-4 lg:p-6">
-      <h2 className="flex items-center gap-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-sm md:text-md">
+      <h2 className="flex items-center gap-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-sm md:text-md">
         <span>Class Sections:</span>
       </h2>
 
@@ -22,10 +22,10 @@ const SectionCard = ({ sections = [], selectedId, onSelect }) => {
               type="button"
               onClick={() => onSelect(section.id)}
               aria-pressed={isSelected}
-              className={`flex min-w-0 flex-col items-start gap-0.5 rounded-lg px-3 py-2 text-left transition-colors duration-150 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-swamp-green sm:rounded-xl sm:gap-1 sm:px-4 sm:py-2.5 md:px-5 md:py-3 lg:w-70 lg:flex-none ${
+              className={`flex min-w-0 flex-col items-start gap-0.5 rounded-lg border px-3 py-2 text-left transition-all duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-parent-green sm:gap-1 sm:rounded-xl sm:px-4 sm:py-2.5 md:px-5 md:py-3 lg:w-70 lg:flex-none ${
                 isSelected
-                  ? "bg-swamp-green text-bone"
-                  : "bg-bone text-gray-600"
+                  ? "border-parent-green bg-parent-green text-bone shadow-md"
+                  : "border-parent-accent/15 bg-bone text-gray-600 hover:-translate-y-0.5 hover:border-parent-accent/40 hover:bg-parent-green/5 hover:shadow-md"
               }`}
             >
               <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide sm:text-xs md:text-sm">

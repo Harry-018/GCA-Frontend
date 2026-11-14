@@ -213,7 +213,7 @@ const AdminSkills = () => {
   ];
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-egg font-[Poppins]">
       <SettingHeader />
 
       {/* Header */}

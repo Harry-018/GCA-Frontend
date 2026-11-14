@@ -12,7 +12,7 @@ const PaymentOptionCard = ({ options = [], onEdit, onRemove }) => {
       {options.map((option) => (
         <div
           key={option.id}
-          className="flex flex-1 flex-col rounded-2xl border border-parent-accent/20 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-sm"
+          className="flex flex-1 flex-col rounded-2xl border border-parent-accent/20 bg-bone p-5 shadow-sm"
         >
           {/* Card Header */}
           <div className="flex flex-wrap items-center justify-between gap-2">

@@ -3,7 +3,7 @@ import React from "react";
 const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="w-full max-w-md rounded-2xl border border-parent-accent/25 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-lg">
+      <div className="w-full max-w-md rounded-2xl border border-parent-accent/25 bg-bone p-5 shadow-lg">
         <h2 className="font-[PoppinsBold] text-sm text-parent-green">
           Add Teacher
         </h2>

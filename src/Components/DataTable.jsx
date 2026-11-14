@@ -41,7 +41,7 @@ const DataTable = ({
                 }
               }}
               onChange={table.getToggleAllPageRowsSelectedHandler()}
-              className="h-4 w-4 cursor-pointer accent-swamp-green"
+              className="h-4 w-4 cursor-pointer accent-parent-green"
             />
           ),
           cell: ({ row }) => (
@@ -50,7 +50,7 @@ const DataTable = ({
               checked={row.getIsSelected()}
               disabled={!row.getCanSelect()}
               onChange={row.getToggleSelectedHandler()}
-              className="h-4 w-4 cursor-pointer accent-swamp-green"
+              className="h-4 w-4 cursor-pointer accent-parent-green"
             />
           ),
         },
@@ -128,7 +128,7 @@ const DataTable = ({
   };
 
   return (
-    <div className="flex h-full flex-1 min-h-0 w-full flex-col overflow-auto no-scrollbar rounded-2xl border border-gray-200 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+    <div className="flex h-full flex-1 min-h-0 w-full flex-col overflow-auto no-scrollbar rounded-2xl border border-parent-accent/15 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
       <table
         className="w-full text-left text-sm"
         style={{
@@ -181,7 +181,7 @@ const DataTable = ({
             table.getRowModel().rows.map((row) => (
               <tr
                 key={row.id}
-                className="border-b border-gray-100 last:border-0 hover:bg-bone/60"
+                className="border-b border-gray-100 last:border-0 transition-colors duration-200 hover:bg-parent-pale/30"
               >
                 {row.getVisibleCells().map((cell) => (
                   <td
@@ -199,7 +199,7 @@ const DataTable = ({
       </table>
 
       {enablePagination && (
-        <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3">
+        <div className="flex items-center justify-between border-t border-parent-accent/10 px-4 py-3">
           <div className="text-xs text-gray-500">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}
@@ -210,7 +210,7 @@ const DataTable = ({
               type="button"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
-              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md border border-gray-300 px-3 py-1 text-xs transition-colors duration-200 hover:border-parent-accent/40 hover:bg-parent-pale/40 hover:text-parent-green disabled:cursor-not-allowed disabled:opacity-50"
             >
               Previous
             </button>
@@ -219,7 +219,7 @@ const DataTable = ({
               type="button"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
-              className="rounded-md border border-gray-300 px-3 py-1 text-xs disabled:cursor-not-allowed disabled:opacity-50"
+              className="rounded-md border border-gray-300 px-3 py-1 text-xs transition-colors duration-200 hover:border-parent-accent/40 hover:bg-parent-pale/40 hover:text-parent-green disabled:cursor-not-allowed disabled:opacity-50"
             >
               Next
             </button>

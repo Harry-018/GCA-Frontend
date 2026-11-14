@@ -58,7 +58,7 @@ const SubjectModal = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2]  font-[Poppins]">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-bone  font-[Poppins]">
       {/* Header */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -93,7 +93,7 @@ const SubjectModal = () => {
         {subjects.map((subject) => (
           <div
             key={subject.id}
-            className="group rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 h-36 flex flex-col justify-between p-5 shadow-[0_2px_4px_rgba(0,0,0,0.12)]"
+            className="group rounded-2xl border border-parent-accent/20 bg-bone h-36 flex flex-col justify-between p-5 shadow-[0_2px_4px_rgba(0,0,0,0.12)]"
           >
             <div className="flex items-center gap-2">
               <h2 className=" font-[PoppinsBold] text-base text-gray-700">
@@ -129,7 +129,7 @@ const SubjectModal = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4 backdrop-blur-sm">
           <form
             onSubmit={handleSubmit}
-            className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg"
+            className="w-full max-w-md rounded-2xl bg-bone p-6 shadow-lg"
           >
             <h2 className="font-[PoppinsBold] text-base text-parent-green">
               {editingSubject ? "Rename Subject" : "Add Subject"}

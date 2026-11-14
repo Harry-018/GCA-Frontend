@@ -179,7 +179,7 @@ const AnnouncementList = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-egg font-[Poppins]">
       <Header
         activeTab={activeTab}
         onTabChange={(tab) => {
@@ -217,13 +217,13 @@ const AnnouncementList = () => {
         </div>
 
         {loading ? (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 p-10 shadow-sm">
+          <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-bone p-10 shadow-sm">
             <span className="font-[Poppins] text-sm text-gray-500">
               Loading announcements...
             </span>
           </div>
         ) : announcements.length === 0 ? (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 p-10 shadow-sm">
+          <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-bone p-10 shadow-sm">
             <span className="font-[Poppins] text-sm text-gray-500">
               No announcements for this grade level.
             </span>

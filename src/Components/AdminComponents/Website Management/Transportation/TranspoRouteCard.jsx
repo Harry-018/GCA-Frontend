@@ -1,6 +1,6 @@
 const TranspoRouteCard = ({ location, distance, price, onEdit, onRemove }) => {
   return (
-    <div className="flex h-full min-h-0 w-full shrink-0 flex-col rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
+    <div className="flex h-full min-h-0 w-full shrink-0 flex-col rounded-2xl border border-parent-accent/15 bg-bone p-4 shadow-md">
       <div>
         <label className="text-[9px] sm:text-xs text-gray-600">Location:</label>
 

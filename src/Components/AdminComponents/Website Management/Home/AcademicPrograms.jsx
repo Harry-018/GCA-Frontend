@@ -10,7 +10,7 @@ const AcademicPrograms = ({
     programs.find((program) => program.name === selectedProgram) || programs[0];
 
   return (
-    <section className="rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-4 shadow-md">
+    <section className="rounded-2xl border border-parent-accent/15 bg-bone p-4 shadow-md">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h2 className="text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
           Academic Programs

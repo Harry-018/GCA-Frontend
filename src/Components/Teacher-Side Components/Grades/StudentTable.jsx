@@ -1,30 +1,28 @@
 import React from "react";
 
-const StudentTable = ({ students, columns, onGradesClick }) => {
-  const colCount = columns.length;
-
+const StudentTable = ({ students, columns, onViewClick }) => {
   return (
-    <div className="rounded-3xl border border-swamp-green/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+    <div className="rounded-3xl border border-parent-green/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="flex flex-col gap-2 lg:min-h-0 lg:flex-1">
         {/* Mobile & Tablet: Sticky scroll */}
         <div className="no-scrollbar overflow-x-auto lg:hidden">
           <div className="min-w-125">
             <div className="grid grid-cols-[minmax(100px,1.2fr)_1fr_0.8fr_0.7fr] items-center gap-0">
               <div className="sticky left-0 z-10 bg-bone py-3 pl-3 sm:pl-4">
-                <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+                <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                   ID & Student
                 </span>
               </div>
 
-              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                 LRN
               </span>
 
-              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                 Gender
               </span>
 
-              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:text-xs">
+              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
                 Actions
               </span>
             </div>
@@ -33,7 +31,7 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
               {students.map((student) => (
                 <div
                   key={student.schoolId}
-                  className="grid grid-cols-[minmax(100px,1.2fr)_1fr_0.8fr_0.7fr] items-center gap-0 border-t border-gray-100"
+                  className="grid grid-cols-[minmax(100px,1.2fr)_1fr_0.8fr_0.7fr] items-center gap-0 border-t border-gray-100 transition-colors duration-200 hover:bg-parent-pale/30"
                 >
                   <div className="sticky left-0 z-10 min-w-0 bg-bone py-3 pl-3 sm:pl-4">
                     <p className="min-w-0 truncate text-2xs text-gray-500 sm:text-xs">
@@ -55,10 +53,10 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
                   <div className="flex justify-start py-3 -ml-1">
                     <button
                       type="button"
-                      onClick={() => onGradesClick(student)}
-                      className="rounded-full bg-swamp-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:opacity-90 sm:px-5 sm:py-2 sm:text-xs"
+                      onClick={() => onViewClick(student)}
+                      className="cursor-pointer rounded-full bg-parent-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:bg-parent-accent sm:px-5 sm:py-2 sm:text-xs"
                     >
-                      Grades
+                      View
                     </button>
                   </div>
                 </div>
@@ -72,7 +70,7 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
           <div className="no-scrollbar min-h-0 flex-1 overflow-auto">
             <div>
               <div
-                className="grid items-center gap-2 rounded-xl bg-[#e4e6f0] px-5 py-3 text-left text-xs font-[PoppinsBold] uppercase tracking-wide text-swamp-green sm:gap-3 xl:gap-4 xl:px-6"
+                className="grid items-center gap-2 rounded-xl bg-parent-pale/60 px-5 py-3 text-left text-xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:gap-3 xl:gap-4 xl:px-6"
                 style={{ gridTemplateColumns: `1.2fr 1.5fr 2fr 1fr 1.2fr` }}
               >
                 {columns.map((col) => (
@@ -84,7 +82,7 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
                 {students.map((student) => (
                   <div
                     key={student.schoolId}
-                    className="grid items-center gap-2 rounded-xl border-b border-gray-200 bg-bone px-5 py-2.5 text-left text-xs text-slate-600 last:border-b-0 sm:gap-3 xl:gap-4 xl:px-6"
+                    className="grid items-center gap-2 rounded-xl border-b border-gray-200 bg-bone px-5 py-2.5 text-left text-xs text-slate-600 transition-colors duration-200 last:border-b-0 hover:bg-parent-pale/30 sm:gap-3 xl:gap-4 xl:px-6"
                     style={{ gridTemplateColumns: `1.2fr 1.5fr 2fr 1fr 1.2fr` }}
                   >
                     {columns.map((col) => (
@@ -92,10 +90,10 @@ const StudentTable = ({ students, columns, onGradesClick }) => {
                         {col.key === "actions" ? (
                           <button
                             type="button"
-                            onClick={() => onGradesClick(student)}
-                            className="rounded-full bg-swamp-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:opacity-90"
+                            onClick={() => onViewClick(student)}
+                            className="cursor-pointer rounded-full bg-parent-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
                           >
-                            Grades
+                            View
                           </button>
                         ) : (
                           student[col.key]

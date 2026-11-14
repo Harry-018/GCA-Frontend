@@ -2,7 +2,7 @@ import React from "react";
 
 const ClassCard = ({ section, onDelete, onClassInformation }) => {
   return (
-    <div className="group relative flex w-full flex-col gap-y-10 overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-white to-parent-pale/60 p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+    <div className="group relative flex w-full flex-col gap-y-10 overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
       <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
 
       <div className="flex items-center justify-between pt-1.5">

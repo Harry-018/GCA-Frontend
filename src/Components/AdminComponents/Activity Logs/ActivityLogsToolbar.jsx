@@ -1,41 +1,13 @@
 import React from "react";
 
 const ActivityLogsToolbar = ({
-  activeRole = "all",
-  onRoleChange,
   search = "",
   onSearchChange,
   onSearch,
   searchPlaceholder = "Search Activity Logs",
 }) => {
-  const roles = [
-    { label: "All Users", value: "all" },
-    { label: "Admin", value: "admin" },
-    { label: "Teacher", value: "teacher" },
-    { label: "Parent", value: "parent" },
-  ];
-
   return (
     <div className="flex w-full flex-col gap-2 py-1 md:flex-row md:flex-nowrap md:items-center md:justify-end md:gap-3">
-      {/* Role pills */}
-      <div className="flex shrink-0 gap-1.5 overflow-x-auto [-ms-overflow-style:none] scrollbar:none [&::-webkit-scrollbar]:hidden sm:gap-2 md:overflow-visible">
-        {roles.map((role) => (
-          <button
-            key={role.value}
-            type="button"
-            onClick={() => onRoleChange?.(role.value)}
-            className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-[Poppins] text-[11px] transition sm:px-5 sm:text-xs ${
-              activeRole === role.value
-                ? "bg-parent-green text-white"
-                : "bg-transparent text-gray-500 hover:text-gray-700"
-            }`}
-          >
-            {role.label}
-          </button>
-        ))}
-      </div>
-
-      {/* Search */}
       <div className="flex w-full min-w-0 items-center gap-2 md:w-auto md:flex-none">
         <input
           type="text"
