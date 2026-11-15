@@ -26,26 +26,28 @@ const AdmissionPage = () => {
             <AdmissionBanner />
 
             <div className="flex flex-col gap-3">
-              <h2 className="font-[PoppinsBold] uppercase text-lg text-swamp-green">
+              <h2 className="font-[PoppinsBold] uppercase text-lg text-parent-green">
                 Required Documents
               </h2>
               <div className="flex flex-wrap items-center gap-2 sm:gap-3">
                 <AdmissionCard
-                  Icon={<FileBadge className="hidden" />}
+                  Icon={<FileBadge className="h-4 w-4" />}
                   Atitle="Birth Certificate / PSA / NSO"
                 />
                 <AdmissionCard
-                  Icon={<Camera className="hidden" />}
+                  Icon={<Camera className="h-4 w-4" />}
                   Atitle="2x2 ID Picture"
                 />
               </div>
             </div>
 
             <div className="flex flex-col gap-3">
-              <h2 className="font-[PoppinsBold] uppercase text-lg text-swamp-green">
+              <h2 className="font-[PoppinsBold] uppercase text-lg text-parent-green">
                 Admission Process
               </h2>
-              <div className="flex flex-col gap-6 rounded-2xl bg-bone px-4 py-6 shadow-[0_2px_3px_rgba(0,0,0,0.25)] sm:px-8 sm:py-8 sm:gap-10">
+              <div className="relative flex flex-col overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-bone to-parent-pale/40 px-4 py-6 sm:px-8 sm:py-8">
+                <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-parent-green via-parent-accent to-lime-green" />
+
                 <StepCard
                   step="1"
                   title={"STEP 1: FILL OUT FORM"}
@@ -70,7 +72,7 @@ const AdmissionPage = () => {
                   action={
                     <Link
                       to="/email-verification"
-                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-fit bg-swamp-green px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-white shadow-sm transition hover:opacity-80 active:scale-95 sm:w-auto"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-parent-green px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-white transition hover:bg-parent-accent active:scale-95 sm:w-auto"
                     >
                       <FileEdit className="h-5 w-5" />
                       Fill out form

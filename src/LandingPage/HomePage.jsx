@@ -20,8 +20,6 @@ const HomePage = () => {
   const { banner, acadprog, childact, missionvision, reasons, video } =
     useLoaderData();
 
-  const loaderData = useLoaderData();
-
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {}, []);
@@ -66,7 +64,7 @@ const HomePage = () => {
         <div className="flex flex-col items-center pt-5 bg-egg">
           <div className="flex w-full max-w-full flex-col lg:gap-5">
             <div className="flex w-full justify-center">
-              <h2 className="px-5 font-[SuperJoyful] uppercase text-swamp-green text-lg leading-tight sm:text-xl md:text-4xl">
+              <h2 className="px-5 font-[SuperJoyful] uppercase text-parent-green text-lg leading-tight sm:text-xl md:text-4xl">
                 Academic Programs
               </h2>
             </div>
@@ -117,7 +115,7 @@ const HomePage = () => {
         </div>
 
         <WhyChooseUs
-          title="WHY PARENT'S CHOOSE US"
+          title="WHY PARENTS CHOOSE US"
           reasons={(reasons ?? []).map((item) => item.reasons)}
         />
         <Activities

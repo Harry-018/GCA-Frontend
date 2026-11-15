@@ -123,7 +123,7 @@ const TransportationPage = () => {
       <HomeSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       <div className="flex w-full flex-col overflow-x-hidden">
-        <div className="flex w-full flex-col bg-egg px-3 pt-3 pb-10 font-[Poppins] text-egg-dark sm:px-5 sm:pt-5 sm:pb-12 lg:px-6 lg:pt-5 lg:pb-14">
+        <div className="flex w-full flex-col bg-egg px-3 pt-3 pb-10 font-[Poppins] text-white sm:px-5 sm:pt-5 sm:pb-12 lg:px-6 lg:pt-5 lg:pb-14">
           <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 sm:gap-8">
             <TransportationBanner />
 
@@ -131,20 +131,23 @@ const TransportationPage = () => {
               {STATS.map(({ label, value, icon: Icon }) => (
                 <div
                   key={label}
-                  className="flex items-center gap-4 rounded-2xl bg-bone p-4 shadow-[0_2px_3px_rgba(0,0,0,0.2)] sm:p-5"
+                  className="relative flex items-center gap-4 overflow-hidden rounded-2xl bg-linear-to-br from-forest-green via-parent-green to-parent-accent p-4 shadow-[0_6px_16px_rgba(19,50,21,0.2)] sm:p-5"
                 >
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-swamp-green/15 sm:h-12 sm:w-12">
+                  <div className="pointer-events-none absolute -right-6 -top-8 h-20 w-20 rounded-full bg-parent-mint/20 blur-2xl" />
+                  <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-parent-mint via-lime-green to-transparent" />
+
+                  <div className="relative flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-bone/10 text-parent-mint ring-1 ring-bone/15 sm:h-12 sm:w-12">
                     <Icon
-                      className="h-5 w-5 text-swamp-green sm:h-6 sm:w-6"
+                      className="h-5 w-5 sm:h-6 sm:w-6"
                       strokeWidth={1.5}
                     />
                   </div>
 
-                  <div className="flex min-w-0 flex-col">
-                    <p className="font-[PoppinsBold] text-sm text-swamp-green sm:text-base lg:text-lg">
+                  <div className="relative flex min-w-0 flex-col">
+                    <p className="font-[PoppinsBold] text-sm text-white sm:text-base lg:text-lg">
                       {value}
                     </p>
-                    <p className="text-sm text-ashlight">{label}</p>
+                    <p className="text-sm text-white">{label}</p>
                   </div>
                 </div>
               ))}
