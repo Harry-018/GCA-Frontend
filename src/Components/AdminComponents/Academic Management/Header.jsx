@@ -15,12 +15,20 @@ const Header = ({ navItems }) => {
         pathname === "/admin/academic/sectionInformation"
       );
     }
-    return item.path === pathname;
+    if (item.name === "Schedules") {
+      return (
+        pathname === item.path ||
+        pathname.startsWith(`${item.path}/`) ||
+        pathname === "/admin/academic/schedulesection" ||
+        pathname === "/admin/academic/setupschedule"
+      );
+    }
+    return pathname === item.path || pathname.startsWith(`${item.path}/`);
   };
 
   return (
-    <div className="flex w-full flex-nowrap items-center justify-between gap-x-8 overflow-x-auto rounded-2xl bg-bone px-4 py-5 shadow-[0_2px_4px_rgba(0,0,0,0.18)] no-scrollbar">
-      <div className="flex flex-nowrap items-center gap-x-8">
+    <div className="flex w-full min-h-16 flex-nowrap items-center justify-between gap-x-5 overflow-x-auto rounded-2xl border border-parent-accent/20 bg-bone px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)] no-scrollbar sm:min-h-18 sm:gap-x-7 sm:px-4 sm:py-5">
+      <div className="flex flex-nowrap items-center gap-x-5 sm:gap-x-7">
         {navItems.slice(0, 5).map((item) => (
           <NavLink
             key={item.name}
@@ -36,7 +44,7 @@ const Header = ({ navItems }) => {
         ))}
       </div>
 
-      <div className="flex flex-nowrap items-center gap-x-8">
+      <div className="flex flex-nowrap items-center gap-x-5 sm:gap-x-7">
         {navItems.slice(5).map((item) => (
           <NavLink
             key={item.name}

@@ -9,7 +9,7 @@ const RemoveSkillModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
-      <div className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-lg">
+      <div className="w-full max-w-md rounded-2xl bg-bone p-6 shadow-lg">
         <h2 className=" text-sm font-[PoppinsBold] text-reject">
           Remove Skill
         </h2>

@@ -3,7 +3,7 @@ import React from "react";
 const ParentsTable = ({ parents, columns }) => {
   return (
     <div className="flex min-h-0 flex-1 flex-col">
-      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-sm">
+      <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-sm">
         <div className="flex min-h-0 flex-1 flex-col overflow-y-auto thin-scrollbar">
           <table className="w-full border-separate border-spacing-0">
             <thead className="sticky top-0">

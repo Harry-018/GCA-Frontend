@@ -34,7 +34,6 @@ import Attendance from "./Teacher-Side/Attendance.jsx";
 import TeacherGrades from "./Teacher-Side/Grades.jsx";
 import WeeklySchedule from "./Teacher-Side/WeeklySchedule.jsx";
 import Report from "./Teacher-Side/Report.jsx";
-import GradesReport from "./Teacher-Side/GradesReport.jsx";
 import Settings from "./Teacher-Side/Settings.jsx";
 
 // ----- ADMIN SIDE -----
@@ -82,6 +81,7 @@ import ProtectedRoutes from "./protectedRoutes.jsx";
 import NotFound from "./notFound.jsx";
 import NotAuth from "./notauth.jsx";
 import RouterErrorBoundary from "./RouterErrorBoundary.jsx";
+import ParentInquiryProvider from "./Components/ParentInquiryProvider.jsx";
 
 import Home from "./uAdmin-Side/Website Management Page/Home.jsx";
 import Transpo from "./uAdmin-Side/Website Management Page/Transpo.jsx";
@@ -147,7 +147,6 @@ const App = () => {
             <Route path="grades" element={<TeacherGrades />} />
             <Route path="weekly-schedule" element={<WeeklySchedule />} />
             <Route path="report" element={<Report />} />
-            <Route path="gradesreport/:schoolId" element={<GradesReport />} />
             <Route path="security" element={<Settings />} />
           </Route>
 
@@ -222,9 +221,9 @@ const App = () => {
   );
 
   return (
-    <>
+    <ParentInquiryProvider>
       <RouterProvider router={router} /> <SessionExpiredModal />
-    </>
+    </ParentInquiryProvider>
   );
 };
 

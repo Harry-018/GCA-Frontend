@@ -1,7 +1,8 @@
-import { Home, GraduationCap, LogIn, Menu } from "lucide-react";
+import { Home, GraduationCap, LogIn, Menu, MessageCircle } from "lucide-react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import logoImg from "../assets/logowbg.png";
 import { useState, useEffect } from "react";
+import { useParentInquiry } from "./ParentInquiryProvider.jsx";
 
 import { getSchoolInformation } from "../requests/settingsRequests.js";
 
@@ -13,6 +14,7 @@ const SCHOOL = {
 const LoginHeader = ({ onMenuToggle }) => {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+  const { openInquiry } = useParentInquiry();
 
   const [schoolinfo, setSchoolinfo] = useState(null);
 
@@ -74,47 +76,57 @@ const LoginHeader = ({ onMenuToggle }) => {
           </Link>
         </div>
 
-        {/*sidebar*/}
-        <div className="hidden items-center gap-x-5 md:gap-x-8 lg:flex lg:gap-x-10">
+        {/* Desktop navigation */}
+        <div className="hidden items-center gap-x-5 md:gap-x-6 lg:flex lg:gap-x-8">
           <NavLink
             to="/"
             end
-            className={({ isActive }) =>
-              `flex items-center gap-x-2 font-[PoppinsBold] tracking-wide transition-colors duration-300 ${
-                isActive
-                  ? "text-bone hover:text-swamp-green"
-                  : "text-bone hover:text-swamp-green"
-              }`
-            }
+            className="flex items-center gap-x-2 font-[PoppinsBold] tracking-wide text-bone transition-colors duration-300 hover:text-swamp-green"
           >
             <Home size={20} />
-            <span className="hidden sm:inline">HOME</span>
+            <span>HOME</span>
           </NavLink>
 
           <NavLink
             to="/admission"
-            className={({ isActive }) =>
-              `flex items-center gap-x-2 font-[PoppinsBold] tracking-wide transition-colors duration-300 ${
-                isActive
-                  ? "text-bone hover:text-swamp-green"
-                  : "text-bone hover:text-swamp-green"
-              }`
-            }
+            className="flex items-center gap-x-2 font-[PoppinsBold] tracking-wide text-bone transition-colors duration-300 hover:text-swamp-green"
           >
             <GraduationCap size={20} />
-            <span className="hidden sm:inline">ADMISSION</span>
+            <span>ADMISSION</span>
           </NavLink>
 
           {!isLoginPage && (
             <NavLink
               to="/login"
-              className="flex items-center gap-x-2 rounded-lg border border-lime-green px-3 py-1.5 text-2xs font-[PoppinsBold] tracking-wide text-lime-green transition-colors duration-300 hover:bg-lime-green hover:text-[#0c2423] sm:text-xs"
+              aria-label="Log in"
+              className="group flex items-center gap-x-2 rounded-full border border-bone/25 bg-bone/5 px-4 py-2 text-2xs font-[PoppinsBold] tracking-wide text-bone shadow-sm transition-all duration-300 hover:border-lime-green/70 hover:bg-bone/10 hover:text-lime-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-green sm:text-xs"
             >
-              <LogIn size={16} className="shrink-0" />
-              <span className="hidden sm:inline">Login</span>
+              <LogIn
+                size={16}
+                className="shrink-0 text-lime-green transition-transform duration-300 group-hover:translate-x-0.5"
+              />
+              <span>Login</span>
             </NavLink>
           )}
+
+          <button
+            type="button"
+            onClick={openInquiry}
+            className="flex items-center gap-2 whitespace-nowrap rounded-full bg-lime-green px-4 py-2 text-xs font-[PoppinsBold] tracking-wide text-[#0c2423] transition-colors hover:bg-lime-green/80"
+          >
+            <MessageCircle size={16} className="shrink-0" />
+            Ask Us
+          </button>
         </div>
+
+        <button
+          type="button"
+          onClick={openInquiry}
+          className="flex shrink-0 items-center gap-2 rounded-full bg-lime-green px-3 py-2 text-2xs font-[PoppinsBold] tracking-wide text-[#0c2423] transition-colors hover:bg-lime-green/80 sm:px-4 sm:text-xs lg:hidden"
+        >
+          <MessageCircle size={16} className="shrink-0" />
+          Ask Us
+        </button>
       </nav>
     </header>
   );

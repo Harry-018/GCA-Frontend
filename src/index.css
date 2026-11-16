@@ -27,6 +27,13 @@ body {
   font-family: "Poppins", "PoppinsBold";
 }
 
+@media print {
+  @page {
+    size: letter portrait;
+    margin: 0.5in;
+  }
+}
+
 @font-face {
   font-family: "Poppins";
   src: url("/fonts/poppins.regular.ttf") format("truetype");

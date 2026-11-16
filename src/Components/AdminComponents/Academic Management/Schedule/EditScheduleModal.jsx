@@ -16,7 +16,7 @@ const EditScheduleModal = ({
 }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center font-[Poppins] justify-center bg-black/20 p-5">
-      <div className="w-full max-w-md rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
+      <div className="w-full max-w-md rounded-2xl bg-bone px-5 py-4.25 shadow-lg sm:px-5.5 sm:py-4.25">
         <h2 className="font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm text-parent-green">
           Edit Schedule
         </h2>

@@ -13,7 +13,7 @@ const ClassInformationToolbar = ({
 }) => {
   return (
     <div className="flex flex-col gap-y-5">
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 p-6 shadow-md md:flex-nowrap">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-bone p-6 shadow-md md:flex-nowrap">
         <div className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2">
           <span className="font-[PoppinsBold] text-[11px] text-parent-green sm:text-sm">
             Teacher:
@@ -75,7 +75,7 @@ const ClassInformationToolbar = ({
               value={searchValue}
               onChange={(event) => onSearchChange(event.target.value)}
               placeholder="Search Student"
-              className="h-9 min-w-0 flex-1 rounded-full border border-parent-accent/25 bg-linear-to-br from-bone via-white to-parent-pale/60 px-4 text-[11px] text-gray-600 outline-none focus:border-parent-green sm:text-xs md:w-48 md:flex-none lg:w-52"
+              className="h-9 min-w-0 flex-1 rounded-full border border-parent-accent/25 bg-bone px-4 text-[11px] text-gray-600 outline-none focus:border-parent-green sm:text-xs md:w-48 md:flex-none lg:w-52"
             />
 
             <button

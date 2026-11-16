@@ -41,7 +41,7 @@ const StudentInfo = ({
 
             <Link
               to={`/parents/grades/${student.studentId}`}
-              className="flex w-full items-center justify-center rounded-xl bg-bone/95 px-6 py-3 text-[13px] sm:text-sm font-[PoppinsBold] uppercase tracking-wide text-parent-green transition hover:bg-bone"
+              className="flex w-full items-center justify-center rounded-xl bg-parent-pale/60 px-6 py-3 text-[13px] font-[PoppinsBold] uppercase tracking-wide text-bone shadow-md transition hover:bg-parent-pale/40 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-parent-green sm:text-sm"
             >
               Grades
             </Link>

@@ -170,7 +170,7 @@ const DashBoard = () => {
   if (loading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-swamp-green" />
+        <Loader2 size={32} className="animate-spin text-parent-green" />
         <p className="text-sm text-gray-500">Loading dashboard...</p>
       </div>
     );
@@ -223,7 +223,7 @@ const DashBoard = () => {
                     pageIndex: previous.pageIndex - 1,
                   }))
                 }
-                className="rounded-full border border-gray-300 px-4 py-2.5 text-xs text-gray-600 disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full border border-gray-300 px-4 py-2.5 text-xs text-gray-600 transition-colors duration-200 hover:border-parent-accent/40 hover:bg-parent-pale/40 hover:text-parent-green disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Previous
               </button>
@@ -239,7 +239,7 @@ const DashBoard = () => {
                     pageIndex: previous.pageIndex + 1,
                   }))
                 }
-                className="rounded-full bg-swamp-green px-4 py-2.5 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+                className="rounded-full bg-parent-green px-4 py-2.5 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Next
               </button>

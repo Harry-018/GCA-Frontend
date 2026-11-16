@@ -23,7 +23,7 @@ const EditWebsiteInformationModal = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4 font-[Poppins]">
-      <div className="w-full max-w-83 rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 px-3.5 py-4 shadow-[0_2px_5px_rgba(0,0,0,0.25)]">
+      <div className="w-full max-w-83 rounded-2xl bg-bone px-3.5 py-4 shadow-[0_2px_5px_rgba(0,0,0,0.25)]">
         <h2 className="text-sm font-[PoppinsBold] text-parent-green">
           Edit Website Information
         </h2>

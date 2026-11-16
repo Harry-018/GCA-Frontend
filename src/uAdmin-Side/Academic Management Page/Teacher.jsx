@@ -298,7 +298,7 @@ const Teacher = () => {
   ];
 
   return (
-    <div className="flex h-full min-h-0 flex-1 cursor-default flex-col gap-2 bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2]  font-[Poppins]">
+    <div className="flex h-full min-h-0 flex-1 cursor-default flex-col gap-2 bg-egg  font-[Poppins]">
       <Header navItems={NAV_ITEMS} />
 
       <div className="flex h-full min-h-0 flex-1 flex-col gap-2 text-[14px]">

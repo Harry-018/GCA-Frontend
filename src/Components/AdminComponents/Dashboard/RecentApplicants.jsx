@@ -11,7 +11,7 @@ const RecentApplicants = ({ applicants, headers }) => {
         Recent Applicants
       </h2>
 
-      <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+      <div className="flex flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
         <div className="flex flex-1 flex-col overflow-x-auto overflow-y-auto min-h-0 thin-scrollbar">
           <table className="w-full min-w-160">
 

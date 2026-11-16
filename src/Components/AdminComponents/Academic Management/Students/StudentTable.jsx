@@ -101,7 +101,7 @@ const StudentTable = ({ applicants, onView }) => {
       </div>
 
       {/* Desktop: Original table */}
-      <div className="hidden flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-linear-to-r from-bone via-white to-parent-pale/50 shadow-sm lg:flex">
+      <div className="hidden flex-1 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-sm lg:flex">
         <div className="flex flex-1 flex-col overflow-x-auto overflow-y-auto min-h-0 thin-scrollbar">
           <table className="w-full min-w-176 border-separate border-spacing-0">
             <thead className="sticky top-0">

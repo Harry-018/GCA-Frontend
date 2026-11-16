@@ -200,14 +200,14 @@ const Security = () => {
   // ERROR STATE
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
+      <div className="flex min-h-screen items-center justify-center bg-egg font-[Poppins]">
         <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-full cursor-default bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] px-3 py-5 font-[Poppins] sm:px-6 sm:py-8 lg:px-10 lg:pt-5 lg:pb-10">
+    <div className="min-h-full cursor-default bg-egg px-3 py-5 font-[Poppins] sm:px-6 sm:py-8 lg:px-10 lg:pt-5 lg:pb-10">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 lg:gap-8">
         {/* PAGE HEADER */}
         <div className="flex flex-col gap-2 border-b border-[#0f2419]/10 pb-5 sm:flex-row sm:items-end sm:justify-between">

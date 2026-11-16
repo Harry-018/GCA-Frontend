@@ -83,31 +83,31 @@ const DEFAULT_ALL_STUDENTS = {
         {
           title: "Language Development",
           grades: [
-            { skill: "Listening", description: "Understands complex instructions", grade: "A" },
-            { skill: "Speaking", description: "Communicates fluently", grade: "A" },
-            { skill: "Reading", description: "Reads with fluency and comprehension", grade: "A" },
-            { skill: "Writing", description: "Writes sentences independently", grade: "A" },
+            { skill: "Listening", description: "Understands complex instructions", grade: "" },
+            { skill: "Speaking", description: "Communicates fluently", grade: "" },
+            { skill: "Reading", description: "Reads with fluency and comprehension", grade: "" },
+            { skill: "Writing", description: "Writes sentences independently", grade: "" },
           ],
         },
         {
           title: "Physical Development",
           grades: [
-            { skill: "Gross Motor Skills", description: "Demonstrates excellent coordination", grade: "A" },
-            { skill: "Fine Motor Skills", description: "Writes neatly and accurately", grade: "A" },
+            { skill: "Gross Motor Skills", description: "Demonstrates excellent coordination", grade: "" },
+            { skill: "Fine Motor Skills", description: "Writes neatly and accurately", grade: "" },
           ],
         },
         {
           title: "Socio-Emotional Development",
           grades: [
-            { skill: "Self-Regulation", description: "Exhibits strong emotional control", grade: "A" },
-            { skill: "Social Skills", description: "Leads group activities positively", grade: "A" },
+            { skill: "Self-Regulation", description: "Exhibits strong emotional control", grade: "" },
+            { skill: "Social Skills", description: "Leads group activities positively", grade: "" },
           ],
         },
         {
           title: "Cognitive Development",
           grades: [
-            { skill: "Problem Solving", description: "Solves problems independently", grade: "A" },
-            { skill: "Mathematical Thinking", description: "Understands basic operations", grade: "A" },
+            { skill: "Problem Solving", description: "Solves problems independently", grade: "" },
+            { skill: "Mathematical Thinking", description: "Understands basic operations", grade: "" },
           ],
         },
       ],
@@ -115,7 +115,7 @@ const DEFAULT_ALL_STUDENTS = {
     remarks: {
       1: "Maria Margarett is a bright and attentive student. She consistently performs well across all areas.",
       2: "Excellent progress this quarter. Maria Margarett shows strong skills in language and social development.",
-      3: "Outstanding performance throughout the year. Maria Margarett is well-prepared for the next level.",
+      3: "",
     },
   },
   "GCA-S02": {
@@ -198,31 +198,31 @@ const DEFAULT_ALL_STUDENTS = {
         {
           title: "Language Development",
           grades: [
-            { skill: "Listening", description: "Understands complex instructions", grade: "A" },
-            { skill: "Speaking", description: "Communicates fluently", grade: "A" },
-            { skill: "Reading", description: "Reads with fluency and comprehension", grade: "A" },
-            { skill: "Writing", description: "Writes sentences independently", grade: "B" },
+            { skill: "Listening", description: "Understands complex instructions", grade: "" },
+            { skill: "Speaking", description: "Communicates fluently", grade: "" },
+            { skill: "Reading", description: "Reads with fluency and comprehension", grade: "" },
+            { skill: "Writing", description: "Writes sentences independently", grade: "" },
           ],
         },
         {
           title: "Physical Development",
           grades: [
-            { skill: "Gross Motor Skills", description: "Demonstrates excellent coordination", grade: "A" },
-            { skill: "Fine Motor Skills", description: "Writes neatly and accurately", grade: "A" },
+            { skill: "Gross Motor Skills", description: "Demonstrates excellent coordination", grade: "" },
+            { skill: "Fine Motor Skills", description: "Writes neatly and accurately", grade: "" },
           ],
         },
         {
           title: "Socio-Emotional Development",
           grades: [
-            { skill: "Self-Regulation", description: "Exhibits strong emotional control", grade: "A" },
-            { skill: "Social Skills", description: "Leads group activities positively", grade: "B" },
+            { skill: "Self-Regulation", description: "Exhibits strong emotional control", grade: "" },
+            { skill: "Social Skills", description: "Leads group activities positively", grade: "" },
           ],
         },
         {
           title: "Cognitive Development",
           grades: [
-            { skill: "Problem Solving", description: "Solves problems independently", grade: "A" },
-            { skill: "Mathematical Thinking", description: "Understands basic operations", grade: "A" },
+            { skill: "Problem Solving", description: "Solves problems independently", grade: "" },
+            { skill: "Mathematical Thinking", description: "Understands basic operations", grade: "" },
           ],
         },
       ],
@@ -230,7 +230,7 @@ const DEFAULT_ALL_STUDENTS = {
     remarks: {
       1: "Juan Carlos has shown great improvement this quarter. Keep up the good work!",
       2: "Juan Carlos continues to excel and demonstrates a positive attitude toward learning.",
-      3: "Excellent performance throughout the year. Juan Carlos is well-prepared for the next level.",
+      3: "",
     },
   },
 };

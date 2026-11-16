@@ -17,9 +17,9 @@ import Announcement from "../Components/Parents-Side Components/Dashboard/Announ
 
 const INFO_FIELDS = [
   { key: "classSchedule", label: "Class Schedule", icon: CalendarDays },
+  { key: "classTime", label: "Class Time", icon: Clock3 },
   { key: "gradeLevel", label: "Grade Level", icon: School },
   { key: "room", label: "Room", icon: DoorOpen },
-  { key: "classTime", label: "Class Time", icon: Clock3 },
   { key: "adviser", label: "Adviser", icon: UserRound },
 ];
 
@@ -81,9 +81,9 @@ const ParentsDashboard = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-linear-to-br from-[#0f2419] via-[#1c3a28] to-parent-accent font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-pale" />
-        <p className="text-sm text-white/70">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
+        <Loader2 size={32} className="animate-spin text-parent-green" />
+        <p className="text-sm text-gray-500">
           Loading Dashboard
           <span className="loading-dots">
             <span></span>
@@ -97,14 +97,14 @@ const ParentsDashboard = () => {
 
   if (error) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins]">
+      <div className="flex min-h-screen items-center justify-center bg-egg font-[Poppins]">
         <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] px-5 py-6 font-[Poppins] cursor-default">
+    <div className="min-h-screen bg-egg px-5 py-6 font-[Poppins] cursor-default">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
         {/* Students */}
         <div className="flex flex-col gap-4 rounded-3xl">

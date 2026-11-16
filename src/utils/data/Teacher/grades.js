@@ -4,6 +4,7 @@ const DEFAULT_QUARTERS = [
   { value: 1, label: "Quarter 1" },
   { value: 2, label: "Quarter 2" },
   { value: 3, label: "Quarter 3" },
+  { value: 4, label: "Quarter 4" },
 ];
 
 const DEFAULT_ROSTER = [
@@ -153,6 +154,132 @@ export function getGradeRoster() {
 export function saveGradeRoster(students) {
   writeStore({ gradeRoster: students });
   return students;
+}
+
+export function getBulkGradeRecords() {
+  const records = readStore().teacherBulkGradeRecords;
+  return Array.isArray(records) ? records : [];
+}
+
+const normalizeRecordId = (value) =>
+  String(value ?? "")
+    .trim()
+    .replace(/\s/g, "")
+    .toUpperCase();
+
+const getRecordKey = (record) =>
+  [
+    String(record.sectionId ?? ""),
+    normalizeRecordId(record.studentId),
+    String(record.subject ?? "").trim().toLowerCase(),
+    String(record.skill ?? "").trim().toLowerCase(),
+    String(record.quarter ?? ""),
+  ].join("|");
+
+export function updateBulkGradeRecords(records) {
+  if (!Array.isArray(records) || records.length === 0) {
+    throw new Error("At least one grade record is required.");
+  }
+
+  const existingRecords = getBulkGradeRecords();
+  const updates = new Map(
+    records.map((record) => [getRecordKey(record), record]),
+  );
+  let updatedCount = 0;
+
+  const nextRecords = existingRecords.map((record) => {
+    const update = updates.get(getRecordKey(record));
+
+    if (!update) return record;
+
+    updatedCount += 1;
+
+    return {
+      ...record,
+      grade: update.grade,
+      remarks: update.remarks ?? record.remarks,
+      updatedAt: new Date().toISOString(),
+    };
+  });
+
+  if (updatedCount === 0) {
+    throw new Error("No matching grade records were found to update.");
+  }
+
+  writeStore({ teacherBulkGradeRecords: nextRecords });
+  return nextRecords;
+}
+
+export function saveBulkGradeRecords(records) {
+  if (!Array.isArray(records) || records.length === 0) {
+    throw new Error("At least one grade record is required.");
+  }
+
+  const existingRecords = getBulkGradeRecords();
+  const existingKeys = new Set(existingRecords.map(getRecordKey));
+  const submissionKeys = new Set();
+
+  for (const record of records) {
+    const key = getRecordKey(record);
+
+    if (existingKeys.has(key) || submissionKeys.has(key)) {
+      throw new Error(
+        "This upload contains a duplicate grade for a student, subject, skill, and quarter.",
+      );
+    }
+
+    submissionKeys.add(key);
+  }
+
+  const nextRecords = [...existingRecords, ...records];
+  writeStore({ teacherBulkGradeRecords: nextRecords });
+  return records;
+}
+
+export function getGradeRemarks(sectionId, studentId) {
+  const stored = readStore().teacherGradeRemarks;
+
+  if (!Array.isArray(stored)) return {};
+
+  return stored.reduce((remarks, record) => {
+    if (
+      String(record.sectionId) === String(sectionId) &&
+      normalizeRecordId(record.studentId) === normalizeRecordId(studentId)
+    ) {
+      remarks[String(record.quarter)] = String(record.remarks ?? "");
+    }
+
+    return remarks;
+  }, {});
+}
+
+export function saveGradeRemarks({ sectionId, studentId, remarks = {} }) {
+  const stored = readStore().teacherGradeRemarks;
+  const existing = Array.isArray(stored) ? stored : [];
+  const nextRecords = existing.filter(
+    (record) =>
+      !(
+        String(record.sectionId) === String(sectionId) &&
+        normalizeRecordId(record.studentId) === normalizeRecordId(studentId)
+      ),
+  );
+
+  Object.entries(remarks).forEach(([quarter, text]) => {
+    const value = String(text ?? "").trim();
+
+    if (!value) return;
+
+    nextRecords.push({
+      sectionId,
+      studentId,
+      quarter: Number(quarter),
+      remarks: value,
+      updatedAt: new Date().toISOString(),
+    });
+  });
+
+  writeStore({ teacherGradeRemarks: nextRecords });
+  return nextRecords;
 }
 
 export function getGradeReportStudents() {

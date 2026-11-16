@@ -8,19 +8,25 @@ const ParentsLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-dvh flex-col justify-between">
-      <ParentsHeader onMenuToggle={() => setSidebarOpen((prev) => !prev)} />
+    <div className="flex min-h-dvh flex-col justify-between print:block print:min-h-0">
+      <div className="print:hidden">
+        <ParentsHeader onMenuToggle={() => setSidebarOpen((prev) => !prev)} />
+      </div>
 
-      <ParentsSidebar
-        open={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+      <div className="print:hidden">
+        <ParentsSidebar
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+        />
+      </div>
 
-      <div className="flex-1 justify-center bg-linear-to-b from-[#f3f8f1] via-[#e8f1e3] to-[#d9e8d2] font-[Poppins] text-[#0f2419]">
+      <div className="flex-1 justify-center bg-egg font-[Poppins] text-[#0f2419] print:block print:bg-white">
         <Outlet />
       </div>
 
-      <Copyright />
+      <div className="print:hidden">
+        <Copyright />
+      </div>
     </div>
   );
 };

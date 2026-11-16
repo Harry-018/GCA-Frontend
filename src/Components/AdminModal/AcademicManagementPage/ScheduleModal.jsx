@@ -54,7 +54,7 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5 backdrop-blur-sm">
-      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-linear-to-br from-bone via-white to-parent-pale/60 shadow-lg">
+      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-bone shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-5">
           <div>
