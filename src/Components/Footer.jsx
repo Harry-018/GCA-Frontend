@@ -11,6 +11,7 @@ import {
 import { NavLink } from "react-router-dom";
 
 import { getSchoolInformation } from "../requests/settingsRequests.js";
+import { getBanner } from "../requests/homepageRequests.js";
 
 const QUICK_LINKS = [
   { label: "HOME", path: "/", icon: Home },
@@ -21,6 +22,7 @@ const QUICK_LINKS = [
 
 const Footer = () => {
   const [schoolinfo, setSchoolinfo] = useState(null);
+  const [admissionOpen, setAdmissionOpen] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
@@ -38,6 +40,28 @@ const Footer = () => {
     };
 
     fetchSchoolInformation();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const fetchAdmissionStatus = async () => {
+      try {
+        const banner = await getBanner();
+
+        if (isMounted) {
+          setAdmissionOpen(banner?.enrollment_status === "open");
+        }
+      } catch (error) {
+        console.error("Failed to load admission status:", error);
+      }
+    };
+
+    fetchAdmissionStatus();
 
     return () => {
       isMounted = false;
@@ -103,13 +127,15 @@ const Footer = () => {
                 );
               })}
 
-              <NavLink
-                to="/email-verification"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="flex w-fit items-center gap-1.5 rounded-lg bg-lime-green px-3 py-1.5 text-2xs font-[PoppinsBold] uppercase tracking-wider text-[#062421] transition-colors hover:bg-lime-green/80"
-              >
-                Enroll Now
-              </NavLink>
+              {admissionOpen && (
+                <NavLink
+                  to="/email-verification"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="flex w-fit items-center gap-1.5 rounded-lg bg-parent-green px-3 py-1.5 text-2xs font-[PoppinsBold] uppercase tracking-wider text-white transition-colors hover:bg-lime-green/80"
+                >
+                  Enroll Now
+                </NavLink>
+              )}
             </div>
           </nav>
         </div>

@@ -1,6 +1,8 @@
 import { ArrowRight, CalendarDays } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import AdmissionOpeningNotice from "../Admission/AdmissionOpeningNotice";
+
 const MainBanner = ({
   schoolYear,
   admissionStatus,
@@ -45,12 +47,13 @@ const MainBanner = ({
         {admissionStatus === "open" && (
           <Link
             to="email-verification"
-            className="group/btn inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-lime-dark px-5 py-2.5 text-[11px] font-[PoppinsBold]  tracking-wide text-white shadow-lg shadow-lime-dark/25 transition-all duration-200 hover:scale-[1.03] hover:bg-swamp-green hover:shadow-lime-dark/40 sm:text-xs"
+            className="group/btn inline-flex items-center gap-2 whitespace-nowrap rounded-xl bg-transparent px-5 py-2.5 text-[11px] font-[PoppinsBold] tracking-wide text-white ring-1 ring-white/40 transition-all duration-200 hover:scale-[1.03] hover:bg-parent-green hover:shadow-lg hover:shadow-parent-green/30 hover:ring-parent-green sm:text-xs"
           >
             Enroll Now
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
           </Link>
         )}
+        {admissionStatus !== "open" && <AdmissionOpeningNotice />}
       </div>
     </div>
   );
