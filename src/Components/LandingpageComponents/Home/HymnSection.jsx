@@ -1,7 +1,7 @@
 const HymnSection = ({ title, videoSrc }) => {
   return (
     <div className="flex w-full flex-col items-center px-5 py-8">
-      <h2 className="text-center font-[SuperJoyful] text-lg leading-tight text-swamp-green uppercase sm:text-xl md:text-4xl">
+      <h2 className="text-center font-[SuperJoyful] text-lg leading-tight text-parent-green uppercase sm:text-xl md:text-4xl">
         {title}
       </h2>
 
