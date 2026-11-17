@@ -91,7 +91,7 @@ const AdmissionPage = () => {
           </div>
         </div>
       </div>
-      <Footer />
+      <Footer admissionStatus={admissionIsOpen ? "open" : "close"} />
     </div>
   );
 };
