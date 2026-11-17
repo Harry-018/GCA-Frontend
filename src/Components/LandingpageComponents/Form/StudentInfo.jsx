@@ -48,7 +48,8 @@ const StudentInfo = ({
         setProvinceOptions([
           {
             label: cavite.name,
-            value: cavite.psgc_code,
+            value: cavite.name,
+            code: cavite.psgc_code,
           },
         ]);
 
@@ -63,7 +64,8 @@ const StudentInfo = ({
         setCityOptions(
           allowedCities.map((city) => ({
             label: city.name,
-            value: city.psgc_code,
+            value: city.name,
+            code: city.psgc_code,
           })),
         );
       } catch (error) {

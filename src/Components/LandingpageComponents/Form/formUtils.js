@@ -28,6 +28,19 @@ export const STUDENT_FIELD_KEYS = [
   "zipcode",
 ];
 
+// Old drafts stored PSGC codes in the address fields. Convert them to the
+// display names that the form now keeps (and that the backend should store).
+const LEGACY_PSGC_NAMES = {
+  "0402100000": "Cavite",
+  "0402120000": "Tanza",
+  "0402122000": "City of Trece Martires",
+};
+
+const resolveAddressValue = (key, value) =>
+  ["province", "city_municipality"].includes(key)
+    ? LEGACY_PSGC_NAMES[value] || value
+    : value;
+
 export const createParent = (relationship_type = "") => ({
   p_first_name: "",
   p_last_name: "",
@@ -112,7 +125,7 @@ export const normalizeFormData = (saved) => {
 
         STUDENT_FIELD_KEYS.forEach((key) => {
           if (student?.[key] !== undefined) {
-            normalized[key] = student[key];
+            normalized[key] = resolveAddressValue(key, student[key]);
           }
         });
 
@@ -151,7 +164,7 @@ export const normalizeFormData = (saved) => {
 
   STUDENT_FIELD_KEYS.forEach((key) => {
     if (saved[key] !== undefined) {
-      student[key] = saved[key];
+      student[key] = resolveAddressValue(key, saved[key]);
     }
   });
 

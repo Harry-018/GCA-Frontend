@@ -48,7 +48,7 @@ const StudentFormCard = ({
       }
 
       try {
-        const barangays = await philippines.barangays(selectedCity.value);
+        const barangays = await philippines.barangays(selectedCity.code);
 
         setBarangayOptions(
           barangays.map((barangay) => ({
@@ -73,13 +73,11 @@ const StudentFormCard = ({
   };
 
   const handleCityChange = (e) => {
-    const cityCode = e.target.value;
+    const cityName = e.target.value;
 
-    const selectedCity = cityOptions.find((city) => city.value === cityCode);
-
-    onChange?.(index, "city_municipality", cityCode);
+    onChange?.(index, "city_municipality", cityName);
     onChange?.(index, "barangay", "");
-    onChange?.(index, "zipcode", ZIP_CODES[selectedCity?.label] || "");
+    onChange?.(index, "zipcode", ZIP_CODES[cityName] || "");
   };
 
   const handleGradeLevelChange = (e) => {
