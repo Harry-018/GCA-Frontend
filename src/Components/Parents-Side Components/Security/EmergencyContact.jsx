@@ -48,7 +48,7 @@ const EmergencyContact = ({ fullName, contactNo, relationship, onManage }) => {
           {contactDetails.map((detail) => (
             <div
               key={detail.label}
-              className={`flex min-w-0 flex-col gap-1 
+              className={`flex uppercase min-w-0 flex-col gap-1 
                 ${detail.label === "Relation to Student:" ? "lg:col-span-2 xl:col-span-1" : ""}`}
             >
               <p className="whitespace-nowrap text-2xs uppercase tracking-wide text-gray-500 sm:text-sm">

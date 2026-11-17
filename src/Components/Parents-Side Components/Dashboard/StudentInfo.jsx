@@ -19,8 +19,8 @@ const StudentInfo = ({
               {student.lastName}
             </h3>
 
-            <p className="wrap-break-words text-base font-[PoppinsBold] leading-tight text-white/80 lg:text-3xl">
-              {student.firstName}
+            <p className="wrap-break-words text-base font-[PoppinsBold] uppercase leading-tight text-white/80 lg:text-3xl">
+              {student.firstName},
             </p>
           </div>
 

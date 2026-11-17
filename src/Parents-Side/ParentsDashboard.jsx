@@ -1,5 +1,4 @@
 import { useRef, useState, useEffect } from "react";
-import axios from "axios";
 import {
   CalendarDays,
   School,
@@ -9,9 +8,9 @@ import {
   Loader2,
 } from "lucide-react";
 import {
-  getParentStudents,
-  getAnnouncements,
-} from "../utils/data/Parents/dashboard";
+  getParentAnnouncements,
+  getParentDashboardStudents,
+} from "../requests/parentRequests";
 import StudentInfo from "../Components/Parents-Side Components/Dashboard/StudentInfo";
 import Announcement from "../Components/Parents-Side Components/Dashboard/Announcement";
 
@@ -33,41 +32,258 @@ const SCHOOL_YEAR_FIELD = {
   label: "School Year",
 };
 
-const API_URL = "http://localhost:5000/students";
+const DAY_ORDER = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
-const announcements = getAnnouncements();
-const FALLBACK_STUDENTS = getParentStudents();
+const WEEK_DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+
+const parseTimeToMinutes = (value) => {
+  if (!value) return null;
+
+  if (value instanceof Date) {
+    return value.getHours() * 60 + value.getMinutes();
+  }
+
+  const match = String(value).match(/^(\d{1,2}):(\d{2})/);
+  if (!match) return null;
+
+  return Number(match[1]) * 60 + Number(match[2]);
+};
+
+const formatMinutes = (totalMinutes) => {
+  const hours = Math.floor(totalMinutes / 60) % 24;
+  const minutes = totalMinutes % 60;
+  const suffix = hours >= 12 ? "PM" : "AM";
+  const displayHour = hours % 12 || 12;
+
+  return `${displayHour}:${String(minutes).padStart(2, "0")} ${suffix}`;
+};
+
+const formatClassSchedule = (schedules) => {
+  const dayAbbreviations = {
+    Sunday: "Sun",
+    Monday: "Mon",
+    Tuesday: "Tue",
+    Wednesday: "Wed",
+    Thursday: "Thu",
+    Friday: "Fri",
+    Saturday: "Sat",
+  };
+
+  const days = [
+    ...new Set(
+      schedules
+        .map((schedule) => dayAbbreviations[schedule.day] || schedule.day)
+        .filter(Boolean),
+    ),
+  ].sort((a, b) => DAY_ORDER.indexOf(a) - DAY_ORDER.indexOf(b));
+
+  if (days.length === 0) return "—";
+
+  const isRegularWeek =
+    days.length === WEEK_DAYS.length &&
+    days.every((day, index) => day === WEEK_DAYS[index]);
+
+  return isRegularWeek ? "Mon - Fri" : days.join(", ");
+};
+
+const parseClassTime = (value) => {
+  if (!value) return null;
+
+  // The API returns a combined "start - end" range per schedule.
+  const [start, end] = String(value).split(" - ");
+  const startMinutes = parseTimeToMinutes(start);
+  const endMinutes = parseTimeToMinutes(end);
+
+  if (startMinutes === null || endMinutes === null) return null;
+
+  return { start: startMinutes, end: endMinutes };
+};
+
+const formatClassTime = (schedules) => {
+  const ranges = schedules
+    .map((schedule) => parseClassTime(schedule.class_time))
+    .filter(Boolean);
+
+  if (ranges.length === 0) return "—";
+
+  return `${formatMinutes(
+    Math.min(...ranges.map((range) => range.start)),
+  )} - ${formatMinutes(Math.max(...ranges.map((range) => range.end)))}`;
+};
+
+const formatRooms = (schedules) => {
+  const rooms = [
+    ...new Set(
+      schedules
+        .map((schedule) => schedule.room?.replace(/^Room\b/i, "RM"))
+        .filter(Boolean),
+    ),
+  ];
+
+  return rooms.length > 0 ? rooms.join(" | ") : "—";
+};
+
+const parseDate = (value) => {
+  if (!value) return null;
+
+  if (value instanceof Date) return value;
+
+  // Treat date-only strings as local dates to avoid timezone shifts.
+  const match = String(value).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]));
+  }
+
+  const parsed = new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
+};
+
+const formatDate = (value) => {
+  const date = parseDate(value);
+
+  if (!date) return "—";
+
+  return new Intl.DateTimeFormat("en-PH", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+};
+
+const formatTimeRange = (value) => {
+  if (!value) return "—";
+
+  if (value instanceof Date) {
+    const minutes = parseTimeToMinutes(value);
+    return minutes === null ? "—" : formatMinutes(minutes);
+  }
+
+  // The API returns a combined "start - end" range.
+  return String(value)
+    .split(" - ")
+    .map((part) => {
+      const minutes = parseTimeToMinutes(part);
+      return minutes === null ? part : formatMinutes(minutes);
+    })
+    .join(" - ");
+};
+
+// Map the parent dashboard API response to the fields used by StudentInfo.
+const mapStudent = (student) => {
+  const schedules = Array.isArray(student.schedules) ? student.schedules : [];
+
+  return {
+    stuId: student.stuId,
+    studentId: student.studentId || "",
+    lrn: student.lrn || "",
+    firstName: student.firstName || "",
+    lastName: student.lastName || "",
+    sy: student.schoolYear?.schoolYear || "—",
+    classSchedule: formatClassSchedule(schedules),
+    classTime: formatClassTime(schedules),
+    gradeLevel: student.gradeLevel || "—",
+    room: formatRooms(schedules),
+    adviser: student.adviser || "—",
+  };
+};
+
+// Map the parent announcements API response to the fields used by Announcement.
+const mapAnnouncement = (announcement) => ({
+  id: announcement.announcement_id,
+  title: announcement.title || "Untitled Announcement",
+  posted: formatDate(announcement.posted),
+  message: announcement.message || "",
+  date: formatDate(announcement.date),
+  time: formatTimeRange(announcement.time),
+  venue: announcement.venue || "—",
+});
 
 const ParentsDashboard = () => {
   const scrollRef = useRef(null);
   const [students, setStudents] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [announcementsLoading, setAnnouncementsLoading] = useState(true);
+  const [announcementsError, setAnnouncementsError] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // useEffect(() => {
-  //   const fetchStudents = async () => {
-  //     try {
-  //       const response = await axios.get(API_URL);
-  //       setStudents(Array.isArray(response.data) ? response.data : []);
-  //     }
-  //     catch (error) {
-  //       console.error("Failed to fetch students:", error);
-  //       setError("Unable to load dashboard data.");
-  //     }
-  //     finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchStudents();
-  // }, []);
+  // GET LOGGED-IN PARENT'S ENROLLED STUDENTS
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-  const displayStudents = students.length > 0 ? students : FALLBACK_STUDENTS;
+        const response = await getParentDashboardStudents();
+
+        // The API wraps the student list in the "data" property.
+        const list = Array.isArray(response?.data) ? response.data : [];
+
+        setStudents(list.map(mapStudent));
+      } catch (err) {
+        console.error(
+          "Failed to fetch parent dashboard students:",
+          err.response?.data || err,
+        );
+
+        setError(
+          err.response?.data?.message ||
+            err.message ||
+            "Unable to load dashboard data.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStudents();
+  }, []);
+
+  // GET ANNOUNCEMENTS FOR THE PARENT'S ACTIVE SCHOOL YEAR
+  useEffect(() => {
+    const fetchAnnouncements = async () => {
+      try {
+        setAnnouncementsLoading(true);
+        setAnnouncementsError("");
+
+        const response = await getParentAnnouncements();
+
+        // The API wraps the announcement list in the "data" property.
+        const list = Array.isArray(response?.data) ? response.data : [];
+
+        setAnnouncements(list.map(mapAnnouncement));
+        setActiveIndex(0);
+      } catch (err) {
+        console.error(
+          "Failed to fetch parent announcements:",
+          err.response?.data || err,
+        );
+
+        setAnnouncementsError(
+          err.response?.data?.message ||
+            err.message ||
+            "Unable to load announcements.",
+        );
+      } finally {
+        setAnnouncementsLoading(false);
+      }
+    };
+
+    fetchAnnouncements();
+  }, []);
 
   useEffect(() => {
     const element = scrollRef.current;
-    if (!element) return;
+    if (!element || announcements.length === 0) return;
     const handleScroll = () => {
       const index = Math.round(element.scrollLeft / element.clientWidth);
       setActiveIndex(Math.min(index, announcements.length - 1));
@@ -77,7 +293,7 @@ const ParentsDashboard = () => {
     return () => {
       element.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [announcements.length]);
 
   if (loading) {
     return (
@@ -108,41 +324,67 @@ const ParentsDashboard = () => {
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
         {/* Students */}
         <div className="flex flex-col gap-4 rounded-3xl">
-          {displayStudents.map((s, i) => (
-            <StudentInfo
-              key={s.studentId || i}
-              student={s}
-              infoFields={INFO_FIELDS}
-              idFields={ID_FIELDS}
-              schoolYearField={SCHOOL_YEAR_FIELD}
-            />
-          ))}
+          {students.length > 0 ? (
+            students.map((s, i) => (
+              <StudentInfo
+                key={s.stuId || s.studentId || i}
+                student={s}
+                infoFields={INFO_FIELDS}
+                idFields={ID_FIELDS}
+                schoolYearField={SCHOOL_YEAR_FIELD}
+              />
+            ))
+          ) : (
+            <p className="rounded-3xl border border-parent-accent/15 bg-bone px-5 py-8 text-center text-sm text-gray-500">
+              No enrolled student found for the active school year.
+            </p>
+          )}
         </div>
 
         <span className="mx-auto max-w-7xl w-full text-sm font-[PoppinsBold] text-parent-green sm:text-lg md:text-md uppercase">
           Recent Announcements
         </span>
-        <div
-          ref={scrollRef}
-          className="mx-auto max-w-7xl w-full overflow-x-auto lg:overflow-visible no-scrollbar snap-mandatory transition-smooth"
-        >
-          <div className="flex gap-4 lg:grid lg:grid-cols-2 lg:gap-5">
-            {announcements.map((a, i) => (
-              <Announcement key={i} {...a} />
-            ))}
-          </div>
-        </div>
 
-        <div className="flex justify-center gap-2 pb-4 lg:hidden">
-          {announcements.map((_, i) => (
+        {announcementsLoading ? (
+          <div className="flex items-center justify-center gap-2 py-6 text-sm text-gray-500">
+            <Loader2 size={18} className="animate-spin text-parent-green" />
+            Loading announcements...
+          </div>
+        ) : announcementsError ? (
+          <p className="rounded-2xl border border-parent-accent/15 bg-bone px-5 py-6 text-center text-sm text-red-400">
+            {announcementsError}
+          </p>
+        ) : announcements.length === 0 ? (
+          <p className="rounded-2xl border border-parent-accent/15 bg-bone px-5 py-6 text-center text-sm text-gray-500">
+            No announcements for the active school year.
+          </p>
+        ) : (
+          <>
             <div
-              key={i}
-              className={`h-2 w-2 rounded-full transition-all ${
-                i === activeIndex ? "w-4 bg-parent-accent" : "bg-parent-accent/30"
-              }`}
-            />
-          ))}
-        </div>
+              ref={scrollRef}
+              className="mx-auto max-w-7xl w-full overflow-x-auto lg:overflow-visible no-scrollbar snap-mandatory transition-smooth"
+            >
+              <div className="flex gap-4 lg:grid lg:grid-cols-2 lg:gap-5">
+                {announcements.map((a, i) => (
+                  <Announcement key={a.id ?? i} {...a} />
+                ))}
+              </div>
+            </div>
+
+            <div className="flex justify-center gap-2 pb-4 lg:hidden">
+              {announcements.map((_, i) => (
+                <div
+                  key={i}
+                  className={`h-2 w-2 rounded-full transition-all ${
+                    i === activeIndex
+                      ? "w-4 bg-parent-accent"
+                      : "bg-parent-accent/30"
+                  }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

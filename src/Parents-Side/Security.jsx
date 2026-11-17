@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Loader2 } from "lucide-react";
 
-import { getParentInfoByUserId } from "../requests/parentRequests.js";
+import {
+  getParentInfoByUserId,
+  editParentInfoByUserId,
+} from "../requests/parentRequests.js";
 
 import PersonalInformation from "../Components/Parents-Side Components/Security/PersonalInformation";
 import EmergencyContact from "../Components/Parents-Side Components/Security/EmergencyContact";
@@ -42,7 +45,7 @@ const INITIAL_VISIBILITY = {
 const INITIAL_CONTACT = {
   contactNumber: "",
   email: "",
-  relationship_type: "",
+  relationship: "",
   account_email: "",
 };
 
@@ -56,6 +59,9 @@ const Security = () => {
   const [parentInfo, setParentInfo] = useState(null);
   const [contactData, setContactData] = useState(INITIAL_CONTACT);
   const [formData, setFormData] = useState(INITIAL_CONTACT);
+
+  const [savingContact, setSavingContact] = useState(false);
+  const [contactError, setContactError] = useState("");
 
   // GET LOGGED-IN PARENT INFORMATION
   useEffect(() => {
@@ -117,7 +123,16 @@ const Security = () => {
   // OPEN CONTACT MODAL
   const handleManageContact = () => {
     setFormData(contactData);
+    setContactError("");
     setShowContactModal(true);
+  };
+
+  // CLOSE CONTACT MODAL
+  const handleCancelContact = () => {
+    if (savingContact) return;
+
+    setContactError("");
+    setShowContactModal(false);
   };
 
   // HANDLE CONTACT INPUTS
@@ -126,14 +141,68 @@ const Security = () => {
       ...prev,
       [field]: value,
     }));
+
+    setContactError("");
   };
 
   // SAVE CONTACT INFORMATION
-  const handleSaveContact = () => {
-    setContactData(formData);
-    setShowContactModal(false);
+  const handleSaveContact = async () => {
+    const contactNumber = formData.contactNumber.trim();
+    const email = formData.email.trim();
 
-    // Connect this to the parent contact update endpoint later.
+    if (!contactNumber || !email) {
+      setContactError("Contact number and email are required.");
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setContactError("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      setSavingContact(true);
+      setContactError("");
+
+      // "email" here is the parent's contact email (parent_info.email),
+      // not the account email (user_accounts.email).
+      await editParentInfoByUserId({
+        contact_number: contactNumber,
+        email,
+      });
+
+      // Update the displayed contact information after the API succeeds.
+      setContactData((prev) => ({
+        ...prev,
+        contactNumber,
+        email,
+      }));
+
+      // Keep the parent profile state in sync as well.
+      setParentInfo((prev) =>
+        prev
+          ? {
+              ...prev,
+              contact_number: contactNumber,
+              email,
+            }
+          : prev,
+      );
+
+      setShowContactModal(false);
+    } catch (err) {
+      console.error(
+        "Failed to update parent contact information:",
+        err.response?.data || err,
+      );
+
+      setContactError(
+        err.response?.data?.message ||
+          "Failed to save contact information. Please try again.",
+      );
+    } finally {
+      setSavingContact(false);
+    }
   };
 
   // LOADING STATE
@@ -195,7 +264,7 @@ const Security = () => {
           <EmergencyContact
             fullName={fullName}
             contactNo={contactData.contactNumber}
-            relationship={contactData.relationship_type}
+            relationship={contactData.relationship}
             onManage={handleManageContact}
           />
 
@@ -228,8 +297,10 @@ const Security = () => {
             }
             onEmailChange={(value) => handleContactChange("email", value)}
             onAddressChange={(value) => handleContactChange("address", value)}
-            onCancel={() => setShowContactModal(false)}
+            onCancel={handleCancelContact}
             onSave={handleSaveContact}
+            saving={savingContact}
+            error={contactError}
           />
         )}
       </div>

@@ -128,7 +128,7 @@ const HomePage = () => {
           }))}
         />
 
-        <Footer />
+        <Footer admissionStatus={banner?.enrollment_status ?? "Close"} />
       </div>
     </div>
   );
