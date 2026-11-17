@@ -7,6 +7,9 @@ import {
   getVideo,
 } from "../requests/homepageRequests.js";
 
+// Previously, only the homepage had a loader; the admission page did not load banner status.
+export const admissionPageLoader = async () => getBanner();
+
 export const landingPageLoader = async () => {
   const [banner, acadprog, childact, missionvision, reasons, video] =
     await Promise.all([

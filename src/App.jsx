@@ -71,7 +71,10 @@ import {
   submissionDocsLoader,
 } from "./loaders/preEnrollmentLoaders.js";
 import { dashboardLoader } from "./loaders/dashboardLoader.js";
-import { landingPageLoader } from "./loaders/LandingPageLoader.js";
+import {
+  admissionPageLoader,
+  landingPageLoader,
+} from "./loaders/LandingPageLoader.js";
 import { enrollmentFormLoader } from "./loaders/formLoaderGuard.js";
 import SessionExpiredModal from "./SessionExpiredModal.jsx";
 
@@ -98,7 +101,11 @@ const App = () => {
           <Route path="/" element={<HomePage />} loader={landingPageLoader} />
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/admission" element={<AdmissionPage />} />
+          <Route
+            path="/admission"
+            element={<AdmissionPage />}
+            loader={admissionPageLoader}
+          />
           <Route path="/transport" element={<TransportationPage />} />
           <Route
             path="/email-verification"

@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import { getSchoolInformation } from "../../requests/settingsRequests.js";
 
 const DEFAULT_EMAIL = "grace.cslife@gmail.com";
 
-const ParentInquiryModal = ({ isOpen, onClose }) => {
-  const [schoolEmail, setSchoolEmail] = useState(DEFAULT_EMAIL);
+const ParentInquiryModal = ({ isOpen, onClose, onSubmitInquiry }) => {
   const [form, setForm] = useState({ name: "", email: "", question: "" });
   const [status, setStatus] = useState("");
 
@@ -27,31 +25,6 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  useEffect(() => {
-    if (!isOpen) return undefined;
-
-    let isMounted = true;
-
-    const loadSchoolEmail = async () => {
-      try {
-        const response = await getSchoolInformation();
-        const schoolInformation = response?.data ?? response;
-
-        if (isMounted && schoolInformation?.school_email) {
-          setSchoolEmail(schoolInformation.school_email);
-        }
-      } catch (error) {
-        console.error("Failed to load school email:", error);
-      }
-    };
-
-    loadSchoolEmail();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [isOpen]);
-
   const updateField = (event) => {
     setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
     setStatus("");
@@ -60,26 +33,42 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const subject = `Parent inquiry from ${form.name.trim()}`;
+    const inquiry = {
+      name: form.name.trim(),
+      email: form.email.trim(),
+      question: form.question.trim(),
+    };
+
+    if (!inquiry.name || !inquiry.email || !inquiry.question) {
+      setStatus("Please complete all fields before submitting.");
+      return;
+    }
+
+    if (!onSubmitInquiry(inquiry)) {
+      setStatus("Unable to save your inquiry on this device. Please try again.");
+      return;
+    }
+
+    const subject = `Parent inquiry from ${inquiry.name}`;
     const body = [
-      `Name: ${form.name.trim()}`,
-      `Email: ${form.email.trim()}`,
+      `Name: ${inquiry.name}`,
+      `Email: ${inquiry.email}`,
       "",
       "Question or inquiry:",
-      form.question.trim(),
+      inquiry.question,
     ].join("\n");
 
-    window.location.href = `mailto:${schoolEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
     setStatus(
-      "Your email app should open with your inquiry. Send the message there to complete your submission.",
+      "Your inquiry has been saved on this device. Your email app should open with a draft if you also want to email the school.",
     );
+    window.location.href = `mailto:${DEFAULT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   if (!isOpen) return null;
 
   return (
     <div
-      className="fixed inset-0 z-100 flex items-center justify-center overflow-y-auto bg-black/70 px-4 py-6"
+      className="fixed inset-0 z-100 flex items-center justify-center overflow-y-auto overscroll-contain bg-black/70 px-3 py-4 sm:px-4 sm:py-6"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) onClose();
       }}
@@ -88,11 +77,11 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
         role="dialog"
         aria-modal="true"
         aria-labelledby="parent-inquiry-title"
-        className="my-auto w-full max-w-lg rounded-2xl bg-bone p-5 text-egg-dark shadow-2xl sm:p-8"
+        className="my-auto max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto overscroll-contain rounded-2xl bg-bone p-4 text-egg-dark shadow-2xl sm:max-h-[calc(100dvh-3rem)] sm:p-8"
       >
-        <div className="mb-6 flex items-start justify-between gap-4">
+        <div className="mb-4 flex items-start justify-between gap-4 sm:mb-6">
           <div>
-            <p className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-swamp-green">
+            <p className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-gray-500 sm:text-sm">
               We’re here to help
             </p>
             <h2
@@ -131,7 +120,7 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
               required
               value={form.name}
               onChange={updateField}
-              className="w-full rounded-lg border border-parent-green/20 bg-white px-3 py-2.5 text-sm focus:border-parent-green/50 focus:ring-parent-green"
+              className="w-full rounded-lg border uppercase border-parent-green/20 bg-white px-3 py-2.5 text-sm focus:border-parent-green/50 focus:ring-parent-green"
             />
           </div>
 

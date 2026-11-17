@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { applyApplication } from "../requests/preEnrollmentRequests";
@@ -6,93 +6,120 @@ import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
 import StudentInfo from "../Components/LandingpageComponents/Form/StudentInfo";
 import ReviewFormModal from "../Components/LandingpageComponents/Form/ReviewFormModal";
+import {
+  applyVerifiedParent,
+  applyVerifiedParentToStudent,
+  buildSubmissionData,
+  createInitialData,
+  createStudent,
+  isAtLeast3YearsOld,
+  isValidContactNumber,
+  normalizeFormData,
+} from "../Components/LandingpageComponents/Form/formUtils";
 import { Loader2 } from "lucide-react";
 
 const STORAGE_KEY = "studentApplication";
 
-const INITIAL_DATA = {
-  province: "",
-  city_municipality: "",
-  barangay: "",
-  house_no: "",
-  zipcode: "",
+const studentPrefix = (index, total) =>
+  total > 1 ? `Student ${index + 1}: ` : "";
 
-  s_first_name: "",
-  s_last_name: "",
-  s_mid_name: "",
-  s_gender: "",
-  s_bdate: "",
-  s_birthplace: "",
-  s_religion: "",
-  s_nationality: "",
-  s_disabled: "",
-  s_disability: "",
+const getStudentInfoErrors = (student, index, total) => {
+  const prefix = studentPrefix(index, total);
+  const errors = [];
 
-  grade_level_id: "",
-  gradelevel_paymentoption_id: "",
+  const requiredFields = [
+    ["grade_level_id", "Grade level"],
+    ["s_last_name", "Last name"],
+    ["s_first_name", "First name"],
+    ["s_gender", "Gender"],
+    ["s_bdate", "Date of birth"],
+    ["s_birthplace", "Place of birth"],
+    ["s_religion", "Religion"],
+    ["s_nationality", "Nationality"],
+    ["province", "Province"],
+    ["city_municipality", "City / Municipality"],
+    ["barangay", "Barangay"],
+  ];
 
-  parents: [
-    {
-      p_first_name: "",
-      p_last_name: "",
-      p_middle_name: "",
-      p_contact_number: "",
-      p_occupation: "",
-      p_email: "",
-      relationship_type: "Father",
-      will_receive_account: false,
-    },
-    {
-      p_first_name: "",
-      p_last_name: "",
-      p_middle_name: "",
-      p_contact_number: "",
-      p_occupation: "",
-      p_email: "",
-      relationship_type: "Mother",
-      will_receive_account: false,
-    },
-    {
-      p_first_name: "",
-      p_last_name: "",
-      p_middle_name: "",
-      p_contact_number: "",
-      p_occupation: "",
-      p_email: "",
-      relationship_type: "",
-      will_receive_account: false,
-    },
-  ],
-};
+  requiredFields.forEach(([key, label]) => {
+    if (!student?.[key]) {
+      errors.push(`${prefix}${label} is required.`);
+    }
+  });
 
-const applyVerifiedParent = (data) => {
-  const verifiedEmail = localStorage.getItem("verified_email");
-  const accountParent = localStorage.getItem("account_parent_relationship");
-
-  if (!verifiedEmail || !accountParent) {
-    return data;
+  if (student?.s_bdate && !isAtLeast3YearsOld(student.s_bdate)) {
+    errors.push(`${prefix}Student must be at least 3 years old.`);
   }
 
-  const accountParentIndex = {
-    Father: 0,
-    Mother: 1,
-    Guardian: 2,
-  };
+  if (student?.s_disabled === "yes" && !student.s_disability) {
+    errors.push(`${prefix}Please specify the student's disability.`);
+  }
 
-  const accountParentIndexValue = accountParentIndex[accountParent];
+  return errors;
+};
 
-  return {
-    ...data,
-    parents: data.parents.map((parent, index) => {
-      const isAccountParent = index === accountParentIndexValue;
+const getParentErrors = (student, index, total) => {
+  const prefix = studentPrefix(index, total);
+  const errors = [];
 
-      return {
-        ...parent,
-        p_email: isAccountParent ? verifiedEmail : parent.p_email,
-        will_receive_account: isAccountParent,
-      };
-    }),
-  };
+  (student?.parents || []).forEach((parent, parentIndex) => {
+    const role = parentIndex === 0 ? "Father" : "Mother";
+
+    const requiredFields = [
+      ["p_last_name", "last name"],
+      ["p_first_name", "first name"],
+      ["p_occupation", "occupation"],
+      ["p_contact_number", "contact number"],
+    ];
+
+    requiredFields.forEach(([key, label]) => {
+      if (!parent?.[key]) {
+        errors.push(`${prefix}${role} ${label} is required.`);
+      }
+    });
+
+    if (
+      parent?.p_contact_number &&
+      !isValidContactNumber(parent.p_contact_number)
+    ) {
+      errors.push(
+        `${prefix}${role} contact number must be 11 digits and start with 09.`,
+      );
+    }
+  });
+
+  return errors;
+};
+
+const getGuardianErrors = (guardian) => {
+  const errors = [];
+  const guardianIsRequired = Boolean(guardian?.will_receive_account);
+
+  if (guardianIsRequired) {
+    const requiredFields = [
+      ["relationship_type", "relationship"],
+      ["p_first_name", "first name"],
+      ["p_last_name", "last name"],
+      ["p_contact_number", "contact number"],
+      ["p_email", "email"],
+    ];
+
+    requiredFields.forEach(([key, label]) => {
+      if (!guardian?.[key]) {
+        errors.push(`Guardian ${label} is required.`);
+      }
+    });
+  }
+
+  if (
+    guardian?.p_contact_number &&
+    (guardianIsRequired || guardian.p_contact_number !== "09") &&
+    !isValidContactNumber(guardian.p_contact_number)
+  ) {
+    errors.push("Guardian contact number must be 11 digits and start with 09.");
+  }
+
+  return errors;
 };
 
 function FormPage() {
@@ -100,23 +127,23 @@ function FormPage() {
 
   const gradeLevels = Array.isArray(loadedGradeLevels) ? loadedGradeLevels : [];
 
-  const [paymentOptions, setPaymentOptions] = useState([]);
+  const [paymentOptionsMap, setPaymentOptionsMap] = useState({});
 
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [isReviewOpen, setIsReviewOpen] = useState(false);
   const [agreed, setAgreed] = useState(false);
+  const [sameAddressLocks, setSameAddressLocks] = useState({});
+  const [sameParentLocks, setSameParentLocks] = useState({});
   const [formData, setFormData] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
 
-      const data = saved
-        ? { ...INITIAL_DATA, ...JSON.parse(saved) }
-        : INITIAL_DATA;
+      const parsed = saved ? JSON.parse(saved) : null;
 
-      return applyVerifiedParent(data);
+      return applyVerifiedParent(normalizeFormData(parsed));
     } catch {
-      return INITIAL_DATA;
+      return applyVerifiedParent(createInitialData());
     }
   });
 
@@ -130,23 +157,294 @@ function FormPage() {
     }
   }, [formData]);
 
-  const handleChange = (key, value) => {
+  const handleStudentChange = (index, key, value) => {
     setFormData((prev) => ({
       ...prev,
-      [key]: typeof value === "function" ? value(prev[key]) : value,
+      students: prev.students.map((student, studentIndex) =>
+        studentIndex === index
+          ? {
+              ...student,
+              [key]: typeof value === "function" ? value(student[key]) : value,
+            }
+          : student,
+      ),
     }));
   };
 
+  const handleParentChange = (studentIndex, parentIndex, key, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      students: prev.students.map((student, index) =>
+        index === studentIndex
+          ? {
+              ...student,
+              parents: (student.parents || []).map((parent, indexValue) =>
+                indexValue === parentIndex
+                  ? {
+                      ...parent,
+                      [key]:
+                        typeof value === "function"
+                          ? value(parent[key])
+                          : value,
+                    }
+                  : parent,
+              ),
+            }
+          : student,
+      ),
+    }));
+  };
+
+  const handleGuardianChange = (key, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      guardian: {
+        ...prev.guardian,
+        [key]: typeof value === "function" ? value(prev.guardian[key]) : value,
+      },
+    }));
+  };
+
+  const handleAddStudent = () => {
+    setFormData((prev) => ({
+      ...prev,
+      students: [
+        ...prev.students,
+        applyVerifiedParentToStudent(createStudent()),
+      ],
+    }));
+  };
+
+  const handleRemoveStudent = (index) => {
+    setFormData((prev) => {
+      if (prev.students.length <= 1) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        students: prev.students.filter((_, studentIndex) => {
+          return studentIndex !== index;
+        }),
+      };
+    });
+  };
+
+  const handleSameAddress = (index) => {
+    setFormData((prev) => {
+      if (index <= 0) {
+        return prev;
+      }
+
+      const previousStudent = prev.students[index - 1];
+
+      if (!previousStudent) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        students: prev.students.map((student, studentIndex) =>
+          studentIndex === index
+            ? {
+                ...student,
+                province: previousStudent.province,
+                city_municipality: previousStudent.city_municipality,
+                barangay: previousStudent.barangay,
+                house_no: previousStudent.house_no,
+                zipcode: previousStudent.zipcode,
+              }
+            : student,
+        ),
+      };
+    });
+
+    const studentId = formData.students[index]?._id;
+
+    if (studentId) {
+      setSameAddressLocks((prev) => ({ ...prev, [studentId]: true }));
+    }
+  };
+
+  const handleCancelSameAddress = (index) => {
+    const studentId = formData.students[index]?._id;
+
+    if (!studentId) {
+      return;
+    }
+
+    setSameAddressLocks((prev) => {
+      if (!prev[studentId]) {
+        return prev;
+      }
+
+      const next = { ...prev };
+
+      delete next[studentId];
+
+      return next;
+    });
+  };
+
+  const handleSameParentInformation = (index, parentIndex) => {
+    setFormData((prev) => {
+      if (index <= 0) {
+        return prev;
+      }
+
+      const previousParent = prev.students[index - 1]?.parents?.[parentIndex];
+
+      if (!previousParent) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        students: prev.students.map((student, studentIndex) => {
+          if (studentIndex !== index) {
+            return student;
+          }
+
+          return {
+            ...student,
+            parents: (student.parents || []).map((parent, indexValue) => {
+              if (indexValue !== parentIndex) {
+                return parent;
+              }
+
+              return {
+                ...parent,
+                p_last_name: previousParent.p_last_name,
+                p_first_name: previousParent.p_first_name,
+                p_middle_name: previousParent.p_middle_name,
+                p_contact_number: previousParent.p_contact_number,
+                p_occupation: previousParent.p_occupation,
+                p_email: parent.will_receive_account
+                  ? parent.p_email
+                  : previousParent.p_email,
+              };
+            }),
+          };
+        }),
+      };
+    });
+
+    const studentId = formData.students[index]?._id;
+
+    if (studentId) {
+      setSameParentLocks((prev) => ({
+        ...prev,
+        [`${studentId}-${parentIndex}`]: true,
+      }));
+    }
+  };
+
+  const handleCancelSameParentInformation = (index, parentIndex) => {
+    const studentId = formData.students[index]?._id;
+
+    if (!studentId) {
+      return;
+    }
+
+    const lockKey = `${studentId}-${parentIndex}`;
+
+    setSameParentLocks((prev) => {
+      if (!prev[lockKey]) {
+        return prev;
+      }
+
+      const next = { ...prev };
+
+      delete next[lockKey];
+
+      return next;
+    });
+  };
+
+  const handlePaymentOptionsLoaded = useCallback((gradeLevelId, options) => {
+    if (!gradeLevelId) {
+      return;
+    }
+
+    setPaymentOptionsMap((prev) => {
+      if (prev[gradeLevelId] === options) {
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [gradeLevelId]: options,
+      };
+    });
+  }, []);
+
+  const collectErrors = () => {
+    const studentErrors = formData.students.flatMap((student, index) =>
+      getStudentInfoErrors(student, index, formData.students.length),
+    );
+
+    const parentErrors = formData.students.flatMap((student, index) =>
+      getParentErrors(student, index, formData.students.length),
+    );
+
+    const guardianErrors = getGuardianErrors(formData.guardian);
+
+    return {
+      studentErrors,
+      parentErrors: [...parentErrors, ...guardianErrors],
+    };
+  };
+
+  const handleNext = () => {
+    if (step === 1) {
+      const { studentErrors } = collectErrors();
+
+      if (studentErrors.length > 0) {
+        alert(studentErrors.slice(0, 5).join("\n"));
+        return;
+      }
+
+      setStep(2);
+      return;
+    }
+
+    const { parentErrors } = collectErrors();
+
+    if (parentErrors.length > 0) {
+      alert(parentErrors.slice(0, 5).join("\n"));
+      return;
+    }
+
+    if (!agreed) {
+      return;
+    }
+
+    setIsReviewOpen(true);
+  };
+
   const handleSubmit = async () => {
+    const { studentErrors, parentErrors } = collectErrors();
+
+    if (studentErrors.length > 0) {
+      setIsReviewOpen(false);
+      setStep(1);
+      alert(studentErrors.slice(0, 5).join("\n"));
+      return;
+    }
+
+    if (parentErrors.length > 0) {
+      setIsReviewOpen(false);
+      setStep(2);
+      alert(parentErrors.slice(0, 5).join("\n"));
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const verification_id = localStorage.getItem("verification_id");
 
-      const submissionData = {
-        ...formData,
-        verification_id,
-      };
+      const submissionData = buildSubmissionData(formData, verification_id);
 
       await applyApplication(submissionData);
 
@@ -169,36 +467,6 @@ function FormPage() {
     }
   };
 
-  const handleNext = () => {
-    if (step === 1) {
-      setStep(2);
-      return;
-    }
-
-    const guardian = formData.parents[2];
-
-    if (guardian.will_receive_account) {
-      if (
-        !guardian.relationship_type ||
-        !guardian.p_first_name ||
-        !guardian.p_last_name ||
-        !guardian.p_contact_number ||
-        !guardian.p_email
-      ) {
-        alert(
-          "Please complete the Guardian information because the Guardian will receive the account.",
-        );
-        return;
-      }
-    }
-
-    if (!agreed) {
-      return;
-    }
-
-    setIsReviewOpen(true);
-  };
-
   return (
     <div className="flex min-h-screen w-full flex-col">
       <LoginHeader />
@@ -208,10 +476,10 @@ function FormPage() {
           <div className="mx-auto w-full max-w-6xl">
             <div className="flex items-center gap-3">
               <div
-                className={`h-0.5 flex-1 ${step === 1 ? "bg-swamp-green" : "bg-[#b7b7b4]"}`}
+                className={`h-0.5 flex-1 ${step === 1 ? "bg-parent-green" : "bg-[#b7b7b4]"}`}
               />
               <div
-                className={`h-0.5 flex-1 ${step === 2 ? "bg-swamp-green" : "bg-[#b7b7b4]"}`}
+                className={`h-0.5 flex-1 ${step === 2 ? "bg-parent-green" : "bg-[#b7b7b4]"}`}
               />
             </div>
 
@@ -219,12 +487,21 @@ function FormPage() {
               <StudentInfo
                 formData={formData}
                 gradeLevels={gradeLevels}
-                paymentOptions={paymentOptions}
-                setPaymentOptions={setPaymentOptions}
                 step={step}
                 agreed={agreed}
                 onAgreeChange={setAgreed}
-                onChange={handleChange}
+                onStudentChange={handleStudentChange}
+                onParentChange={handleParentChange}
+                onGuardianChange={handleGuardianChange}
+                onAddStudent={handleAddStudent}
+                onRemoveStudent={handleRemoveStudent}
+                onSameAddress={handleSameAddress}
+                onSameParentInfo={handleSameParentInformation}
+                onCancelSameAddress={handleCancelSameAddress}
+                onCancelSameParentInfo={handleCancelSameParentInformation}
+                sameAddressLocks={sameAddressLocks}
+                sameParentLocks={sameParentLocks}
+                onPaymentOptionsLoaded={handlePaymentOptionsLoaded}
               />
             </div>
 
@@ -242,10 +519,10 @@ function FormPage() {
                 type="button"
                 onClick={handleNext}
                 disabled={
-                  (step === 1 && !formData.grade_level_id) ||
+                  (step === 1 && !formData.students?.[0]?.grade_level_id) ||
                   (step === 2 && !agreed)
                 }
-                className="w-full rounded-md bg-swamp-green px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-white shadow-sm transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto"
+                className="w-full rounded-md bg-parent-green px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-white shadow-sm transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-45 sm:w-auto"
               >
                 {step === 1 ? "Next" : "Review"}
               </button>
@@ -262,13 +539,13 @@ function FormPage() {
         onSubmit={handleSubmit}
         data={formData}
         gradeLevels={gradeLevels}
-        paymentOptions={paymentOptions}
+        paymentOptionsMap={paymentOptionsMap}
       />
 
       {isSubmitting && (
         <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/40 px-4">
           <div className="flex w-full max-w-70 flex-col items-center gap-4 rounded-xl bg-bone p-6 shadow-xl">
-            <Loader2 size={32} className="animate-spin text-swamp-green" />
+            <Loader2 size={32} className="animate-spin text-parent-green" />
 
             <div className="text-center">
               <p className="text-sm font-[PoppinsBold] text-neutral-700">

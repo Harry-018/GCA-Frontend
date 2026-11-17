@@ -98,7 +98,7 @@ const EmailVerificationPage = () => {
       <div className="w-full max-w-md rounded-xl bg-bone p-6 shadow-sm sm:p-8">
         {/* Header */}
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-[PoppinsBold] text-[#3b3b3b]">
+          <h1 className="text-2xl font-[PoppinsBold] text-egg-dark">
             Verify Your Email
           </h1>
 
@@ -135,7 +135,7 @@ const EmailVerificationPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="example@email.com"
-                className="h-11 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-sm text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
+                className="h-11 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-sm text-neutral-700 outline-none focus:border-parent-green focus:ring-1 focus:ring-parent-green"
               />
             </div>
 
@@ -194,7 +194,7 @@ const EmailVerificationPage = () => {
             <button
               type="submit"
               disabled={loading}
-              className="h-11 w-full rounded-md bg-swamp-green text-sm font-[PoppinsBold] uppercase text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-11 w-full rounded-md bg-parent-green text-sm font-[PoppinsBold] uppercase text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Sending..." : "Send Verification Code"}
             </button>
@@ -228,7 +228,7 @@ const EmailVerificationPage = () => {
             <button
               type="submit"
               disabled={loading || otp.length !== 6}
-              className="h-11 w-full rounded-md bg-swamp-green text-sm font-[PoppinsBold] uppercase text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-11 w-full rounded-md bg-parent-green text-sm font-[PoppinsBold] uppercase text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? "Verifying..." : "Verify Email"}
             </button>
