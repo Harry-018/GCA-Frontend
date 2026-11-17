@@ -121,7 +121,7 @@ const Login = () => {
                   Grace Christian Academy
                 </p>
               </div>
-              <h1 className="font-[SuperJoyful] text-2xl  text-swamp-green sm:text-3xl">
+              <h1 className="font-[SuperJoyful] text-2xl text-parent-green sm:text-3xl">
                 WELCOME
               </h1>
               <p className="py-2 text-2xs text-gray-600 sm:text-xs">
@@ -184,7 +184,7 @@ const Login = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="font-[SuperJoyful] w-full rounded-full border border-swamp-green py-2.5 text-base  text-swamp-green transition-all duration-500 ease-in-out hover:bg-swamp-green hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 sm:text-xl"
+                className="w-full rounded-full border border-parent-green bg-parent-green py-2.5 font-[SuperJoyful] text-base text-white transition-all duration-500 ease-in-out hover:border-parent-accent hover:bg-parent-accent hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 sm:py-3 sm:text-xl"
               >
                 {loading ? "LOGGING IN..." : "LOGIN"}
               </button>
@@ -193,7 +193,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={handleForgotPassword}
-                  className="text-2xs text-gray-600 underline transition-all duration-300 ease-in-out hover:text-swamp-green sm:text-xs"
+                  className="font-[SuperJoyful] text-2xs text-parent-green underline transition-all duration-300 ease-in-out hover:text-parent-accent sm:text-xs"
                 >
                   Forgot Password?
                 </button>

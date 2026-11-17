@@ -12,7 +12,7 @@ const ReviewField = ({ label, value }) => (
 
 const ReviewSection = ({ title, children, layered = false }) => (
   <section>
-    <h2 className="mb-3 text-[9px] sm:text-xs font-[PoppinsBold] uppercase text-swamp-green">
+    <h2 className="mb-3 text-[9px] sm:text-xs font-[PoppinsBold] uppercase text-parent-green">
       {title}
     </h2>
 
@@ -38,40 +38,36 @@ const ReviewFormModal = ({
   onSubmit,
   data = {},
   gradeLevels = [],
-  paymentOptions,
+  paymentOptionsMap = {},
 }) => {
   if (!isOpen) return null;
 
-  const selectedGradeLevel = gradeLevels.find(
-    (grade) => Number(grade.grade_level_id) === Number(data.grade_level_id),
-  );
+  const isLegacy = !Array.isArray(data.students);
 
-  const selectedPaymentOption = paymentOptions.find(
-    (option) =>
-      Number(option.gradelevel_paymentoption_id) ===
-      Number(data.gradelevel_paymentoption_id),
-  );
+  const students = isLegacy
+    ? [{ ...data, parents: (data.parents || []).slice(0, 2) }]
+    : data.students || [];
 
-  const student = data;
+  const guardian = isLegacy ? data.parents?.[2] || {} : data.guardian || {};
 
-  const parents = student.parents || [];
+  const getGradeLevelName = (student) =>
+    gradeLevels.find(
+      (grade) =>
+        Number(grade.grade_level_id) === Number(student.grade_level_id),
+    )?.grade_level_name;
 
-  const father =
-    parents.find((parent) => parent.relationship_type === "Father") ||
-    parents[0] ||
-    {};
+  const getPaymentOptionName = (student) => {
+    const options = paymentOptionsMap[student.grade_level_id] || [];
 
-  const mother =
-    parents.find((parent) => parent.relationship_type === "Mother") ||
-    parents[1] ||
-    {};
+    return options.find(
+      (option) =>
+        Number(option.gradelevel_paymentoption_id) ===
+        Number(student.gradelevel_paymentoption_id),
+    )?.option_name;
+  };
 
-  const guardian =
-    parents.find(
-      (parent) => !["Father", "Mother"].includes(parent.relationship_type),
-    ) ||
-    parents[2] ||
-    {};
+  const studentLabel = (index) =>
+    students.length > 1 ? ` - Student ${index + 1}` : "";
 
   return (
     <div
@@ -85,7 +81,7 @@ const ReviewFormModal = ({
         <div className="mb-4 flex items-center justify-between">
           <h1
             id="review-form-title"
-            className="text-sm font-[PoppinsBold] uppercase tracking-wide text-swamp-green"
+            className="text-sm font-[PoppinsBold] uppercase tracking-wide text-parent-green"
           >
             Review Application
           </h1>
@@ -102,118 +98,169 @@ const ReviewFormModal = ({
 
         {/* CONTENT */}
         <div className="overflow-y-auto pr-1">
-          {/* ================= STUDENT ================= */}
-          <ReviewSection title="Student Information" layered>
-            <ReviewRow>
-              <ReviewField
-                label="Grade Level"
-                value={selectedGradeLevel?.grade_level_name}
-              />
-            </ReviewRow>
+          {students.map((student, index) => {
+            const parents = student.parents || [];
+            const father = parents[0] || {};
+            const mother = parents[1] || {};
 
-            <ReviewRow>
-              <ReviewField label="Last Name" value={student.s_last_name} />
+            return (
+              <React.Fragment key={student._id || index}>
+                {index > 0 && (
+                  <div className="my-6 border-t-2 border-parent-green/30" />
+                )}
 
-              <ReviewField label="First Name" value={student.s_first_name} />
+                <ReviewSection
+                  title={`Student Information${studentLabel(index)}`}
+                  layered
+                >
+                  <ReviewRow>
+                    <ReviewField
+                      label="Grade Level"
+                      value={getGradeLevelName(student)}
+                    />
+                  </ReviewRow>
 
-              <ReviewField label="Middle Name" value={student.s_mid_name} />
-            </ReviewRow>
+                  <ReviewRow>
+                    <ReviewField
+                      label="Last Name"
+                      value={student.s_last_name}
+                    />
 
-            <ReviewRow>
-              <ReviewField label="Gender" value={student.s_gender} />
+                    <ReviewField
+                      label="First Name"
+                      value={student.s_first_name}
+                    />
 
-              <ReviewField label="Date of Birth" value={student.s_bdate} />
+                    <ReviewField
+                      label="Middle Name"
+                      value={student.s_mid_name}
+                    />
+                  </ReviewRow>
 
-              <ReviewField
-                label="Place of Birth"
-                value={student.s_birthplace}
-              />
-            </ReviewRow>
+                  <ReviewRow>
+                    <ReviewField label="Gender" value={student.s_gender} />
 
-            <ReviewRow>
-              <ReviewField label="Religion" value={student.s_religion} />
+                    <ReviewField
+                      label="Date of Birth"
+                      value={student.s_bdate}
+                    />
 
-              <ReviewField label="Nationality" value={student.s_nationality} />
+                    <ReviewField
+                      label="Place of Birth"
+                      value={student.s_birthplace}
+                    />
+                  </ReviewRow>
 
-              <ReviewField
-                label="Is the student disabled?"
-                value={
-                  student.s_disabled === "yes"
-                    ? "Yes"
-                    : student.s_disabled === "no"
-                      ? "No"
-                      : "N/A"
-                }
-              />
-            </ReviewRow>
+                  <ReviewRow>
+                    <ReviewField label="Religion" value={student.s_religion} />
 
-            <ReviewRow>
-              <ReviewField
-                label="Student disability"
-                value={student.s_disability}
-              />
-            </ReviewRow>
-          </ReviewSection>
+                    <ReviewField
+                      label="Nationality"
+                      value={student.s_nationality}
+                    />
 
-          <div className="my-5 border-t border-[#d6d9e2]" />
+                    <ReviewField
+                      label="Is the student disabled?"
+                      value={
+                        student.s_disabled === "yes"
+                          ? "Yes"
+                          : student.s_disabled === "no"
+                            ? "No"
+                            : "N/A"
+                      }
+                    />
+                  </ReviewRow>
 
-          {/* ================= ADDRESS ================= */}
-          <ReviewSection title="Student Address">
-            <ReviewField label="Province" value={student.province} />
+                  <ReviewRow>
+                    <ReviewField
+                      label="Student disability"
+                      value={student.s_disability}
+                    />
+                  </ReviewRow>
+                </ReviewSection>
 
-            <ReviewField label="Zip Code" value={student.zipcode} />
+                <div className="my-5 border-t border-[#d6d9e2]" />
 
-            <ReviewField
-              label="City / Municipality"
-              value={student.city_municipality}
-            />
+                <ReviewSection
+                  title={`Student Address${studentLabel(index)}`}
+                >
+                  <ReviewField label="Province" value={student.province} />
 
-            <ReviewField label="House No. / Street" value={student.house_no} />
+                  <ReviewField label="Zip Code" value={student.zipcode} />
 
-            <ReviewField label="Barangay" value={student.barangay} />
-          </ReviewSection>
+                  <ReviewField
+                    label="City / Municipality"
+                    value={student.city_municipality}
+                  />
 
-          <div className="my-5 border-t border-[#d6d9e2]" />
+                  <ReviewField
+                    label="House No. / Street"
+                    value={student.house_no}
+                  />
 
-          {/* ================= FATHER ================= */}
-          <ReviewSection title="Father Information">
-            <ReviewField label="Last Name" value={father.p_last_name} />
+                  <ReviewField label="Barangay" value={student.barangay} />
+                </ReviewSection>
 
-            <ReviewField label="First Name" value={father.p_first_name} />
+                <div className="my-5 border-t border-[#d6d9e2]" />
 
-            <ReviewField label="Middle Name" value={father.p_middle_name} />
+                <ReviewSection
+                  title={`Father Information${studentLabel(index)}`}
+                >
+                  <ReviewField label="Last Name" value={father.p_last_name} />
 
-            <ReviewField label="Occupation" value={father.p_occupation} />
+                  <ReviewField label="First Name" value={father.p_first_name} />
 
-            <ReviewField
-              label="Contact Number"
-              value={father.p_contact_number}
-            />
+                  <ReviewField
+                    label="Middle Name"
+                    value={father.p_middle_name}
+                  />
 
-            <ReviewField label="Email" value={father.p_email} />
-          </ReviewSection>
+                  <ReviewField
+                    label="Occupation"
+                    value={father.p_occupation}
+                  />
 
-          <div className="my-5 border-t border-[#d6d9e2]" />
+                  <ReviewField
+                    label="Contact Number"
+                    value={father.p_contact_number}
+                  />
 
-          {/* ================= MOTHER ================= */}
-          <ReviewSection title="Mother Information">
-            <ReviewField label="Last Name" value={mother.p_last_name} />
+                  <ReviewField label="Email" value={father.p_email} />
+                </ReviewSection>
 
-            <ReviewField label="First Name" value={mother.p_first_name} />
+                <div className="my-5 border-t border-[#d6d9e2]" />
 
-            <ReviewField label="Middle Name" value={mother.p_middle_name} />
+                <ReviewSection
+                  title={`Mother Information${studentLabel(index)}`}
+                >
+                  <ReviewField label="Last Name" value={mother.p_last_name} />
 
-            <ReviewField label="Occupation" value={mother.p_occupation} />
+                  <ReviewField label="First Name" value={mother.p_first_name} />
 
-            <ReviewField
-              label="Contact Number"
-              value={mother.p_contact_number}
-            />
+                  <ReviewField
+                    label="Middle Name"
+                    value={mother.p_middle_name}
+                  />
 
-            <ReviewField label="Email" value={mother.p_email} />
-          </ReviewSection>
+                  <ReviewField
+                    label="Occupation"
+                    value={mother.p_occupation}
+                  />
 
-          <div className="my-5 border-t border-[#d6d9e2]" />
+                  <ReviewField
+                    label="Contact Number"
+                    value={mother.p_contact_number}
+                  />
+
+                  <ReviewField label="Email" value={mother.p_email} />
+                </ReviewSection>
+
+                {index === students.length - 1 && (
+                  <div className="my-5 border-t border-[#d6d9e2]" />
+                )}
+              </React.Fragment>
+            );
+          })}
 
           {/* ================= GUARDIAN ================= */}
           <ReviewSection title="Guardian Information">
@@ -240,10 +287,13 @@ const ReviewFormModal = ({
 
           {/* ================= PAYMENT ================= */}
           <ReviewSection title="Payment Method">
-            <ReviewField
-              label="Payment Option"
-              value={selectedPaymentOption?.option_name}
-            />
+            {students.map((student, index) => (
+              <ReviewField
+                key={student._id || index}
+                label={`Payment Option${studentLabel(index)}`}
+                value={getPaymentOptionName(student)}
+              />
+            ))}
           </ReviewSection>
         </div>
 
@@ -260,7 +310,7 @@ const ReviewFormModal = ({
           <button
             type="button"
             onClick={onSubmit}
-            className="w-full rounded-md bg-swamp-green px-5 py-2.5 text-xs font-[PoppinsBold] uppercase text-white shadow-sm sm:w-auto"
+            className="w-full rounded-md bg-parent-green px-5 py-2.5 text-xs font-[PoppinsBold] uppercase text-white shadow-sm transition hover:bg-parent-accent sm:w-auto"
           >
             Submit
           </button>

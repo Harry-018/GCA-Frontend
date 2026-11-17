@@ -59,12 +59,12 @@ const ForgotPassword = () => {
                   className="h-8 w-8 rounded-full object-contain sm:h-10 sm:w-10"
                 />
 
-                <p className="font-[PoppinsBold] text-xs text-swamp-green sm:text-sm">
+                <p className="font-[PoppinsBold] text-xs text-parent-green sm:text-sm">
                   Grace Christian Academy
                 </p>
               </div>
 
-              <h1 className="font-Handpicked-seashells text-2xl font-[PoppinsBold] text-swamp-green sm:text-3xl">
+              <h1 className="font-[SuperJoyful] text-2xl text-parent-green sm:text-3xl">
                 FORGOT PASSWORD?
               </h1>
 
@@ -78,7 +78,7 @@ const ForgotPassword = () => {
               <div className="py-2 sm:py-4">
                 <label
                   htmlFor="email"
-                  className="font-Handmade text-base font-[PoppinsBold] text-gray-700 sm:text-lg"
+                  className="font-[Poppins] text-xs text-gray-700 sm:text-sm"
                 >
                   Email
                 </label>
@@ -91,13 +91,13 @@ const ForgotPassword = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
                     required
-                    className="w-full rounded-lg border border-swamp-green bg-transparent px-3 py-2.5 text-xs outline-none transition-all duration-500 ease-in-out placeholder:text-gray-400 focus:ring-2 focus:ring-swamp-green focus:shadow-[0_0_0_4px_rgba(7,59,50,0.1)] sm:px-4 sm:py-3 sm:text-sm"
+                    className="w-full rounded-lg border border-parent-green bg-transparent px-3 py-2.5 text-xs outline-none transition-all duration-500 ease-in-out placeholder:text-gray-400 focus:ring-2 focus:ring-parent-green focus:shadow-[0_0_0_4px_rgba(47,107,69,0.1)] sm:px-4 sm:py-3 sm:text-sm"
                   />
                 </div>
               </div>
 
               {message && (
-                <p className="py-2 text-center text-2xs text-swamp-green sm:text-xs">
+                <p className="py-2 text-center text-2xs text-parent-green sm:text-xs">
                   {message}
                 </p>
               )}
@@ -111,7 +111,7 @@ const ForgotPassword = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full rounded-full border border-swamp-green py-2.5 font-Handpicked-seashells text-base font-[PoppinsBold] text-swamp-green transition-all duration-500 ease-in-out hover:bg-swamp-green hover:text-white hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 sm:py-3 sm:text-lg"
+                className="w-full rounded-full border border-parent-green bg-parent-green py-2.5 font-[SuperJoyful] text-base text-white transition-all duration-500 ease-in-out hover:border-parent-accent hover:bg-parent-accent hover:shadow-lg hover:scale-[1.02] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:scale-100 sm:py-3 sm:text-lg"
               >
                 {loading ? "SENDING..." : "SEND RESET LINK"}
               </button>
@@ -120,7 +120,7 @@ const ForgotPassword = () => {
                 <button
                   type="button"
                   onClick={handleBackToLogin}
-                  className="text-2xs text-gray-600 underline transition-all duration-300 ease-in-out hover:text-swamp-green sm:text-xs"
+                  className="font-[SuperJoyful] text-2xs text-parent-green underline transition-all duration-300 ease-in-out hover:text-parent-accent sm:text-xs"
                 >
                   Back to Login
                 </button>
