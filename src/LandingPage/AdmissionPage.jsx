@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 // import axios from "axios";
 import AdmissionCard from "../Components/LandingpageComponents/Admission/AdmissionCard.jsx";
 import AdmissionBanner from "../Components/LandingpageComponents/Admission/AdmissionBanner.jsx";
+import AdmissionOpeningNotice from "../Components/LandingpageComponents/Admission/AdmissionOpeningNotice.jsx";
 import StepCard from "../Components/LandingpageComponents/Admission/StepCard.jsx";
 import LoginHeader from "../Components/LoginHeader";
 import HomeSidebar from "../Components/HomeSidebar";
@@ -10,6 +11,8 @@ import Footer from "../Components/Footer";
 import { FileBadge, Camera, FileEdit } from "lucide-react";
 
 const AdmissionPage = () => {
+  const banner = useLoaderData();
+  const admissionIsOpen = banner?.enrollment_status === "open";
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {}, []);
@@ -70,13 +73,17 @@ const AdmissionPage = () => {
                     "Complete enrollment and become a part of Grace Christian Academy"
                   }
                   action={
-                    <Link
-                      to="/email-verification"
-                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-parent-green px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-white transition hover:bg-parent-accent active:scale-95 sm:w-auto"
-                    >
-                      <FileEdit className="h-5 w-5" />
-                      Fill out form
-                    </Link>
+                    admissionIsOpen ? (
+                      <Link
+                        to="/email-verification"
+                        className="flex w-full items-center justify-center gap-2 rounded-xl bg-parent-green px-6 py-2.5 text-sm font-[PoppinsBold] uppercase text-white transition hover:bg-parent-accent active:scale-95 sm:w-auto"
+                      >
+                        <FileEdit className="h-5 w-5" />
+                        Fill out form
+                      </Link>
+                    ) : (
+                      <AdmissionOpeningNotice className="w-full justify-center sm:w-auto" />
+                    )
                   }
                 />
               </div>

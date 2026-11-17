@@ -106,10 +106,8 @@ const Footer = ({ admissionStatus }) => {
               {admissionStatus === "open" && (
                 <NavLink
                   to="/email-verification"
-                  onClick={() =>
-                    window.scrollTo({ top: 0, behavior: "smooth" })
-                  }
-                  className="flex w-fit items-center gap-1.5 rounded-lg bg-lime-green px-3 py-1.5 text-2xs font-[PoppinsBold] uppercase tracking-wider text-[#062421] transition-colors hover:bg-lime-green/80"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="flex w-fit items-center gap-1.5 rounded-lg bg-parent-green px-3 py-1.5 text-2xs font-[PoppinsBold] uppercase tracking-wider text-white transition-colors hover:bg-lime-green/80"
                 >
                   Enroll Now
                 </NavLink>

@@ -1,5 +1,29 @@
 import { ChevronDown } from "lucide-react";
 
+const normalizeContactNumber = (rawValue) => {
+  let digits = String(rawValue || "").replace(/\D/g, "");
+
+  if (digits.startsWith("63")) {
+    digits = `0${digits.slice(2)}`;
+  }
+
+  digits = digits.slice(0, 11);
+
+  if (!digits) return "";
+
+  if (!digits.startsWith("09")) {
+    if (digits.startsWith("9")) {
+      digits = `0${digits}`;
+    } else if (digits.startsWith("0")) {
+      digits = `09${digits.slice(1)}`;
+    } else {
+      digits = `09${digits}`;
+    }
+  }
+
+  return digits.slice(0, 11);
+};
+
 const InfoField = ({
   label,
   value,
@@ -8,30 +32,45 @@ const InfoField = ({
   type = "text",
   options,
   readOnly = false,
+  disabled = false,
   onChange,
   className = "",
   name,
+  max,
+  min,
+  placeholder,
+  inputMode,
+  autoComplete = "off",
+  error = "",
 }) => {
   const handleInputChange = (e) => {
-    let value = e.target.value;
+    let nextValue = e.target.value;
 
     if (name === "contact_number") {
-      // Allow digits only
-      value = value.replace(/\D/g, "");
-
-      // Maximum of 11 digits
-      value = value.slice(0, 11);
+      nextValue = normalizeContactNumber(nextValue);
     } else if (type === "text" && label !== "Email") {
-      value = value.toUpperCase();
+      nextValue = nextValue.toUpperCase();
     }
 
     onChange?.({
       ...e,
       target: {
         ...e.target,
-        value,
+        value: nextValue,
       },
     });
+  };
+
+  const handleFocus = (e) => {
+    if (name === "contact_number" && !value) {
+      onChange?.({
+        ...e,
+        target: {
+          ...e.target,
+          value: "09",
+        },
+      });
+    }
   };
 
   return (
@@ -50,8 +89,8 @@ const InfoField = ({
           <select
             value={value ?? ""}
             onChange={(e) => onChange?.(e)}
-            disabled={readOnly}
-            className="h-10 w-full appearance-none rounded-md border border-[#d4d5d9] bg-bone px-3 pr-9 text-sm text-neutral-700 outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500"
+            disabled={readOnly || disabled}
+            className="h-10 w-full appearance-none rounded-md border border-[#d4d5d9] bg-bone px-3 pr-9 text-sm text-neutral-700 outline-none focus:border-parent-green focus:ring-1 focus:ring-parent-accent disabled:cursor-not-allowed disabled:bg-neutral-100 disabled:text-neutral-500"
           >
             <option value="" disabled>
               Select {label}
@@ -82,10 +121,19 @@ const InfoField = ({
           type={type}
           value={value ?? ""}
           onChange={handleInputChange}
+          onFocus={handleFocus}
           readOnly={readOnly}
-          className="h-10 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-sm text-neutral-700  outline-none focus:border-swamp-green focus:ring-1 focus:ring-lime-dark read-only:cursor-not-allowed read-only:bg-neutral-100 read-only:text-neutral-500"
+          disabled={disabled}
+          max={max}
+          min={min}
+          placeholder={placeholder}
+          inputMode={inputMode}
+          autoComplete={autoComplete}
+          className="h-10 w-full rounded-md border border-[#d4d5d9] bg-bone px-3 text-sm text-neutral-700 outline-none focus:border-parent-green focus:ring-1 focus:ring-parent-accent read-only:cursor-not-allowed read-only:bg-neutral-100 read-only:text-neutral-500"
         />
       )}
+
+      {error && <span className="text-2xs text-red-500">{error}</span>}
     </label>
   );
 };

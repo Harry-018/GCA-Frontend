@@ -6,8 +6,30 @@ export const getDashboard = async (school_year_id = null) => {
   });
 };
 
+const normalizeApplicationStudents = (data = {}) => {
+  const sourceStudents = Array.isArray(data.students) ? data.students : [data];
+
+  return sourceStudents.map((student = {}) => {
+    const studentFields = { ...student };
+
+    delete studentFields.students;
+    delete studentFields.verification_id;
+
+    return {
+      ...studentFields,
+      parents: Array.isArray(student.parents) ? student.parents : [],
+    };
+  });
+};
+
+// The enrollment form supports one or many students per verified application.
+// Always send the same { verification_id, students: [...] } contract so the
+// backend only needs one submission path.
 export const applyApplication = async (data) => {
-  return API.post(`/api/preEnrollment/application`, data);
+  return API.post(`/api/preEnrollment/application`, {
+    verification_id: data?.verification_id ?? null,
+    students: normalizeApplicationStudents(data),
+  });
 };
 
 export const getApplications = async ({

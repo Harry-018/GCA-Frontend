@@ -25,7 +25,7 @@ function Remarks({ remarks, quarters, selectedQuarter, onQuarterChange }) {
                 className={`rounded-full px-3 py-1.5 text-[9px] font-[PoppinsBold] transition lg:text-2xs ${
                   isSelected
                     ? "bg-linear-to-r from-[#1c3a28] to-parent-accent text-white shadow-sm"
-                    : "bg-egg text-parent-green hover:bg-parent-accent/10"
+                    : "bg-bone text-parent-green hover:bg-parent-accent/10"
                 }`}
               >
                 {quarter}
@@ -35,7 +35,7 @@ function Remarks({ remarks, quarters, selectedQuarter, onQuarterChange }) {
         </div>
       </div>
 
-      <div className="rounded-xl border border-parent-accent/15 bg-egg px-4 py-4 md:px-5 md:py-5">
+      <div className="rounded-xl border border-parent-accent/15 bg-bone px-4 py-4 md:px-5 md:py-5">
         <p className="text-xs md:text-sm leading-7 text-gray-600">
           {hasRemarks ? remarks : "No remarks"}
         </p>

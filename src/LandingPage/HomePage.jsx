@@ -69,8 +69,8 @@ const HomePage = () => {
               </h2>
             </div>
 
-            <div className="no-scrollbar flex snap-x snap-mandatory justify-center-safe gap-5 overflow-x-auto px-5 py-5">
-              <div className="grid w-full max-w-7xl grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="no-scrollbar flex snap-x snap-mandatory justify-start gap-5 overflow-x-auto px-5 py-5 sm:justify-center">
+              <div className="grid w-max grid-flow-col auto-cols-[calc(100vw-2.5rem)] gap-5 sm:w-full sm:max-w-7xl sm:auto-cols-auto sm:grid-flow-row sm:grid-cols-2 lg:grid-cols-3">
                 {(acadprog ?? []).map((program) => (
                   <AcademicCard
                     key={program.program_id}

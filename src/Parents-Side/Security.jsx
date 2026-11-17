@@ -72,7 +72,6 @@ const Security = () => {
 
         const response = await getParentInfoByUserId();
 
-        // Extract parent information from the "r" property.
         const parent = response?.r;
 
         if (!parent) {
@@ -208,7 +207,7 @@ const Security = () => {
   // LOADING STATE
   if (loading) {
     return (
-      <div className="flex  min-h-screen flex-col items-center justify-center gap-3 bg-black to-parent-accent font-[Poppins]">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black to-parent-accent font-[Poppins]">
         <Loader2 size={32} className="animate-spin text-parent-pale" />
 
         <p className="text-sm text-white/70">
