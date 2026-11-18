@@ -12,36 +12,6 @@ import AccountSettings from "../Components/Parents-Side Components/Security/Acco
 import EditContactModal from "../Components/Parents-Teacher Modal/EditContactModal";
 import ChangePasswordModal from "../Components/Parents-Teacher Modal/ChangePasswordModal";
 
-const PASSWORD_FIELDS = [
-  {
-    key: "current",
-    label: "Current Password",
-    placeholder: "Enter your current password",
-  },
-  {
-    key: "new",
-    label: "New Password",
-    placeholder: "Enter a new password",
-  },
-  {
-    key: "confirm",
-    label: "Confirm Password",
-    placeholder: "Re-enter your new password",
-  },
-];
-
-const INITIAL_PASSWORDS = {
-  current: "",
-  new: "",
-  confirm: "",
-};
-
-const INITIAL_VISIBILITY = {
-  current: false,
-  new: false,
-  confirm: false,
-};
-
 const INITIAL_CONTACT = {
   contactNumber: "",
   email: "",
@@ -115,7 +85,7 @@ const Security = () => {
     .join(" ");
 
   // CHANGE PASSWORD
-  const handlePasswordUpdate = (passwords) => {
+  const handlePasswordUpdate = () => {
     setShowPasswordModal(false);
   };
 
@@ -277,11 +247,9 @@ const Security = () => {
         {/* CHANGE PASSWORD MODAL */}
         {showPasswordModal && (
           <ChangePasswordModal
-            fields={PASSWORD_FIELDS}
-            initialPasswords={INITIAL_PASSWORDS}
-            initialVisibility={INITIAL_VISIBILITY}
+            email={contactData.account_email}
             onCancel={() => setShowPasswordModal(false)}
-            onSave={handlePasswordUpdate}
+            onComplete={handlePasswordUpdate}
           />
         )}
 

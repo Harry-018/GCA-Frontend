@@ -90,7 +90,7 @@ const WeeklySchedule = () => {
 
   if (loading) {
     return (
-      <div className="flex min-h-60 items-center justify-center">
+      <div className="mx-auto mt-4 flex min-h-60 w-full items-center justify-center sm:mt-6 sm:w-3/4">
         <p className="font-[Poppins] text-sm text-gray-500">
           Loading your schedule...
         </p>
@@ -100,7 +100,7 @@ const WeeklySchedule = () => {
 
   if (error) {
     return (
-      <div className="w-full rounded-xl border border-red-200 bg-red-50 p-4 sm:p-5">
+      <div className="mx-auto mt-4 w-full rounded-xl border border-red-200 bg-red-50 p-4 sm:mt-6 sm:w-3/4 sm:p-5">
         <p className="break-words font-[Poppins] text-sm text-red-600">
           {error}
         </p>
@@ -109,10 +109,10 @@ const WeeklySchedule = () => {
   }
 
   return (
-    <div className="relative flex w-full min-w-0 flex-col items-center overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] sm:p-5 md:p-6">
+    <div className="relative mx-auto mt-4 flex w-full min-w-0 flex-col items-center overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] sm:mt-6 sm:w-3/4 sm:p-5 md:p-6">
       <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
       {/* Header */}
-      <div className="mb-4 w-full max-w-7xl sm:mb-5">
+      <div className="mb-4 w-full sm:mb-5">
         <h2 className="font-[PoppinsBold] text-base text-parent-green sm:text-lg">
           WEEKLY SCHEDULE
         </h2>
@@ -130,7 +130,7 @@ const WeeklySchedule = () => {
           </p>
         </div>
       ) : (
-        <div className="gca-calendar w-full max-w-7xl min-w-0 overflow-x-auto  bg-bone">
+        <div className="gca-calendar w-full min-w-0 overflow-x-auto bg-bone">
           <div className="min-w-[600px] sm:min-w-0">
             <FullCalendar
               plugins={[timeGridPlugin]}

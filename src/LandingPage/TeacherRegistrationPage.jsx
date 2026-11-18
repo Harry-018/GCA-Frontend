@@ -431,7 +431,7 @@ const FormInput = ({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full uppercase rounded-md border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:ring-swamp-green"
+        className="w-full uppercase rounded-md border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-parent-green focus:ring-1 focus:ring-parent-green"
       />
     </div>
   );
@@ -461,7 +461,7 @@ const FormSelect = ({
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full uppercase rounded-md border border-gray-300 bg-bone px-3 py-2.5 text-sm outline-none transition focus:border-swamp-green focus:ring-1 focus:swamp-green"
+        className="w-full uppercase rounded-md border border-gray-300 bg-bone px-3 py-2.5 text-sm outline-none transition focus:border-parent-green focus:ring-1 focus:parent-green"
       >
         <option value="">Select {label}</option>
 

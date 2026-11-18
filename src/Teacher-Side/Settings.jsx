@@ -12,30 +12,6 @@ import AccountSettings from "../Components/Teacher-Side Components/Settings/Acco
 import EditContactModal from "../Components/Parents-Teacher Modal/EditContactModal";
 import ChangePasswordModal from "../Components/Parents-Teacher Modal/ChangePasswordModal";
 
-const PASSWORD_FIELDS = [
-  {
-    key: "current",
-    label: "Current Password",
-    placeholder: "Enter your current password",
-  },
-  {
-    key: "new",
-    label: "New Password",
-    placeholder: "Enter a new password",
-  },
-  {
-    key: "confirm",
-    label: "Confirm Password",
-    placeholder: "Re-enter your new password",
-  },
-];
-
-const INITIAL_PASSWORDS = {
-  current: "",
-  new: "",
-  confirm: "",
-};
-
 const Settings = () => {
   const [showContactModal, setShowContactModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -197,8 +173,7 @@ const Settings = () => {
     setShowPasswordModal(true);
   };
 
-  const handlePasswordSubmit = (passwords) => {
-    // Password update API integration will be implemented separately.
+  const handlePasswordSubmit = () => {
     setShowPasswordModal(false);
   };
 
@@ -280,10 +255,9 @@ const Settings = () => {
       {/* CHANGE PASSWORD MODAL */}
       {showPasswordModal && (
         <ChangePasswordModal
-          fields={PASSWORD_FIELDS}
-          initialPasswords={INITIAL_PASSWORDS}
+          email={accountData?.email ?? ""}
           onCancel={() => setShowPasswordModal(false)}
-          onSave={handlePasswordSubmit}
+          onComplete={handlePasswordSubmit}
         />
       )}
     </div>

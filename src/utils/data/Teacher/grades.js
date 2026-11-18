@@ -157,7 +157,25 @@ export function saveGradeRoster(students) {
 }
 
 export function getBulkGradeRecords() {
-  const records = readStore().teacherBulkGradeRecords;
+  const store = readStore();
+  const records = store.teacherBulkGradeRecords;
+
+  if (!store.teacherQuarterOneGradesCleared) {
+    const retainedRecords = Array.isArray(records)
+      ? records.filter((record) => {
+          const quarter = String(record.quarter ?? "").trim();
+          return Number(quarter) !== 1 && !/^quarter\s*1$/i.test(quarter);
+        })
+      : [];
+
+    writeStore({
+      teacherBulkGradeRecords: retainedRecords,
+      teacherQuarterOneGradesCleared: true,
+    });
+
+    return retainedRecords;
+  }
+
   return Array.isArray(records) ? records : [];
 }
 

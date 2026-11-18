@@ -11,8 +11,8 @@ const AttendanceToolbar = ({
   onReport,
 }) => {
   return (
-    <div className="flex w-full flex-col gap-2 md:flex-row md:items-stretch md:justify-between md:gap-3">
-      <div className="flex w-full items-center gap-1.5 rounded-2xl border border-parent-accent/15 bg-bone px-3 py-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:shadow-lg sm:gap-2 sm:px-4 sm:py-4 md:flex-1">
+    <div className="flex w-full flex-col gap-2 rounded-2xl border border-parent-accent/15 bg-bone px-3 py-3 sm:px-4 md:flex-row md:items-center md:justify-between md:gap-3">
+      <div className="flex w-full items-center gap-1.5 sm:gap-2 md:w-80 lg:w-96">
         <div className="relative min-w-0 flex-1">
           <Search
             size={14}
@@ -36,7 +36,7 @@ const AttendanceToolbar = ({
         </button>
       </div>
 
-      <div className="flex w-full shrink-0 items-center gap-1.5 rounded-2xl border border-parent-accent/15 bg-bone px-3 py-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:shadow-lg sm:gap-2 sm:px-4 sm:py-4 md:w-auto">
+      <div className="flex w-full shrink-0 items-center gap-1.5 sm:gap-2 md:w-auto">
         <div className="relative min-w-0 flex-1 sm:flex-initial">
           <CalendarDays
             size={12}

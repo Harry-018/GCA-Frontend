@@ -10,7 +10,7 @@ const ApplyingModal = () => {
         <Mail
           size={44}
           strokeWidth={1.8}
-          className="text-swamp-green sm:h-15 sm:w-15 md:h-20 md:w-20"
+          className="text-parent-green sm:h-15 sm:w-15 md:h-20 md:w-20"
         />
 
         {/* Message */}
@@ -28,7 +28,7 @@ const ApplyingModal = () => {
         {/* Button */}
         <NavLink
           to="/"
-          className="flex w-full justify-center rounded-xl bg-swamp-green px-5 py-2.5 text-xs font-[PoppinsBold] text-bone transition hover:opacity-90 sm:w-32 md:w-36"
+          className="flex w-full justify-center rounded-xl bg-parent-green px-5 py-2.5 text-xs font-[PoppinsBold] text-bone transition hover:opacity-90 sm:w-32 md:w-36"
         >
           Home Page
         </NavLink>
