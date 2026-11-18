@@ -18,7 +18,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
   }
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-3xl overflow-y-auto rounded-2xl border border-parent-accent/25 bg-bone p-5 shadow-lg">
+      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-5xl overflow-y-auto rounded-2xl border border-parent-accent/25 bg-bone p-5 shadow-lg">
         <h2 className="font-[PoppinsBold] text-sm text-parent-green">
           Student Information
         </h2>

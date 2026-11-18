@@ -48,6 +48,7 @@ const HomePage = () => {
               title={banner?.banner_title ?? ""}
               quote={banner?.banner_quote ?? ""}
               backgroundImage={banner?.banner_image || "/image/kinder.jpg"}
+              schoolStart={banner?.school_start ?? ""}
             />
 
             <SideBanner

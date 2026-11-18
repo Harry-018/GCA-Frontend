@@ -9,6 +9,7 @@ const MainBanner = ({
   title,
   quote,
   backgroundImage,
+  schoolStart,
 }) => {
   return (
     <div
@@ -53,7 +54,9 @@ const MainBanner = ({
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
           </Link>
         )}
-        {admissionStatus !== "open" && <AdmissionOpeningNotice />}
+        {admissionStatus !== "open" && (
+          <AdmissionOpeningNotice schoolStart={schoolStart} />
+        )}
       </div>
     </div>
   );

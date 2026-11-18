@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link, useLoaderData } from "react-router-dom";
 // import axios from "axios";
 import AdmissionCard from "../Components/LandingpageComponents/Admission/AdmissionCard.jsx";
@@ -13,9 +13,8 @@ import { FileBadge, Camera, FileEdit } from "lucide-react";
 const AdmissionPage = () => {
   const banner = useLoaderData();
   const admissionIsOpen = banner?.enrollment_status === "open";
+  const schoolStart = banner?.school_start ?? "";
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  useEffect(() => {}, []);
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -82,7 +81,10 @@ const AdmissionPage = () => {
                         Fill out form
                       </Link>
                     ) : (
-                      <AdmissionOpeningNotice className="w-full justify-center sm:w-auto" />
+                      <AdmissionOpeningNotice
+                        schoolStart={schoolStart}
+                        className="w-full justify-center sm:w-auto"
+                      />
                     )
                   }
                 />

@@ -2,7 +2,7 @@ import { CalendarDays } from "lucide-react";
 
 import { ADMISSION_OPENING_MONTH_YEAR } from "../../../config/admissionSchedule";
 
-const AdmissionOpeningNotice = ({ className = "" }) => {
+const AdmissionOpeningNotice = ({ className = "", schoolStart }) => {
   return (
     <div
       role="status"
@@ -17,7 +17,7 @@ const AdmissionOpeningNotice = ({ className = "" }) => {
           ADMISSION OPENS
         </span>
         <span className="font-[PoppinsBold] text-xs leading-tight sm:text-sm">
-          {ADMISSION_OPENING_MONTH_YEAR}
+          {schoolStart}
         </span>
       </span>
     </div>

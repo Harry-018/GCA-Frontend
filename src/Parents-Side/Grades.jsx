@@ -1,50 +1,146 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import axios from 'axios'
-import { GraduationCap, Loader2, Printer } from 'lucide-react'
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { GraduationCap, Loader2, Printer } from "lucide-react";
 import {
-  getParentQuarters,
-  getParentGradeData,
-} from '../utils/data/Parents/grades'
-import schoolLogo from '../assets/logowbg.png'
-import StudentCard from '../Components/Parents-Side Components/Grades/StudentCard'
-import Remarks from '../Components/Parents-Side Components/Grades/Remarks'
-import DevelopmentCard from '../Components/Parents-Side Components/Grades/DevelopmentCard'
-import GradeModal from '../Components/Parents-Teacher Modal/GradeModal'
+  getParentDashboardStudents,
+  getStudentSubjects,
+  getStudentSubjectGrades,
+  getStudentTeacherRemarks,
+} from "../requests/parentRequests";
+import schoolLogo from "../assets/logowbg.png";
+import StudentCard from "../Components/Parents-Side Components/Grades/StudentCard";
+import Remarks from "../Components/Parents-Side Components/Grades/Remarks";
+import DevelopmentCard from "../Components/Parents-Side Components/Grades/DevelopmentCard";
+import GradeModal from "../Components/Parents-Teacher Modal/GradeModal";
 
-const QUARTERS = getParentQuarters();
-const API_URL = "http://localhost:5000/parent/grades";
+const QUARTERS = ["QUARTER 1", "QUARTER 2", "QUARTER 3"];
+const QUARTER_IDS = QUARTERS.map((_, index) => index + 1);
+
+const fetchOrNull = async (request) => {
+  try {
+    return await request;
+  } catch (error) {
+    if (error?.response?.status === 404) return null;
+    throw error;
+  }
+};
 
 const Grades = () => {
   const { studentId } = useParams();
   const [selectedQuarter, setSelectedQuarter] = useState(1);
   const [selectedDevelopment, setSelectedDevelopment] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  // LOCAL FALLBACK DATA (used when backend is not available)
-  const FALLBACK_DATA = getParentGradeData(studentId);
+  const [gradeData, setGradeData] = useState({
+    student: {},
+    attendance: {},
+    developments: {},
+    remarks: {},
+  });
 
-  // ACTIVE STATE for grade data
-  const [gradeData, setGradeData] = useState(FALLBACK_DATA);
+  useEffect(() => {
+    const fetchGrades = async () => {
+      try {
+        setLoading(true);
+        setError("");
 
-  // useEffect(() => {
-  //   const fetchGrades = async () => {
-  //     try {
-  //       setLoading(true);
-  //       setError("");
-  //       const response = await axios.get(`${API_URL}/${studentId}`);
-  //       setGradeData(response.data);
-  //     } catch (error) {
-  //       console.error("Failed to fetch grades:", error);
-  //       setError("Unable to load grades data.");
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-  //
-  //   fetchGrades();
-  // }, [studentId]);
+        const studentResponse = await getParentDashboardStudents();
+        const studentList = Array.isArray(studentResponse?.data)
+          ? studentResponse.data
+          : [];
+
+        const matchedStudent = studentList.find(
+          (item) => String(item.studentId) === String(studentId),
+        );
+
+        if (!matchedStudent?.stuId) {
+          throw new Error("Student not found.");
+        }
+
+        const stuId = matchedStudent.stuId;
+
+        const subjectsResponse = await fetchOrNull(getStudentSubjects(stuId));
+        const subjects = Array.isArray(subjectsResponse?.data)
+          ? subjectsResponse.data
+          : [];
+
+        const [gradeResults, remarkResults] = await Promise.all([
+          Promise.all(
+            subjects.flatMap((subject) =>
+              QUARTER_IDS.map((quarterId) =>
+                fetchOrNull(
+                  getStudentSubjectGrades(stuId, subject.subject_id, quarterId),
+                ),
+              ),
+            ),
+          ),
+          Promise.all(
+            QUARTER_IDS.map((quarterId) =>
+              fetchOrNull(getStudentTeacherRemarks(stuId, quarterId)),
+            ),
+          ),
+        ]);
+
+        const developments = Object.fromEntries(
+          QUARTER_IDS.map((quarterId) => [quarterId, []]),
+        );
+
+        subjects.forEach((subject, subjectIndex) => {
+          QUARTER_IDS.forEach((quarterId, quarterIndex) => {
+            const result =
+              gradeResults[subjectIndex * QUARTER_IDS.length + quarterIndex];
+            const skills = Array.isArray(result?.data?.skills)
+              ? result.data.skills
+              : [];
+
+            developments[quarterId].push({
+              title: subject.subject_name,
+              subject_id: subject.subject_id,
+              grades: skills.map((skill) => ({
+                skill: skill.skill_name,
+                description: skill.description,
+                grade: skill.grade,
+              })),
+            });
+          });
+        });
+
+        const remarks = Object.fromEntries(
+          QUARTER_IDS.map((quarterId, index) => [
+            quarterId,
+            remarkResults[index]?.data?.remarks?.comment || "",
+          ]),
+        );
+
+        setGradeData({
+          student: {
+            firstName: matchedStudent.firstName || "",
+            lastName: matchedStudent.lastName || "",
+            learnerReferenceNumber: matchedStudent.lrn || "",
+            studentId: matchedStudent.studentId || studentId,
+          },
+          attendance: {
+            totalDays: "—",
+            absences: "—",
+          },
+          developments,
+          remarks,
+        });
+      } catch (error) {
+        console.error("Failed to fetch grades:", error.response?.data || error);
+        setError(
+          error.response?.data?.message ||
+            error.message ||
+            "Unable to load grades data.",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGrades();
+  }, [studentId]);
 
   const student = gradeData.student;
   const attendance = gradeData.attendance;
@@ -53,9 +149,8 @@ const Grades = () => {
     (_, index) => gradeData.developments[index + 1] || [],
   ).filter(
     (development, index, allDevelopments) =>
-      allDevelopments.findIndex(
-        ({ title }) => title === development.title,
-      ) === index,
+      allDevelopments.findIndex(({ title }) => title === development.title) ===
+      index,
   );
 
   const getDevelopmentGrades = (title) => {
@@ -125,9 +220,7 @@ const Grades = () => {
   if (error) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-egg font-[Poppins]">
-        <p className="text-sm text-red-400">
-          {error}
-        </p>
+        <p className="text-sm text-red-400">{error}</p>
       </div>
     );
   }
@@ -135,11 +228,7 @@ const Grades = () => {
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-egg px-4 py-5 font-[Poppins] cursor-default print:min-h-0 print:bg-white print:p-0 sm:px-5 sm:py-6">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 print:hidden">
-
-        <StudentCard
-          {...student}
-          {...attendance}
-        />
+        <StudentCard {...student} {...attendance} />
 
         {/* Development Cards */}
         <div className="flex flex-col gap-3">
@@ -293,7 +382,7 @@ const Grades = () => {
         />
       )}
     </div>
-  )
-}
+  );
+};
 
 export default Grades;

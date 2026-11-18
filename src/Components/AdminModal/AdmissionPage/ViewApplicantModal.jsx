@@ -38,7 +38,6 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
         ["Barangay", address.barangay],
         ["City / Municipality", address.city],
         ["Province", address.province],
-        ["Region", address.region],
         ["Zip Code", address.zipCode],
       ],
     },
@@ -79,7 +78,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
-      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-175 overflow-y-auto rounded-2xl bg-bone p-4 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-h-5xl max-w-7xl overflow-y-auto rounded-2xl bg-bone p-4 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
         <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
           {sections.map((section) => (
             <div
