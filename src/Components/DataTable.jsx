@@ -23,6 +23,8 @@ const DataTable = ({
 
   // Optional sticky columns (array of column IDs)
   stickyColumns = [],
+  minWidth,
+  className = "",
 }) => {
   const enablePagination =
     pagination !== undefined && onPaginationChange !== undefined;
@@ -128,11 +130,14 @@ const DataTable = ({
   };
 
   return (
-    <div className="flex h-full flex-1 min-h-0 w-full flex-col overflow-auto no-scrollbar rounded-2xl border border-parent-accent/15 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
+    <div
+      className={`flex h-full flex-1 min-h-0 w-full flex-col overflow-auto no-scrollbar rounded-2xl border border-parent-accent/15 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)] ${className}`}
+    >
       <table
         className="w-full text-left text-sm"
         style={{
-          minWidth: stickyColumns.length > 0 ? "max-content" : undefined,
+          minWidth:
+            minWidth ?? (stickyColumns.length > 0 ? "max-content" : undefined),
         }}
       >
         <thead className="sticky top-0 z-20 bg-bone">
@@ -142,9 +147,9 @@ const DataTable = ({
                 <th
                   key={header.id}
                   style={getStickyStyle(header.column.id)}
-                  className={`px-4 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-700 ${
-                    stickyColumns.includes(header.column.id) ? "z-30" : ""
-                  }`}
+                  className={`px-3 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-700 sm:px-4 ${
+                    header.column.columnDef.meta?.className || ""
+                  } ${stickyColumns.includes(header.column.id) ? "z-30" : ""}`}
                 >
                   {header.isPlaceholder
                     ? null
@@ -187,7 +192,9 @@ const DataTable = ({
                   <td
                     key={cell.id}
                     style={getStickyStyle(cell.column.id)}
-                    className="px-4 py-3 text-gray-700"
+                    className={`px-3 py-3 text-gray-700 sm:px-4 ${
+                      cell.column.columnDef.meta?.className || ""
+                    }`}
                   >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>

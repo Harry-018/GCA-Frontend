@@ -144,7 +144,7 @@ const AccountActivation = () => {
         </div>
 
         <div className="mb-5 rounded-lg border border-gray-200 bg-bone px-4 py-3">
-          <p className="text-[10px] sm:text-xs text-gray-400">Account Email</p>
+          <p className="text-xs sm:text-xs text-gray-400">Account Email</p>
 
           <p className="mt-1 text-xs text-gray-600">
             {invitation?.email || "—"}
@@ -188,7 +188,7 @@ const AccountActivation = () => {
             />
           </div>
 
-          <p className="text-[10px] sm:text-xs text-gray-400">
+          <p className="text-xs sm:text-xs text-gray-400">
             Password must be at least 8 characters.
           </p>
 

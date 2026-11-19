@@ -2,8 +2,8 @@ import React from "react";
 
 const SectionCard = ({ sections, selectedId, onSelect, onBack }) => {
   return (
-    <div className="flex w-full flex-col gap-3 p-2 sm:gap-4 sm:p-3 md:gap-5 md:p-4 lg:p-6">
-      <div className="flex items-center justify-between px-1 py-1 sm:px-2 sm:py-2">
+    <div className="flex w-full min-w-0 flex-col gap-3 sm:gap-4 md:gap-5">
+      <div className="flex items-center justify-between py-1 sm:py-2">
         <h2 className="text-xs font-[PoppinsBold] uppercase text-parent-green sm:text-sm md:text-md">
           Class Sections :
         </h2>

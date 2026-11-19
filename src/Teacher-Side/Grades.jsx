@@ -58,9 +58,6 @@ const Grades = () => {
     student.name.toLowerCase().includes(studentName.toLowerCase()),
   );
 
-  const hasStudents = !loading && !error && filteredStudents.length > 0;
-  const isEmpty = !loading && !error && filteredStudents.length === 0;
-
   // LOADING
   if (loading) {
     return (
@@ -86,16 +83,8 @@ const Grades = () => {
     );
   }
 
-  {
-    isEmpty && (
-      <div className="flex h-40 items-center justify-center">
-        <p className="text-sm text-gray-400">No students found.</p>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen cursor-default bg-egg px-5 py-6 font-[Poppins] lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+    <div className="w-full min-w-0 cursor-default bg-egg px-3 py-4 font-[Poppins] sm:px-5 sm:py-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 lg:min-h-0 lg:flex-1">
         <SectionCard
           sections={sections}
@@ -110,13 +99,11 @@ const Grades = () => {
           onUpload={() => setGradeUploadOpen(true)}
         />
 
-        {hasStudents && (
-          <StudentTable
-            students={filteredStudents}
-            columns={COLUMNS}
-            onViewClick={handleViewClick}
-          />
-        )}
+        <StudentTable
+          students={filteredStudents}
+          columns={COLUMNS}
+          onViewClick={handleViewClick}
+        />
       </div>
 
       {gradeUploadOpen && selectedSection && (

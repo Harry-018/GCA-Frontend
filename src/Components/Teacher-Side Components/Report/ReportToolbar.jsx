@@ -28,7 +28,7 @@ const ReportFilters = ({
             value={studentName}
             onChange={(e) => onStudentNameChange(e.target.value)}
             placeholder="Search Students"
-            className="h-9 w-full min-w-0 rounded-xl border border-gray-300 bg-transparent pl-7 pr-2 text-[9px] text-gray-500 outline-none placeholder:text-gray-500 focus:border-parent-green sm:h-8 sm:pl-9 sm:px-3 sm:text-xs md:w-full md:flex-none"
+            className="h-9 w-full min-w-0 rounded-xl border border-gray-300 bg-transparent pl-7 pr-2 text-[9px] text-gray-500 outline-none placeholder:text-gray-500 focus:border-parent-green sm:h-8 sm:pl-9 sm:pr-3 sm:text-xs md:w-full md:flex-none"
           />
         </div>
 

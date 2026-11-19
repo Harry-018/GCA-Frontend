@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,20 @@ import {
 import SectionCard from "../Components/Teacher-Side Components/Dashboard/SectionCard";
 import ReportFilters from "../Components/Teacher-Side Components/Report/ReportToolbar";
 import DataTable from "../Components/DataTable.jsx";
+
+const DESKTOP_QUERY = "(min-width: 1024px)";
+
+const subscribeToDesktop = (onChange) => {
+  if (typeof window === "undefined") return () => {};
+
+  const query = window.matchMedia(DESKTOP_QUERY);
+  query.addEventListener("change", onChange);
+
+  return () => query.removeEventListener("change", onChange);
+};
+
+const getDesktopSnapshot = () =>
+  typeof window !== "undefined" && window.matchMedia(DESKTOP_QUERY).matches;
 
 const MONTH_NAMES = [
   "January",
@@ -65,6 +79,12 @@ const Report = () => {
   const [loadingSections, setLoadingSections] = useState(true);
   const [loadingReport, setLoadingReport] = useState(false);
   const [error, setError] = useState("");
+
+  const isDesktop = useSyncExternalStore(
+    subscribeToDesktop,
+    getDesktopSnapshot,
+    () => false,
+  );
 
   // Fetch the teacher's assigned sections.
   useEffect(() => {
@@ -391,16 +411,19 @@ const Report = () => {
         header: "School ID",
         accessorKey: "stu_num",
         size: 110,
+        meta: { className: "whitespace-nowrap" },
       },
       {
         header: "LRN",
         accessorKey: "lrn",
         size: 110,
+        meta: { className: "whitespace-nowrap" },
       },
       {
         header: "Student Name",
         accessorKey: "full_name",
         size: 200,
+        meta: { className: "min-w-40" },
         cell: (info) => {
           const student = info.row.original;
 
@@ -416,6 +439,7 @@ const Report = () => {
         header: "Present",
         accessorKey: "present_count",
         size: 90,
+        meta: { className: "text-center" },
         cell: ({ row }) => {
           const student = row.original;
           const presentCount = student.present_count ?? 0;
@@ -431,6 +455,7 @@ const Report = () => {
         header: "Absent",
         accessorKey: "absent_count",
         size: 90,
+        meta: { className: "text-center" },
         cell: ({ row }) => {
           const student = row.original;
           const absentCount = student.absent_count ?? 0;
@@ -448,13 +473,14 @@ const Report = () => {
       header: date.slice(8, 10),
       accessorKey: `attendance.${date}`,
       size: 55,
+      meta: { className: "!px-1 text-center sm:!px-4" },
       cell: (info) => {
         const student = info.row.original;
         const status = student.attendance?.[date];
 
         if (status === "present") {
           return (
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-parent-green text-xs font-[PoppinsBold] text-white">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-parent-green text-[10px] font-[PoppinsBold] text-white sm:h-7 sm:w-7 sm:text-xs">
               P
             </span>
           );
@@ -462,7 +488,7 @@ const Report = () => {
 
         if (status === "absent") {
           return (
-            <span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-reject text-xs font-[PoppinsBold] text-white">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-reject text-[10px] font-[PoppinsBold] text-white sm:h-7 sm:w-7 sm:text-xs">
               A
             </span>
           );
@@ -487,7 +513,7 @@ const Report = () => {
   }
 
   return (
-    <div className="min-h-screen cursor-default bg-egg px-3 py-4 font-[Poppins] sm:px-5 sm:py-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
+    <div className="w-full min-w-0 cursor-default bg-egg px-3 py-4 font-[Poppins] sm:px-5 sm:py-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 lg:min-h-0 lg:flex-1">
         <SectionCard
           sections={sections}
@@ -528,24 +554,35 @@ const Report = () => {
             </p>
           </div>
         ) : (
-          <DataTable
-            data={filteredStudents}
-            columns={columns}
-            loading={loadingReport}
-            emptyMessage={
-              error
-                ? "Unable to load attendance report."
-                : "No attendance records found for this month."
-            }
-            getRowId={(student) => student.enrollment_id}
-            stickyColumns={[
-              "stu_num",
-              "lrn",
-              "full_name",
-              "present_count",
-              "absent_count",
-            ]}
-          />
+          <>
+            <p className="text-[10px] text-gray-500 lg:hidden">
+              Swipe the table sideways to see all school days.
+            </p>
+
+            <DataTable
+              data={filteredStudents}
+              columns={columns}
+              loading={loadingReport}
+              emptyMessage={
+                error
+                  ? "Unable to load attendance report."
+                  : "No attendance records found for this month."
+              }
+              getRowId={(student) => student.enrollment_id}
+              minWidth="max-content"
+              stickyColumns={
+                isDesktop
+                  ? [
+                      "stu_num",
+                      "lrn",
+                      "full_name",
+                      "present_count",
+                      "absent_count",
+                    ]
+                  : []
+              }
+            />
+          </>
         )}
       </div>
     </div>

@@ -1,7 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
-import { Loader2 } from "lucide-react";
+import { IdCard, Loader2, UserRound } from "lucide-react";
 
-import { getAssignedSections } from "../requests/teacherRequests.js";
+import {
+  getAssignedSections,
+  getTeacherInfoByUserId,
+} from "../requests/teacherRequests.js";
+import authStore from "../stores/authStore";
 import SectionCard from "../Components/Teacher-Side Components/Dashboard/SectionCard";
 import DataTable from "../Components/DataTable.jsx";
 
@@ -12,9 +16,12 @@ const DashBoard = () => {
   const [students, setStudents] = useState([]);
   const [schoolYear, setSchoolYear] = useState("");
   const [selectedId, setSelectedId] = useState(null);
+  const [teacherProfile, setTeacherProfile] = useState(null);
+  const [teacherProfileError, setTeacherProfileError] = useState("");
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const user = authStore((state) => state.user);
 
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -95,6 +102,37 @@ const DashBoard = () => {
     fetchAssignedSections();
   }, []);
 
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchTeacherProfile = async () => {
+      try {
+        const response = await getTeacherInfoByUserId();
+        const teacher = response?.r;
+
+        if (!teacher) {
+          throw new Error("Teacher information not found.");
+        }
+
+        if (!cancelled) setTeacherProfile(teacher);
+      } catch (error) {
+        console.error("Failed to load teacher dashboard profile:", error);
+
+        if (!cancelled) {
+          setTeacherProfileError(
+            error.message || "Unable to load the teacher ID.",
+          );
+        }
+      }
+    };
+
+    fetchTeacherProfile();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   // Filter students according to the selected section.
   const filteredStudents = useMemo(
     () =>
@@ -167,6 +205,13 @@ const DashBoard = () => {
     return filteredStudents.slice(start, start + pagination.pageSize);
   }, [filteredStudents, pagination.pageIndex, pagination.pageSize]);
 
+  const teacherName =
+    user?.full_name ||
+    [teacherProfile?.first_name, teacherProfile?.last_name]
+      .filter(Boolean)
+      .join(" ") ||
+    "Teacher";
+
   if (loading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
@@ -189,6 +234,48 @@ const DashBoard = () => {
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col bg-egg px-4 py-5 font-[Poppins] sm:px-5 sm:py-6">
       <div className="mx-auto flex min-h-0 h-full w-full max-w-7xl flex-1 flex-col gap-6">
+        <section className="rounded-2xl border border-[#dce9df] bg-linear-to-r from-[#edf5ef] via-[#f5f7f0] to-[#f8f3e9] px-4 py-4 xs:px-5 sm:px-7 sm:py-5">
+          <div className="flex flex-col gap-4 xs:gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 items-center gap-3 xs:gap-3.5">
+              <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white text-parent-green shadow-sm ring-1 ring-parent-green/5 xs:size-11">
+                <UserRound size={21} strokeWidth={1.8} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[9px] font-[PoppinsBold] uppercase tracking-[0.12em] text-parent-accent xs:text-[10px] xs:tracking-[0.16em] sm:text-xs lg:text-sm">
+                  Teacher Dashboard
+                </p>
+                <h1 className="mt-1 break-words text-sm leading-snug font-[PoppinsBold] text-parent-green xs:text-base sm:text-lg lg:text-2xl">
+                  Welcome, {teacherName}!
+                </h1>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 self-start rounded-xl border border-white/80 bg-white/80 px-4 py-3 shadow-sm sm:min-w-48 sm:self-auto">
+              <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-[#edf5ef] text-parent-green">
+                <IdCard size={18} strokeWidth={1.8} />
+              </span>
+              <div className="min-w-0">
+                <p className="text-[10px] font-[PoppinsBold] uppercase tracking-[0.12em] text-gray-500 xs:text-xs xs:tracking-[0.15em]">
+                  Teacher ID
+                </p>
+                <p className="mt-0.5 break-words text-xs font-[PoppinsBold] text-parent-green xs:text-sm">
+                  {user?.teacher_num ||
+                    (teacherProfile
+                      ? teacherProfile.teacher_num || "—"
+                      : teacherProfileError
+                        ? "Unavailable"
+                        : "Loading...")}
+                </p>
+                {teacherProfileError && (
+                  <p role="alert" className="mt-1 break-words text-[10px] text-red-600 xs:text-xs">
+                    {teacherProfileError}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
         <SectionCard
           sections={sections}
           selectedId={selectedId}

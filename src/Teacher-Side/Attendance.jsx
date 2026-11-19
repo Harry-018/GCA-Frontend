@@ -368,7 +368,7 @@ const Attendance = () => {
 
   return (
     <div className="flex min-h-0 w-full flex-1 flex-col bg-egg px-4 py-5 font-[Poppins] sm:px-5 sm:py-6">
-      <div className="mx-auto flex h-full min-h-0 w-full max-w-7xl flex-1 flex-col gap-6">
+      <div className="mx-auto flex h-full min-h-0 w-full max-w-7xl flex-1 flex-col gap-4">
         {/* SECTIONS */}
         <SectionCard
           sections={sections}

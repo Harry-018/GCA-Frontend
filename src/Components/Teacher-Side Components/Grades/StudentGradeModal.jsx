@@ -18,7 +18,7 @@ import {
 import { parseGrade } from "../../../utils/data/Teacher/gradeUpload.js";
 
 const REMARKS_LIMIT = 500;
-const QUARTER_OPTIONS = [1, 2, 3, 4];
+const QUARTER_OPTIONS = [1, 2, 3];
 
 const normalizeId = (value) =>
   String(value ?? "")
@@ -57,7 +57,8 @@ const loadStudentRecords = (student, section) =>
     getBulkGradeRecords().filter(
       (record) =>
         matchesStudent(record, student) &&
-        (!section?.id || String(record.sectionId) === String(section.id)),
+        (!section?.id || String(record.sectionId) === String(section.id)) &&
+        QUARTER_OPTIONS.includes(Number(record.quarter)),
     ),
   );
 
@@ -76,7 +77,7 @@ const StudentGradeModal = ({ student, section, onClose }) => {
   const [selectedQuarter, setSelectedQuarter] = useState(() => {
     const firstQuarter = getQuarters(
       loadStudentRecords(student, section),
-    )[0];
+    ).find((quarter) => QUARTER_OPTIONS.includes(Number(quarter)));
 
     return firstQuarter ? Number(firstQuarter) : 1;
   });
@@ -395,15 +396,15 @@ const StudentGradeModal = ({ student, section, onClose }) => {
                       type="button"
                       onClick={() => setSelectedQuarter(quarter)}
                       aria-pressed={isActive}
-                      className={`flex cursor-pointer items-center gap-1.5 rounded-full px-3 py-1.5 text-2xs font-[PoppinsBold] transition sm:text-xs ${
+                      className={`flex min-w-24 cursor-pointer flex-col items-center gap-1 rounded-xl border px-4 py-2.5 text-xs font-[PoppinsBold] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-parent-green ${
                         isActive
-                          ? "bg-parent-green text-white"
-                          : "border border-parent-accent/20 text-gray-600 hover:bg-parent-pale/40"
+                          ? "border-parent-green bg-parent-green text-white shadow-sm"
+                          : "border-parent-accent/20 bg-bone text-gray-600 hover:border-parent-green/50 hover:bg-parent-pale/30"
                       }`}
                     >
                       Quarter {quarter}
                       <span
-                        className={`rounded-full px-1.5 py-0.5 text-[9px] ${
+                        className={`rounded-full px-2 py-0.5 text-[9px] ${
                           isActive
                             ? "bg-white/20 text-white"
                             : "bg-parent-pale/70 text-parent-green"
@@ -450,86 +451,85 @@ const StudentGradeModal = ({ student, section, onClose }) => {
                       return (
                         <div
                           key={subject}
-                          className="grid gap-2 border-t border-parent-accent/10 px-3 py-3 first:border-t-0 sm:grid-cols-[160px_1fr] sm:gap-4 sm:px-4"
+                          className="border-t border-parent-accent/10 first:border-t-0"
                         >
-                          <div className="flex items-center gap-2 sm:items-start sm:pt-0.5">
-                            <span className="text-[9px] font-[PoppinsBold] uppercase text-gray-500 sm:hidden">
-                              Subject
-                            </span>
+                          <div className="bg-parent-pale/30 px-3 py-2.5 sm:px-4">
                             <p className="text-xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-sm">
                               {subject || "—"}
                             </p>
                           </div>
 
-                          <div className="flex flex-col gap-2">
-                            <div className="hidden grid-cols-[1fr_80px] gap-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-gray-500 sm:grid">
+                          <div className="px-3 py-3 sm:px-4">
+                            <div className="mb-2 hidden grid-cols-[1fr_80px] gap-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-gray-500 sm:grid">
                               <span>Skill</span>
                               <span>Grade</span>
                             </div>
 
-                            {subjectRecords.map((record) => {
-                              const key = recordKey(record);
-                              const draft = gradeDrafts[key] ?? { grade: "" };
-                              const error = gradeErrors[key];
+                            <div className="flex flex-col gap-2">
+                              {subjectRecords.map((record) => {
+                                const key = recordKey(record);
+                                const draft = gradeDrafts[key] ?? { grade: "" };
+                                const error = gradeErrors[key];
 
-                              return (
-                                <div
-                                  key={key}
-                                  className="grid grid-cols-[1fr_80px] items-start gap-3"
-                                >
-                                  <div className="min-w-0">
-                                    <span className="text-[9px] font-[PoppinsBold] uppercase text-gray-500 sm:hidden">
-                                      Skill
-                                    </span>
-                                    <p className="truncate text-xs text-gray-600 sm:text-sm">
-                                      {record.skill || "General"}
-                                    </p>
-                                  </div>
-
-                                  <div className="min-w-0">
-                                    <span className="mb-1 block text-[9px] font-[PoppinsBold] uppercase text-gray-500 sm:hidden">
-                                      Grade
-                                    </span>
-                                    {isEditing ? (
-                                      <>
-                                        <input
-                                          type="text"
-                                          value={draft.grade}
-                                          onChange={(event) =>
-                                            handleGradeChange(
-                                              key,
-                                              event.target.value,
-                                            )
-                                          }
-                                          aria-label={`Grade for ${record.skill || record.subject}`}
-                                          className={`h-9 w-full rounded-lg border bg-transparent px-2.5 text-xs text-gray-700 outline-none sm:w-20 ${
-                                            error
-                                              ? "border-red-400 focus:border-red-500"
-                                              : "border-gray-400 focus:border-parent-green"
-                                          }`}
-                                        />
-                                        {error && (
-                                          <p className="mt-1 text-xs text-red-600">
-                                            {error}
-                                          </p>
-                                        )}
-                                      </>
-                                    ) : (
-                                      <span className="inline-flex min-w-11 justify-center rounded-full bg-parent-green px-3 py-1 text-xs font-[PoppinsBold] text-white">
-                                        {record.grade}
+                                return (
+                                  <div
+                                    key={key}
+                                    className="grid grid-cols-[1fr_80px] items-start gap-3"
+                                  >
+                                    <div className="min-w-0">
+                                      <span className="text-[9px] font-[PoppinsBold] uppercase text-gray-500 sm:hidden">
+                                        Skill
                                       </span>
-                                    )}
+                                      <p className="truncate text-xs text-gray-600 sm:text-sm">
+                                        {record.skill || "General"}
+                                      </p>
+                                    </div>
+
+                                    <div className="min-w-0">
+                                      <span className="mb-1 block text-[9px] font-[PoppinsBold] uppercase text-gray-500 sm:hidden">
+                                        Grade
+                                      </span>
+                                      {isEditing ? (
+                                        <>
+                                          <input
+                                            type="text"
+                                            value={draft.grade}
+                                            onChange={(event) =>
+                                              handleGradeChange(
+                                                key,
+                                                event.target.value,
+                                              )
+                                            }
+                                            aria-label={`Grade for ${record.skill || record.subject}`}
+                                            className={`h-9 w-full rounded-lg border bg-transparent px-2.5 text-xs text-gray-700 outline-none sm:w-20 ${
+                                              error
+                                                ? "border-red-400 focus:border-red-500"
+                                                : "border-gray-400 focus:border-parent-green"
+                                            }`}
+                                          />
+                                          {error && (
+                                            <p className="mt-1 text-xs text-red-600">
+                                              {error}
+                                            </p>
+                                          )}
+                                        </>
+                                      ) : (
+                                        <span className="inline-flex min-w-11 justify-center rounded-full bg-parent-green px-3 py-1 text-xs font-[PoppinsBold] text-white">
+                                          {record.grade}
+                                        </span>
+                                      )}
+                                    </div>
                                   </div>
-                                </div>
-                              );
-                            })}
+                                );
+                              })}
+                            </div>
                           </div>
                         </div>
                       );
                     })}
 
                   <div className="border-t border-parent-accent/10 bg-parent-pale/20 px-4 py-3">
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
                       <label
                         htmlFor={`remarks-${selectedQuarter}`}
                         className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green"

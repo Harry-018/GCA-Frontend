@@ -1,36 +1,101 @@
 import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 
-const ChangePasswordModal = ({
-  fields,
-  initialPasswords,
-  onCancel,
-  onSave,
-}) => {
-  const [passwords, setPasswords] = useState(initialPasswords);
+import {
+  EmailStep,
+  OtpStep,
+  PasswordStep,
+  StepIntro,
+  SuccessStep,
+} from "./PasswordResetSteps";
+import {
+  validateEmail,
+  validatePassword,
+} from "./passwordResetValidation";
 
-  const [visibility, setVisibility] = useState({
-    current: false,
-    new: false,
-    confirm: false,
-  });
+const ChangePasswordModal = ({ email = "", onCancel, onComplete }) => {
+  const [step, setStep] = useState("email");
+  const [emailValue, setEmailValue] = useState(email);
+  const [otp, setOtp] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [visibility, setVisibility] = useState({ new: false, confirm: false });
+  const [error, setError] = useState("");
+  const [message, setMessage] = useState("");
 
-  const handleChange = (field, value) => {
-    setPasswords((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+  const handleSendCode = (event) => {
+    event.preventDefault();
+
+    const validationError = validateEmail(emailValue);
+    if (validationError) {
+      setError(validationError);
+      setMessage("");
+      return;
+    }
+
+    setError("");
+    setMessage("A verification code has been sent to your email.");
+    setStep("otp");
+  };
+
+  const handleVerifyCode = (event) => {
+    event.preventDefault();
+
+    if (otp.length !== 6) {
+      setError("Please enter the 6-digit verification code.");
+      return;
+    }
+
+    setError("");
+    setMessage("Code verified. Please create a new password.");
+    setStep("password");
+  };
+
+  const handleResendCode = () => {
+    setOtp("");
+    setError("");
+    setMessage("A new verification code has been sent to your email.");
+  };
+
+  const handleSavePassword = (event) => {
+    event.preventDefault();
+
+    const validationError = validatePassword(password, confirmPassword);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setError("");
+    setMessage("");
+    setStep("success");
+  };
+
+  const handleDone = () => {
+    onComplete?.();
+    onCancel();
   };
 
   const toggleVisibility = (field) => {
-    setVisibility((prev) => ({
-      ...prev,
-      [field]: !prev[field],
+    setVisibility((previous) => ({
+      ...previous,
+      [field]: !previous[field],
     }));
   };
 
-  const handleSave = () => {
-    onSave(passwords);
+  const stepContent = {
+    email: {
+      title: "Verify your email",
+      description:
+        "Enter your account email address to receive a verification code.",
+    },
+    otp: {
+      title: "Enter verification code",
+      description: "Check your email for the 6-digit verification code.",
+    },
+    password: {
+      title: "Create a new password",
+      description: "Choose a strong password you have not used before.",
+    },
   };
 
   return (
@@ -45,64 +110,98 @@ const ChangePasswordModal = ({
           </p>
         </div>
 
-        <div className="flex flex-col gap-4 py-5">
-          {fields.map((field) => (
-            <div
-              key={field.key}
-              className="flex flex-col gap-1.5"
+        <div className="flex flex-col gap-4 py-4">
+          {step !== "success" && (
+            <StepIntro
+              step={step === "email" ? 1 : step === "otp" ? 2 : 3}
+              totalSteps={3}
+              title={stepContent[step].title}
+              description={stepContent[step].description}
+            />
+          )}
+
+          {step === "email" && (
+            <EmailStep
+              email={emailValue}
+              onChangeEmail={(value) => {
+                setEmailValue(value);
+                setError("");
+              }}
+              onSubmit={handleSendCode}
+              error={error}
+              message={message}
+              submitLabel="SEND CODE"
+            />
+          )}
+
+          {step === "otp" && (
+            <OtpStep
+              email={emailValue}
+              otp={otp}
+              onChangeOtp={(value) => {
+                setOtp(value);
+                setError("");
+              }}
+              onSubmit={handleVerifyCode}
+              onBack={() => {
+                setStep("email");
+                setError("");
+                setMessage("");
+              }}
+              onResend={handleResendCode}
+              error={error}
+              message={message}
+              submitLabel="VERIFY CODE"
+            />
+          )}
+
+          {step === "password" && (
+            <PasswordStep
+              password={password}
+              confirmPassword={confirmPassword}
+              onChangePassword={(value) => {
+                setPassword(value);
+                setError("");
+              }}
+              onChangeConfirmPassword={(value) => {
+                setConfirmPassword(value);
+                setError("");
+              }}
+              visibility={visibility}
+              onToggleVisibility={toggleVisibility}
+              onSubmit={handleSavePassword}
+              onBack={() => {
+                setStep("otp");
+                setError("");
+                setMessage("Enter the verification code sent to your email.");
+              }}
+              error={error}
+              message={message}
+              submitLabel="SAVE PASSWORD"
+            />
+          )}
+
+          {step === "success" && (
+            <SuccessStep
+              title="Password updated"
+              message="Your password has been changed successfully."
+              onDone={handleDone}
+              doneLabel="DONE"
+            />
+          )}
+        </div>
+
+        {step !== "success" && (
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="rounded-full border border-gray-400 px-5 py-1.5 text-2xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
             >
-              <label className="text-[11px] lg:text-xs xl:text-sm text-gray-700">
-                {field.label}
-              </label>
-
-              <div className="relative">
-                <input
-                  type={visibility[field.key] ? "text" : "password"}
-                  value={passwords[field.key]}
-                  placeholder={field.placeholder}
-                  onChange={(e) =>
-                    handleChange(field.key, e.target.value)
-                  }
-                  className="w-full rounded-lg border border-gray-300 bg-transparent px-3 py-2.5 pr-10 text-[11px] lg:text-xs xl:text-sm text-gray-600 outline-none placeholder:text-gray-400 focus:border-parent-accent"
-                />
-
-                {field.key !== "current" && (
-                  <button
-                    type="button"
-                    onClick={() => toggleVisibility(field.key)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 p-2 -mr-2 text-gray-400"
-                  >
-                    {visibility[field.key] ? (
-                      <Eye size={14} />
-                    ) : (
-                      <EyeOff size={14} />
-                    )}
-                  </button>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Buttons */}
-        <div className="flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={onCancel}
-            className="rounded-full border border-gray-400 px-5 py-1.5 text-2xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
-          >
-            CANCEL
-          </button>
-
-          <button
-            type="button"
-            onClick={handleSave}
-            className="rounded-full bg-linear-to-r from-[#1c3a28] to-parent-accent px-6 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:from-[#0f2419] hover:to-parent-accent"
-          >
-            SAVE
-          </button>
-        </div>
-
+              CANCEL
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

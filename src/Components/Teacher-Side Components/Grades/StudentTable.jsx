@@ -2,111 +2,62 @@ import React from "react";
 
 const StudentTable = ({ students, columns, onViewClick }) => {
   return (
-    <div className="rounded-3xl border border-parent-green/10 bg-bone p-2 shadow-sm sm:p-4 md:p-6 lg:flex lg:min-h-0 lg:flex-1 lg:flex-col">
-      <div className="flex flex-col gap-2 lg:min-h-0 lg:flex-1">
-        {/* Mobile & Tablet: Sticky scroll */}
-        <div className="no-scrollbar overflow-x-auto lg:hidden">
-          <div className="min-w-125">
-            <div className="grid grid-cols-[minmax(100px,1.2fr)_1fr_0.8fr_0.7fr] items-center gap-0">
-              <div className="sticky left-0 z-10 bg-bone py-3 pl-3 sm:pl-4">
-                <span className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
-                  ID & Student
-                </span>
-              </div>
-
-              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
-                LRN
-              </span>
-
-              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
-                Gender
-              </span>
-
-              <span className="px-1 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-xs">
-                Actions
-              </span>
-            </div>
-
-            <div className="flex flex-col gap-2">
-              {students.map((student) => (
-                <div
-                  key={student.schoolId}
-                  className="grid grid-cols-[minmax(100px,1.2fr)_1fr_0.8fr_0.7fr] items-center gap-0 border-t border-gray-100 transition-colors duration-200 hover:bg-parent-pale/30"
-                >
-                  <div className="sticky left-0 z-10 min-w-0 bg-bone py-3 pl-3 sm:pl-4">
-                    <p className="min-w-0 truncate text-2xs text-gray-500 sm:text-xs">
-                      {student.schoolId}
-                    </p>
-                    <p className="min-w-0 truncate text-2xs font-[Poppins] text-gray-600 sm:text-xs">
-                      {student.name}
-                    </p>
-                  </div>
-
-                  <span className="min-w-0 truncate px-1 py-3 text-2xs text-slate-600 sm:text-xs">
-                    {student.lrn}
-                  </span>
-
-                  <span className="min-w-0 truncate px-1 py-3 text-2xs text-slate-600 sm:text-xs">
-                    {student.gender}
-                  </span>
-
-                  <div className="flex justify-start py-3 -ml-1">
-                    <button
-                      type="button"
-                      onClick={() => onViewClick(student)}
-                      className="cursor-pointer rounded-full bg-parent-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:bg-parent-accent sm:px-5 sm:py-2 sm:text-xs"
-                    >
-                      View
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Desktop: Normal table */}
-        <div className="hidden lg:block">
-          <div className="no-scrollbar min-h-0 flex-1 overflow-auto">
-            <div>
-              <div
-                className="grid items-center gap-2 rounded-xl bg-parent-pale/60 px-5 py-3 text-left text-xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:gap-3 xl:gap-4 xl:px-6"
-                style={{ gridTemplateColumns: `1.2fr 1.5fr 2fr 1fr 1.2fr` }}
+    <div className="flex w-full min-w-0 flex-col overflow-auto rounded-2xl border border-parent-green/10 bg-bone shadow-sm lg:min-h-0 lg:flex-1">
+      <table className="w-full min-w-160 text-left text-sm">
+        <thead className="sticky top-0 z-10 bg-bone">
+          <tr className="border-b border-gray-200">
+            {columns.map((column) => (
+              <th
+                key={column.key}
+                className="px-3 py-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-gray-700 sm:px-4 sm:text-xs"
               >
-                {columns.map((col) => (
-                  <span key={col.key}>{col.label}</span>
-                ))}
-              </div>
+                {column.label}
+              </th>
+            ))}
+          </tr>
+        </thead>
 
-              <div className="flex flex-col gap-1">
-                {students.map((student) => (
-                  <div
-                    key={student.schoolId}
-                    className="grid items-center gap-2 rounded-xl border-b border-gray-200 bg-bone px-5 py-2.5 text-left text-xs text-slate-600 transition-colors duration-200 last:border-b-0 hover:bg-parent-pale/30 sm:gap-3 xl:gap-4 xl:px-6"
-                    style={{ gridTemplateColumns: `1.2fr 1.5fr 2fr 1fr 1.2fr` }}
+        <tbody>
+          {students.length === 0 ? (
+            <tr>
+              <td
+                colSpan={columns.length}
+                className="px-4 py-10 text-center text-sm text-gray-500"
+              >
+                No students found.
+              </td>
+            </tr>
+          ) : (
+            students.map((student) => (
+              <tr
+                key={student.schoolId}
+                className="border-b border-gray-100 transition-colors duration-200 last:border-0 hover:bg-parent-pale/30"
+              >
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    className="px-3 py-2.5 text-xs text-gray-700 sm:px-4 sm:text-sm"
                   >
-                    {columns.map((col) => (
-                      <span key={col.key} className="min-w-0 truncate">
-                        {col.key === "actions" ? (
-                          <button
-                            type="button"
-                            onClick={() => onViewClick(student)}
-                            className="cursor-pointer rounded-full bg-parent-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
-                          >
-                            View
-                          </button>
-                        ) : (
-                          student[col.key]
-                        )}
+                    {column.key === "actions" ? (
+                      <button
+                        type="button"
+                        onClick={() => onViewClick(student)}
+                        className="cursor-pointer rounded-full bg-parent-green px-4 py-1.5 text-2xs font-[PoppinsBold] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
+                      >
+                        View
+                      </button>
+                    ) : (
+                      <span className="block break-words">
+                        {student[column.key] ?? "—"}
                       </span>
-                    ))}
-                  </div>
+                    )}
+                  </td>
                 ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
