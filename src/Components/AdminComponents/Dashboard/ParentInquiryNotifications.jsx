@@ -1,7 +1,11 @@
 import { Check, ChevronLeft, MessageCircle, X } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { useParentInquiry } from "../../ParentInquiryProvider.jsx";
+import {
+  getInquiries,
+  markInquiryToRead,
+  replyToInquiry,
+} from "../../../requests/guestInquiryRequest.js";
 
 const MAX_VISIBLE_INQUIRIES = 5;
 
@@ -19,6 +23,17 @@ const formatSubmittedAt = (value) => {
   });
 };
 
+const normalizeInquiry = (inquiry) => ({
+  id: inquiry.inquire_id,
+  name: inquiry.name,
+  email: inquiry.email,
+  question: inquiry.question,
+  submittedAt: inquiry.date_submitted,
+  isRead: Boolean(inquiry.is_read),
+  answer: inquiry.answer || "",
+  adminName: inquiry.admin_name || "",
+});
+
 const ParentInquiryDetailModal = ({
   inquiry,
   onClose,
@@ -28,7 +43,7 @@ const ParentInquiryDetailModal = ({
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [status, setStatus] = useState("");
-  const replies = inquiry.replies || [];
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -46,17 +61,22 @@ const ParentInquiryDetailModal = ({
     };
   }, [onClose]);
 
-  const handleMarkRead = () => {
-    if (!onMarkAsRead(inquiry.id)) {
-      setError("Unable to update inquiry status on this device.");
+  const handleMarkRead = async () => {
+    setError("");
+
+    const saved = await onMarkAsRead(inquiry.id);
+
+    if (!saved) {
+      setError("Unable to update inquiry status. Please try again.");
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const trimmedMessage = message.trim();
 
+    setError("");
     setStatus("");
 
     if (!trimmedMessage) {
@@ -64,14 +84,19 @@ const ParentInquiryDetailModal = ({
       return;
     }
 
-    if (!onSendReply(inquiry.id, trimmedMessage)) {
-      setError("Unable to save your message. Please try again.");
+    setIsSending(true);
+
+    const sent = await onSendReply(inquiry.id, trimmedMessage);
+
+    setIsSending(false);
+
+    if (!sent) {
+      setError("Unable to send your message. Please try again.");
       return;
     }
 
     setMessage("");
-    setError("");
-    setStatus("Message saved.");
+    setStatus("Reply sent.");
   };
 
   return (
@@ -132,26 +157,20 @@ const ParentInquiryDetailModal = ({
             {inquiry.question}
           </div>
 
-          {replies.length > 0 && (
+          {inquiry.answer && (
             <div className="mt-4 flex flex-col gap-2">
               <p className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-gray-500">
-                Your messages
+                School response
               </p>
 
-              {replies.map((reply) => (
-                <div
-                  key={reply.id}
-                  className="ml-6 rounded-xl bg-parent-pale/70 p-3 text-sm leading-relaxed text-egg-dark"
-                >
-                  <p className="whitespace-pre-wrap">{reply.message}</p>
-                  <time
-                    dateTime={reply.sentAt}
-                    className="mt-1 block text-[11px] text-gray-500"
-                  >
-                    {formatSubmittedAt(reply.sentAt)}
-                  </time>
-                </div>
-              ))}
+              <div className="ml-6 rounded-xl bg-parent-pale/70 p-3 text-sm leading-relaxed text-egg-dark">
+                <p className="whitespace-pre-wrap">{inquiry.answer}</p>
+                {inquiry.adminName && (
+                  <p className="mt-1 text-[11px] text-gray-500">
+                    — {inquiry.adminName}
+                  </p>
+                )}
+              </div>
             </div>
           )}
         </div>
@@ -214,9 +233,10 @@ const ParentInquiryDetailModal = ({
               </button>
               <button
                 type="submit"
-                className="rounded-full bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
+                disabled={isSending}
+                className="rounded-full bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-60"
               >
-                Send Message
+                {isSending ? "Sending..." : "Send Message"}
               </button>
             </div>
           </div>
@@ -227,13 +247,75 @@ const ParentInquiryDetailModal = ({
 };
 
 const ParentInquiryNotifications = () => {
-  const { inquiries, unreadInquiryCount, markInquiryAsRead, addInquiryReply } =
-    useParentInquiry();
+  const [inquiries, setInquiries] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [pagination, setPagination] = useState({
+    hasMore: false,
+    nextPage: null,
+  });
   const [isOpen, setIsOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
   const [selectedInquiryId, setSelectedInquiryId] = useState(null);
-  const [storageError, setStorageError] = useState("");
   const containerRef = useRef(null);
+
+  const fetchInquiries = useCallback(async (page = 1, append = false) => {
+    try {
+      const response = await getInquiries(page);
+      const fetchedInquiries = Array.isArray(response?.data)
+        ? response.data.map(normalizeInquiry)
+        : [];
+
+      setInquiries((current) =>
+        append ? [...current, ...fetchedInquiries] : fetchedInquiries,
+      );
+      setPagination({
+        hasMore: Boolean(response?.pagination?.hasMore),
+        nextPage: response?.pagination?.nextPage ?? null,
+      });
+    } catch (fetchError) {
+      setError(
+        fetchError.response?.data?.message ||
+          "Failed to load parent inquiries.",
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    getInquiries()
+      .then((response) => {
+        if (!isMounted) return;
+
+        setInquiries(
+          Array.isArray(response?.data)
+            ? response.data.map(normalizeInquiry)
+            : [],
+        );
+        setPagination({
+          hasMore: Boolean(response?.pagination?.hasMore),
+          nextPage: response?.pagination?.nextPage ?? null,
+        });
+      })
+      .catch((fetchError) => {
+        if (!isMounted) return;
+
+        setError(
+          fetchError.response?.data?.message ||
+            "Failed to load parent inquiries.",
+        );
+      })
+      .finally(() => {
+        if (isMounted) setIsLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     const closeOnOutsideClick = (event) => {
@@ -257,6 +339,7 @@ const ParentInquiryNotifications = () => {
     };
   }, []);
 
+  const unreadInquiryCount = inquiries.filter((inquiry) => !inquiry.isRead).length;
   const sortedInquiries = [...inquiries].sort(
     (first, second) =>
       new Date(second.submittedAt).getTime() -
@@ -270,17 +353,68 @@ const ParentInquiryNotifications = () => {
     : sortedInquiries.slice(0, MAX_VISIBLE_INQUIRIES);
 
   const toggleDropdown = () => {
-    setIsOpen((current) => !current);
+    const opening = !isOpen;
+
+    setIsOpen(opening);
     setSelectedInquiryId(null);
-    setStorageError("");
+    setError("");
+
+    if (opening) {
+      setIsLoading(true);
+      fetchInquiries();
+    }
   };
 
-  const handleMarkAsRead = (inquiryId) => {
-    const saved = markInquiryAsRead(inquiryId);
+  const handleMarkAsRead = async (inquiryId) => {
+    setError("");
 
-    setStorageError(
-      saved ? "" : "Unable to update inquiry status on this device.",
-    );
+    try {
+      await markInquiryToRead(inquiryId);
+
+      setInquiries((current) =>
+        current.map((inquiry) =>
+          inquiry.id === inquiryId ? { ...inquiry, isRead: true } : inquiry,
+        ),
+      );
+
+      return true;
+    } catch (markError) {
+      setError(
+        markError.response?.data?.message ||
+          "Unable to update inquiry status. Please try again.",
+      );
+
+      return false;
+    }
+  };
+
+  const handleSendReply = async (inquiryId, answer) => {
+    setError("");
+
+    try {
+      const response = await replyToInquiry(inquiryId, { answer });
+
+      setInquiries((current) =>
+        current.map((inquiry) =>
+          inquiry.id === inquiryId
+            ? {
+                ...inquiry,
+                answer: response?.data?.answer ?? answer,
+                isRead: true,
+              }
+            : inquiry,
+        ),
+      );
+
+      return true;
+    } catch (replyError) {
+      setError(
+        replyError.response?.data?.message ||
+          "Unable to send your message. Please try again.",
+      );
+
+      return false;
+    }
   };
 
   const closeSelectedInquiry = useCallback(() => {
@@ -333,9 +467,9 @@ const ParentInquiryNotifications = () => {
             </button>
           </div>
 
-          {storageError && (
+          {error && (
             <p role="alert" className="px-4 pt-3 text-xs text-reject">
-              {storageError}
+              {error}
             </p>
           )}
 
@@ -394,7 +528,9 @@ const ParentInquiryNotifications = () => {
               <div className="max-h-[min(70vh,32rem)] overflow-y-auto">
                 {visibleInquiries.length === 0 ? (
                   <p className="px-4 py-8 text-center text-sm text-gray-500">
-                    No parent inquiries yet.
+                    {isLoading
+                      ? "Loading parent inquiries..."
+                      : "No parent inquiries yet."}
                   </p>
                 ) : (
                   visibleInquiries.map((inquiry) => (
@@ -458,6 +594,20 @@ const ParentInquiryNotifications = () => {
                   {showAll ? "Show latest inquiries" : "View all parent inquiries"}
                 </button>
               )}
+
+              {pagination.hasMore && (
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => {
+                    setIsLoading(true);
+                    fetchInquiries(pagination.nextPage, true);
+                  }}
+                  className="w-full border-t border-parent-accent/15 px-4 py-3 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale/30 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {isLoading ? "Loading..." : "Load more inquiries"}
+                </button>
+              )}
             </>
           )}
         </section>
@@ -468,8 +618,8 @@ const ParentInquiryNotifications = () => {
         <ParentInquiryDetailModal
           inquiry={selectedInquiry}
           onClose={closeSelectedInquiry}
-          onMarkAsRead={markInquiryAsRead}
-          onSendReply={addInquiryReply}
+          onMarkAsRead={handleMarkAsRead}
+          onSendReply={handleSendReply}
         />
       )}
     </>

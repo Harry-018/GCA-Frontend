@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
 
-const DEFAULT_EMAIL = "grace.cslife@gmail.com";
+import { createInquiry } from "../../requests/guestInquiryRequest.js";
 
-const ParentInquiryModal = ({ isOpen, onClose, onSubmitInquiry }) => {
+const ParentInquiryModal = ({ isOpen, onClose }) => {
   const [form, setForm] = useState({ name: "", email: "", question: "" });
-  const [status, setStatus] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (!isOpen) return undefined;
@@ -26,11 +28,15 @@ const ParentInquiryModal = ({ isOpen, onClose, onSubmitInquiry }) => {
   }, [isOpen, onClose]);
 
   const updateField = (event) => {
-    setForm((current) => ({ ...current, [event.target.name]: event.target.value }));
-    setStatus("");
+    setForm((current) => ({
+      ...current,
+      [event.target.name]: event.target.value,
+    }));
+    setError("");
+    setSuccess("");
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const inquiry = {
@@ -40,28 +46,29 @@ const ParentInquiryModal = ({ isOpen, onClose, onSubmitInquiry }) => {
     };
 
     if (!inquiry.name || !inquiry.email || !inquiry.question) {
-      setStatus("Please complete all fields before submitting.");
+      setError("Please complete all fields before submitting.");
       return;
     }
 
-    if (!onSubmitInquiry(inquiry)) {
-      setStatus("Unable to save your inquiry on this device. Please try again.");
-      return;
+    setError("");
+    setSuccess("");
+    setIsSubmitting(true);
+
+    try {
+      const response = await createInquiry(inquiry);
+
+      setSuccess(
+        response?.message || "Your inquiry has been submitted successfully.",
+      );
+      setForm({ name: "", email: "", question: "" });
+    } catch (submitError) {
+      setError(
+        submitError.response?.data?.message ||
+          "Unable to submit your inquiry. Please try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const subject = `Parent inquiry from ${inquiry.name}`;
-    const body = [
-      `Name: ${inquiry.name}`,
-      `Email: ${inquiry.email}`,
-      "",
-      "Question or inquiry:",
-      inquiry.question,
-    ].join("\n");
-
-    setStatus(
-      "Your inquiry has been saved on this device. Your email app should open with a draft if you also want to email the school.",
-    );
-    window.location.href = `mailto:${DEFAULT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   };
 
   if (!isOpen) return null;
@@ -161,9 +168,14 @@ const ParentInquiryModal = ({ isOpen, onClose, onSubmitInquiry }) => {
             />
           </div>
 
-          {status && (
+          {error && (
+            <p role="alert" className="text-sm text-reject">
+              {error}
+            </p>
+          )}
+          {success && (
             <p role="status" className="text-sm text-swamp-green">
-              {status}
+              {success}
             </p>
           )}
 
@@ -177,9 +189,10 @@ const ParentInquiryModal = ({ isOpen, onClose, onSubmitInquiry }) => {
             </button>
             <button
               type="submit"
-              className="rounded-full bg-parent-green px-5 py-2.5 text-sm font-[PoppinsBold] text-white transition-colors hover:bg-parent-green/90"
+              disabled={isSubmitting}
+              className="rounded-full bg-parent-green px-5 py-2.5 text-sm font-[PoppinsBold] text-white transition-colors hover:bg-parent-green/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              Send Inquiry
+              {isSubmitting ? "Sending..." : "Send Inquiry"}
             </button>
           </div>
         </form>

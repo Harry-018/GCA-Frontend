@@ -206,7 +206,6 @@ const ParentInquiryProvider = ({ children }) => {
       <ParentInquiryModal
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        onSubmitInquiry={addInquiry}
       />
     </ParentInquiryContext.Provider>
   );
