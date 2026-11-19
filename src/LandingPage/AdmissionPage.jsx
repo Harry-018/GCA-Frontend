@@ -17,14 +17,14 @@ const AdmissionPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex min-h-dvh w-full flex-col">
       <LoginHeader onMenuToggle={() => setSidebarOpen(true)} />
 
       <HomeSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex w-full flex-col overflow-x-hidden">
-        <div className="flex w-full flex-col bg-egg px-3 pt-3 pb-10 font-[Poppins] text-egg-dark sm:px-5 sm:pt-5 sm:pb-12 lg:px-6 lg:pt-5 lg:pb-14">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 sm:gap-10">
+      <div className="flex w-full flex-1 flex-col overflow-x-hidden">
+        <div className="flex w-full flex-1 flex-col bg-egg px-3 pt-3 pb-10 font-[Poppins] text-egg-dark sm:px-5 sm:pb-12 lg:px-6 lg:pb-14">
+          <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 sm:gap-10">
             <AdmissionBanner />
 
             <div className="flex flex-col gap-3">

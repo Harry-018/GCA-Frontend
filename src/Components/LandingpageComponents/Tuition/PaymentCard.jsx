@@ -2,48 +2,48 @@ import React from "react";
 
 const PaymentCard = ({ title, discount, total, installment, dueDate }) => {
   return (
-    <div className="relative flex min-h-37 flex-col justify-between overflow-hidden rounded-2xl bg-linear-to-br from-forest-green via-parent-green to-parent-accent px-4 py-4 font-[Poppins] text-bone shadow-[0_6px_16px_rgba(19,50,21,0.22)] sm:px-5">
-      <div className="pointer-events-none absolute -right-8 -top-10 h-28 w-28 rounded-full bg-parent-mint/20 blur-2xl" />
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-parent-mint via-lime-green to-transparent" />
+    <div className="relative flex min-h-55 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone p-4 font-[Poppins] shadow-sm sm:min-h-60 sm:p-5">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-parent-green via-parent-accent to-lime-green" />
 
-      <h3 className="relative font-[PoppinsBold] text-xs sm:text-sm">
-        {title}
-      </h3>
-
-      <div className="relative grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-0">
-        <div className="flex flex-col gap-y-1">
-          <span className="text-2xs text-parent-mint/80">Total</span>
-
-          <span className="font-[PoppinsBold] text-sm text-white sm:text-base">
-            {total}
+      <div className="flex flex-col gap-y-4">
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <h3 className="font-[PoppinsBold] text-sm text-parent-green sm:text-base">
+            {title}
+          </h3>
+          <span className="rounded-full bg-parent-pale px-3 py-1 text-2xs font-[PoppinsBold] text-parent-green">
+            Payment plan
           </span>
         </div>
 
-        <div className="flex flex-col gap-y-3">
-          <div className="flex flex-col gap-y-1">
-            <span className="text-2xs text-parent-mint/80">Discount</span>
+        <div className="rounded-xl bg-parent-pale/60 px-4 py-3">
+          <span className="text-2xs text-neutral-500">Total</span>
+          <p className="mt-1 font-[PoppinsBold] text-base text-parent-green sm:text-lg">
+            {total}
+          </p>
+        </div>
 
-            <span className="font-[PoppinsBold] text-xs wrap-break-word text-parent-mint">
+        <div className="grid grid-cols-2 gap-3">
+          <div className="flex flex-col gap-y-1">
+            <span className="text-2xs text-neutral-500">Discount</span>
+            <span className="font-[PoppinsBold] text-xs wrap-break-word text-parent-accent">
               {discount}
             </span>
           </div>
 
           <div className="flex flex-col gap-y-1">
-            <span className="text-2xs text-parent-mint/80">
+            <span className="text-2xs text-neutral-500">
               Monthly Installment
             </span>
-
-            <span className="font-[PoppinsBold] text-xs wrap-break-word">
+            <span className="font-[PoppinsBold] text-xs wrap-break-word text-parent-green">
               {installment}
             </span>
           </div>
         </div>
       </div>
 
-      <div className="relative mt-3 flex flex-col gap-y-1 border-t border-bone/15 pt-3">
-        <span className="text-2xs text-parent-mint/80">Due Date</span>
-
-        <span className="font-[PoppinsBold] text-2xs wrap-break-word text-bone/90">
+      <div className="mt-auto flex flex-col gap-y-1 border-t border-parent-accent/15 pt-3">
+        <span className="text-2xs text-neutral-500">Due Date</span>
+        <span className="font-[PoppinsBold] text-2xs wrap-break-word text-parent-green">
           {dueDate}
         </span>
       </div>

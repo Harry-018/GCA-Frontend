@@ -29,8 +29,8 @@ const TuitionFees = ({
       </div>
 
       {/* Main Content */}
-      <div className="grid w-full grid-cols-1 gap-5 lg:grid-cols-2">
-        <div className="relative flex flex-col gap-y-5 overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-bone to-parent-pale/50 p-4 shadow-md sm:p-5">
+      <div className="grid w-full grid-cols-1 items-stretch gap-5 lg:grid-cols-2">
+        <div className="relative flex h-full flex-col gap-y-5 overflow-hidden rounded-2xl border border-parent-accent/15 bg-linear-to-br from-bone via-bone to-parent-pale/50 p-4 shadow-md sm:p-5">
           <div className="pointer-events-none absolute inset-x-0 top-0 h-1 bg-linear-to-r from-parent-green via-parent-accent to-lime-green" />
 
           <div className="flex items-start justify-between gap-3">
@@ -96,18 +96,8 @@ const TuitionFees = ({
           </div>
         </div>
 
-        {/* Payment Options */}
-        <div className="flex flex-col gap-y-5">
-          <div>
-            <p className="mb-1 text-2xs font-[PoppinsBold] uppercase tracking-[0.18em] text-parent-accent">
-              Choose a plan
-            </p>
-            <h2 className="text-start font-[PoppinsBold] text-base text-parent-green sm:text-xl">
-              PAYMENT OPTIONS
-            </h2>
-          </div>
-
-          <div className="flex flex-col gap-y-2">
+        <div className="flex h-full flex-col">
+          <div className="flex flex-1 flex-col gap-y-3">
             {paymentOptions.map((option) => (
               <PaymentCard
                 key={option.title}

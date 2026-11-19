@@ -241,10 +241,10 @@ const DashBoard = () => {
                 <UserRound size={21} strokeWidth={1.8} />
               </span>
               <div className="min-w-0">
-                <p className="text-[9px] font-[PoppinsBold] uppercase tracking-[0.12em] text-parent-accent xs:text-[10px] xs:tracking-[0.16em] sm:text-xs lg:text-sm">
+                <p className="text-[9px] font-[PoppinsBold] uppercase tracking-[0.12em] text-parent-accent xs:text-xs xs:tracking-[0.16em] sm:text-xs lg:text-sm">
                   Teacher Dashboard
                 </p>
-                <h1 className="mt-1 break-words text-sm leading-snug font-[PoppinsBold] text-parent-green xs:text-base sm:text-lg lg:text-2xl">
+                <h1 className="mt-1 wrap-break-word    text-sm leading-snug font-[PoppinsBold] text-parent-green xs:text-base sm:text-lg lg:text-2xl">
                   Welcome, {teacherName}!
                 </h1>
               </div>
@@ -255,10 +255,10 @@ const DashBoard = () => {
                 <IdCard size={18} strokeWidth={1.8} />
               </span>
               <div className="min-w-0">
-                <p className="text-[10px] font-[PoppinsBold] uppercase tracking-[0.12em] text-gray-500 xs:text-xs xs:tracking-[0.15em]">
+                <p className="text-xs font-[PoppinsBold] uppercase tracking-[0.12em] text-gray-500 xs:text-xs xs:tracking-[0.15em]">
                   Teacher ID
                 </p>
-                <p className="mt-0.5 break-words text-xs font-[PoppinsBold] text-parent-green xs:text-sm">
+                <p className="mt-0.5 wrap-break-word text-xs font-[PoppinsBold] text-parent-green xs:text-sm">
                   {user?.teacher_num ||
                     (teacherProfile
                       ? teacherProfile.teacher_num || "—"
@@ -267,7 +267,7 @@ const DashBoard = () => {
                         : "Loading...")}
                 </p>
                 {teacherProfileError && (
-                  <p role="alert" className="mt-1 break-words text-[10px] text-red-600 xs:text-xs">
+                  <p role="alert" className="mt-1 wrap-break-word text-xs text-red-600 xs:text-xs">
                     {teacherProfileError}
                   </p>
                 )}

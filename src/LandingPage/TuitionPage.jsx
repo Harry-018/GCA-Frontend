@@ -14,7 +14,7 @@ import {
 const BANNER_PROPS = {
   title: "TUITION FEES",
   description:
-    "The tuition fees listed above represent the basic breakdown only. Actual costs may vary per student depending on any additional services or miscellaneous fees applied during enrollment.",
+    "The tuition fees listed above represent the basic breakdown of the school's standard charges for each grade level. However, the total amount may vary depending on the student's selected payment option, additional services, and other applicable miscellaneous fees during enrollment. Parents and guardians are encouraged to review the complete assessment of fees provided by the school administration to ensure they are fully informed of the total amount payable. For further clarification regarding tuition costs, payment arrangements, or additional charges, please feel free to contact the school office for assistance.",
   backgroundImage: "/image/t1.webp",
 };
 
@@ -157,12 +157,12 @@ const TuitionPage = () => {
       };
 
   // Convert the backend payment options to the existing component format.
-  const paymentOptions = tuitionData.map((option) => {
+  const paymentOptions = tuitionData.map((option, index) => {
     const discount = Number(option.discount || 0);
 
     return {
       ...option,
-      title: option.option_name,
+      title: `Payment Option ${index + 1}: ${option.option_name}`,
       discount: discount > 0 ? formatCurrency(discount) : "No Discount",
       total: `${formatCurrency(Math.max(0, subtotalBoys - discount))} - ${formatCurrency(Math.max(0, subtotalGirls - discount))}`,
       installment:
@@ -179,14 +179,14 @@ const TuitionPage = () => {
   );
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="flex min-h-dvh w-full flex-col">
       <LoginHeader onMenuToggle={() => setSidebarOpen(true)} />
 
       <HomeSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex w-full flex-col overflow-x-hidden">
-        <div className="flex w-full flex-1 flex-col bg-egg px-3 pt-4 pb-10 font-[Poppins] text-egg-dark sm:px-5 sm:pt-6 sm:pb-12 lg:px-6 lg:pt-7 lg:pb-14">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-8 sm:gap-10">
+      <div className="flex w-full flex-1 flex-col overflow-x-hidden">
+        <div className="flex w-full flex-1 flex-col bg-egg px-3 pt-3 pb-10 font-[Poppins] text-egg-dark sm:px-5 sm:pb-12 lg:px-6 lg:pb-14">
+          <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 sm:gap-10">
             <TuitionBanner
               title={BANNER_PROPS.title}
               description={BANNER_PROPS.description}
