@@ -1,8 +1,10 @@
 const HymnSection = ({ title, videoSrc }) => {
+  const correctedTitle = title?.replace(/\bHYMM\b/gi, "HYMN");
+
   return (
     <div className="flex w-full flex-col items-center px-5 py-8">
       <h2 className="text-center font-[SuperJoyful] text-lg leading-tight text-parent-green uppercase sm:text-xl md:text-4xl">
-        {title}
+        {correctedTitle}
       </h2>
 
       <div className="w-full max-w-7xl py-8">

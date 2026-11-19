@@ -117,14 +117,14 @@ const TransportationPage = () => {
   ];
 
   return (
-    <div className="flex h-full w-full flex-col">
+    <div className="flex min-h-dvh w-full flex-col">
       <LoginHeader onMenuToggle={() => setSidebarOpen(true)} />
 
       <HomeSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex w-full flex-col overflow-x-hidden">
-        <div className="flex w-full flex-col bg-egg px-3 pt-3 pb-10 font-[Poppins] text-white sm:px-5 sm:pt-5 sm:pb-12 lg:px-6 lg:pt-5 lg:pb-14">
-          <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 sm:gap-8">
+      <div className="flex w-full flex-1 flex-col overflow-x-hidden">
+        <div className="flex w-full flex-1 flex-col bg-egg px-3 pt-3 pb-10 font-[Poppins] text-egg-dark sm:px-5 sm:pb-12 lg:px-6 lg:pb-14">
+          <div className="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-8 sm:gap-10">
             <TransportationBanner />
 
             <section className="grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -155,9 +155,9 @@ const TransportationPage = () => {
 
             <section className="flex flex-col gap-y-8">
               <div className="flex items-center gap-3">
-                <Bus className="h-5 w-5 text-swamp-green" />
+                <Bus className="h-5 w-5 text-lime-green" />
 
-                <h2 className="font-[PoppinsBold] uppercase text-xl text-swamp-green">
+                <h2 className="font-[PoppinsBold] uppercase text-xl text-parent-green">
                   Locations Available
                 </h2>
               </div>
