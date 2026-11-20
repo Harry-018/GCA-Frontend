@@ -11,6 +11,11 @@ import {
   validateEmail,
   validatePassword,
 } from "./passwordResetValidation";
+import {
+  sendPasswordResetCode,
+  verifyPasswordResetCode,
+  resetPassword,
+} from "../../requests/forgotPasswordRequests.js";
 
 const ChangePasswordModal = ({ email = "", onCancel, onComplete }) => {
   const [step, setStep] = useState("email");
@@ -21,9 +26,16 @@ const ChangePasswordModal = ({ email = "", onCancel, onComplete }) => {
   const [visibility, setVisibility] = useState({ new: false, confirm: false });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [verificationId, setVerificationId] = useState(null);
+  const [resetToken, setResetToken] = useState(null);
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSendCode = (event) => {
+  const getErrorMessage = (err, fallback) =>
+    err?.response?.data?.message || err?.message || fallback;
+
+  const handleSendCode = async (event) => {
     event.preventDefault();
+    if (submitting) return;
 
     const validationError = validateEmail(emailValue);
     if (validationError) {
@@ -32,32 +44,118 @@ const ChangePasswordModal = ({ email = "", onCancel, onComplete }) => {
       return;
     }
 
+    setSubmitting(true);
     setError("");
-    setMessage("A verification code has been sent to your email.");
-    setStep("otp");
+    setMessage("");
+
+    try {
+      const response = await sendPasswordResetCode(emailValue.trim());
+      const nextVerificationId = response?.data?.verification_id;
+
+      if (nextVerificationId == null) {
+        throw new Error("Unable to start the password reset. Please try again.");
+      }
+
+      setVerificationId(nextVerificationId);
+      setResetToken(null);
+      setMessage(
+        response?.message ||
+          "A verification code has been sent to your email.",
+      );
+      setStep("otp");
+    } catch (err) {
+      console.error("Failed to send password reset code:", err);
+      setError(
+        getErrorMessage(err, "Failed to send verification code. Please try again."),
+      );
+      setMessage("");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleVerifyCode = (event) => {
+  const handleVerifyCode = async (event) => {
     event.preventDefault();
+    if (submitting) return;
 
     if (otp.length !== 6) {
       setError("Please enter the 6-digit verification code.");
       return;
     }
 
+    if (!verificationId) {
+      setError("Please request a verification code again.");
+      setStep("email");
+      return;
+    }
+
+    setSubmitting(true);
     setError("");
-    setMessage("Code verified. Please create a new password.");
-    setStep("password");
+    setMessage("");
+
+    try {
+      const response = await verifyPasswordResetCode(verificationId, otp);
+      const token = response?.data?.reset_token;
+
+      if (!token) {
+        throw new Error("Unable to verify the code. Please try again.");
+      }
+
+      setResetToken(token);
+      setMessage(
+        response?.message || "Code verified. Please create a new password.",
+      );
+      setStep("password");
+    } catch (err) {
+      console.error("Failed to verify password reset code:", err);
+      setError(getErrorMessage(err, "Failed to verify code. Please try again."));
+      setMessage("");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleResendCode = () => {
+  const handleResendCode = async () => {
+    if (submitting) return;
+
+    const validationError = validateEmail(emailValue);
+    if (validationError) {
+      setError(validationError);
+      return;
+    }
+
+    setSubmitting(true);
     setOtp("");
     setError("");
-    setMessage("A new verification code has been sent to your email.");
+    setMessage("");
+
+    try {
+      const response = await sendPasswordResetCode(emailValue.trim());
+      const nextVerificationId = response?.data?.verification_id;
+
+      if (nextVerificationId == null) {
+        throw new Error("Unable to resend the verification code. Please try again.");
+      }
+
+      setVerificationId(nextVerificationId);
+      setResetToken(null);
+      setMessage(
+        response?.message ||
+          "A new verification code has been sent to your email.",
+      );
+    } catch (err) {
+      console.error("Failed to resend password reset code:", err);
+      setError(
+        getErrorMessage(err, "Failed to resend verification code. Please try again."),
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
-  const handleSavePassword = (event) => {
+  const handleSavePassword = async (event) => {
     event.preventDefault();
+    if (submitting) return;
 
     const validationError = validatePassword(password, confirmPassword);
     if (validationError) {
@@ -65,9 +163,33 @@ const ChangePasswordModal = ({ email = "", onCancel, onComplete }) => {
       return;
     }
 
+    if (!verificationId || !resetToken) {
+      setError("Your verification session has expired. Please start again.");
+      setStep("email");
+      return;
+    }
+
+    setSubmitting(true);
     setError("");
     setMessage("");
-    setStep("success");
+
+    try {
+      const response = await resetPassword(
+        verificationId,
+        resetToken,
+        password,
+      );
+
+      setMessage(response?.message || "Password updated successfully.");
+      setStep("success");
+    } catch (err) {
+      console.error("Failed to reset password:", err);
+      setError(
+        getErrorMessage(err, "Failed to reset password. Please try again."),
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleDone = () => {

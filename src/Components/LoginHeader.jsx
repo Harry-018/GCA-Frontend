@@ -7,8 +7,8 @@ import { useParentInquiry } from "./ParentInquiryProvider.jsx";
 import { getSchoolInformation } from "../requests/settingsRequests.js";
 
 const SCHOOL = {
-  name: "Grace Christian Academy",
-  fullName: "Grace Christian Academy Cavite Inc.",
+  name: "",
+  fullName: "",
 };
 
 const LoginHeader = ({ onMenuToggle }) => {
