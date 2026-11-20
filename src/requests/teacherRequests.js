@@ -92,3 +92,83 @@ export const getMonthlyAttendanceReport = async (section_id, month, year) => {
 
   return response.data;
 };
+
+// GET /api/teachers/grading/students
+export const getStudentGradesOfSection = async ({
+  section_id,
+  subject_id,
+  quarter_id,
+}) => {
+  const response = await API.get("/api/teachers/grading/students", {
+    params: {
+      section_id,
+      subject_id,
+      quarter_id,
+    },
+  });
+
+  return response.data;
+};
+
+// GET /api/teachers/grading/quarters
+export const getTeacherGradingQuarters = async () => {
+  const response = await API.get("/api/teachers/grading/quarters");
+
+  return response.data;
+};
+
+// GET /api/teachers/grading/subjects
+export const getTeacherGradingSubjects = async (quarter_id) => {
+  const response = await API.get("/api/teachers/grading/subjects", {
+    params: {
+      quarter_id,
+    },
+  });
+
+  return response.data;
+};
+
+// POST /api/teachers/grading/upload
+export const uploadGradesToStudents = async ({
+  section_id,
+  subject_id,
+  quarter_id,
+  grades,
+}) => {
+  const response = await API.post("/api/teachers/grading/upload", {
+    section_id,
+    subject_id,
+    quarter_id,
+    grades,
+  });
+
+  return response.data;
+};
+
+// GET /api/teachers/grading/remarks/students
+export const getTeacherRemarksStudents = async ({ section_id, quarter_id }) => {
+  const response = await API.get("/api/teachers/grading/remarks/students", {
+    params: {
+      section_id,
+      quarter_id,
+    },
+  });
+
+  return response.data;
+};
+
+// POST /api/teachers/grading/remarks/upload
+// remarks: [{ enrollment_id, comment }]
+export const uploadTeacherRemarks = async ({
+  section_id,
+  quarter_id,
+  remarks,
+}) => {
+  const response = await API.post("/api/teachers/grading/remarks/upload", {
+    section_id,
+    quarter_id,
+    remarks,
+  });
+
+  return response.data;
+};

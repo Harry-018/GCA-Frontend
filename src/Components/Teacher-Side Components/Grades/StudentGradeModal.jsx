@@ -16,6 +16,7 @@ import {
   updateBulkGradeRecords,
 } from "../../../utils/data/Teacher/grades.js";
 import { parseGrade } from "../../../utils/data/Teacher/gradeUpload.js";
+import { getTeacherRemarksStudents } from "../../../requests/teacherRequests.js";
 
 const REMARKS_LIMIT = 500;
 const QUARTER_OPTIONS = [1, 2, 3];
@@ -62,24 +63,41 @@ const loadStudentRecords = (student, section) =>
     ),
   );
 
-const getQuarters = (records) =>
-  [...new Set(records.map((record) => String(record.quarter ?? "")))].sort(
-    (first, second) => Number(first) - Number(second),
+const getQuarterId = (option) =>
+  typeof option === "object" ? option.quarter_id : option;
+
+const StudentGradeModal = ({
+  student,
+  section,
+  records: initialRecords,
+  quarters = [],
+  onClose,
+}) => {
+  const isReadOnly = Boolean(initialRecords);
+  const quarterOptions = quarters.length > 0 ? quarters : QUARTER_OPTIONS;
+  const quarterLabels = new Map(
+    quarters.map((quarter) => [
+      Number(quarter.quarter_id),
+      quarter.quarter_name ?? `Quarter ${quarter.quarter_id}`,
+    ]),
   );
 
-const StudentGradeModal = ({ student, section, onClose }) => {
   const [records, setRecords] = useState(() =>
-    loadStudentRecords(student, section),
+    initialRecords ?? loadStudentRecords(student, section),
   );
   const [remarks, setRemarks] = useState(() =>
     getGradeRemarks(section?.id, student.schoolId),
   );
   const [selectedQuarter, setSelectedQuarter] = useState(() => {
-    const firstQuarter = getQuarters(
-      loadStudentRecords(student, section),
-    ).find((quarter) => QUARTER_OPTIONS.includes(Number(quarter)));
+    const firstQuarter = (initialRecords ?? loadStudentRecords(student, section))
+      .map((record) => Number(record.quarter))
+      .find((quarter) =>
+        quarterOptions.some(
+          (item) => Number(getQuarterId(item)) === quarter,
+        ),
+      );
 
-    return firstQuarter ? Number(firstQuarter) : 1;
+    return firstQuarter ?? Number(getQuarterId(quarterOptions[0]) ?? 1);
   });
   const [isEditing, setIsEditing] = useState(false);
   const [gradeDrafts, setGradeDrafts] = useState({});
@@ -105,6 +123,62 @@ const StudentGradeModal = ({ student, section, onClose }) => {
     };
   }, [onClose]);
 
+  // FETCH THE TEACHER REMARKS FOR THE SELECTED SECTION, STUDENT, AND QUARTER
+  useEffect(() => {
+    const sectionId = section?.id;
+    const enrollmentId = student?.enrollment_id;
+
+    if (!sectionId || !enrollmentId || !selectedQuarter) return;
+
+    let cancelled = false;
+
+    const fetchRemarks = async () => {
+      try {
+        const response = await getTeacherRemarksStudents({
+          section_id: sectionId,
+          quarter_id: selectedQuarter,
+        });
+
+        if (response?.success === false) {
+          throw new Error(response?.message || "Failed to retrieve remarks.");
+        }
+
+        const payload = response?.data ?? {};
+        const list = Array.isArray(payload)
+          ? payload
+          : (payload.remarks ?? payload.students ?? []);
+        const entry =
+          list.find(
+            (item) =>
+              String(item.enrollment_id ?? "") === String(enrollmentId),
+          ) ??
+          list.find((item) =>
+            [item.stu_id, item.stu_num, item.lrn].some(
+              (identifier) =>
+                identifier != null &&
+                String(identifier) === String(student.schoolId),
+            ),
+          );
+        const comment = entry?.comment ?? entry?.remark;
+
+        if (!cancelled && comment != null && String(comment).trim() !== "") {
+          setRemarks((previous) => ({
+            ...previous,
+            [Number(selectedQuarter)]: String(comment),
+          }));
+        }
+      } catch (err) {
+        console.error("getTeacherRemarksStudents error:", err);
+      }
+    };
+
+    fetchRemarks();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [section?.id, student, selectedQuarter]);
+
   const selectedRecords = records.filter(
     (record) => Number(record.quarter) === Number(selectedQuarter),
   );
@@ -119,7 +193,8 @@ const StudentGradeModal = ({ student, section, onClose }) => {
       };
     });
 
-    QUARTER_OPTIONS.forEach((quarter) => {
+    quarterOptions.forEach((option) => {
+      const quarter = Number(getQuarterId(option));
       nextRemarkDrafts[quarter] = String(remarks[quarter] ?? "");
     });
 
@@ -173,7 +248,9 @@ const StudentGradeModal = ({ student, section, onClose }) => {
       }
     });
 
-    QUARTER_OPTIONS.forEach((quarter) => {
+    quarterOptions.forEach((option) => {
+      const quarter = Number(getQuarterId(option));
+
       if (String(remarkDrafts[quarter] ?? "").trim().length > REMARKS_LIMIT) {
         nextRemarkErrors[quarter] =
           `Remarks must be ${REMARKS_LIMIT} characters or fewer.`;
@@ -263,7 +340,7 @@ const StudentGradeModal = ({ student, section, onClose }) => {
           </div>
 
           <div className="flex shrink-0 items-center gap-2">
-            {!isEditing && records.length > 0 && (
+            {!isEditing && !isReadOnly && records.length > 0 && (
               <button
                 type="button"
                 onClick={startEditing}
@@ -384,7 +461,8 @@ const StudentGradeModal = ({ student, section, onClose }) => {
                   Quarter
                 </span>
 
-                {QUARTER_OPTIONS.map((quarter) => {
+                {quarterOptions.map((option) => {
+                  const quarter = Number(getQuarterId(option));
                   const count = records.filter(
                     (record) => Number(record.quarter) === quarter,
                   ).length;
@@ -402,7 +480,7 @@ const StudentGradeModal = ({ student, section, onClose }) => {
                           : "border-parent-accent/20 bg-bone text-gray-600 hover:border-parent-green/50 hover:bg-parent-pale/30"
                       }`}
                     >
-                      Quarter {quarter}
+                      {quarterLabels.get(quarter) ?? `Quarter ${quarter}`}
                       <span
                         className={`rounded-full px-2 py-0.5 text-[9px] ${
                           isActive
@@ -424,7 +502,9 @@ const StudentGradeModal = ({ student, section, onClose }) => {
                   </span>
                   <div>
                     <p className="font-[PoppinsBold] text-sm text-parent-green">
-                      No grades for Quarter {selectedQuarter}
+                      No grades for{" "}
+                      {quarterLabels.get(Number(selectedQuarter)) ??
+                        `Quarter ${selectedQuarter}`}
                     </p>
                     <p className="mt-1 text-xs text-gray-500">
                       Upload grades for this quarter or choose another quarter
@@ -515,7 +595,7 @@ const StudentGradeModal = ({ student, section, onClose }) => {
                                         </>
                                       ) : (
                                         <span className="inline-flex min-w-11 justify-center rounded-full bg-parent-green px-3 py-1 text-xs font-[PoppinsBold] text-white">
-                                          {record.grade}
+                                          {String(record.grade ?? "").toUpperCase()}
                                         </span>
                                       )}
                                     </div>
@@ -537,7 +617,9 @@ const StudentGradeModal = ({ student, section, onClose }) => {
                         Teacher Remarks
                       </label>
                       <span className="text-xs text-gray-500">
-                        Overall for Quarter {selectedQuarter}
+                        Overall for{" "}
+                        {quarterLabels.get(Number(selectedQuarter)) ??
+                          `Quarter ${selectedQuarter}`}
                       </span>
                     </div>
 

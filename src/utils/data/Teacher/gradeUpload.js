@@ -1,5 +1,4 @@
 import * as XLSX from "xlsx";
-import { getQuarters } from "./grades.js";
 
 const normalizeHeader = (value) =>
   String(value ?? "")
@@ -7,38 +6,48 @@ const normalizeHeader = (value) =>
     .toLowerCase()
     .replace(/[^a-z0-9]/g, "");
 
-const normalizeIdentifier = (value) =>
-  String(value ?? "")
-    .trim()
-    .replace(/\s/g, "")
-    .toUpperCase();
-
-const normalizeName = (value) =>
+const normalizeText = (value) =>
   String(value ?? "")
     .trim()
     .replace(/\s+/g, " ")
     .toLowerCase();
 
-const getGradeKey = (record, sectionId) =>
-  [
-    String(sectionId ?? ""),
-    normalizeIdentifier(record.studentId),
-    normalizeHeader(record.subject),
-    normalizeHeader(record.skill),
-    String(record.quarter),
-  ].join("|");
+// Treat commas as plain separators so "Last, First, Middle" matches
+// "Last, First Middle" from the generated template.
+const normalizeComparisonText = (value) =>
+  normalizeText(String(value ?? "").replace(/,/g, " "));
 
-const getQuarterNumber = (value) => {
-  const text = String(value ?? "").trim();
-  const match =
-    text.match(/\bquarter\s*([1-4])\b/i) ||
-    text.match(/\bq\s*([1-4])\b/i) ||
-    text.match(/\b([1-4])(?:st|nd|rd|th)?\s*quarter\b/i) ||
-    text.match(/^([1-4])$/);
+// Format as "Last Name, First Name Middle Name" (one comma only).
+export const formatStudentName = (value) => {
+  if (Array.isArray(value)) {
+    const [lastName, ...givenNames] = value
+      .filter(Boolean)
+      .map((part) => String(part).trim())
+      .filter(Boolean);
 
-  return match ? Number(match[1]) : null;
+    return [lastName, givenNames.join(" ")].filter(Boolean).join(", ");
+  }
+
+  if (value && typeof value === "object") {
+    return formatStudentName([
+      value.last_name ?? value.lastName,
+      value.first_name ?? value.firstName,
+      value.middle_name ?? value.middleName,
+    ]);
+  }
+
+  const parts = String(value ?? "")
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (parts.length === 0) return "";
+
+  const [lastName, ...givenNames] = parts;
+  return [lastName, givenNames.join(" ")].filter(Boolean).join(", ");
 };
 
+// The model accepts letter grades a, b, c, d, e.
 export const parseGrade = (value) => {
   const text = String(value ?? "").trim();
 
@@ -46,63 +55,54 @@ export const parseGrade = (value) => {
     return { value: null, error: "Grade is required." };
   }
 
-  const numericText = text.endsWith("%") ? text.slice(0, -1).trim() : text;
-
-  if (/^(?:\d+(?:\.\d+)?|\.\d+)$/.test(numericText)) {
-    const numericGrade = Number(numericText);
-
-    if (numericGrade < 0 || numericGrade > 100) {
-      return { value: null, error: "Grade must be between 0 and 100." };
-    }
-
-    return { value: numericGrade, error: "" };
+  if (/^[A-E]$/i.test(text)) {
+    return { value: text.toLowerCase(), error: "" };
   }
 
-  if (/^[A-F][+-]?$/i.test(text)) {
-    return { value: text.toUpperCase(), error: "" };
-  }
-
-  return {
-    value: null,
-    error: "Enter a grade from 0 to 100 or a letter grade from A to D.",
-  };
+  return { value: null, error: "Grade must be a letter from A to E." };
 };
 
 export const downloadGradeTemplate = (
   students = [],
-  { subject, quarter, skills } = {},
+  { subject, quarter, skills = [] } = {},
 ) => {
   if (!subject || !quarter || !Array.isArray(skills) || skills.length === 0) {
     throw new Error("Select a quarter and subject with skills before downloading.");
   }
 
+  if (!Array.isArray(students) || students.length === 0) {
+    throw new Error("No students are enrolled in this section.");
+  }
+
+  const skillNames = skills.map((skill) => skill.skill_name ?? String(skill));
   const headers = [
-    "Student ID / LRN",
+    "Student ID",
     "Student Name",
     "Subject",
     "Quarter",
-    ...skills,
+    ...skillNames,
   ];
   const workbook = XLSX.utils.book_new();
   const gradeRows = [
     headers,
     ...students.map((student) => [
-      String(student.schoolId || student.lrn || ""),
-      String(student.name || ""),
-      subject,
-      `Quarter ${quarter}`,
-      ...skills.map(() => ""),
+      String(student.stu_id ?? student.student_id ?? ""),
+      formatStudentName(student.student_name ?? student),
+      String(subject),
+      String(quarter),
+      ...skillNames.map(() => ""),
     ]),
   ];
   const gradesSheet = XLSX.utils.aoa_to_sheet(gradeRows);
 
   gradesSheet["!cols"] = [
+    { wch: 16 },
+    { wch: 32 },
     { wch: 22 },
-    { wch: 28 },
-    { wch: 22 },
-    { wch: 14 },
-    ...skills.map(() => ({ wch: 24 })),
+    { wch: 16 },
+    ...skillNames.map(() => ({ wch: 24 })),
   ];
+
   XLSX.utils.book_append_sheet(workbook, gradesSheet, "Grades");
   XLSX.utils.book_append_sheet(
     workbook,
@@ -110,32 +110,35 @@ export const downloadGradeTemplate = (
       ["Instructions"],
       [`Subject: ${subject}`],
       [`Quarter: ${quarter}`],
-      ["Each row is one student. Enter grades under the matching skill columns."],
-      ["Use a separate downloaded file for each subject and quarter."],
-      ["Use the Student ID / LRN and Student Name from the roster."],
-      ["Grade may be a number from 0 to 100 or a letter from A to F."],
-      ["Do not change the column headings, subject, quarter, or student roster."],
+      ["Each row is one student. Enter a grade under each skill column."],
+      ["Grades must be a single letter: A, B, C, D, or E."],
+      ["Do not change the column headings, the student IDs, or the roster."],
     ]),
     "Instructions",
   );
+
   const subjectFileName =
     String(subject)
       .trim()
       .toLowerCase()
       .replace(/[^a-z0-9]+/g, "-")
       .replace(/^-|-$/g, "") || "subject";
+  const quarterFileName =
+    String(quarter)
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "quarter";
+
   XLSX.writeFile(
     workbook,
-    `teacher-grade-${subjectFileName}-quarter-${quarter}.xlsx`,
+    `teacher-grade-${subjectFileName}-${quarterFileName}.xlsx`,
   );
 };
 
 export const parseGradeWorkbook = async (
   file,
-  students,
-  existingGrades,
-  sectionId,
-  expectedSelection = {},
+  { students = [], skills = [], subjectName, quarterName, quarterId } = {},
 ) => {
   if (!file?.name?.toLowerCase().endsWith(".xlsx")) {
     throw new Error("Please choose an Excel .xlsx file.");
@@ -159,47 +162,41 @@ export const parseGradeWorkbook = async (
   const findHeader = (...names) =>
     headerIndexes.findIndex((header) => names.includes(header));
 
-  const combinedIdIndex = findHeader(
+  const studentIdIndex = findHeader(
+    "studentid",
+    "studentidnumber",
+    "enrollmentid",
+    "enrollment",
     "studentidlrn",
-    "studentidorlrn",
     "idlrn",
   );
-  const studentIdIndex = findHeader("studentid", "schoolid");
-  const lrnIndex = findHeader("lrn");
   const nameIndex = findHeader("studentname", "name", "fullname");
   const subjectIndex = findHeader("subject", "subjectname");
-  const skillIndex = findHeader("skill", "skillname");
-  const quarterIndex = findHeader("quarter");
-  const gradeIndex = findHeader("grade", "finalgrade");
-  const isLegacyFormat = skillIndex >= 0 && gradeIndex >= 0;
-  const isMatrixFormat = !isLegacyFormat;
+  const quarterIndex = findHeader("quarter", "quarter name");
+
   const fixedColumnIndexes = new Set(
-    [
-      combinedIdIndex,
-      studentIdIndex,
-      lrnIndex,
-      nameIndex,
-      subjectIndex,
-      quarterIndex,
-    ].filter((index) => index >= 0),
+    [studentIdIndex, nameIndex, subjectIndex, quarterIndex].filter(
+      (index) => index >= 0,
+    ),
   );
-  const skillColumns = isMatrixFormat
-    ? headers
-        .map((header, index) => ({
-          index,
-          skill: String(header ?? "").trim(),
-        }))
-        .filter(({ index, skill }) => skill && !fixedColumnIndexes.has(index))
-    : [];
+  const skillColumns = headers
+    .map((header, index) => ({ index, name: String(header ?? "").trim() }))
+    .filter(({ index, name }) => name && !fixedColumnIndexes.has(index))
+    .map((column) => ({
+      ...column,
+      skill: skills.find(
+        (item) =>
+          normalizeText(item.skill_name ?? item) === normalizeText(column.name),
+      ),
+    }));
+
   const missingHeaders = [];
 
-  if (combinedIdIndex < 0 && studentIdIndex < 0 && lrnIndex < 0) {
-    missingHeaders.push("Student ID / LRN");
-  }
+  if (studentIdIndex < 0) missingHeaders.push("Student ID");
   if (nameIndex < 0) missingHeaders.push("Student Name");
   if (subjectIndex < 0) missingHeaders.push("Subject");
   if (quarterIndex < 0) missingHeaders.push("Quarter");
-  if (isMatrixFormat && skillColumns.length === 0) {
+  if (skillColumns.length === 0) {
     missingHeaders.push("at least one skill column");
   }
 
@@ -220,143 +217,318 @@ export const parseGradeWorkbook = async (
     throw new Error("The worksheet does not contain any grade rows.");
   }
 
-  const availableQuarters = getQuarters();
-  const existingKeys = new Set(
-    existingGrades
-      .filter((record) => String(record.sectionId) === String(sectionId))
-      .map((record) => getGradeKey(record, sectionId)),
-  );
-  const fileKeys = new Set();
+  const previewRows = [];
+  const groupedGrades = new Map();
 
-  return dataRows.flatMap(({ row, rowNumber }) => {
+  for (const { row, rowNumber } of dataRows) {
     const cell = (columnIndex) =>
       columnIndex < 0 ? "" : String(row[columnIndex] ?? "").trim();
-    const identifiers = [
-      cell(studentIdIndex),
-      cell(lrnIndex),
-      cell(combinedIdIndex),
-    ].filter(Boolean);
-    const studentIdentifier = identifiers.join(" / ");
-    const student = students.find((item) =>
-      identifiers.some((identifier) =>
-        [item.schoolId, item.lrn].some(
-          (knownId) =>
-            normalizeIdentifier(knownId) ===
-            normalizeIdentifier(identifier),
-        ),
-      ),
-    );
+    const studentIdText = cell(studentIdIndex);
     const studentName = cell(nameIndex);
     const subject = cell(subjectIndex);
-    const quarterText = cell(quarterIndex);
-    const quarter = getQuarterNumber(quarterText);
+    const quarter = cell(quarterIndex);
+
+    const student =
+      students.find(
+        (item) => String(item.stu_id ?? item.student_id ?? "") === studentIdText,
+      ) ||
+      students.find(
+        (item) => String(item.enrollment_id ?? "") === studentIdText,
+      ) ||
+      students.find((item) =>
+        [item.stu_num, item.lrn].some(
+          (identifier) =>
+            normalizeText(identifier) === normalizeText(studentIdText),
+        ),
+      );
+
     const sharedErrors = [];
 
-    if (!studentIdentifier) {
-      sharedErrors.push("Student ID / LRN is required.");
+    if (!studentIdText) {
+      sharedErrors.push("Student ID is required.");
     } else if (!student) {
-      sharedErrors.push("Student ID / LRN was not found in this class roster.");
+      sharedErrors.push("Student ID was not found in this section.");
     }
 
     if (!studentName) {
       sharedErrors.push("Student Name is required.");
     } else if (
       student &&
-      normalizeName(studentName) !== normalizeName(student.name)
+      normalizeComparisonText(studentName) !==
+      normalizeComparisonText(student.student_name)
     ) {
       sharedErrors.push(
-        `Name does not match the roster (${student.name}).`,
-      );
-    }
-
-    if (!subject) sharedErrors.push("Subject is required.");
-
-    if (
-      expectedSelection.subject &&
-      normalizeHeader(subject) !== normalizeHeader(expectedSelection.subject)
-    ) {
-      sharedErrors.push(
-        `Subject must be ${expectedSelection.subject} for this upload.`,
+        `Name does not match the roster (${formatStudentName(student.student_name)}).`,
       );
     }
 
     if (
-      quarter === null ||
-      !availableQuarters.some(
-        (availableQuarter) => Number(availableQuarter.value) === quarter,
-      )
+      subjectName &&
+      normalizeText(subject) !== normalizeText(subjectName)
     ) {
-      sharedErrors.push(
-        `Quarter must be one of ${availableQuarters
-          .map((item) => item.label)
-          .join(", ")}.`,
-      );
-    } else if (
-      expectedSelection.quarter &&
-      quarter !== Number(expectedSelection.quarter)
-    ) {
-      sharedErrors.push(
-        `Quarter must be Quarter ${expectedSelection.quarter} for this upload.`,
-      );
+      sharedErrors.push(`Subject must be ${subjectName} for this upload.`);
     }
 
-    const rowGrades = isMatrixFormat
-      ? skillColumns.map(({ index, skill: skillName }) => ({
-          skill: skillName,
-          gradeText: cell(index),
-        }))
-      : [
-          {
-            skill: cell(skillIndex),
-            gradeText: cell(gradeIndex),
-          },
-        ];
+    if (
+      quarterName &&
+      normalizeText(quarter) !== normalizeText(quarterName) &&
+      String(quarterId ?? "") !== quarter
+    ) {
+      sharedErrors.push(`Quarter must be ${quarterName} for this upload.`);
+    }
 
-    return rowGrades.map(({ skill, gradeText }) => {
+    for (const column of skillColumns) {
       const errors = [...sharedErrors];
+      const gradeText = cell(column.index);
       const parsedGrade = parseGrade(gradeText);
 
-      if (!skill) errors.push("Skill is required.");
-      if (/^skill\s*\d+$/i.test(skill)) {
-        errors.push(`Replace "${skill}" with the actual skill name.`);
+      if (!column.skill) {
+        errors.push(`"${column.name}" is not a skill for this subject.`);
       }
+
       if (parsedGrade.error) errors.push(parsedGrade.error);
 
-      const record = {
-        studentId: student?.schoolId || studentIdentifier,
-        lrn: student?.lrn || "",
-        studentName: student?.name || studentName,
-        subject,
-        skill,
-        quarter,
-        grade: parsedGrade.value,
-      };
+      let entry = student ? groupedGrades.get(student.enrollment_id) : null;
 
-      if (student && subject && skill && quarter !== null) {
-        const key = getGradeKey(record, sectionId);
-
-        if (fileKeys.has(key)) {
-          errors.push("Duplicate student, subject, skill, and quarter in this file.");
-        } else if (existingKeys.has(key)) {
-          errors.push(
-            "A grade for this student, subject, skill, and quarter already exists.",
-          );
-        }
-
-        fileKeys.add(key);
+      if (entry && column.skill && entry.skillIds.has(column.skill.skill_id)) {
+        errors.push(
+          `Duplicate skill "${column.name}" for this student.`,
+        );
       }
 
-      return {
+      previewRows.push({
         rowNumber,
-        studentIdentifier,
+        studentIdentifier: studentIdText,
         studentName,
         subject,
-        skill,
-        quarter: quarter === null ? quarterText : `Quarter ${quarter}`,
+        skill: column.skill?.skill_name ?? column.name,
+        quarter,
         grade: gradeText,
         errors,
-        record,
-      };
-    });
+      });
+
+      if (errors.length === 0 && student && column.skill) {
+        if (!entry) {
+          entry = {
+            enrollment_id: Number(student.enrollment_id),
+            grades: [],
+            skillIds: new Set(),
+          };
+          groupedGrades.set(student.enrollment_id, entry);
+        }
+
+        entry.grades.push({
+          skill_id: Number(column.skill.skill_id),
+          grade: parsedGrade.value,
+        });
+        entry.skillIds.add(column.skill.skill_id);
+      }
+    }
+  }
+
+  const grades = Array.from(groupedGrades.values()).map(
+    ({ enrollment_id, grades: studentGrades }) => ({
+      enrollment_id,
+      grades: studentGrades,
+    }),
+  );
+
+  return { rows: previewRows, grades };
+};
+
+const REMARKS_LIMIT = 255;
+
+export const downloadRemarksTemplate = (students = [], { quarter } = {}) => {
+  if (!quarter) {
+    throw new Error("Select a quarter before downloading the remarks template.");
+  }
+
+  if (!Array.isArray(students) || students.length === 0) {
+    throw new Error("No students are enrolled in this section.");
+  }
+
+  const headers = ["Student ID", "Student Name", "Quarter", "Remarks"];
+  const workbook = XLSX.utils.book_new();
+  const remarkRows = [
+    headers,
+    ...students.map((student) => [
+      String(student.stu_id ?? student.student_id ?? ""),
+      formatStudentName(student.student_name ?? student),
+      String(quarter),
+      "",
+    ]),
+  ];
+  const remarksSheet = XLSX.utils.aoa_to_sheet(remarkRows);
+
+  remarksSheet["!cols"] = [
+    { wch: 16 },
+    { wch: 32 },
+    { wch: 16 },
+    { wch: 60 },
+  ];
+
+  XLSX.utils.book_append_sheet(workbook, remarksSheet, "Remarks");
+  XLSX.utils.book_append_sheet(
+    workbook,
+    XLSX.utils.aoa_to_sheet([
+      ["Instructions"],
+      [`Quarter: ${quarter}`],
+      ["Each row is one student. Enter the teacher remark in the Remarks column."],
+      [`Remarks must be ${REMARKS_LIMIT} characters or fewer.`],
+      ["Do not change the column headings, the student IDs, or the roster."],
+    ]),
+    "Instructions",
+  );
+
+  const quarterFileName =
+    String(quarter)
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "") || "quarter";
+
+  XLSX.writeFile(workbook, `teacher-remarks-${quarterFileName}.xlsx`);
+};
+
+export const parseRemarksWorkbook = async (
+  file,
+  { students = [], quarterName, quarterId } = {},
+) => {
+  if (!file?.name?.toLowerCase().endsWith(".xlsx")) {
+    throw new Error("Please choose an Excel .xlsx file.");
+  }
+
+  const workbook = XLSX.read(await file.arrayBuffer(), { type: "array" });
+  const firstSheetName = workbook.SheetNames[0];
+
+  if (!firstSheetName) {
+    throw new Error("The workbook does not contain a worksheet.");
+  }
+
+  const rows = XLSX.utils.sheet_to_json(workbook.Sheets[firstSheetName], {
+    header: 1,
+    raw: false,
+    defval: "",
+    blankrows: true,
   });
+  const headers = rows[0] || [];
+  const headerIndexes = headers.map(normalizeHeader);
+  const findHeader = (...names) =>
+    headerIndexes.findIndex((header) => names.includes(header));
+
+  const studentIdIndex = findHeader(
+    "studentid",
+    "studentidnumber",
+    "enrollmentid",
+    "enrollment",
+  );
+  const nameIndex = findHeader("studentname", "name", "fullname");
+  const quarterIndex = findHeader("quarter", "quarter name");
+  const remarkIndex = findHeader("remarks", "remark", "comment", "teacherremarks");
+
+  const missingHeaders = [];
+
+  if (studentIdIndex < 0) missingHeaders.push("Student ID");
+  if (nameIndex < 0) missingHeaders.push("Student Name");
+  if (quarterIndex < 0) missingHeaders.push("Quarter");
+  if (remarkIndex < 0) missingHeaders.push("Remarks");
+
+  if (missingHeaders.length) {
+    throw new Error(
+      `Missing required column${missingHeaders.length > 1 ? "s" : ""}: ${missingHeaders.join(", ")}.`,
+    );
+  }
+
+  const dataRows = rows
+    .slice(1)
+    .map((row, index) => ({ row, rowNumber: index + 2 }))
+    .filter(({ row }) => row.some((cell) => String(cell ?? "").trim() !== ""));
+
+  if (!dataRows.length) {
+    throw new Error("The worksheet does not contain any remark rows.");
+  }
+
+  const previewRows = [];
+  const remarks = [];
+  const seen = new Set();
+
+  for (const { row, rowNumber } of dataRows) {
+    const cell = (columnIndex) =>
+      columnIndex < 0 ? "" : String(row[columnIndex] ?? "").trim();
+    const studentIdText = cell(studentIdIndex);
+    const studentName = cell(nameIndex);
+    const quarter = cell(quarterIndex);
+    const remark = cell(remarkIndex);
+
+    const student =
+      students.find(
+        (item) => String(item.stu_id ?? item.student_id ?? "") === studentIdText,
+      ) ||
+      students.find(
+        (item) => String(item.enrollment_id ?? "") === studentIdText,
+      ) ||
+      students.find((item) =>
+        [item.stu_num, item.lrn].some(
+          (identifier) =>
+            normalizeText(identifier) === normalizeText(studentIdText),
+        ),
+      );
+
+    const errors = [];
+
+    if (!studentIdText) {
+      errors.push("Student ID is required.");
+    } else if (!student) {
+      errors.push("Student ID was not found in this section.");
+    }
+
+    if (!studentName) {
+      errors.push("Student Name is required.");
+    } else if (
+      student &&
+      normalizeComparisonText(studentName) !==
+        normalizeComparisonText(student.student_name)
+    ) {
+      errors.push(
+        `Name does not match the roster (${formatStudentName(student.student_name)}).`,
+      );
+    }
+
+    if (
+      quarterName &&
+      normalizeComparisonText(quarter) !==
+        normalizeComparisonText(quarterName) &&
+      String(quarterId ?? "") !== quarter
+    ) {
+      errors.push(`Quarter must be ${quarterName} for this upload.`);
+    }
+
+    if (remark.length > REMARKS_LIMIT) {
+      errors.push(`Remarks must be ${REMARKS_LIMIT} characters or fewer.`);
+    }
+
+    if (student && seen.has(student.enrollment_id)) {
+      errors.push("Duplicate student in the remarks file.");
+    }
+
+    if (student) seen.add(student.enrollment_id);
+
+    previewRows.push({
+      rowNumber,
+      studentIdentifier: studentIdText,
+      studentName,
+      quarter,
+      remark,
+      errors,
+    });
+
+    if (errors.length === 0 && student && remark) {
+      remarks.push({
+        enrollment_id: Number(student.enrollment_id),
+        comment: remark,
+      });
+    }
+  }
+
+  return { rows: previewRows, remarks };
 };

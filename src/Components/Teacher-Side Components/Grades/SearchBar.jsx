@@ -10,7 +10,7 @@ const SearchBar = ({
   return (
     <div className="flex w-full flex-col gap-2 rounded-2xl border border-parent-accent/15 bg-bone px-3 py-3 shadow-[0_2px_4px_rgba(0,0,0,0.18)] sm:px-4 md:flex-row md:items-center md:justify-between md:gap-3">
       <div className="flex w-full items-center gap-1.5 sm:gap-2 md:w-80 lg:w-96">
-        <div className="relative w-36 min-w-0 sm:w-52">
+        <div className="relative min-w-0 flex-1">
           <Search
             size={14}
             className="pointer-events-none absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 sm:left-3 sm:size-4"
