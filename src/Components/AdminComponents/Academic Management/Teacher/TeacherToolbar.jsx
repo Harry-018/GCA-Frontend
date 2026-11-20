@@ -1,5 +1,12 @@
 import React from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
+
+const STATUS_OPTIONS = [
+  { label: "All", value: "all" },
+  { label: "Active", value: "active" },
+  { label: "On Leave", value: "on_leave" },
+  { label: "Resigned", value: "resigned" },
+];
 
 const TeacherToolbar = ({
   searchValue,
@@ -23,14 +30,32 @@ const TeacherToolbar = ({
         {/* Status */}
         <select
           value={status}
-          onChange={onStatusChange}
-          className="h-8 min-w-27.5 rounded-full border py-0 border-parent-accent/25 bg-white/80 px-4 text-xs text-gray-700 outline-none focus:border-parent-green"
+          onChange={(event) => onStatusChange(event.target.value)}
+          className="h-8 min-w-27.5 rounded-full border py-0 border-parent-accent/25 bg-white/80 px-4 text-xs text-gray-700 outline-none focus:border-parent-green sm:hidden"
         >
-          <option value="all">All</option>
-          <option value="active">Active</option>
-          <option value="on_leave">On Leave</option>
-          <option value="resigned">Resigned</option>
+          {STATUS_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
+
+        <div className="hidden items-center gap-x-3 sm:flex">
+          {STATUS_OPTIONS.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onStatusChange(option.value)}
+              className={`whitespace-nowrap px-4 py-2 text-xs outline-none transition focus:outline-none focus-visible:outline-none ${
+                status === option.value
+                  ? "rounded-full bg-parent-green text-white"
+                  : "text-gray-600 hover:text-parent-green"
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
 
         {/* Search */}
         <div className="relative min-w-0 flex-1 md:w-48 md:flex-none lg:w-48 xl:w-52">

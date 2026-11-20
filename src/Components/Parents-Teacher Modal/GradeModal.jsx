@@ -29,12 +29,13 @@ const GradeModal = ({
                 <th className="px-3 py-3 text-2xs font-[PoppinsBold] text-parent-green lg:text-xs">
                   Skills
                 </th>
-                {quarters.map((quarter) => (
+                {quarters.map((quarter, index) => (
                   <th
                     key={quarter}
                     className="px-3 py-3 text-center text-2xs font-[PoppinsBold] text-parent-green lg:text-xs"
                   >
-                    {quarter}
+                    <span className="sm:hidden">Q{index + 1}</span>
+                    <span className="hidden sm:inline">{quarter}</span>
                   </th>
                 ))}
               </tr>

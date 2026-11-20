@@ -28,7 +28,8 @@ function Remarks({ remarks, quarters, selectedQuarter, onQuarterChange }) {
                     : "bg-bone text-parent-green hover:bg-parent-accent/10"
                 }`}
               >
-                {quarter}
+                <span className="sm:hidden">Q{quarterNumber}</span>
+                <span className="hidden sm:inline">{quarter}</span>
               </button>
             );
           })}

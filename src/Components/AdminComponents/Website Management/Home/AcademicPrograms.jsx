@@ -10,17 +10,22 @@ const AcademicPrograms = ({
     programs.find((program) => program.name === selectedProgram) || programs[0];
 
   return (
-    <section className="rounded-2xl border border-parent-accent/15 bg-bone p-4 shadow-md">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
-          Academic Programs
-        </h2>
+    <section className="flex h-full min-w-0 flex-col rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-[PoppinsBold] uppercase tracking-[0.14em] text-parent-accent">
+            Programs
+          </p>
+          <h2 className="mt-1 text-sm font-[PoppinsBold] text-parent-green sm:text-base">
+            Academic programs
+          </h2>
+        </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={onEdit}
-            className="rounded-full border border-parent-accent/25 px-5 py-2 text-[9px] sm:text-xs text-gray-600 hover:bg-gray-100"
+            className="rounded-xl border border-parent-accent/20 px-3 py-2 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale/30 sm:text-xs"
           >
             Edit
           </button>
@@ -28,7 +33,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-full bg-parent-green px-5 py-2 text-[9px] sm:text-xs text-white hover:bg-parent-accent"
+            className="rounded-xl bg-parent-green px-3 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent sm:text-xs"
           >
             Add
           </button>
@@ -36,15 +41,14 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onRemove}
-            className="rounded-full bg-reject px-4 py-2 text-[9px] sm:text-xs text-white hover:bg-reject/80"
+            className="rounded-xl border border-reject/20 bg-reject/5 px-3 py-2 text-xs font-[PoppinsBold] text-reject transition hover:bg-reject/10 sm:text-xs"
           >
             Remove
           </button>
         </div>
       </div>
 
-      {/* Year Level Pills */}
-      <div className="flex flex-wrap items-center gap-2 pt-3 sm:gap-4">
+      <div className="mt-4 flex flex-wrap items-center gap-2 rounded-2xl bg-parent-pale/25 p-2">
         {programs.map((program) => {
           const isActive = program.name === selectedProgram;
 
@@ -53,10 +57,10 @@ const AcademicPrograms = ({
               key={program.id}
               type="button"
               onClick={() => onProgramChange?.(program.name)}
-              className={`rounded-full px-3 py-1 text-[9px] sm:text-xs transition ${
+              className={`rounded-xl px-3 py-2 text-xs font-[PoppinsBold] transition sm:text-xs ${
                 isActive
-                  ? "bg-parent-green text-white"
-                  : "text-gray-600 hover:bg-parent-accent/15"
+                  ? "bg-parent-green text-white shadow-sm"
+                  : "text-gray-600 hover:bg-white hover:text-parent-green"
               }`}
             >
               {program.name}
@@ -66,54 +70,49 @@ const AcademicPrograms = ({
       </div>
 
       {activeProgram && (
-        <>
-          {/* Age + Image */}
-          <div className="flex flex-wrap gap-3 pt-4 lg:flex-col">
-            <div className="flex gap-3">
-              <div>
-                <label className="text-[9px] sm:text-xs  text-gray-600">
-                  Min. Age:
-                </label>
-
-                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-parent-accent/25 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
+        <div
+          className={`mt-4 grid flex-1 items-stretch gap-4 ${
+            activeProgram.image
+              ? "lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]"
+              : "grid-cols-1"
+          }`}
+        >
+          <div className="flex flex-col gap-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="rounded-2xl border border-parent-accent/10 bg-white p-3 sm:p-4">
+                <p className="text-xs text-gray-500">Minimum age</p>
+                <p className="mt-1 text-sm font-[PoppinsBold] text-parent-green">
                   {activeProgram.minAge}
-                </div>
+                </p>
               </div>
-
-              <div>
-                <label className="text-[9px] sm:text-xs text-gray-600">
-                  Max. Age:
-                </label>
-
-                <div className="mt-1 flex h-9 w-25 items-center rounded-lg border border-parent-accent/25 bg-bone px-3 text-[9px] sm:text-xs text-gray-600">
+              <div className="rounded-2xl border border-parent-accent/10 bg-white p-3 sm:p-4">
+                <p className="text-xs text-gray-500">Maximum age</p>
+                <p className="mt-1 text-sm font-[PoppinsBold] text-parent-green">
                   {activeProgram.maxAge}
-                </div>
+                </p>
               </div>
             </div>
 
-            {/* Image */}
-            <div className="flex">
-              {activeProgram.image && (
-                <img
-                  src={activeProgram.image}
-                  alt={activeProgram.name}
-                  className="h-40 w-full rounded-lg object-cover lg:w-122"
-                />
-              )}
+            <div className="flex flex-1 flex-col">
+              <p className="text-xs font-[PoppinsBold] uppercase tracking-wide text-gray-500">
+                Program description
+              </p>
+              <div className="mt-1.5 min-h-24 flex-1 rounded-2xl border border-parent-accent/10 bg-white px-3 py-3 text-xs leading-relaxed text-gray-600 sm:text-sm">
+                {activeProgram.description}
+              </div>
             </div>
           </div>
 
-          {/* Description */}
-          <div className="pt-1">
-            <label className="text-[9px] sm:text-xs text-gray-600">
-              Description:
-            </label>
-
-            <div className="mt-1 min-h-15 rounded-lg border border-parent-accent/25 bg-bone px-3 py-3 text-[9px] sm:text-xs leading-relaxed text-gray-500">
-              {activeProgram.description}
+          {activeProgram.image && (
+            <div className="h-44 min-h-44 overflow-hidden rounded-2xl border border-parent-accent/10 bg-parent-pale/20 sm:h-48 sm:min-h-48 lg:h-full lg:min-h-52">
+              <img
+                src={activeProgram.image}
+                alt={activeProgram.name}
+                className="h-full min-h-44 w-full object-cover sm:min-h-48 lg:min-h-52"
+              />
             </div>
-          </div>
-        </>
+          )}
+        </div>
       )}
     </section>
   );
