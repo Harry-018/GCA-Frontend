@@ -63,7 +63,7 @@ const SendNotificationModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4 font-[Poppins]">
       <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-lg">
-        <h2 className="text-sm font-[PoppinsBold] text-parent-green">
+        <h2 className="text-sm font-[Poppins] text-parent-green">
           Send Notification
         </h2>
 
@@ -163,7 +163,7 @@ const SendNotificationModal = ({
               type="button"
               onClick={onClose}
               disabled={sending}
-              className="flex-1 rounded-full border border-parent-accent/25 px-4 py-2 text-xs font-[PoppinsBold] text-gray-500 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 rounded-full border border-parent-accent/25 px-4 py-2 text-xs font-[Poppins] text-gray-500 transition-colors hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Cancel
             </button>
@@ -176,7 +176,7 @@ const SendNotificationModal = ({
                 notificationAudiences.length === 0 ||
                 paymentOptions.length === 0
               }
-              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition-colors hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-60"
+              className="flex flex-1 items-center justify-center gap-2 rounded-full bg-parent-green px-4 py-2 text-xs font-[Poppins] text-white transition-colors hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-60"
             >
               {sending && <Loader2 size={14} className="animate-spin" />}
 

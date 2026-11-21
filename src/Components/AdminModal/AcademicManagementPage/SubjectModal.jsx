@@ -25,18 +25,18 @@ const SubjectModal = ({ isOpen, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-3 sm:p-5">
       <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-4 overflow-y-auto rounded-2xl bg-bone p-4 shadow-lg sm:p-6">
-        <h2 className="font-[PoppinsBold] text-sm text-parent-green sm:text-base">
+        <h2 className="font-[Poppins] text-sm text-parent-green sm:text-base">
           Subjects
         </h2>
 
         {/* Table */}
         <div className="overflow-hidden">
           <div className="grid grid-cols-[90px_1fr] bg-parent-green text-xs text-white sm:grid-cols-[120px_1fr]">
-            <div className="border-r border-white/50 px-2 py-3 font-[PoppinsBold] sm:px-4">
+            <div className="border-r border-white/50 px-2 py-3 font-[Poppins] sm:px-4">
               Subject Code
             </div>
 
-            <div className="px-2 py-3 font-[PoppinsBold] sm:px-4">
+            <div className="px-2 py-3 font-[Poppins] sm:px-4">
               Subject Name
             </div>
           </div>
@@ -60,7 +60,7 @@ const SubjectModal = ({ isOpen, onClose }) => {
         <button
           type="button"
           onClick={onClose}
-          className="h-9 rounded-full border border-parent-accent/25 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+          className="h-9 rounded-full border border-parent-accent/25 bg-transparent font-[Poppins] text-xs text-gray-500 transition hover:bg-gray-100"
         >
           Close
         </button>

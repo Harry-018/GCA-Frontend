@@ -28,7 +28,7 @@ const EditContactInformationModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4 font-[Poppins]">
       <div className="w-full max-w-83 rounded-2xl bg-bone px-3.5 py-4 shadow-[0_2px_5px_rgba(0,0,0,0.25)]">
-        <h2 className="text-sm font-[PoppinsBold] text-parent-green">
+        <h2 className="text-sm font-[Poppins] text-parent-green">
           Edit Contact Information
         </h2>
 
@@ -76,7 +76,7 @@ const EditContactInformationModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-7 flex-1 rounded-full border border-parent-accent/30 bg-transparent text-2xs font-[PoppinsBold] text-[#707070] transition hover:bg-parent-accent/10"
+            className="h-7 flex-1 rounded-full border border-parent-accent/30 bg-transparent text-2xs font-[Poppins] text-[#707070] transition hover:bg-parent-accent/10"
           >
             Cancel
           </button>
@@ -84,7 +84,7 @@ const EditContactInformationModal = ({
           <button
             type="button"
             onClick={handleSave}
-            className="h-7 flex-1 rounded-full bg-parent-green text-2xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
+            className="h-7 flex-1 rounded-full bg-parent-green text-2xs font-[Poppins] text-white transition hover:bg-parent-accent"
           >
             Save
           </button>

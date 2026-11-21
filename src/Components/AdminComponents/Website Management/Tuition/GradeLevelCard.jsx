@@ -18,10 +18,10 @@ const GradeLevelCard = ({
             key={grade.grade_level_id}
             type="button"
             onClick={() => onGradeChange(grade.grade_level_id)}
-            className={`rounded-full px-4 py-2 font-[Poppins] text-[9px] sm:text-xs transition ${
+            className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
               activeGrade === grade.grade_level_id
                 ? "bg-parent-green text-white"
-                : "text-[#555555] hover:bg-parent-accent/15"
+                : "text-gray-500 hover:bg-parent-accent/15"
             }`}
           >
             {grade.grade_level_name}

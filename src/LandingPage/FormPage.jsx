@@ -1,17 +1,19 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 
-import { useNavigate, useLoaderData } from "react-router-dom";
+import { useNavigate, useLoaderData, useBlocker } from "react-router-dom";
 import { applyApplication } from "../requests/preEnrollmentRequests";
 import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
 import StudentInfo from "../Components/LandingpageComponents/Form/StudentInfo";
 import ReviewFormModal from "../Components/LandingpageComponents/Form/ReviewFormModal";
+import LeaveFormModal from "../Components/LandingpageComponents/Form/LeaveFormModal";
 import {
   applyVerifiedParent,
   applyVerifiedParentToStudent,
   buildSubmissionData,
   createInitialData,
   createStudent,
+  hasFormInformation,
   isAtLeast3YearsOld,
   isValidContactNumber,
   normalizeFormData,
@@ -148,6 +150,20 @@ function FormPage() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const allowLeaveRef = useRef(false);
+
+  const hasEnteredInfo = useMemo(
+    () => hasFormInformation(formData, agreed),
+    [formData, agreed],
+  );
+
+  const blocker = useBlocker(
+    ({ currentLocation, nextLocation }) =>
+      !allowLeaveRef.current &&
+      hasEnteredInfo &&
+      currentLocation.pathname === "/enrollmentform" &&
+      currentLocation.pathname !== nextLocation.pathname,
+  );
 
   useEffect(() => {
     try {
@@ -156,6 +172,21 @@ function FormPage() {
       console.error("Failed to save draft:", error);
     }
   }, [formData]);
+
+  useEffect(() => {
+    if (!hasEnteredInfo) return;
+
+    const handleBeforeUnload = (event) => {
+      if (allowLeaveRef.current) return;
+
+      event.preventDefault();
+      event.returnValue = "";
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
+  }, [hasEnteredInfo]);
 
   const handleStudentChange = (index, key, value) => {
     setFormData((prev) => ({
@@ -453,6 +484,7 @@ function FormPage() {
       localStorage.removeItem("verified_email");
       localStorage.removeItem("account_parent_relationship");
 
+      allowLeaveRef.current = true;
       navigate("/thanksforapply");
     } catch (error) {
       console.error("APPLICATION ERROR:", error);
@@ -540,6 +572,12 @@ function FormPage() {
         data={formData}
         gradeLevels={gradeLevels}
         paymentOptionsMap={paymentOptionsMap}
+      />
+
+      <LeaveFormModal
+        isOpen={blocker.state === "blocked"}
+        onStay={() => blocker.reset?.()}
+        onLeave={() => blocker.proceed?.()}
       />
 
       {isSubmitting && (

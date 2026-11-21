@@ -1,5 +1,7 @@
 import React from "react";
 
+import { getStudentLabel } from "./formUtils";
+
 const ReviewField = ({ label, value }) => (
   <div className="min-w-0">
     <p className="mb-1 text-[9px] sm:text-xs text-neutral-600">{label}</p>
@@ -66,9 +68,6 @@ const ReviewFormModal = ({
     )?.option_name;
   };
 
-  const studentLabel = (index) =>
-    students.length > 1 ? ` - Student ${index + 1}` : "";
-
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 px-4 py-5 backdrop-blur-sm"
@@ -102,6 +101,7 @@ const ReviewFormModal = ({
             const parents = student.parents || [];
             const father = parents[0] || {};
             const mother = parents[1] || {};
+            const studentLabel = getStudentLabel(student, index);
 
             return (
               <React.Fragment key={student._id || index}>
@@ -110,7 +110,7 @@ const ReviewFormModal = ({
                 )}
 
                 <ReviewSection
-                  title={`Student Information${studentLabel(index)}`}
+                  title={`Student Information${studentLabel}`}
                   layered
                 >
                   <ReviewRow>
@@ -182,7 +182,7 @@ const ReviewFormModal = ({
                 <div className="my-5 border-t border-[#d6d9e2]" />
 
                 <ReviewSection
-                  title={`Student Address${studentLabel(index)}`}
+                  title={`Student Address${studentLabel}`}
                 >
                   <ReviewField label="Province" value={student.province} />
 
@@ -204,7 +204,7 @@ const ReviewFormModal = ({
                 <div className="my-5 border-t border-[#d6d9e2]" />
 
                 <ReviewSection
-                  title={`Father Information${studentLabel(index)}`}
+                  title={`Father Information${studentLabel}`}
                 >
                   <ReviewField label="Last Name" value={father.p_last_name} />
 
@@ -231,7 +231,7 @@ const ReviewFormModal = ({
                 <div className="my-5 border-t border-[#d6d9e2]" />
 
                 <ReviewSection
-                  title={`Mother Information${studentLabel(index)}`}
+                  title={`Mother Information${studentLabel}`}
                 >
                   <ReviewField label="Last Name" value={mother.p_last_name} />
 
@@ -290,7 +290,7 @@ const ReviewFormModal = ({
             {students.map((student, index) => (
               <ReviewField
                 key={student._id || index}
-                label={`Payment Option${studentLabel(index)}`}
+                label={`Payment Option${getStudentLabel(student, index)}`}
                 value={getPaymentOptionName(student)}
               />
             ))}

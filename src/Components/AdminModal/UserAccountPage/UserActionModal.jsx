@@ -51,7 +51,7 @@ const UserActionModal = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4 ">
       <div className="flex w-full max-w-md flex-col gap-y-4 rounded-2xl bg-bone p-5 shadow-lg sm:p-6">
         <h2
-          className={`font-[PoppinsBold] text-sm sm:text-base ${
+          className={`font-[Poppins] text-sm sm:text-base ${
             danger ? "text-reject" : "text-parent-green"
           }`}
         >
@@ -64,14 +64,14 @@ const UserActionModal = ({
           {email && (
             <p>
               Account:{" "}
-              <span className="font-[PoppinsBold] text-gray-700">{email}</span>
+              <span className="font-[Poppins] text-gray-700">{email}</span>
             </p>
           )}
         </div>
 
         {showReason && (
           <div className="flex flex-col gap-y-2">
-            <p className="font-[PoppinsBold] text-xs text-gray-700">
+            <p className="font-[Poppins] text-xs text-gray-700">
               Reason <span className="text-reject">*</span>
             </p>
 
@@ -137,7 +137,7 @@ const UserActionModal = ({
           <button
             type="button"
             onClick={handleClose}
-            className="flex h-9 flex-1 items-center justify-center rounded-full border border-parent-accent/25 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+            className="flex h-9 flex-1 items-center justify-center rounded-full border border-parent-accent/25 bg-transparent font-[Poppins] text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -146,7 +146,7 @@ const UserActionModal = ({
             type="button"
             onClick={handleConfirm}
             disabled={isConfirmDisabled}
-            className={`flex h-9 flex-1 items-center justify-center rounded-full font-[PoppinsBold] text-xs text-white transition disabled:cursor-not-allowed disabled:opacity-50 ${
+            className={`flex h-9 flex-1 items-center justify-center rounded-full font-[Poppins] text-xs text-white transition disabled:cursor-not-allowed disabled:opacity-50 ${
               danger
                 ? "bg-reject hover:bg-reject/80"
                 : "bg-parent-green hover:bg-parent-accent"

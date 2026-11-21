@@ -87,7 +87,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
                 section.className || ""
               }`}
             >
-              <h2 className="py-4 text-xs font-[PoppinsBold] text-parent-green">
+              <h2 className="py-4 text-xs font-[Poppins] text-parent-green">
                 {section.title}
               </h2>
 
@@ -116,7 +116,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
 
           {applicant.status === "Rejected" && applicant.rejectionReason && (
             <div className="sm:col-span-3 rounded-xl border border-reject px-3 py-3">
-              <h2 className="py-3 text-xs font-[PoppinsBold] text-reject">
+              <h2 className="py-3 text-xs font-[Poppins] text-reject">
                 Reason for Rejection
               </h2>
               <p className="text-xs text-gray-600">

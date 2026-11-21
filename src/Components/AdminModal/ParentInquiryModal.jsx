@@ -88,12 +88,12 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
       >
         <div className="mb-4 flex items-start justify-between gap-4 sm:mb-6">
           <div>
-            <p className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-gray-500 sm:text-sm">
+            <p className="font-[Poppins] text-xs uppercase tracking-[0.2em] text-gray-500 sm:text-sm">
               We’re here to help
             </p>
             <h2
               id="parent-inquiry-title"
-              className="mt-1 font-[PoppinsBold] text-xl text-parent-green sm:text-2xl"
+              className="mt-1 font-[Poppins] text-xl text-parent-green sm:text-2xl"
             >
               Ask Us a Question
             </h2>
@@ -115,7 +115,7 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
           <div>
             <label
               htmlFor="parent-inquiry-name"
-              className="mb-1.5 block text-sm font-[PoppinsBold]"
+              className="mb-1.5 block text-sm font-[Poppins]"
             >
               Name
             </label>
@@ -134,7 +134,7 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
           <div>
             <label
               htmlFor="parent-inquiry-email"
-              className="mb-1.5 block text-sm font-[PoppinsBold]"
+              className="mb-1.5 block text-sm font-[Poppins]"
             >
               Email address
             </label>
@@ -153,7 +153,7 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
           <div>
             <label
               htmlFor="parent-inquiry-question"
-              className="mb-1.5 block text-sm font-[PoppinsBold]"
+              className="mb-1.5 block text-sm font-[Poppins]"
             >
               Question or inquiry
             </label>
@@ -183,14 +183,14 @@ const ParentInquiryModal = ({ isOpen, onClose }) => {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-parent-green/25 px-5 py-2.5 text-sm font-[PoppinsBold] text-parent-green transition-colors hover:bg-parent-green/5"
+              className="rounded-full border border-parent-green/25 px-5 py-2.5 text-sm font-[Poppins] text-parent-green transition-colors hover:bg-parent-green/5"
             >
               Close
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="rounded-full bg-parent-green px-5 py-2.5 text-sm font-[PoppinsBold] text-white transition-colors hover:bg-parent-green/90 disabled:cursor-not-allowed disabled:opacity-60"
+              className="rounded-full bg-parent-green px-5 py-2.5 text-sm font-[Poppins] text-white transition-colors hover:bg-parent-green/90 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {isSubmitting ? "Sending..." : "Send Inquiry"}
             </button>

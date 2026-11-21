@@ -26,30 +26,18 @@ const TeacherToolbar = ({
       </div>
 
       {/* Controls */}
-      <div className="ml-auto flex w-full items-center gap-2 md:w-auto">
+      <div className="ml-auto flex w-full flex-wrap items-center gap-3 md:w-auto">
         {/* Status */}
-        <select
-          value={status}
-          onChange={(event) => onStatusChange(event.target.value)}
-          className="h-8 min-w-27.5 rounded-full border py-0 border-parent-accent/25 bg-white/80 px-4 text-xs text-gray-700 outline-none focus:border-parent-green sm:hidden"
-        >
-          {STATUS_OPTIONS.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-
-        <div className="hidden items-center gap-x-3 sm:flex">
+        <div className="flex flex-wrap items-center gap-3">
           {STATUS_OPTIONS.map((option) => (
             <button
               key={option.value}
               type="button"
               onClick={() => onStatusChange(option.value)}
-              className={`whitespace-nowrap px-4 py-2 text-xs outline-none transition focus:outline-none focus-visible:outline-none ${
+              className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
                 status === option.value
-                  ? "rounded-full bg-parent-green text-white"
-                  : "text-gray-600 hover:text-parent-green"
+                  ? "bg-parent-green text-white"
+                  : "text-gray-500 hover:bg-parent-accent/15"
               }`}
             >
               {option.label}

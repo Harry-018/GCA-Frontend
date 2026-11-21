@@ -76,7 +76,7 @@ const EditAnnouncementModal = ({ isOpen, onClose, onSave, announcement }) => {
       <div className="relative flex max-h-[calc(100dvh-2rem)] w-full max-w-md flex-col gap-5 overflow-y-auto rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-lg">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <h2 className="text-sm font-[PoppinsBold] text-parent-green">
+          <h2 className="text-sm font-[Poppins] text-parent-green">
             Edit Announcement
           </h2>
 
@@ -219,14 +219,14 @@ const EditAnnouncementModal = ({ isOpen, onClose, onSave, announcement }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-1/2 rounded-full border border-parent-accent/25 px-4 py-2 text-xs font-[PoppinsBold] text-gray-500 transition-colors hover:bg-gray-100"
+              className="w-1/2 rounded-full border border-parent-accent/25 px-4 py-2 text-xs font-[Poppins] text-gray-500 transition-colors hover:bg-gray-100"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="w-1/2 rounded-full bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition-colors hover:bg-parent-accent"
+              className="w-1/2 rounded-full bg-parent-green px-4 py-2 text-xs font-[Poppins] text-white transition-colors hover:bg-parent-accent"
             >
               Save
             </button>

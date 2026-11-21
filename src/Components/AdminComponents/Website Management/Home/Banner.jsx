@@ -6,8 +6,11 @@ const Banner = ({
   image = "",
   onEdit,
 }) => {
+  const isClosed =
+    String(admissionStatus).trim().toLowerCase() === "closed";
+
   return (
-    <section className="flex h-full min-w-0 flex-col rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
+    <section className="flex h-full min-w-0 flex-col rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm sm:p-5">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-[PoppinsBold] uppercase tracking-[0.14em] text-parent-accent">
@@ -21,7 +24,7 @@ const Banner = ({
         <button
           type="button"
           onClick={onEdit}
-          className="rounded-xl bg-parent-pale/50 px-4 py-2 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green"
+          className="rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green"
         >
           Edit banner
         </button>
@@ -45,9 +48,17 @@ const Banner = ({
 
         <div className="flex flex-col gap-3">
           <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-2xl bg-parent-pale/35 px-3 py-3">
+            <div
+              className={`rounded-2xl px-3 py-3 ${
+                isClosed ? "bg-reject/10" : "bg-parent-pale/35"
+              }`}
+            >
               <p className="text-xs text-gray-500">Enrollment status</p>
-              <p className="mt-1 text-xs font-[PoppinsBold] text-parent-green sm:text-sm">
+              <p
+                className={`mt-1 text-xs font-[PoppinsBold] sm:text-sm ${
+                  isClosed ? "text-reject" : "text-parent-green"
+                }`}
+              >
                 {admissionStatus}
               </p>
             </div>

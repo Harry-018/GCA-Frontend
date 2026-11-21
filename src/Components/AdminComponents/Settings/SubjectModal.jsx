@@ -62,7 +62,7 @@ const SubjectModal = () => {
       {/* Header */}
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h1 className="font-[PoppinsBold] text-base text-parent-green sm:text-lg">
+          <h1 className="font-[Poppins] text-base text-parent-green sm:text-lg">
             {gradeLevelName} Subjects
           </h1>
 
@@ -96,7 +96,7 @@ const SubjectModal = () => {
             className="group rounded-2xl border border-parent-accent/20 bg-bone h-36 flex flex-col justify-between p-5 shadow-[0_2px_4px_rgba(0,0,0,0.12)]"
           >
             <div className="flex items-center gap-2">
-              <h2 className=" font-[PoppinsBold] text-base text-gray-700">
+              <h2 className=" font-[Poppins] text-base text-gray-700">
                 {subject.name}
               </h2>
               <button
@@ -131,7 +131,7 @@ const SubjectModal = () => {
             onSubmit={handleSubmit}
             className="w-full max-w-md rounded-2xl bg-bone p-6 shadow-lg"
           >
-            <h2 className="font-[PoppinsBold] text-base text-parent-green">
+            <h2 className="font-[Poppins] text-base text-parent-green">
               {editingSubject ? "Rename Subject" : "Add Subject"}
             </h2>
 

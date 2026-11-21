@@ -4,7 +4,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="w-full max-w-md rounded-2xl border border-parent-accent/25 bg-bone p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
+        <h2 className="font-[Poppins] text-sm text-parent-green">
           Add Teacher
         </h2>
 
@@ -17,7 +17,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
         <div className="flex flex-col gap-y-1 py-4">
           <label
             htmlFor="teacher-email"
-            className="text-[11px] lg:text-xs xl:text-sm font-[PoppinsBold] text-gray-600"
+            className="text-[11px] lg:text-xs xl:text-sm font-[Poppins] text-gray-600"
           >
             Email: <span className="text-red-500">*</span>
           </label>
@@ -37,7 +37,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
           <button
             type="button"
             onClick={onCancel}
-            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-bone font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-bone font-[Poppins] text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -45,7 +45,7 @@ const AddTeacherModal = ({ email, onChange, onCancel, onSend }) => {
           <button
             type="button"
             onClick={() => onSend(email)}
-            className="flex h-8 flex-1 items-center justify-center rounded-full bg-parent-green font-[PoppinsBold] text-xs text-white transition hover:opacity-90"
+            className="flex h-8 flex-1 items-center justify-center rounded-full bg-parent-green font-[Poppins] text-xs text-white transition hover:opacity-90"
           >
             Send
           </button>

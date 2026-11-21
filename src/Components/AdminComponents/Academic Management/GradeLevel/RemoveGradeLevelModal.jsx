@@ -13,7 +13,7 @@ const RemoveGradeLevelModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
+        <h2 className="font-[Poppins] text-sm text-parent-green">
           Remove Grade Level
         </h2>
 
@@ -21,7 +21,7 @@ const RemoveGradeLevelModal = ({
           <div className="pt-4">
             <p className="text-xs leading-5 text-egg-dark">
               Unable to remove{" "}
-              <span className="font-[PoppinsBold] text-12px">{gradeLevel}</span>
+              <span className="font-[Poppins] text-12px">{gradeLevel}</span>
               .
             </p>
             <p className="pt-2 text-[12px] lg:text-xs xl:text-sm leading-5 text-reject">
@@ -32,7 +32,7 @@ const RemoveGradeLevelModal = ({
           <>
             <p className="pt-4 text-xs leading-5 text-egg-dark">
               Are you sure you want to remove
-              <span className="font-[PoppinsBold]"> {gradeLevel} </span>
+              <span className="font-[Poppins]"> {gradeLevel} </span>
               from the selected school year?
             </p>
 
@@ -47,7 +47,7 @@ const RemoveGradeLevelModal = ({
             type="button"
             onClick={onCancel}
             disabled={isSubmitting}
-            className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[PoppinsBold] text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
+            className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[Poppins] text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {errorMessage ? "Close" : "Cancel"}
           </button>
@@ -57,7 +57,7 @@ const RemoveGradeLevelModal = ({
               type="button"
               onClick={onRemove}
               disabled={isSubmitting}
-              className="w-1/2 rounded-full bg-reject py-1.5 text-xs font-[PoppinsBold] text-white hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-40"
+              className="w-1/2 rounded-full bg-reject py-1.5 text-xs font-[Poppins] text-white hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-40"
             >
               {isSubmitting ? "Removing..." : "Remove"}
             </button>

@@ -16,7 +16,7 @@ const AddSectionModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
       <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-bone p-6 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-base text-parent-green">
+        <h2 className="font-[Poppins] text-base text-parent-green">
           Assign Section
         </h2>
 
@@ -60,7 +60,7 @@ const AddSectionModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-9 flex-1 rounded-full border border-parent-accent/25 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+            className="h-9 flex-1 rounded-full border border-parent-accent/25 bg-transparent font-[Poppins] text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -69,7 +69,7 @@ const AddSectionModal = ({
             type="button"
             onClick={onCreate}
             disabled={!sectionNameId || !teacherId}
-            className={`h-9 flex-1 rounded-full font-[PoppinsBold] text-xs text-white transition ${
+            className={`h-9 flex-1 rounded-full font-[Poppins] text-xs text-white transition ${
               !sectionNameId || !teacherId
                 ? "cursor-not-allowed bg-gray-300"
                 : "bg-parent-green hover:bg-parent-accent"

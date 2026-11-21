@@ -13,7 +13,7 @@ const RenameClass = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5">
       <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-md flex-col gap-y-5 overflow-y-auto rounded-2xl bg-bone p-6 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-base text-parent-green">
+        <h2 className="font-[Poppins] text-base text-parent-green">
           Rename Class
         </h2>
 
@@ -35,7 +35,7 @@ const RenameClass = ({
           <button
             type="button"
             onClick={onClose}
-            className="h-9 flex-1 rounded-full border border-parent-accent/25 bg-transparent font-[PoppinsBold] text-xs text-gray-500 transition hover:bg-gray-100"
+            className="h-9 flex-1 rounded-full border border-parent-accent/25 bg-transparent font-[Poppins] text-xs text-gray-500 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -43,7 +43,7 @@ const RenameClass = ({
           <button
             type="button"
             onClick={onRename}
-            className="h-9 flex-1 rounded-full bg-parent-green font-[PoppinsBold] text-xs text-white transition hover:bg-parent-accent"
+            className="h-9 flex-1 rounded-full bg-parent-green font-[Poppins] text-xs text-white transition hover:bg-parent-accent"
           >
             Rename
           </button>

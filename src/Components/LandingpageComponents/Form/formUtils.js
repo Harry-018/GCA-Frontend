@@ -74,6 +74,66 @@ export const createInitialData = () => ({
 export const isValidContactNumber = (value) =>
   CONTACT_NUMBER_PATTERN.test(String(value || ""));
 
+const PARENT_INFO_KEYS = [
+  "p_first_name",
+  "p_last_name",
+  "p_middle_name",
+  "p_contact_number",
+  "p_occupation",
+  "p_email",
+  "relationship_type",
+  "will_receive_account",
+];
+
+const hasParentInformation = (parent, blankParent) =>
+  PARENT_INFO_KEYS.some(
+    (key) => String(parent?.[key] ?? "") !== String(blankParent?.[key] ?? ""),
+  );
+
+export const hasFormInformation = (data, agreed = false) => {
+  if (agreed) return true;
+
+  const blank = applyVerifiedParent(createInitialData());
+  const students = Array.isArray(data?.students) ? data.students : [];
+
+  if (students.length !== blank.students.length) {
+    return true;
+  }
+
+  const hasStudentInformation = students.some((student, index) => {
+    const blankStudent = blank.students[index] || {};
+
+    const hasStudentFields = STUDENT_FIELD_KEYS.some(
+      (key) => String(student?.[key] ?? "") !== String(blankStudent[key] ?? ""),
+    );
+
+    const parents = Array.isArray(student?.parents) ? student.parents : [];
+    const blankParents = Array.isArray(blankStudent.parents)
+      ? blankStudent.parents
+      : [];
+
+    const hasParentFields = parents.some((parent, parentIndex) =>
+      hasParentInformation(parent, blankParents[parentIndex]),
+    );
+
+    return hasStudentFields || hasParentFields;
+  });
+
+  return (
+    hasStudentInformation ||
+    hasParentInformation(data?.guardian, blank.guardian)
+  );
+};
+
+export const getStudentLabel = (student, index) => {
+  const name = [student?.s_last_name, student?.s_first_name]
+    .map((part) => String(part || "").trim())
+    .filter(Boolean)
+    .join(", ");
+
+  return ` - ${name || `Student ${index + 1}`}`;
+};
+
 export const formatDateInput = (date) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");

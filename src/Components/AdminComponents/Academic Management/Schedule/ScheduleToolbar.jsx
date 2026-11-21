@@ -29,10 +29,10 @@ const ScheduleToolbar = ({
               key={day.value}
               type="button"
               onClick={() => onDayChange?.(day.value)}
-              className={`rounded-full px-3 py-2 text-xs transition ${
+              className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
                 activeDay === day.value
-                  ? "bg-parent-green font-[PoppinsBold] text-white"
-                  : "text-gray-600 hover:bg-gray-100"
+                  ? "bg-parent-green text-white"
+                  : "text-gray-500 hover:bg-parent-accent/15"
               }`}
             >
               {day.label}

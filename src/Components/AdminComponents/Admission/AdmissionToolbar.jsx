@@ -24,10 +24,10 @@ const AdmissionToolbar = ({
             key={status}
             type="button"
             onClick={() => onStatusChange(status)}
-            className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 text-[11px] font-[Poppins] transition sm:text-xs ${
+            className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
               activeStatus === status
                 ? "bg-parent-green text-white"
-                : "text-gray-600 hover:text-parent-green"
+                : "text-gray-500 hover:bg-parent-accent/15"
             }`}
           >
             {status}

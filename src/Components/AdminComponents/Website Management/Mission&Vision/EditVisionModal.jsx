@@ -16,7 +16,7 @@ const EditVisionModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-parent-accent/20 bg-bone p-5 shadow-lg">
-        <h2 className=" text-[9px] sm:text-sm font-[PoppinsBold] text-parent-green">
+        <h2 className=" text-[9px] sm:text-sm font-[Poppins] text-parent-green">
           Edit Vision
         </h2>
 
@@ -55,7 +55,7 @@ const EditVisionModal = ({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-parent-accent/30 px-5 py-2 text-[9px] sm:text-xs font-[PoppinsBold] text-[#555555] transition hover:bg-bone"
+            className="rounded-full border border-parent-accent/30 px-5 py-2 text-[9px] sm:text-xs font-[Poppins] text-[#555555] transition hover:bg-bone"
           >
             Close
           </button>
@@ -64,7 +64,7 @@ const EditVisionModal = ({
             type="button"
             onClick={onSave}
             disabled={loading}
-            className="flex items-center justify-center gap-2 rounded-full bg-parent-green px-5 py-2 text-[9px] font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
+            className="flex items-center justify-center gap-2 rounded-full bg-parent-green px-5 py-2 text-[9px] font-[Poppins] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
           >
             {loading ? (
               <>

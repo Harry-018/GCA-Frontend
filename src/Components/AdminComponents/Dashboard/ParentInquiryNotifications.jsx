@@ -416,14 +416,14 @@ const ParentInquiryNotifications = () => {
           aria-expanded={isOpen}
           aria-haspopup="dialog"
           title="Parent Inquiry"
-          className={`fixed bottom-6 right-5 z-60 flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-parent-green sm:bottom-8 sm:right-8 ${
+          className={`fixed bottom-6 right-5 z-60 flex h-12 items-center gap-2 rounded-xl px-5 shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-parent-green sm:bottom-8 sm:right-8 ${
             unreadInquiryCount > 0
               ? "bg-reject text-white hover:bg-reject/90"
               : "bg-parent-green text-white hover:bg-parent-accent"
           }`}
         >
-          <MessageCircle aria-hidden="true" className="h-5.5 w-5.5" />
-          <span className="text-xs font-[PoppinsBold] tracking-wide">
+          <MessageCircle aria-hidden="true" className="h-5 w-5 shrink-0" />
+          <span className="whitespace-nowrap text-xs font-[PoppinsBold] tracking-wide">
             INQUIRY
           </span>
           {unreadInquiryCount > 0 && (
@@ -437,7 +437,7 @@ const ParentInquiryNotifications = () => {
           <section
             role="dialog"
             aria-label="Parent inquiry notifications"
-            className="fixed bottom-28 right-5 z-50 w-80 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:bottom-32 sm:right-8 sm:w-96"
+            className="fixed bottom-20 right-5 z-50 w-80 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:bottom-24 sm:right-8 sm:w-96"
           >
           <div className="flex items-start justify-between gap-3 border-b border-parent-accent/15 px-4 py-3">
             <div>

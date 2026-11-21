@@ -23,10 +23,10 @@ const UserToolbar = ({
             key={tab.value}
             type="button"
             onClick={() => onTabChange?.(tab.value)}
-            className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 font-[Poppins] text-[11px] transition sm:px-5 sm:text-xs ${
+            className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
               activeTab === tab.value
                 ? "bg-parent-green text-white"
-                : "bg-transparent text-gray-500 hover:text-gray-700"
+                : "text-gray-500 hover:bg-parent-accent/15"
             }`}
           >
             {tab.label}

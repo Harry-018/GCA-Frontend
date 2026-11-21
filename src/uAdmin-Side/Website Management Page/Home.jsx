@@ -722,10 +722,10 @@ const Home = () => {
             type="button"
             onClick={() => setActiveTab(item.key)}
             aria-current={activeTab === item.key ? "page" : undefined}
-            className={`inline-flex min-h-9 shrink-0 items-center whitespace-nowrap px-4 py-2 text-xs font-[Poppins] transition ${
+            className={`inline-flex min-h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
               activeTab === item.key
-                ? "rounded-full bg-parent-green text-white"
-                : "rounded-full text-gray-600 hover:text-parent-green"
+                ? "bg-parent-green text-white"
+                : "text-gray-500 hover:bg-parent-accent/15"
             }`}
           >
             {item.label}
