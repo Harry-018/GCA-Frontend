@@ -61,7 +61,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
           <div>
-            <h2 className="font-[PoppinsBold] text-base text-parent-green">
+            <h2 className="font-[Poppins] text-base text-parent-green">
               Add Students
             </h2>
 
@@ -126,13 +126,13 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
                 <thead className="border-b border-parent-accent/20 bg-bone">
                   <tr>
                     <th className="w-12 px-4 py-3"></th>
-                    <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">
+                    <th className="px-4 py-3 font-[Poppins] text-gray-500">
                       Student Number
                     </th>
-                    <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">
+                    <th className="px-4 py-3 font-[Poppins] text-gray-500">
                       Name
                     </th>
-                    <th className="px-4 py-3 font-[PoppinsBold] text-gray-500">
+                    <th className="px-4 py-3 font-[Poppins] text-gray-500">
                       LRN
                     </th>
                   </tr>

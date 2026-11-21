@@ -116,10 +116,12 @@ const LoginHeader = ({ onMenuToggle }) => {
           onClick={openInquiry}
           aria-label="Parent Inquiry - Ask Us"
           title="Parent Inquiry"
-          className="fixed bottom-6 right-5 z-60 flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-full bg-lime-green text-[#0c2423] shadow-lg transition-transform hover:scale-105 hover:bg-lime-green/90 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-lime-green sm:bottom-8 sm:right-8"
+          className="fixed bottom-6 right-5 z-60 flex h-12 items-center gap-2 rounded-xl bg-parent-green px-5 text-bone shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 sm:bottom-8 sm:right-8"
         >
-          <MessageCircle size={22} className="shrink-0" />
-          <span className="text-xs font-[PoppinsBold] tracking-wide">ASK US</span>
+          <MessageCircle size={20} className="shrink-0" />
+          <span className="whitespace-nowrap text-xs font-[PoppinsBold] tracking-wide">
+            ASK US
+          </span>
         </button>
       </nav>
     </header>

@@ -1,6 +1,6 @@
 import InfoField from "./InfoField";
 import InfoSection from "./InfoSection";
-import { isValidContactNumber } from "./formUtils";
+import { getStudentLabel, isValidContactNumber } from "./formUtils";
 
 const contactError = (value) =>
   value && value.length > 3 && !isValidContactNumber(value)
@@ -24,7 +24,6 @@ const SameInformationButton = ({ onClick, locked = false }) => (
 const ParentInfoSections = ({
   student,
   index,
-  totalStudents,
   fatherIsAccountParent,
   motherIsAccountParent,
   fatherLocked = false,
@@ -37,7 +36,7 @@ const ParentInfoSections = ({
   const father = parents[0] || {};
   const mother = parents[1] || {};
 
-  const studentLabel = totalStudents > 1 ? ` - Student ${index + 1}` : "";
+  const studentLabel = getStudentLabel(student, index);
 
   const field = (parentIndex, key) => (e) => {
     onParentChange?.(index, parentIndex, key, e.target.value);

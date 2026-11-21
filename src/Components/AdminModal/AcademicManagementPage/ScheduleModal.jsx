@@ -58,7 +58,7 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-5">
           <div>
-            <h2 className="font-[PoppinsBold] text-lg text-parent-green">
+            <h2 className="font-[Poppins] text-lg text-parent-green">
               SCHEDULE
             </h2>
             <p className="mt-1 font-[Poppins] text-base text-gray-500">
@@ -100,14 +100,14 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
                 const { event } = eventInfo;
                 return (
                   <div className="flex event-card w-full h-full flex-col overflow-hidden rounded-lg border border-parent-green/80 bg-parent-green px-2 py-1.5 text-white shadow-sm justify-between ">
-                    <p className="truncate font-[PoppinsBold] text-[14px] text-wrap leading-tight text-white">
+                    <p className="truncate font-[Poppins] text-[14px] text-wrap leading-tight text-white">
                       {event.title}
                     </p>
                     <div>
-                      <p className="truncate font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
+                      <p className="truncate font-[Poppins] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
                         {event.extendedProps.room}
                       </p>
-                      <p className="truncate font-[PoppinsBold] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
+                      <p className="truncate font-[Poppins] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
                         {event.extendedProps.teacher}
                       </p>
                     </div>
@@ -122,7 +122,7 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
           <button
             type="button"
             onClick={onClose}
-            className="h-9 rounded-full bg-parent-green px-8 font-[PoppinsBold] text-xs text-white transition hover:bg-parent-accent"
+            className="h-9 rounded-full bg-parent-green px-8 font-[Poppins] text-xs text-white transition hover:bg-parent-accent"
           >
             Close
           </button>

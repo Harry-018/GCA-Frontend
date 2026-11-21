@@ -46,14 +46,14 @@ const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
                 <button
                   type="button"
                   onClick={() => onEdit?.(reason)}
-                  className="rounded-lg border border-parent-accent/20 px-2.5 py-1.5 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale/30 sm:text-xs"
+                  className="rounded-lg border border-parent-accent/20 px-2.5 py-1.5 text-xs font-[Poppins] text-parent-green transition hover:bg-parent-pale/30 sm:text-xs"
                 >
                   Edit
                 </button>
                 <button
                   type="button"
                   onClick={() => onRemove?.(reason)}
-                  className="rounded-lg border border-reject/20 bg-reject/5 px-2.5 py-1.5 text-xs font-[PoppinsBold] text-reject transition hover:bg-reject/10 sm:text-xs"
+                  className="rounded-lg border border-reject/20 bg-reject/5 px-2.5 py-1.5 text-xs font-[Poppins] text-reject transition hover:bg-reject/10 sm:text-xs"
                 >
                   Remove
                 </button>

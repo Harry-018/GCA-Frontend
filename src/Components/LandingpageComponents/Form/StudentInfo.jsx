@@ -6,6 +6,7 @@ import StudentFormCard from "./StudentFormCard";
 import ParentInfoSections from "./ParentInfoSections";
 import GuardianInfoSection from "./GuardianInfoSection";
 import PaymentOptionSection from "./PaymentOptionSection";
+import TermsAndConditionsModal from "./TermsAndConditionsModal";
 
 const StudentInfo = ({
   formData,
@@ -28,6 +29,7 @@ const StudentInfo = ({
 }) => {
   const [provinceOptions, setProvinceOptions] = useState([]);
   const [cityOptions, setCityOptions] = useState([]);
+  const [isTermsOpen, setIsTermsOpen] = useState(false);
 
   useEffect(() => {
     const loadAddressData = async () => {
@@ -93,6 +95,20 @@ const StudentInfo = ({
 
   const gradeLevelOptions = Array.isArray(gradeLevels) ? gradeLevels : [];
 
+  const handleAgreementChange = (event) => {
+    if (event.target.checked) {
+      setIsTermsOpen(true);
+      return;
+    }
+
+    onAgreeChange?.(false);
+  };
+
+  const handleTermsAgree = () => {
+    onAgreeChange?.(true);
+    setIsTermsOpen(false);
+  };
+
   if (step === 1) {
     return (
       <div className="flex flex-col gap-6 font-[Poppins]">
@@ -123,53 +139,102 @@ const StudentInfo = ({
   }
 
   return (
-    <div className="flex flex-col gap-6 font-[Poppins]">
-      {students.map((student, index) => (
-        <ParentInfoSections
-          key={student._id || index}
-          student={student}
-          index={index}
-          totalStudents={students.length}
-          fatherIsAccountParent={fatherIsAccountParent}
-          motherIsAccountParent={motherIsAccountParent}
-          onParentChange={onParentChange}
-          onSameInformation={onSameParentInfo}
-          onCancelSameInformation={onCancelSameParentInfo}
-          fatherLocked={Boolean(sameParentLocks[`${student._id}-0`])}
-          motherLocked={Boolean(sameParentLocks[`${student._id}-1`])}
-        />
-      ))}
-
-      <GuardianInfoSection
-        guardian={guardian}
-        guardianIsAccountParent={guardianIsAccountParent}
-        onChange={onGuardianChange}
-      />
-
-      {students.map((student, index) => (
-        <PaymentOptionSection
-          key={student._id || index}
-          student={student}
-          index={index}
-          totalStudents={students.length}
-          onChange={onStudentChange}
-          onOptionsLoaded={onPaymentOptionsLoaded}
-        />
-      ))}
-
-      <InfoSection title="Data Privacy Agreement">
-        <label className="flex items-start gap-3 rounded-lg border border-[#d4d5d9] bg-bone p-4 text-sm text-neutral-600 sm:col-span-2 md:col-span-3 lg:col-span-4">
-          <input
-            type="checkbox"
-            checked={agreed}
-            onChange={(e) => onAgreeChange?.(e.target.checked)}
-            className="mt-0.5 h-4 w-4 rounded border-[#bfc4ca] text-swamp-green"
+    <>
+      <div className="flex flex-col gap-6 font-[Poppins]">
+        {students.map((student, index) => (
+          <ParentInfoSections
+            key={student._id || index}
+            student={student}
+            index={index}
+            fatherIsAccountParent={fatherIsAccountParent}
+            motherIsAccountParent={motherIsAccountParent}
+            onParentChange={onParentChange}
+            onSameInformation={onSameParentInfo}
+            onCancelSameInformation={onCancelSameParentInfo}
+            fatherLocked={Boolean(sameParentLocks[`${student._id}-0`])}
+            motherLocked={Boolean(sameParentLocks[`${student._id}-1`])}
           />
-          I agree to the processing and use of my personal data in accordance
-          with the school's privacy policy and data protection guidelines.
-        </label>
-      </InfoSection>
-    </div>
+        ))}
+
+        <GuardianInfoSection
+          guardian={guardian}
+          guardianIsAccountParent={guardianIsAccountParent}
+          onChange={onGuardianChange}
+        />
+
+        {students.map((student, index) => (
+          <PaymentOptionSection
+            key={student._id || index}
+            student={student}
+            index={index}
+            onChange={onStudentChange}
+            onOptionsLoaded={onPaymentOptionsLoaded}
+          />
+        ))}
+
+        <InfoSection
+          title={
+            <button
+              type="button"
+              onClick={() => setIsTermsOpen(true)}
+              className="text-left font-[PoppinsBold] uppercase hover:text-parent-accent"
+            >
+              Terms and Conditions
+            </button>
+          }
+          action={
+            <button
+              type="button"
+              onClick={() => setIsTermsOpen(true)}
+              className="rounded-md border border-parent-green bg-transparent px-3 py-1.5 text-2xs font-[PoppinsBold] uppercase text-parent-green transition hover:bg-parent-pale"
+            >
+              View Terms
+            </button>
+          }
+        >
+          <div className="flex flex-col gap-2 sm:col-span-2 md:col-span-3 lg:col-span-4">
+            <div className="flex items-start gap-3 rounded-lg border border-[#d4d5d9] bg-bone p-4 text-sm text-neutral-600">
+              <input
+                id="terms-agreement"
+                type="checkbox"
+                checked={agreed}
+                onChange={handleAgreementChange}
+                className="mt-0.5 h-4 w-4 shrink-0 rounded border-[#bfc4ca] text-swamp-green"
+              />
+
+              <div className="min-w-0">
+                <p>
+                  <label htmlFor="terms-agreement" className="cursor-pointer">
+                    I have read and agree to the
+                  </label>{" "}
+                  <button
+                    type="button"
+                    onClick={() => setIsTermsOpen(true)}
+                    className="font-[PoppinsBold] text-parent-green underline underline-offset-2 hover:text-parent-accent"
+                  >
+                    Terms and Conditions
+                  </button>
+                  .
+                </p>
+
+                <p className="mt-1 text-xs text-neutral-500">
+                  {agreed
+                    ? "Status: Accepted. You may submit your application for review."
+                    : "Open the terms, read to the end, then click I Agree to accept."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </InfoSection>
+      </div>
+
+      {isTermsOpen && (
+        <TermsAndConditionsModal
+          onClose={() => setIsTermsOpen(false)}
+          onAgree={handleTermsAgree}
+        />
+      )}
+    </>
   );
 };
 

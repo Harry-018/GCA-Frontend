@@ -12,9 +12,9 @@ import {
 import Header from "../../Components/AdminComponents/Communication/Announcement/Header";
 
 const PAYMENT_TYPES = [
-  { id: "fullcash", label: "FULLCASH" },
-  { id: "paylite", label: "PAYLITE" },
-  { id: "allin", label: "ALL IN" },
+  { id: "fullcash", label: "Fullcash" },
+  { id: "paylite", label: "Paylite" },
+  { id: "allin", label: "All in" },
 ];
 
 const MONTHS = [
@@ -299,40 +299,44 @@ const Notification = () => {
         }}
       />
 
+      <div
+        role="toolbar"
+        aria-label="Notification filters"
+        className="flex w-full flex-wrap items-center justify-between gap-3"
+      >
+        <nav
+          aria-label="Payment type"
+          className="flex flex-wrap items-center gap-3"
+        >
+          {PAYMENT_TYPES.map((paymentType) => (
+            <button
+              key={paymentType.id}
+              type="button"
+              aria-pressed={activePaymentType === paymentType.id}
+              onClick={() => setActivePaymentType(paymentType.id)}
+              className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
+                activePaymentType === paymentType.id
+                  ? "bg-parent-green text-white"
+                  : "text-gray-500 hover:bg-parent-accent/15"
+              }`}
+            >
+              {paymentType.label}
+            </button>
+          ))}
+        </nav>
+
+        <button
+          type="button"
+          onClick={openAddModal}
+          className="inline-flex items-center gap-2 rounded-full bg-parent-green px-5 py-2 font-[Poppins] text-xs text-white transition hover:bg-parent-accent"
+        >
+          <Plus className="h-4 w-4" />
+          Add reminder
+        </button>
+      </div>
+
       <main className="flex min-h-0 flex-1 flex-col rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm sm:p-5">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <nav
-            aria-label="Payment type"
-            className="flex flex-wrap items-center gap-1.5 rounded-2xl bg-parent-pale/30 p-1.5"
-          >
-            {PAYMENT_TYPES.map((paymentType) => (
-              <button
-                key={paymentType.id}
-                type="button"
-                aria-pressed={activePaymentType === paymentType.id}
-                onClick={() => setActivePaymentType(paymentType.id)}
-                className={`min-h-9 min-w-28 rounded-xl px-4 py-2 text-xs font-[PoppinsBold] transition ${
-                  activePaymentType === paymentType.id
-                    ? "bg-parent-green text-white shadow-sm"
-                    : "text-gray-600 hover:bg-white hover:text-parent-green"
-                }`}
-              >
-                {paymentType.label}
-              </button>
-            ))}
-          </nav>
-
-          <button
-            type="button"
-            onClick={openAddModal}
-            className="inline-flex items-center gap-2 rounded-xl bg-parent-green px-4 py-2.5 text-xs font-[PoppinsBold] text-white shadow-sm transition hover:bg-parent-accent"
-          >
-            <Plus className="h-4 w-4" />
-            Add reminder
-          </button>
-        </div>
-
-        <div className="mt-5 flex-1 space-y-3 overflow-y-auto">
+        <div className="flex-1 space-y-3 overflow-y-auto">
           {activeReminders.length === 0 ? (
             <div className="flex min-h-48 flex-col items-center justify-center rounded-2xl border border-dashed border-parent-accent/25 bg-white/70 px-4 py-8 text-center">
               <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-parent-pale/40 text-parent-green">

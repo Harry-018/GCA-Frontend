@@ -10,7 +10,7 @@ const AcademicPrograms = ({
     programs.find((program) => program.name === selectedProgram) || programs[0];
 
   return (
-    <section className="flex h-full min-w-0 flex-col rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
+    <section className="flex h-full min-w-0 flex-col rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm sm:p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-[PoppinsBold] uppercase tracking-[0.14em] text-parent-accent">
@@ -25,7 +25,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onEdit}
-            className="rounded-xl border border-parent-accent/20 px-3 py-2 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale/30 sm:text-xs"
+            className="rounded-xl border border-parent-accent/20 px-3 py-2 text-xs font-[Poppins] text-parent-green transition hover:bg-parent-pale/30 sm:text-xs"
           >
             Edit
           </button>
@@ -33,7 +33,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-xl bg-parent-green px-3 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent sm:text-xs"
+            className="rounded-xl bg-parent-green px-3 py-2 text-xs font-[Poppins] text-white transition hover:bg-parent-accent sm:text-xs"
           >
             Add
           </button>
@@ -41,7 +41,7 @@ const AcademicPrograms = ({
           <button
             type="button"
             onClick={onRemove}
-            className="rounded-xl border border-reject/20 bg-reject/5 px-3 py-2 text-xs font-[PoppinsBold] text-reject transition hover:bg-reject/10 sm:text-xs"
+            className="rounded-xl border border-reject/20 bg-reject/5 px-3 py-2 text-xs font-[Poppins] text-reject transition hover:bg-reject/10 sm:text-xs"
           >
             Remove
           </button>
@@ -57,10 +57,10 @@ const AcademicPrograms = ({
               key={program.id}
               type="button"
               onClick={() => onProgramChange?.(program.name)}
-              className={`rounded-xl px-3 py-2 text-xs font-[PoppinsBold] transition sm:text-xs ${
+              className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
                 isActive
-                  ? "bg-parent-green text-white shadow-sm"
-                  : "text-gray-600 hover:bg-white hover:text-parent-green"
+                  ? "bg-parent-green text-white"
+                  : "text-gray-500 hover:bg-parent-accent/15"
               }`}
             >
               {program.name}

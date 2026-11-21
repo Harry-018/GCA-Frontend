@@ -10,7 +10,7 @@ const RemoveSkillModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="w-full max-w-md rounded-2xl bg-bone p-6 shadow-lg">
-        <h2 className=" text-sm font-[PoppinsBold] text-reject">
+        <h2 className=" text-sm font-[Poppins] text-reject">
           Remove Skill
         </h2>
 
@@ -33,7 +33,7 @@ const RemoveSkillModal = ({
           <button
             type="button"
             onClick={onRemove}
-            className="flex-1 rounded-full bg-reject px-4 py-2 text-xs font-[PoppinsBold] text-white"
+            className="flex-1 rounded-full bg-reject px-4 py-2 text-xs font-[Poppins] text-white"
           >
             Remove
           </button>

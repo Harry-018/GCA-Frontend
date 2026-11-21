@@ -31,7 +31,7 @@ const ChangeTeacherModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-5">
       <div className="w-full max-w-sm rounded-2xl bg-bone p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
+        <h2 className="font-[Poppins] text-sm text-parent-green">
           Change Teacher
         </h2>
 
@@ -59,7 +59,7 @@ const ChangeTeacherModal = ({
           <button
             type="button"
             onClick={onCancel}
-            className="h-10 flex-1 rounded-full border border-parent-accent/25 bg-transparent font-[PoppinsBold] text-xs text-gray-600 transition hover:bg-gray-100"
+            className="h-10 flex-1 rounded-full border border-parent-accent/25 bg-transparent font-[Poppins] text-xs text-gray-600 transition hover:bg-gray-100"
           >
             Cancel
           </button>
@@ -68,7 +68,7 @@ const ChangeTeacherModal = ({
             type="button"
             disabled={!selectedTeacherId}
             onClick={handleChange}
-            className="h-10 flex-1 rounded-full bg-parent-green font-[PoppinsBold] text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
+            className="h-10 flex-1 rounded-full bg-parent-green font-[Poppins] text-xs text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40"
           >
             Change
           </button>

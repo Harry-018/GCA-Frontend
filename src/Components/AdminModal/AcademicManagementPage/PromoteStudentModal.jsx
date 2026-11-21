@@ -81,7 +81,7 @@ const PromoteStudentModal = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
           <div>
-            <h2 className="font-[PoppinsBold] text-base text-parent-green">
+            <h2 className="font-[Poppins] text-base text-parent-green">
               Promote Students
             </h2>
 
@@ -104,7 +104,7 @@ const PromoteStudentModal = ({
           <div className="rounded-xl bg-bone p-4">
             <p className="text-xs text-gray-500">Selected students</p>
 
-            <p className="mt-1 font-[PoppinsBold] text-sm text-gray-700">
+            <p className="mt-1 font-[Poppins] text-sm text-gray-700">
               {selectedStudentIds.length}
             </p>
           </div>

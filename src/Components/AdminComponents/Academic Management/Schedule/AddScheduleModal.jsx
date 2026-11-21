@@ -19,7 +19,7 @@ const AddScheduleModal = ({
       <div className="bg-bone flex w-full max-w-md flex-col gap-1 rounded-2xl bg- p-5">
         {/* Header */}
         <div className="mb-3">
-          <h2 className="font-[PoppinsBold] text-sm text-parent-green">
+          <h2 className="font-[Poppins] text-sm text-parent-green">
             Add Schedule
           </h2>
           <p className="mt-1 font-[Poppins] text-2xs text-gray-500">
@@ -156,7 +156,7 @@ const AddScheduleModal = ({
           <button
             type="button"
             onClick={onAdd}
-            className="rounded-lg bg-parent-green px-4 py-2 font-[PoppinsBold] text-2xs text-white transition hover:opacity-90"
+            className="rounded-lg bg-parent-green px-4 py-2 font-[Poppins] text-2xs text-white transition hover:opacity-90"
           >
             Add Schedule
           </button>

@@ -19,7 +19,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
       <div className="max-h-[calc(100dvh-2.5rem)] w-full max-w-5xl overflow-y-auto rounded-2xl border border-parent-accent/25 bg-bone p-5 shadow-lg">
-        <h2 className="font-[PoppinsBold] text-sm text-parent-green">
+        <h2 className="font-[Poppins] text-sm text-parent-green">
           Student Information
         </h2>
         {/* Information */}
@@ -146,7 +146,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
             type="button"
             onClick={onClose}
             disabled={saving}
-            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-bone font-[PoppinsBold] text-xs text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-8 flex-1 items-center justify-center rounded-full border border-gray-400 bg-bone font-[Poppins] text-xs text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Close
           </button>
@@ -154,7 +154,7 @@ const StudentInfoModal = ({ student, onClose, onSave, saving = false }) => {
             type="button"
             onClick={handleSubmit}
             disabled={saving}
-            className="flex h-8 flex-1 items-center justify-center rounded-full bg-parent-green font-[PoppinsBold] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-8 flex-1 items-center justify-center rounded-full bg-parent-green font-[Poppins] text-xs text-white hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {saving ? "Saving..." : "Save"}
           </button>

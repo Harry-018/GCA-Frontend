@@ -7,7 +7,7 @@ const EnrolledModal = ({ isOpen, onClose, onConfirm, loading = false }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4 font-[Poppins]">
       <div className="w-full max-w-130 rounded-[20px] border border-[#2d2d2d]/20 bg-bone px-6 py-5 shadow-[0_2px_10px_rgba(0,0,0,0.18)]">
-        <h2 className="text-center text-[17px] font-[PoppinsBold] text-[#2d2d2d]">
+        <h2 className="text-center text-[17px] font-[Poppins] text-[#2d2d2d]">
           Enroll Student
         </h2>
 

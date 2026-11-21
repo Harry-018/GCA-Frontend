@@ -154,10 +154,10 @@ const ParentsHeader = ({ onMenuToggle }) => {
                   to="/parents/security"
                   onClick={() => setUserMenu(false)}
                   className={({ isActive }) =>
-                    `flex items-center gap-x-2.5 px-3 py-2.5 text-[11px] transition-colors sm:gap-x-3 sm:px-4 sm:py-3 sm:text-sm ${
+                    `flex items-center gap-x-2.5 px-3 py-2.5 text-[11px] transition-colors duration-200 sm:gap-x-3 sm:px-4 sm:py-3 sm:text-sm ${
                       isActive
-                        ? "bg-green-50 text-swamp-green"
-                        : "text-gray-600 hover:bg-bone hover:text-swamp-green"
+                        ? "bg-swamp-green text-bone"
+                        : "text-gray-600 hover:bg-swamp-green hover:text-bone"
                     }`
                   }
                 >
@@ -169,7 +169,7 @@ const ParentsHeader = ({ onMenuToggle }) => {
                   <button
                     type="button"
                     onClick={handleLogout}
-                    className="flex w-full items-center gap-x-2.5 px-3 py-2.5 text-[11px] text-red-500 transition-colors hover:bg-red-50 sm:gap-x-3 sm:px-4 sm:py-3 sm:text-sm"
+                    className="flex w-full items-center gap-x-2.5 px-3 py-2.5 text-[11px] font-medium text-red-600 transition-colors duration-200 hover:bg-red-100 hover:text-red-700 sm:gap-x-3 sm:px-4 sm:py-3 sm:text-sm"
                   >
                     <LogOut size={15} />
                     <span>Log out</span>

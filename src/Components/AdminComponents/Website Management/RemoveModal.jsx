@@ -41,7 +41,7 @@ const RemoveModal = ({
         <div className="mb-4 flex items-start justify-between gap-4">
           <h2
             id="remove-modal-title"
-            className="text-lg font-[PoppinsBold] text-reject"
+            className="text-lg font-[Poppins] text-reject"
           >
             {title}
           </h2>
@@ -52,7 +52,7 @@ const RemoveModal = ({
           {message || (
             <>
               Are you sure you want to remove{" "}
-              <span className="font-[PoppinsBold] text-[#3b3b3b]">{itemName}</span>?
+              <span className="font-[Poppins] text-[#3b3b3b]">{itemName}</span>?
             </>
           )}
         </div>

@@ -12,7 +12,7 @@ const RejectModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 px-4">
       <div className="relative w-full max-w-md rounded-2xl bg-bone px-6 py-5 shadow-lg">
-        <h2 className="text-base font-[PoppinsBold] text-reject">Reject Applicant</h2>
+        <h2 className="text-base font-[Poppins] text-reject">Reject Applicant</h2>
         <p className="pt-4 text-xs leading-6 text-gray-600">
           Upon clicking &quot;Reject&quot;, you confirm that this
           applicant&apos;s submitted documents will not proceed to enrollment
@@ -43,7 +43,7 @@ const RejectModal = ({
             type="button"
             onClick={onClose}
             disabled={loading}
-            className="h-9 flex-1 rounded-full border border-gray-500 bg-transparent text-xs font-[PoppinsBold] text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 flex-1 rounded-full border border-gray-500 bg-transparent text-xs font-[Poppins] text-gray-500 hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Cancel
           </button>
@@ -51,7 +51,7 @@ const RejectModal = ({
             type="button"
             onClick={onConfirm}
             disabled={!rejectionReasonId || loading}
-            className="h-9 flex-1 rounded-full bg-reject text-xs font-[PoppinsBold] text-white hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50"
+            className="h-9 flex-1 rounded-full bg-reject text-xs font-[Poppins] text-white hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? "Rejecting..." : "Reject"}
           </button>

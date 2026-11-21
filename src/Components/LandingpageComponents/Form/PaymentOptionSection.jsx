@@ -4,11 +4,11 @@ import InfoSection from "./InfoSection";
 import PaymentOptionSelectCard from "./PaymentOptionSelectCard";
 import { getPaymentOptionsInGradeLevel } from "../../../loaders/services/preEnrollmentService";
 import { getTuition } from "../../../requests/tuitionRequests";
+import { getStudentLabel } from "./formUtils";
 
 const PaymentOptionSection = ({
   student,
   index,
-  totalStudents,
   onChange,
   onOptionsLoaded,
 }) => {
@@ -78,7 +78,7 @@ const PaymentOptionSection = ({
     };
   }, [student.grade_level_id, onOptionsLoaded]);
 
-  const studentLabel = totalStudents > 1 ? ` - Student ${index + 1}` : "";
+  const studentLabel = getStudentLabel(student, index);
 
   return (
     <InfoSection title={`Payment Option${studentLabel}`}>

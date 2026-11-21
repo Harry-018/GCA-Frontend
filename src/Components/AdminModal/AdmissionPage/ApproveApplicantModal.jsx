@@ -25,24 +25,24 @@ const ApproveApplicantModal = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
       <div className="w-full max-w-102.5 rounded-2xl bg-bone px-6 py-5 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
-        <h2 className="text-base font-[PoppinsBold] text-parent-green">
+        <h2 className="text-base font-[Poppins] text-parent-green">
           {title}
         </h2>
 
         <div className="flex flex-col gap-2 py-6 text-xs text-gray-600">
           <div className="grid grid-cols-[105px_1fr]">
             <span>Send confirmation to:</span>
-            <span className="font-[PoppinsBold] text-gray-700">{email}</span>
+            <span className="font-[Poppins] text-gray-700">{email}</span>
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">
             <span>Purpose:</span>
-            <span className="font-[PoppinsBold] text-gray-700">{purpose}</span>
+            <span className="font-[Poppins] text-gray-700">{purpose}</span>
           </div>
         </div>
 
         <div>
-          <h3 className="pb-3 text-sm font-[PoppinsBold] text-parent-green">
+          <h3 className="pb-3 text-sm font-[Poppins] text-parent-green">
             {scheduleTitle}
           </h3>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">

@@ -41,35 +41,35 @@ const RescheduleModal = ({
           <X size={18} />
         </button>
 
-        <h2 className="text-base font-[PoppinsBold] text-parent-green">
+        <h2 className="text-base font-[Poppins] text-parent-green">
           {title}
         </h2>
 
         <div className="flex flex-col gap-2 py-5 text-xs text-gray-600">
           <div className="grid grid-cols-[105px_1fr]">
             <span>Applicant:</span>
-            <span className="font-[PoppinsBold] text-gray-700">
+            <span className="font-[Poppins] text-gray-700">
               {applicant.last_name}, {applicant.first_name}
             </span>
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">
             <span>Applicant ID:</span>
-            <span className="font-[PoppinsBold] text-gray-700">
+            <span className="font-[Poppins] text-gray-700">
               {applicant.application_no}
             </span>
           </div>
 
           <div className="grid grid-cols-[105px_1fr]">
             <span>Grade Level:</span>
-            <span className="font-[PoppinsBold] text-gray-700">
+            <span className="font-[Poppins] text-gray-700">
               {applicant.grade_level}
             </span>
           </div>
         </div>
 
         <div>
-          <h3 className="pb-3 text-sm font-[PoppinsBold] text-parent-green">
+          <h3 className="pb-3 text-sm font-[Poppins] text-parent-green">
             New submission and assessment schedule:
           </h3>
 

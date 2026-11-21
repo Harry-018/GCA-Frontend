@@ -20,7 +20,7 @@ const SkillModal = ({
         onSubmit={onSubmit}
         className="w-full max-w-lg rounded-2xl bg-bone p-6 shadow-lg"
       >
-        <h2 className="font-[PoppinsBold] text-base text-parent-green">
+        <h2 className="font-[Poppins] text-base text-parent-green">
           {isEditing ? "Edit Skill" : "Add Skill"}
         </h2>
 

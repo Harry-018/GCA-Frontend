@@ -22,7 +22,7 @@ const RemoveStudentModal = ({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
           <div className="flex items-center gap-3">
-            <h2 className="font-[PoppinsBold] text-base text-gray-700">
+            <h2 className="font-[Poppins] text-base text-gray-700">
               Remove Student
             </h2>
           </div>
@@ -32,7 +32,7 @@ const RemoveStudentModal = ({
         <div className="px-6 py-5">
           <p className="text-sm text-gray-600">
             Are you sure you want to remove{" "}
-            <span className="font-[PoppinsBold] text-gray-800">{studentName}</span>{" "}
+            <span className="font-[Poppins] text-gray-800">{studentName}</span>{" "}
             from this section?
           </p>
 

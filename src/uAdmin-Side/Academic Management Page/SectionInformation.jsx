@@ -267,6 +267,7 @@ const SectionInformation = () => {
           onGoBack={handleGoBack}
           onPromoteStudent={handlePromoteButton}
           onAddStudent={() => setIsAddStudentOpen(true)}
+          hasSelectedStudents={selectedStudentIds.length > 0}
           searchValue={searchValue}
           onSearchChange={setSearchValue}
           onSearch={() => setSearch(searchValue)}

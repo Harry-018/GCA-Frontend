@@ -7,6 +7,7 @@ const ClassInformationToolbar = ({
   onGoBack,
   onPromoteStudent,
   onAddStudent,
+  hasSelectedStudents,
   searchValue,
   onSearchChange,
   onSearch,
@@ -54,14 +55,6 @@ const ClassInformationToolbar = ({
           <div className="flex flex-wrap items-center justify-start gap-2 sm:gap-3 md:justify-end md:ml-auto">
             <button
               type="button"
-              onClick={onPromoteStudent}
-              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
-            >
-              Promote Student
-            </button>
-
-            <button
-              type="button"
               onClick={onAddStudent}
               className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
             >
@@ -70,7 +63,17 @@ const ClassInformationToolbar = ({
 
             <button
               type="button"
-              className="shrink-0 rounded-full bg-reject px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-reject/80 sm:px-5 sm:text-xs"
+              onClick={onPromoteStudent}
+              disabled={!hasSelectedStudents}
+              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-parent-green sm:px-5 sm:text-xs"
+            >
+              Promote Student
+            </button>
+
+            <button
+              type="button"
+              disabled={!hasSelectedStudents}
+              className="shrink-0 rounded-full bg-reject px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-reject sm:px-5 sm:text-xs"
             >
               Retain Student
             </button>

@@ -14,7 +14,7 @@ const RemoveChildrenActivityModal = ({
       <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-md sm:p-6">
         {/* Header */}
         <div className="mb-5">
-          <h2 className="text-sm font-[PoppinsBold] text-reject sm:text-base">
+          <h2 className="text-sm font-[Poppins] text-reject sm:text-base">
             Remove Children Activity
           </h2>
 

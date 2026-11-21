@@ -70,7 +70,7 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4">
       <div className="w-full max-w-md rounded-2xl border border-parent-accent/15 bg-bone p-5 shadow-lg">
-        <h2 className=" text-sm font-[PoppinsBold] text-parent-green">
+        <h2 className=" text-sm font-[Poppins] text-parent-green">
           Edit School Year
         </h2>
 
@@ -164,14 +164,14 @@ const EditYearModal = ({ isOpen, onClose, onEdit, schoolYearData }) => {
             <button
               type="button"
               onClick={onClose}
-              className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[PoppinsBold] text-gray-500 transition hover:bg-gray-100"
+              className="w-1/2 rounded-full border border-parent-accent/25 py-1.5 text-xs font-[Poppins] text-gray-500 transition hover:bg-gray-100"
             >
               Cancel
             </button>
 
             <button
               type="submit"
-              className="w-1/2 rounded-full bg-parent-green py-1.5 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
+              className="w-1/2 rounded-full bg-parent-green py-1.5 text-xs font-[Poppins] text-white transition hover:bg-parent-accent"
             >
               Edit
             </button>

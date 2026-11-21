@@ -3,7 +3,11 @@ import { philippines } from "@ianlabicani/geoph-lite";
 
 import InfoField from "./InfoField";
 import InfoSection from "./InfoSection";
-import { getMaxBirthDate, isAtLeast3YearsOld } from "./formUtils";
+import {
+  getMaxBirthDate,
+  getStudentLabel,
+  isAtLeast3YearsOld,
+} from "./formUtils";
 
 const ZIP_CODES = {
   Tanza: "4108",
@@ -97,8 +101,7 @@ const StudentFormCard = ({
       ? "Please specify the student's disability."
       : "";
 
-  const studentLabel =
-    totalStudents > 1 ? ` - Student ${index + 1}` : "";
+  const studentLabel = getStudentLabel(student, index);
 
   return (
     <>

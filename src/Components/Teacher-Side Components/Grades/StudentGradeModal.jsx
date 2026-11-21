@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   BookOpen,
   GraduationCap,
@@ -76,11 +76,25 @@ const StudentGradeModal = ({
   const isReadOnly = Boolean(initialRecords);
   const quarterOptions = quarters.length > 0 ? quarters : QUARTER_OPTIONS;
   const quarterLabels = new Map(
-    quarters.map((quarter) => [
-      Number(quarter.quarter_id),
-      quarter.quarter_name ?? `Quarter ${quarter.quarter_id}`,
-    ]),
+    quarterOptions.map((option) => {
+      const id = Number(getQuarterId(option));
+      const label =
+        typeof option === "object"
+          ? option.quarter_name ?? `Quarter ${id}`
+          : `Quarter ${id}`;
+
+      return [id, label];
+    }),
   );
+
+  const visibleQuarters = useMemo(() => {
+    const options = quarters.length > 0 ? quarters : QUARTER_OPTIONS;
+    const ids = options
+      .map((option) => Number(getQuarterId(option)))
+      .filter((id) => Number.isFinite(id));
+
+    return [...new Set(ids)].sort((first, second) => first - second);
+  }, [quarters]);
 
   const [records, setRecords] = useState(() =>
     initialRecords ?? loadStudentRecords(student, section),
@@ -88,17 +102,6 @@ const StudentGradeModal = ({
   const [remarks, setRemarks] = useState(() =>
     getGradeRemarks(section?.id, student.schoolId),
   );
-  const [selectedQuarter, setSelectedQuarter] = useState(() => {
-    const firstQuarter = (initialRecords ?? loadStudentRecords(student, section))
-      .map((record) => Number(record.quarter))
-      .find((quarter) =>
-        quarterOptions.some(
-          (item) => Number(getQuarterId(item)) === quarter,
-        ),
-      );
-
-    return firstQuarter ?? Number(getQuarterId(quarterOptions[0]) ?? 1);
-  });
   const [isEditing, setIsEditing] = useState(false);
   const [gradeDrafts, setGradeDrafts] = useState({});
   const [remarkDrafts, setRemarkDrafts] = useState({});
@@ -106,6 +109,32 @@ const StudentGradeModal = ({
   const [remarkErrors, setRemarkErrors] = useState({});
   const [saveError, setSaveError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+
+  const subjectsWithSkills = useMemo(() => {
+    const subjects = new Map();
+
+    records.forEach((record) => {
+      const subject = String(record.subject ?? "");
+      const skill = String(record.skill ?? "");
+
+      if (!subjects.has(subject)) subjects.set(subject, new Map());
+
+      const skills = subjects.get(subject);
+
+      if (!skills.has(skill)) skills.set(skill, {});
+
+      skills.get(skill)[Number(record.quarter)] = record;
+    });
+
+    return [...subjects.entries()]
+      .sort(([first], [second]) => first.localeCompare(second))
+      .map(([subject, skills]) => ({
+        subject,
+        skills: [...skills.entries()]
+          .sort(([first], [second]) => first.localeCompare(second))
+          .map(([skill, byQuarter]) => ({ skill, byQuarter })),
+      }));
+  }, [records]);
 
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
@@ -123,20 +152,20 @@ const StudentGradeModal = ({
     };
   }, [onClose]);
 
-  // FETCH THE TEACHER REMARKS FOR THE SELECTED SECTION, STUDENT, AND QUARTER
+  // FETCH THE TEACHER REMARKS FOR EACH QUARTER OF THE SELECTED SECTION AND STUDENT
   useEffect(() => {
     const sectionId = section?.id;
     const enrollmentId = student?.enrollment_id;
 
-    if (!sectionId || !enrollmentId || !selectedQuarter) return;
+    if (!sectionId || !enrollmentId || visibleQuarters.length === 0) return;
 
     let cancelled = false;
 
-    const fetchRemarks = async () => {
+    const fetchRemarks = async (quarter) => {
       try {
         const response = await getTeacherRemarksStudents({
           section_id: sectionId,
-          quarter_id: selectedQuarter,
+          quarter_id: quarter,
         });
 
         if (response?.success === false) {
@@ -164,7 +193,7 @@ const StudentGradeModal = ({
         if (!cancelled && comment != null && String(comment).trim() !== "") {
           setRemarks((previous) => ({
             ...previous,
-            [Number(selectedQuarter)]: String(comment),
+            [quarter]: String(comment),
           }));
         }
       } catch (err) {
@@ -172,16 +201,12 @@ const StudentGradeModal = ({
       }
     };
 
-    fetchRemarks();
+    visibleQuarters.forEach(fetchRemarks);
 
     return () => {
       cancelled = true;
     };
-  }, [section?.id, student, selectedQuarter]);
-
-  const selectedRecords = records.filter(
-    (record) => Number(record.quarter) === Number(selectedQuarter),
-  );
+  }, [section?.id, student, visibleQuarters]);
 
   const startEditing = () => {
     const nextGradeDrafts = {};
@@ -193,8 +218,7 @@ const StudentGradeModal = ({
       };
     });
 
-    quarterOptions.forEach((option) => {
-      const quarter = Number(getQuarterId(option));
+    visibleQuarters.forEach((quarter) => {
       nextRemarkDrafts[quarter] = String(remarks[quarter] ?? "");
     });
 
@@ -232,7 +256,6 @@ const StudentGradeModal = ({
   const validateDrafts = () => {
     const nextGradeErrors = {};
     const nextRemarkErrors = {};
-    let firstInvalidQuarter = null;
 
     records.forEach((record) => {
       const key = recordKey(record);
@@ -241,16 +264,10 @@ const StudentGradeModal = ({
 
       if (parsedGrade.error) {
         nextGradeErrors[key] = parsedGrade.error;
-
-        if (!firstInvalidQuarter) {
-          firstInvalidQuarter = Number(record.quarter);
-        }
       }
     });
 
-    quarterOptions.forEach((option) => {
-      const quarter = Number(getQuarterId(option));
-
+    visibleQuarters.forEach((quarter) => {
       if (String(remarkDrafts[quarter] ?? "").trim().length > REMARKS_LIMIT) {
         nextRemarkErrors[quarter] =
           `Remarks must be ${REMARKS_LIMIT} characters or fewer.`;
@@ -259,13 +276,6 @@ const StudentGradeModal = ({
 
     setGradeErrors(nextGradeErrors);
     setRemarkErrors(nextRemarkErrors);
-
-    if (firstInvalidQuarter) {
-      setSelectedQuarter(firstInvalidQuarter);
-    } else if (Object.keys(nextRemarkErrors).length > 0) {
-      const [firstRemarkQuarter] = Object.keys(nextRemarkErrors);
-      setSelectedQuarter(Number(firstRemarkQuarter));
-    }
 
     return (
       Object.keys(nextGradeErrors).length === 0 &&
@@ -456,121 +466,76 @@ const StudentGradeModal = ({
             </div>
           ) : (
             <>
-              <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-parent-accent/15 bg-bone p-2 shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
-                <span className="px-2 text-xs font-[PoppinsBold] uppercase tracking-wide text-gray-500">
-                  Quarter
+              <div className="px-3 py-2 sm:px-4">
+                <span className="text-xs font-[PoppinsBold] uppercase tracking-wide text-gray-500">
+                  Quarter Grades at a Glance
                 </span>
-
-                {quarterOptions.map((option) => {
-                  const quarter = Number(getQuarterId(option));
-                  const count = records.filter(
-                    (record) => Number(record.quarter) === quarter,
-                  ).length;
-                  const isActive = Number(selectedQuarter) === quarter;
-
-                  return (
-                    <button
-                      key={quarter}
-                      type="button"
-                      onClick={() => setSelectedQuarter(quarter)}
-                      aria-pressed={isActive}
-                      className={`flex min-w-24 cursor-pointer flex-col items-center gap-1 rounded-xl border px-4 py-2.5 text-xs font-[PoppinsBold] transition focus:outline-none focus-visible:ring-2 focus-visible:ring-parent-green ${
-                        isActive
-                          ? "border-parent-green bg-parent-green text-white shadow-sm"
-                          : "border-parent-accent/20 bg-bone text-gray-600 hover:border-parent-green/50 hover:bg-parent-pale/30"
-                      }`}
-                    >
-                      {quarterLabels.get(quarter) ?? `Quarter ${quarter}`}
-                      <span
-                        className={`rounded-full px-2 py-0.5 text-[9px] ${
-                          isActive
-                            ? "bg-white/20 text-white"
-                            : "bg-parent-pale/70 text-parent-green"
-                        }`}
-                      >
-                        {count}
-                      </span>
-                    </button>
-                  );
-                })}
               </div>
 
-              {selectedRecords.length === 0 ? (
-                <div className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-dashed border-parent-accent/25 px-4 py-10 text-center">
-                  <span className="flex size-11 items-center justify-center rounded-full bg-parent-pale text-parent-green">
-                    <BookOpen size={20} />
-                  </span>
-                  <div>
-                    <p className="font-[PoppinsBold] text-sm text-parent-green">
-                      No grades for{" "}
-                      {quarterLabels.get(Number(selectedQuarter)) ??
-                        `Quarter ${selectedQuarter}`}
-                    </p>
-                    <p className="mt-1 text-xs text-gray-500">
-                      Upload grades for this quarter or choose another quarter
-                      above.
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <div className="overflow-hidden rounded-2xl border border-parent-accent/15">
-                  {[
-                    ...new Set(
-                      selectedRecords.map((record) =>
-                        String(record.subject ?? ""),
-                      ),
-                    ),
-                  ]
-                    .sort((first, second) => first.localeCompare(second))
-                    .map((subject) => {
-                      const subjectRecords = selectedRecords.filter(
-                        (record) =>
-                          String(record.subject ?? "") === subject,
-                      );
+              <div className="overflow-x-auto rounded-2xl border border-parent-accent/15">
+                {subjectsWithSkills.map(({ subject, skills }) => (
+                  <div
+                    key={subject}
+                    className="border-b border-parent-accent/10 last:border-b-0"
+                  >
+                    <div className="bg-parent-pale/30 px-3 py-2.5 sm:px-4">
+                      <p className="text-xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-sm">
+                        {subject || "—"}
+                      </p>
+                    </div>
 
-                      return (
-                        <div
-                          key={subject}
-                          className="border-t border-parent-accent/10 first:border-t-0"
-                        >
-                          <div className="bg-parent-pale/30 px-3 py-2.5 sm:px-4">
-                            <p className="text-xs font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-sm">
-                              {subject || "—"}
-                            </p>
-                          </div>
+                    <div className="min-w-140 px-3 py-3 sm:px-4">
+                      <table className="w-full border-collapse text-left">
+                        <thead>
+                          <tr className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-gray-500">
+                            <th className="pb-2 pr-3 font-[PoppinsBold]">
+                              Skill
+                            </th>
 
-                          <div className="px-3 py-3 sm:px-4">
-                            <div className="mb-2 hidden grid-cols-[1fr_80px] gap-3 text-2xs font-[PoppinsBold] uppercase tracking-wide text-gray-500 sm:grid">
-                              <span>Skill</span>
-                              <span>Grade</span>
-                            </div>
+                            {visibleQuarters.map((quarter) => (
+                              <th
+                                key={quarter}
+                                className="px-2 pb-2 text-center font-[PoppinsBold]"
+                              >
+                                {quarterLabels.get(quarter) ??
+                                  `Quarter ${quarter}`}
+                              </th>
+                            ))}
 
-                            <div className="flex flex-col gap-2">
-                              {subjectRecords.map((record) => {
-                                const key = recordKey(record);
-                                const draft = gradeDrafts[key] ?? { grade: "" };
-                                const error = gradeErrors[key];
+                          </tr>
+                        </thead>
 
-                                return (
-                                  <div
-                                    key={key}
-                                    className="grid grid-cols-[1fr_80px] items-start gap-3"
-                                  >
-                                    <div className="min-w-0">
-                                      <span className="text-[9px] font-[PoppinsBold] uppercase text-gray-500 sm:hidden">
-                                        Skill
-                                      </span>
-                                      <p className="truncate text-xs text-gray-600 sm:text-sm">
-                                        {record.skill || "General"}
-                                      </p>
-                                    </div>
+                        <tbody>
+                          {skills.map(({ skill, byQuarter }, skillIndex) => {
+                            return (
+                              <tr
+                                key={`${skill}-${skillIndex}`}
+                                className="border-t border-parent-accent/10 align-top"
+                              >
+                                <td className="py-2.5 pr-3 text-xs text-gray-600 sm:text-sm">
+                                  {skill || "General"}
+                                </td>
 
-                                    <div className="min-w-0">
-                                      <span className="mb-1 block text-[9px] font-[PoppinsBold] uppercase text-gray-500 sm:hidden">
-                                        Grade
-                                      </span>
-                                      {isEditing ? (
-                                        <>
+                                {visibleQuarters.map((quarter) => {
+                                  const record = byQuarter[quarter];
+                                  const quarterName =
+                                    quarterLabels.get(quarter) ??
+                                    `Quarter ${quarter}`;
+                                  const key = record
+                                    ? recordKey(record)
+                                    : `${subject}|${skill}|${quarter}`;
+                                  const draft = gradeDrafts[key] ?? {
+                                    grade: "",
+                                  };
+                                  const error = gradeErrors[key];
+
+                                  return (
+                                    <td
+                                      key={quarter}
+                                      className="px-2 py-2.5 text-center"
+                                    >
+                                      {record && isEditing ? (
+                                        <div className="flex flex-col items-center gap-1">
                                           <input
                                             type="text"
                                             value={draft.grade}
@@ -580,83 +545,97 @@ const StudentGradeModal = ({
                                                 event.target.value,
                                               )
                                             }
-                                            aria-label={`Grade for ${record.skill || record.subject}`}
-                                            className={`h-9 w-full rounded-lg border bg-transparent px-2.5 text-xs text-gray-700 outline-none sm:w-20 ${
+                                            aria-label={`Grade for ${skill || subject}, ${quarterName}`}
+                                            className={`h-9 w-16 rounded-lg border bg-transparent px-2 text-xs text-gray-700 outline-none ${
                                               error
                                                 ? "border-red-400 focus:border-red-500"
                                                 : "border-gray-400 focus:border-parent-green"
                                             }`}
                                           />
                                           {error && (
-                                            <p className="mt-1 text-xs text-red-600">
+                                            <span className="text-[9px] text-red-600">
                                               {error}
-                                            </p>
+                                            </span>
                                           )}
-                                        </>
-                                      ) : (
+                                        </div>
+                                      ) : record ? (
                                         <span className="inline-flex min-w-11 justify-center rounded-full bg-parent-green px-3 py-1 text-xs font-[PoppinsBold] text-white">
                                           {String(record.grade ?? "").toUpperCase()}
                                         </span>
+                                      ) : (
+                                        <span className="text-xs text-gray-400">
+                                          —
+                                        </span>
                                       )}
-                                    </div>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                          </div>
+                                    </td>
+                                  );
+                                })}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))}
+
+                <div className="min-w-140 border-t border-parent-accent/10 bg-parent-pale/20 px-4 py-3">
+                  <p className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green">
+                    Teacher Remarks
+                  </p>
+
+                  <div className="mt-2 grid gap-3 sm:grid-cols-3">
+                    {visibleQuarters.map((quarter) => {
+                      const quarterName =
+                        quarterLabels.get(quarter) ?? `Quarter ${quarter}`;
+                      const error = remarkErrors[quarter];
+
+                      return (
+                        <div
+                          key={quarter}
+                          className="rounded-xl border border-parent-accent/15 bg-bone p-3"
+                        >
+                          <p className="mb-1 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-gray-500">
+                            {quarterName}
+                          </p>
+
+                          {isEditing ? (
+                            <>
+                              <textarea
+                                id={`remarks-${quarter}`}
+                                value={remarkDrafts[quarter] ?? ""}
+                                maxLength={REMARKS_LIMIT}
+                                rows={2}
+                                onChange={(event) =>
+                                  handleRemarkChange(
+                                    quarter,
+                                    event.target.value,
+                                  )
+                                }
+                                placeholder={`Remarks for ${quarterName}`}
+                                className={`w-full resize-y rounded-lg border bg-transparent px-3 py-2 text-xs text-gray-700 outline-none placeholder:text-gray-400 ${
+                                  error
+                                    ? "border-red-400 focus:border-red-500"
+                                    : "border-gray-400 focus:border-parent-green"
+                                }`}
+                              />
+                              {error && (
+                                <p className="mt-1 text-[9px] text-red-600">
+                                  {error}
+                                </p>
+                              )}
+                            </>
+                          ) : (
+                            <p className="whitespace-pre-line text-xs text-gray-600">
+                              {remarks[quarter] || "No remarks yet."}
+                            </p>
+                          )}
                         </div>
                       );
                     })}
-
-                  <div className="border-t border-parent-accent/10 bg-parent-pale/20 px-4 py-3">
-                    <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-2">
-                      <label
-                        htmlFor={`remarks-${selectedQuarter}`}
-                        className="text-2xs font-[PoppinsBold] uppercase tracking-wide text-parent-green"
-                      >
-                        Teacher Remarks
-                      </label>
-                      <span className="text-xs text-gray-500">
-                        Overall for{" "}
-                        {quarterLabels.get(Number(selectedQuarter)) ??
-                          `Quarter ${selectedQuarter}`}
-                      </span>
-                    </div>
-
-                    {isEditing ? (
-                      <>
-                        <textarea
-                          id={`remarks-${selectedQuarter}`}
-                          value={remarkDrafts[selectedQuarter] ?? ""}
-                          maxLength={REMARKS_LIMIT}
-                          rows={2}
-                          onChange={(event) =>
-                            handleRemarkChange(
-                              selectedQuarter,
-                              event.target.value,
-                            )
-                          }
-                          placeholder="Add overall teacher remarks for this quarter"
-                          className={`mt-2 w-full resize-y rounded-lg border bg-transparent px-3 py-2 text-xs text-gray-700 outline-none placeholder:text-gray-400 ${
-                            remarkErrors[selectedQuarter]
-                              ? "border-red-400 focus:border-red-500"
-                              : "border-gray-400 focus:border-parent-green"
-                          }`}
-                        />
-                        {remarkErrors[selectedQuarter] && (
-                          <p className="mt-1 text-xs text-red-600">
-                            {remarkErrors[selectedQuarter]}
-                          </p>
-                        )}
-                      </>
-                    ) : (
-                      <p className="mt-1 whitespace-pre-line text-xs text-gray-600">
-                        {remarks[selectedQuarter] || "No remarks yet."}
-                      </p>
-                    )}
                   </div>
                 </div>
-              )}
+              </div>
             </>
           )}
         </div>

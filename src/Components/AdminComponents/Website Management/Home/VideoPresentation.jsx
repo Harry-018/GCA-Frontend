@@ -14,7 +14,7 @@ const VideoPresentation = ({ videoTitle = "", videoSrc, onEdit }) => {
         <button
           type="button"
           onClick={onEdit}
-          className="rounded-xl bg-parent-pale/50 px-4 py-2 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green"
+          className="rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green"
         >
           Edit video
         </button>
