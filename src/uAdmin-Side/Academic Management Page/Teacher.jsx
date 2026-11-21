@@ -113,8 +113,8 @@ const Teacher = () => {
   // FILTER
   // ----------------------------------------
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+  const handleFilterChange = (value) => {
+    setFilter(value);
 
     setPagination((previous) => ({
       ...previous,

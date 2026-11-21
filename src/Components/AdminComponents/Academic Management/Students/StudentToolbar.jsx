@@ -1,5 +1,5 @@
 import React from "react";
-import { Search, ChevronDown } from "lucide-react";
+import { Search } from "lucide-react";
 
 const StudentToolbar = ({
   filters,
@@ -55,12 +55,12 @@ const StudentToolbar = ({
       </div>
 
       <div className="flex w-full flex-wrap items-center justify-between gap-2 md:ml-auto md:w-auto md:justify-end md:gap-3">
-        <div className="relative">
+        <div className="sm:hidden">
           <select
             id="student-status-filter"
             value={activeFilter}
             onChange={(e) => onFilterChange(e.target.value)}
-            className="h-8 w-24 cursor-pointer appearance-none rounded-full border border-parent-accent/25 bg-bone px-2.5 pr-7 text-[9px] leading-none text-gray-600 outline-none transition hover:border-parent-accent focus:border-parent-green sm:w-24 sm:px-3 sm:pr-8 sm:text-xs"
+            className="h-8 w-24 cursor-pointer appearance-none rounded-full border border-parent-accent/25 bg-bone px-2.5 pr-7 text-[9px] leading-none text-gray-600 outline-none transition hover:border-parent-accent focus:border-parent-green"
           >
             {filters.map((filter) => (
               <option key={filter} value={filter}>
@@ -68,6 +68,23 @@ const StudentToolbar = ({
               </option>
             ))}
           </select>
+        </div>
+
+        <div className="hidden items-center gap-x-3 sm:flex">
+          {filters.map((filter) => (
+            <button
+              key={filter}
+              type="button"
+              onClick={() => onFilterChange(filter)}
+              className={`whitespace-nowrap px-4 py-2 text-xs outline-none transition focus:outline-none focus-visible:outline-none ${
+                activeFilter === filter
+                  ? "rounded-full bg-parent-green text-white"
+                  : "text-gray-600 hover:text-parent-green"
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
 
         <div className="flex flex-1 items-center gap-2 md:ml-3 md:w-auto md:flex-none">

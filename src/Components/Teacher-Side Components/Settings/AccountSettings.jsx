@@ -2,7 +2,7 @@ import { KeyRound, LockKeyhole } from "lucide-react";
 
 const AccountSettings = ({ account, onChangePassword }) => {
   return (
-    <div className="relative h-full w-full overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone px-4 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg max-[374px]:px-3 max-[374px]:py-4 sm:px-7 sm:py-6">
+    <div className="relative h-full w-full overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone px-4 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)] max-[374px]:px-3 max-[374px]:py-4 sm:px-7 sm:py-6">
       <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
 
       <div className="flex h-full flex-col justify-start gap-6 pt-2">
@@ -41,7 +41,7 @@ const AccountSettings = ({ account, onChangePassword }) => {
             <button
               type="button"
               onClick={onChangePassword}
-              className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-parent-green px-3 py-2 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-white transition-all duration-300 hover:bg-parent-accent hover:shadow-md max-[374px]:gap-1 max-[374px]:px-2 max-[374px]:text-[8px] md:w-fit xl:w-auto xl:text-2xs"
+              className="flex w-full items-center justify-center gap-1.5 rounded-lg bg-parent-green px-3 py-2 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-white max-[374px]:gap-1 max-[374px]:px-2 max-[374px]:text-[8px] md:w-fit xl:w-auto xl:text-2xs"
             >
               <KeyRound size={14} />
               Change Password

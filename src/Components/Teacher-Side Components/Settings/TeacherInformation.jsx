@@ -36,7 +36,7 @@ const TeacherInformation = ({ teacher }) => {
   ];
 
   return (
-    <div className="relative w-full overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:shadow-lg">
+    <div className="relative w-full overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)]">
       <div className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
 
       <div className="flex flex-col gap-7 px-5 py-6 pt-8 sm:px-8 sm:py-8 sm:pt-9 lg:flex-row lg:items-center lg:justify-between lg:gap-10">

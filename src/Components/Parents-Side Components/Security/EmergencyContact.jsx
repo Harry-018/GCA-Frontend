@@ -28,7 +28,7 @@ const EmergencyContact = ({ fullName, contactNo, relationship, onManage }) => {
               <p className="text-[9px] font-[PoppinsBold] uppercase tracking text-parent-accent sm:text-2xs sm:tracking-[0.15em]">
                 Student safety
               </p>
-              <h2 className="py-1 text-xs font-[PoppinsBold] uppercase leading-tight text-[#0f2419] max-[374px]:whitespace-nowrap sm:text-base">
+              <h2 className="py-1 text-xs font-[PoppinsBold] uppercase leading-tight text-red-600 max-[374px]:whitespace-nowrap sm:text-base">
                 Emergency contact
               </h2>
             </div>
@@ -37,7 +37,7 @@ const EmergencyContact = ({ fullName, contactNo, relationship, onManage }) => {
           <button
             type="button"
             onClick={onManage}
-            className="flex shrink-0 items-center gap-1 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-parent-accent transition-colors hover:text-[#1c3a28] sm:text-2xs"
+            className="flex shrink-0 items-center gap-1 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-parent-accent sm:text-2xs"
           >
             Manage
             <ArrowUpRight size={14} />

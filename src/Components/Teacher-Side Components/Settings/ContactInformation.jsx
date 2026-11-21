@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MapPin } from "lucide-react";
 
 const ContactInformation = ({ contact, onManage }) => {
   const contactDetails = [
@@ -17,7 +17,7 @@ const ContactInformation = ({ contact, onManage }) => {
   ];
 
   return (
-    <div className="h-full w-full rounded-2xl border border-parent-accent/15 bg-bone px-5 py-5 shadow-[0_2px_4px_rgba(0,0,0,0.18)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:px-7 sm:py-6">
+    <div className="h-full w-full rounded-2xl border border-parent-accent/15 bg-bone px-5 py-5 shadow-[0_2px_4px_rgba(0,0,0,0.18)] sm:px-7 sm:py-6">
       <div className="flex h-full flex-col justify-start gap-6">
         <div className="flex min-h-14 items-start justify-between gap-2">
           <div className="flex min-w-0 items-center gap-3">
@@ -37,7 +37,7 @@ const ContactInformation = ({ contact, onManage }) => {
           <button
             type="button"
             onClick={onManage}
-            className="flex shrink-0 items-center gap-1 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-parent-green transition-colors hover:text-parent-accent sm:text-2xs"
+            className="flex shrink-0 items-center gap-1 text-[9px] font-[PoppinsBold] uppercase tracking-wide text-parent-green sm:text-2xs"
           >
             Manage
             <ArrowUpRight size={14} />

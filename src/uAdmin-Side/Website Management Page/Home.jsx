@@ -707,20 +707,25 @@ const Home = () => {
       setActivityLoading(false);
     }
   };
+
   return (
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-egg font-[Poppins]">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
-      <nav className="flex w-full flex-wrap items-center gap-3 sm:gap-5">
+      <nav
+        aria-label="Website content sections"
+        className="flex w-fit max-w-full flex-wrap items-center gap-1.5 rounded-2xl p-1.5"
+      >
         {SECONDARY_ITEMS.map((item) => (
           <button
             key={item.key}
             type="button"
             onClick={() => setActiveTab(item.key)}
-            className={`inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full px-3 text-[9px] overflow-x-auto font-[Poppins] transition sm:text-xs ${
+            aria-current={activeTab === item.key ? "page" : undefined}
+            className={`inline-flex min-h-9 shrink-0 items-center whitespace-nowrap px-4 py-2 text-xs font-[Poppins] transition ${
               activeTab === item.key
-                ? "bg-parent-green text-white"
-                : "text-gray-600 hover:text-parent-green"
+                ? "rounded-full bg-parent-green text-white"
+                : "rounded-full text-gray-600 hover:text-parent-green"
             }`}
           >
             {item.label}
@@ -728,45 +733,53 @@ const Home = () => {
         ))}
       </nav>
 
-      <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto">
+      <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto px-1 pb-4">
         {activeTab === "home" && (
-          <div className="grid grid-cols-1 gap-4 md:auto-rows-fr md:grid-cols-2">
-            {bannerData && (
-              <Banner
-                admissionStatus={
-                  bannerData.enrollment_status === "open" ? "Open" : "Closed"
-                }
-                schoolYear={bannerData.school_year}
-                title={bannerData.banner_title}
-                quote={bannerData.banner_quote}
-                image={bannerData.banner_image}
-                onEdit={openBannerEdit}
+          <div className="flex flex-col gap-5">
+            <div className="grid w-full grid-cols-1 items-stretch gap-5 xl:grid-cols-2">
+              {bannerData && (
+                <Banner
+                  admissionStatus={
+                    bannerData.enrollment_status === "open" ? "Open" : "Closed"
+                  }
+                  schoolYear={bannerData.school_year}
+                  title={bannerData.banner_title}
+                  quote={bannerData.banner_quote}
+                  image={bannerData.banner_image}
+                  onEdit={openBannerEdit}
+                />
+              )}
+
+              <AcademicPrograms
+                programs={programs}
+                selectedProgram={selectedProgram}
+                onProgramChange={setSelectedProgram}
+                onEdit={openEditProgram}
+                onAdd={openAddProgram}
+                onRemove={() => setRemoveProgram(true)}
               />
-            )}
+            </div>
 
-            <AcademicPrograms
-              programs={programs}
-              selectedProgram={selectedProgram}
-              onProgramChange={setSelectedProgram}
-              onEdit={openEditProgram}
-              onAdd={openAddProgram}
-              onRemove={() => setRemoveProgram(true)}
-            />
+            <div className="grid grid-cols-1 items-stretch gap-5 xl:grid-cols-12">
+              {videoData && (
+                <div className="xl:col-span-6">
+                  <VideoPresentation
+                    videoTitle={videoData.videoTitle}
+                    videoSrc={videoData.videoSrc}
+                    onEdit={openEditVideo}
+                  />
+                </div>
+              )}
 
-            {videoData && (
-              <VideoPresentation
-                videoTitle={videoData.videoTitle}
-                videoSrc={videoData.videoSrc}
-                onEdit={openEditVideo}
-              />
-            )}
-
-            <WhyParentsChooseUs
-              reasons={reasons}
-              onAdd={openAddReason}
-              onEdit={openEditReason}
-              onRemove={openRemoveReason}
-            />
+              <div className={videoData ? "xl:col-span-6" : "xl:col-span-12"}>
+                <WhyParentsChooseUs
+                  reasons={reasons}
+                  onAdd={openAddReason}
+                  onEdit={openEditReason}
+                  onRemove={openRemoveReason}
+                />
+              </div>
+            </div>
           </div>
         )}
 

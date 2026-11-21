@@ -258,10 +258,13 @@ const ParentInquiryNotifications = () => {
   const [showAll, setShowAll] = useState(false);
   const [selectedInquiryId, setSelectedInquiryId] = useState(null);
   const containerRef = useRef(null);
+  const isMountedRef = useRef(false);
 
   const fetchInquiries = useCallback(async (page = 1, append = false) => {
     try {
       const response = await getInquiries(page);
+      if (!isMountedRef.current) return;
+
       const fetchedInquiries = Array.isArray(response?.data)
         ? response.data.map(normalizeInquiry)
         : [];
@@ -274,48 +277,30 @@ const ParentInquiryNotifications = () => {
         nextPage: response?.pagination?.nextPage ?? null,
       });
     } catch (fetchError) {
+      if (!isMountedRef.current) return;
+
       setError(
         fetchError.response?.data?.message ||
           "Failed to load parent inquiries.",
       );
     } finally {
-      setIsLoading(false);
+      if (isMountedRef.current) setIsLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    let isMounted = true;
+    isMountedRef.current = true;
+    fetchInquiries();
 
-    getInquiries()
-      .then((response) => {
-        if (!isMounted) return;
-
-        setInquiries(
-          Array.isArray(response?.data)
-            ? response.data.map(normalizeInquiry)
-            : [],
-        );
-        setPagination({
-          hasMore: Boolean(response?.pagination?.hasMore),
-          nextPage: response?.pagination?.nextPage ?? null,
-        });
-      })
-      .catch((fetchError) => {
-        if (!isMounted) return;
-
-        setError(
-          fetchError.response?.data?.message ||
-            "Failed to load parent inquiries.",
-        );
-      })
-      .finally(() => {
-        if (isMounted) setIsLoading(false);
-      });
+    const intervalId = window.setInterval(() => {
+      fetchInquiries();
+    }, 30000);
 
     return () => {
-      isMounted = false;
+      isMountedRef.current = false;
+      window.clearInterval(intervalId);
     };
-  }, []);
+  }, [fetchInquiries]);
 
   useEffect(() => {
     const closeOnOutsideClick = (event) => {
@@ -424,30 +409,36 @@ const ParentInquiryNotifications = () => {
   return (
     <>
       <div ref={containerRef} className="relative shrink-0">
-      <button
-        type="button"
-        onClick={toggleDropdown}
-        aria-label={`Parent inquiries, ${unreadInquiryCount} unread`}
-        aria-expanded={isOpen}
-        aria-haspopup="dialog"
-        className="inline-flex h-8 shrink-0 items-center gap-2 rounded-full border border-parent-accent/25 bg-bone px-3 text-xs font-[PoppinsBold] text-parent-green transition hover:border-parent-green hover:bg-parent-pale/30 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green sm:px-4"
-      >
-        <MessageCircle aria-hidden="true" className="h-4 w-4" />
-        <span className="sm:hidden">Inquiries</span>
-        <span className="hidden sm:inline">Parent Inquiries</span>
-        {unreadInquiryCount > 0 && (
-          <span className="flex min-h-5 min-w-5 items-center justify-center rounded-full bg-reject px-1 text-xs font-[PoppinsBold] text-white">
-            {unreadInquiryCount > 99 ? "99+" : unreadInquiryCount}
-          </span>
-        )}
-      </button>
-
-      {isOpen && (
-        <section
-          role="dialog"
-          aria-label="Parent inquiry notifications"
-          className="absolute right-0 top-full z-50 mt-2 w-80 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:w-96"
+        <button
+          type="button"
+          onClick={toggleDropdown}
+          aria-label={`Parent inquiries, ${unreadInquiryCount} unread`}
+          aria-expanded={isOpen}
+          aria-haspopup="dialog"
+          title="Parent Inquiry"
+          className={`fixed bottom-6 right-5 z-60 flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-full shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-parent-green sm:bottom-8 sm:right-8 ${
+            unreadInquiryCount > 0
+              ? "bg-reject text-white hover:bg-reject/90"
+              : "bg-parent-green text-white hover:bg-parent-accent"
+          }`}
         >
+          <MessageCircle aria-hidden="true" className="h-5.5 w-5.5" />
+          <span className="text-xs font-[PoppinsBold] tracking-wide">
+            INQUIRY
+          </span>
+          {unreadInquiryCount > 0 && (
+            <span className="absolute -right-1 -top-1 flex min-h-6 min-w-6 items-center justify-center rounded-full bg-white px-1 text-xs font-[PoppinsBold] text-reject shadow">
+              {unreadInquiryCount > 99 ? "99+" : unreadInquiryCount}
+            </span>
+          )}
+        </button>
+
+        {isOpen && (
+          <section
+            role="dialog"
+            aria-label="Parent inquiry notifications"
+            className="fixed bottom-28 right-5 z-50 w-80 max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:bottom-32 sm:right-8 sm:w-96"
+          >
           <div className="flex items-start justify-between gap-3 border-b border-parent-accent/15 px-4 py-3">
             <div>
               <h2 className="font-[PoppinsBold] text-sm text-parent-green">
