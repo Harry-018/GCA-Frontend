@@ -84,3 +84,59 @@ export const getNotificationAudiences = async () => {
 
   return response.data;
 };
+
+// =====================
+// NOTIFICATION RECIPIENTS
+// =====================
+
+export const getNotificationRecipients = async ({
+  audience,
+  payment_option_id,
+}) => {
+  const response = await API.get("/api/communications/recipients", {
+    params: { audience, payment_option_id },
+  });
+
+  return response.data;
+};
+
+// =====================
+// TUITION REMINDERS
+// =====================
+
+export const getTuitionReminders = async () => {
+  const response = await API.get("/api/communications/tuition-reminders");
+
+  return response.data;
+};
+
+export const getTuitionReminderById = async (reminder_id) => {
+  const response = await API.get(
+    `/api/communications/tuition-reminders/${reminder_id}`,
+  );
+
+  return response.data;
+};
+
+export const createTuitionReminder = async (data) => {
+  const response = await API.post("/api/communications/tuition-reminders", data);
+
+  return response.data;
+};
+
+export const updateTuitionReminder = async (reminder_id, data) => {
+  const response = await API.put(
+    `/api/communications/tuition-reminders/${reminder_id}`,
+    data,
+  );
+
+  return response.data;
+};
+
+export const deleteTuitionReminder = async (reminder_id) => {
+  const response = await API.delete(
+    `/api/communications/tuition-reminders/${reminder_id}`,
+  );
+
+  return response.data;
+};

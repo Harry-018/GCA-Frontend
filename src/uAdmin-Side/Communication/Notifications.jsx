@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   BellRing,
   CalendarDays,
+  ChevronDown,
   Clock3,
   Pencil,
   Plus,
@@ -10,6 +11,13 @@ import {
 } from "lucide-react";
 
 import Header from "../../Components/AdminComponents/Communication/Announcement/Header";
+import {
+  createTuitionReminder,
+  deleteTuitionReminder,
+  getPaymentOptions,
+  getTuitionReminders,
+  updateTuitionReminder,
+} from "../../requests/communicationRequests.js";
 
 const PAYMENT_TYPES = [
   { id: "fullcash", label: "Fullcash" },
@@ -38,20 +46,26 @@ const getDaysInMonth = (month) => {
   return 31;
 };
 
-const INITIAL_REMINDERS = {
-  fullcash: [],
-  paylite: [
-    { id: "paylite-1", name: "Reminder 1", dueMonth: "May", dueDay: 18, daysBefore: 7 },
-    { id: "paylite-2", name: "Reminder 2", dueMonth: "August", dueDay: 25, daysBefore: 7 },
-    { id: "paylite-3", name: "Reminder 3", dueMonth: "November", dueDay: 18, daysBefore: 7 },
-  ],
-  allin: [],
-};
+const emptyReminders = () =>
+  Object.fromEntries(PAYMENT_TYPES.map((type) => [type.id, []]));
+
+const normalizeList = (response) =>
+  Array.isArray(response) ? response : (response?.data ?? []);
+
+const normalizeRecord = (response) => response?.data ?? response;
+
+const mapReminder = (reminder, index) => ({
+  id: reminder.reminder_id,
+  name: `Reminder ${index + 1}`,
+  dueMonth: MONTHS[Number(reminder.due_month) - 1] ?? "",
+  dueDay: Number(reminder.due_day),
+  daysBefore: Number(reminder.days_before),
+});
 
 const formatDueDate = (month, day) =>
   month && day ? `${month.slice(0, 3)} ${day}` : "No due date";
 
-const ReminderModal = ({ reminder, onClose, onSave }) => {
+const ReminderModal = ({ reminder, onClose, onSave, serverError = "" }) => {
   const inputStyle =
     "w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-[9px] text-[#555555] outline-none focus:border-parent-accent sm:text-2xs";
   const labelStyle = "font-[Poppins] text-[9px] text-[#555555] sm:text-2xs";
@@ -61,6 +75,33 @@ const ReminderModal = ({ reminder, onClose, onSave }) => {
     daysBefore: String(reminder?.daysBefore ?? 7),
   }));
   const [error, setError] = useState("");
+  const [isDayOpen, setIsDayOpen] = useState(false);
+  const daySelectRef = useRef(null);
+
+  useEffect(() => {
+    if (!isDayOpen) return;
+
+    const handlePointerDown = (event) => {
+      if (!daySelectRef.current?.contains(event.target)) {
+        setIsDayOpen(false);
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") {
+        event.stopImmediatePropagation();
+        setIsDayOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handlePointerDown);
+    window.addEventListener("keydown", handleKeyDown, true);
+
+    return () => {
+      document.removeEventListener("mousedown", handlePointerDown);
+      window.removeEventListener("keydown", handleKeyDown, true);
+    };
+  }, [isDayOpen]);
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -104,7 +145,7 @@ const ReminderModal = ({ reminder, onClose, onSave }) => {
         role="dialog"
         aria-modal="true"
         aria-labelledby="reminder-modal-title"
-        className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-parent-accent/20 bg-bone p-5 shadow-lg"
+        className="w-full max-w-md rounded-2xl border border-parent-accent/20 bg-bone p-5 shadow-lg"
       >
         <h2
           id="reminder-modal-title"
@@ -147,21 +188,20 @@ const ReminderModal = ({ reminder, onClose, onSave }) => {
                 id="reminder-due-month"
                 required
                 value={form.dueMonth}
-                onChange={(event) =>
-                  setForm((current) => {
-                    const dueMonth = event.target.value;
-                    const day = Number(current.dueDay);
+                onChange={(event) => {
+                  const dueMonth = event.target.value;
+                  const day = Number(form.dueDay);
 
-                    return {
-                      ...current,
-                      dueMonth,
-                      dueDay:
-                        day > 0 && day <= getDaysInMonth(dueMonth)
-                          ? current.dueDay
-                          : "",
-                    };
-                  })
-                }
+                  setIsDayOpen(false);
+                  setForm((current) => ({
+                    ...current,
+                    dueMonth,
+                    dueDay:
+                      day > 0 && day <= getDaysInMonth(dueMonth)
+                        ? current.dueDay
+                        : "",
+                  }));
+                }}
                 className={inputStyle}
               >
                 <option value="">Select month</option>
@@ -177,35 +217,75 @@ const ReminderModal = ({ reminder, onClose, onSave }) => {
               <label className={labelStyle} htmlFor="reminder-due-day">
                 Due day
               </label>
-              <select
-                id="reminder-due-day"
-                required
-                disabled={!form.dueMonth}
-                value={form.dueDay}
-                onChange={(event) =>
-                  setForm((current) => ({
-                    ...current,
-                    dueDay: event.target.value,
-                  }))
-                }
-                className={`${inputStyle} disabled:cursor-not-allowed disabled:bg-gray-100`}
-              >
-                <option value="">Select day</option>
-                {Array.from(
-                  { length: form.dueMonth ? getDaysInMonth(form.dueMonth) : 0 },
-                  (_, index) => index + 1,
-                ).map((day) => (
-                  <option key={day} value={day}>
-                    {day}
-                  </option>
-                ))}
-              </select>
+              <div className="relative" ref={daySelectRef}>
+                <button
+                  id="reminder-due-day"
+                  type="button"
+                  disabled={!form.dueMonth}
+                  aria-haspopup="listbox"
+                  aria-expanded={isDayOpen}
+                  onClick={() => setIsDayOpen((open) => !open)}
+                  className={`${inputStyle} flex items-center justify-between gap-2 text-left disabled:cursor-not-allowed disabled:bg-gray-100`}
+                >
+                  <span>{form.dueDay || "Select day"}</span>
+                  <ChevronDown className="h-3 w-3 shrink-0 text-[#555555]" />
+                </button>
+
+                {isDayOpen && form.dueMonth && (
+                  <ul
+                    role="listbox"
+                    aria-labelledby="reminder-due-day"
+                    className="absolute inset-x-0 top-full z-20 mt-1 max-h-[180px] overflow-y-auto rounded-lg border border-parent-accent/25 bg-bone py-1 shadow-lg"
+                  >
+                    <li>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setForm((current) => ({ ...current, dueDay: "" }));
+                          setIsDayOpen(false);
+                        }}
+                        className="flex w-full px-3 py-1.5 text-left font-[Poppins] text-[9px] text-[#555555] hover:bg-blue-500 hover:text-white sm:text-2xs"
+                      >
+                        Select day
+                      </button>
+                    </li>
+                    {Array.from(
+                      {
+                        length: form.dueMonth
+                          ? getDaysInMonth(form.dueMonth)
+                          : 0,
+                      },
+                      (_, index) => index + 1,
+                    ).map((day) => (
+                      <li key={day}>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setForm((current) => ({
+                              ...current,
+                              dueDay: String(day),
+                            }));
+                            setIsDayOpen(false);
+                          }}
+                          className={`flex w-full px-3 py-1.5 text-left font-[Poppins] text-[9px] hover:bg-blue-500 hover:text-white sm:text-2xs ${
+                            String(day) === form.dueDay
+                              ? "bg-blue-500 text-white"
+                              : "text-[#555555]"
+                          }`}
+                        >
+                          {day}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
             </div>
           </div>
 
-          {error && (
+          {(error || serverError) && (
             <p role="alert" className="pt-3 text-xs text-reject">
-              {error}
+              {error || serverError}
             </p>
           )}
 
@@ -232,10 +312,73 @@ const ReminderModal = ({ reminder, onClose, onSave }) => {
 
 const Notification = () => {
   const navigate = useNavigate();
+  const [paymentTypes, setPaymentTypes] = useState(PAYMENT_TYPES);
   const [activePaymentType, setActivePaymentType] = useState("paylite");
-  const [reminders, setReminders] = useState(INITIAL_REMINDERS);
+  const [reminders, setReminders] = useState(emptyReminders);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingReminderId, setEditingReminderId] = useState(null);
+  const [saveError, setSaveError] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadReminders = async () => {
+      try {
+        const [paymentOptionsResponse, remindersResponse] = await Promise.all([
+          getPaymentOptions(),
+          getTuitionReminders(),
+        ]);
+
+        if (!isMounted) return;
+
+        const options = normalizeList(paymentOptionsResponse);
+        const types = options.length
+          ? options.map((option) => ({
+              id: option.payment_option_id,
+              label: option.option_name,
+            }))
+          : PAYMENT_TYPES;
+        const reminderList = normalizeList(remindersResponse);
+        const knownIds = new Set(types.map((type) => String(type.id)));
+
+        reminderList.forEach((reminder) => {
+          const id = Number(reminder.payment_option_id);
+
+          if (!knownIds.has(String(id))) {
+            types.push({
+              id,
+              label: reminder.option_name ?? `Payment option ${id}`,
+            });
+            knownIds.add(String(id));
+          }
+        });
+
+        const grouped = Object.fromEntries(types.map((type) => [type.id, []]));
+
+        reminderList.forEach((reminder) => {
+          const group = grouped[Number(reminder.payment_option_id)];
+
+          group.push(mapReminder(reminder, group.length));
+        });
+
+        setPaymentTypes(types);
+        setReminders(grouped);
+        setActivePaymentType((current) =>
+          types.some((type) => String(type.id) === String(current))
+            ? current
+            : (types[0]?.id ?? "paylite"),
+        );
+      } catch (error) {
+        console.error("Failed to load tuition reminders:", error);
+      }
+    };
+
+    loadReminders();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const activeReminders = reminders[activePaymentType] ?? [];
   const editingReminder =
@@ -244,50 +387,96 @@ const Notification = () => {
   const closeModal = () => {
     setIsModalOpen(false);
     setEditingReminderId(null);
+    setSaveError("");
   };
 
   const openAddModal = () => {
     setEditingReminderId(null);
+    setSaveError("");
     setIsModalOpen(true);
   };
 
-  const saveReminder = (reminderData) => {
-    setReminders((current) => {
-      const currentReminders = current[activePaymentType] ?? [];
-
-      if (editingReminderId) {
-        return {
-          ...current,
-          [activePaymentType]: currentReminders.map((reminder) =>
-            reminder.id === editingReminderId
-              ? { ...reminder, ...reminderData }
-              : reminder,
-          ),
-        };
-      }
-
-      const newReminder = {
-        ...reminderData,
-        name: `Reminder ${currentReminders.length + 1}`,
-        id: `${activePaymentType}-${Date.now()}`,
-      };
-
-      return {
-        ...current,
-        [activePaymentType]: [...currentReminders, newReminder],
-      };
-    });
-
-    closeModal();
+  const openEditModal = (reminderId) => {
+    setEditingReminderId(reminderId);
+    setSaveError("");
+    setIsModalOpen(true);
   };
 
-  const removeReminder = (reminderId) => {
-    setReminders((current) => ({
-      ...current,
-      [activePaymentType]: (current[activePaymentType] ?? []).filter(
-        (reminder) => reminder.id !== reminderId,
-      ),
-    }));
+  const saveReminder = async (reminderData) => {
+    const payload = {
+      payment_option_id: Number(activePaymentType),
+      due_month: MONTHS.indexOf(reminderData.dueMonth) + 1,
+      due_day: reminderData.dueDay,
+      days_before: reminderData.daysBefore,
+    };
+
+    if (!Number.isInteger(payload.payment_option_id)) {
+      setSaveError("Payment option is unavailable.");
+      return;
+    }
+
+    try {
+      const response = editingReminderId
+        ? await updateTuitionReminder(editingReminderId, payload)
+        : await createTuitionReminder(payload);
+
+      const savedReminder = normalizeRecord(response);
+
+      setReminders((current) => {
+        const currentReminders = current[activePaymentType] ?? [];
+        const saved = mapReminder(
+          {
+            reminder_id:
+              savedReminder?.reminder_id ?? editingReminderId ?? Date.now(),
+            due_month: savedReminder?.due_month ?? payload.due_month,
+            due_day: savedReminder?.due_day ?? payload.due_day,
+            days_before: savedReminder?.days_before ?? payload.days_before,
+          },
+          currentReminders.length,
+        );
+
+        if (editingReminderId) {
+          return {
+            ...current,
+            [activePaymentType]: currentReminders.map((reminder) =>
+              reminder.id === editingReminderId
+                ? { ...reminder, ...saved, name: reminder.name }
+                : reminder,
+            ),
+          };
+        }
+
+        return {
+          ...current,
+          [activePaymentType]: [...currentReminders, saved],
+        };
+      });
+
+      closeModal();
+    } catch (error) {
+      console.error("Failed to save tuition reminder:", error);
+
+      setSaveError(
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to save reminder.",
+      );
+    }
+  };
+
+  const removeReminder = async (reminderId) => {
+    try {
+      await deleteTuitionReminder(reminderId);
+
+      setReminders((current) => ({
+        ...current,
+        [activePaymentType]: (current[activePaymentType] ?? []).filter(
+          (reminder) => reminder.id !== reminderId,
+        ),
+      }));
+    } catch (error) {
+      console.error("Failed to delete tuition reminder:", error);
+    }
   };
 
   return (
@@ -308,7 +497,7 @@ const Notification = () => {
           aria-label="Payment type"
           className="flex flex-wrap items-center gap-3"
         >
-          {PAYMENT_TYPES.map((paymentType) => (
+          {paymentTypes.map((paymentType) => (
             <button
               key={paymentType.id}
               type="button"
@@ -384,10 +573,7 @@ const Notification = () => {
 
                 <button
                   type="button"
-                  onClick={() => {
-                    setEditingReminderId(reminder.id);
-                    setIsModalOpen(true);
-                  }}
+                  onClick={() => openEditModal(reminder.id)}
                   aria-label={`Edit ${reminder.name}`}
                   className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-parent-pale/50 px-3 py-2 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale sm:text-xs"
                 >
@@ -415,6 +601,7 @@ const Notification = () => {
           reminder={editingReminder}
           onClose={closeModal}
           onSave={saveReminder}
+          serverError={saveError}
         />
       )}
     </div>

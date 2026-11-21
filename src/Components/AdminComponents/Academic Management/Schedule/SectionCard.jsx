@@ -8,11 +8,11 @@ const SectionCard = ({
   onRemove,
 }) => {
   return (
-    <div className="relative w-full sm:w-80">
+    <div className="group/card relative w-full sm:w-80 transition-transform duration-300 hover:-translate-y-1">
       <button
         type="button"
         onClick={onClick}
-        className="group relative flex w-full flex-col gap-y-5 overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-5 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-parent-accent/40 hover:shadow-lg"
+        className="group relative flex w-full flex-col gap-y-5 overflow-hidden rounded-2xl border border-parent-accent/15 bg-bone p-5 text-left shadow-md transition-all duration-300 group-hover/card:border-parent-accent/40 group-hover/card:shadow-lg"
       >
         <span className="absolute inset-x-0 top-0 h-1.5 bg-linear-to-r from-parent-green via-parent-accent to-parent-mint" />
 
@@ -36,7 +36,7 @@ const SectionCard = ({
             event.stopPropagation();
             onRemove();
           }}
-          className="absolute right-3 top-3 text-[12px] lg:text-xs xl:text-sm text-reject hover:text-egg hover:bg-reject py-1 px-2 rounded-full"
+          className="absolute right-3 top-3 z-10 text-[12px] lg:text-xs xl:text-sm text-reject hover:text-egg hover:bg-reject py-1 px-2 rounded-full"
         >
           Remove
         </button>
