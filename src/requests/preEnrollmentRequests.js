@@ -69,7 +69,8 @@ export const getRejectionReasons = () => {
 };
 
 export const rejectApplicant = (application_id, rejection_reason_id) => {
-  return API.patch(`/api/preEnrollment/applications/${application_id}/reject`, {
+  return API.patch(`/api/preEnrollment/applications/reject`, {
+    application_id,
     rejection_reason_id,
   });
 };

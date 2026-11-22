@@ -6,6 +6,7 @@ const ClassInformationToolbar = ({
   onChangeTeacher,
   onGoBack,
   onPromoteStudent,
+  onRetainStudent,
   onAddStudent,
   hasSelectedStudents,
   searchValue,
@@ -72,6 +73,7 @@ const ClassInformationToolbar = ({
 
             <button
               type="button"
+              onClick={onRetainStudent}
               disabled={!hasSelectedStudents}
               className="shrink-0 rounded-full bg-reject px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-reject sm:px-5 sm:text-xs"
             >

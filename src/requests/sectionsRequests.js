@@ -117,3 +117,11 @@ export const getSectionNames = async () => {
 
   return response.data;
 };
+
+// POST /api/sections/students/retain
+export const retainStudents = (student_ids, target_sy_grade_level_id) => {
+  return API.post("/api/sections/retain", {
+    student_ids,
+    target_sy_grade_level_id,
+  });
+};

@@ -1,16 +1,20 @@
 import React from "react";
 import { X, AlertCircle } from "lucide-react";
 
-const PromotionErrorModal = ({ isOpen, errorMessage, onClose }) => {
+const PromotionErrorModal = ({
+  isOpen,
+  errorMessage,
+  title = "Promotion Failed",
+  description = "Unable to promote the selected student(s).",
+  onClose,
+}) => {
   if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30 p-4">
       <div className="w-full max-w-md rounded-2xl bg-bone shadow-xl">
         <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-4">
-          <h2 className="font-[Poppins] text-base text-reject">
-            Promotion Failed
-          </h2>
+          <h2 className="font-[Poppins] text-base text-reject">{title}</h2>
 
           <button
             type="button"
@@ -26,9 +30,7 @@ const PromotionErrorModal = ({ isOpen, errorMessage, onClose }) => {
             <AlertCircle size={22} className="mt-0.5 shrink-0 text-reject" />
 
             <div>
-              <p className="text-sm text-gray-800">
-                Unable to promote the selected student(s).
-              </p>
+              <p className="text-sm text-gray-800">{description}</p>
 
               <p className="mt-2 text-xs leading-5 text-gray-600">
                 {errorMessage ||

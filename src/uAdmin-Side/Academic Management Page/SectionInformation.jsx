@@ -7,6 +7,7 @@ import ChangeTeacherModal from "../../Components/AdminModal/AcademicManagementPa
 import DataTable from "../../Components/DataTable.jsx";
 import AddStudentToSectionModal from "../../Components/AdminModal/AcademicManagementPage/AddStudentToSectionModal.jsx";
 import PromoteStudentModal from "../../Components/AdminModal/AcademicManagementPage/PromoteStudentModal.jsx";
+import RetainStudentModal from "../../Components/AdminModal/AcademicManagementPage/RetainStudentModal.jsx";
 import RemoveStudentModal from "../../Components/AdminModal/AcademicManagementPage/RemoveStudentModal.jsx";
 import PromotionErrorModal from "../../Components/AdminModal/AcademicManagementPage/ErrorModal.jsx";
 
@@ -16,6 +17,7 @@ import {
   getAdviserTeachers,
   addStudentsToSection,
   promoteStudents,
+  retainStudents,
   removeStudentsFromSection,
   changeSectionTeacher,
 } from "../../requests/sectionsRequests.js";
@@ -49,6 +51,10 @@ const SectionInformation = () => {
   const [isPromoteStudentOpen, setIsPromoteStudentOpen] = useState(false);
   const [isPromotionErrorOpen, setIsPromotionErrorOpen] = useState(false);
   const [promotionErrorMessage, setPromotionErrorMessage] = useState("");
+
+  const [isRetainStudentOpen, setIsRetainStudentOpen] = useState(false);
+  const [isRetainErrorOpen, setIsRetainErrorOpen] = useState(false);
+  const [retainErrorMessage, setRetainErrorMessage] = useState("");
 
   const [isRemoveStudentOpen, setIsRemoveStudentOpen] = useState(false);
   const [removeStudentTarget, setRemoveStudentTarget] = useState(null);
@@ -230,6 +236,35 @@ const SectionInformation = () => {
     setIsPromoteStudentOpen(true);
   };
 
+  const handleRetainStudents = async (targetSyGradeLevelId) => {
+    try {
+      await retainStudents(selectedStudentIds, targetSyGradeLevelId);
+
+      setIsRetainStudentOpen(false);
+      setSelectedStudentIds([]);
+
+      await loadSection();
+    } catch (error) {
+      console.error("Failed to retain students:", error);
+
+      const message =
+        error.response?.data?.message ||
+        error.message ||
+        "An unexpected error occurred while retaining students.";
+
+      setRetainErrorMessage(message);
+      setIsRetainErrorOpen(true);
+    }
+  };
+
+  const handleRetainButton = () => {
+    if (selectedStudentIds.length === 0) {
+      return;
+    }
+
+    setIsRetainStudentOpen(true);
+  };
+
   const handleSelectedStudentIds = (ids) => {
     setSelectedStudentIds(ids.map(Number));
   };
@@ -266,6 +301,7 @@ const SectionInformation = () => {
           onChangeTeacher={() => setIsChangeTeacherOpen(true)}
           onGoBack={handleGoBack}
           onPromoteStudent={handlePromoteButton}
+          onRetainStudent={handleRetainButton}
           onAddStudent={() => setIsAddStudentOpen(true)}
           hasSelectedStudents={selectedStudentIds.length > 0}
           searchValue={searchValue}
@@ -331,6 +367,28 @@ const SectionInformation = () => {
         onClose={() => {
           setIsPromotionErrorOpen(false);
           setPromotionErrorMessage("");
+        }}
+      />
+
+      {/* Retain Student */}
+      {isRetainStudentOpen && (
+        <RetainStudentModal
+          isOpen={isRetainStudentOpen}
+          onClose={() => setIsRetainStudentOpen(false)}
+          selectedStudentIds={selectedStudentIds}
+          gradeLevels={gradeLevels}
+          currentSyGradeLevelId={section?.sy_grade_level_id}
+          onRetain={handleRetainStudents}
+        />
+      )}
+      <PromotionErrorModal
+        isOpen={isRetainErrorOpen}
+        title="Retention Failed"
+        description="Unable to retain the selected student(s)."
+        errorMessage={retainErrorMessage}
+        onClose={() => {
+          setIsRetainErrorOpen(false);
+          setRetainErrorMessage("");
         }}
       />
     </div>
