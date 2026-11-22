@@ -113,7 +113,7 @@ const AdminSubjects = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 bg-egg font-[Poppins]">
+    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto bg-egg px-2 font-[Poppins] sm:px-4">
       <SettingHeader />
 
       <div className="flex flex-wrap items-center justify-between gap-y-2 gap-3">
@@ -122,7 +122,7 @@ const AdminSubjects = () => {
             Subjects
           </h1>
 
-          <p className="text-sm text-egg-dark/75">
+          <p className="text-xs text-egg-dark/75 sm:text-sm">
             Manage the master subjects used throughout the academic system.
           </p>
         </div>
@@ -149,10 +149,10 @@ const AdminSubjects = () => {
           {subjects.map((subject) => (
             <div
               key={subject.subject_id}
-              className="flex h-36 flex-col justify-between rounded-2xl border border-parent-accent/20 bg-bone p-5 shadow-[0_2px_4px_rgba(0,0,0,0.12)]"
+              className="flex min-h-36 flex-col justify-between rounded-2xl border border-parent-accent/20 bg-bone p-4 shadow-[0_2px_4px_rgba(0,0,0,0.12)] sm:p-5"
             >
-              <div className="flex items-center gap-2">
-                <h2 className="font-[PoppinsBold] text-base text-parent-green">
+              <div className="flex min-w-0 items-center gap-2">
+                <h2 className="min-w-0 truncate font-[PoppinsBold] text-sm text-parent-green sm:text-base">
                   {subject.subject_name}
                 </h2>
 
@@ -174,14 +174,14 @@ const AdminSubjects = () => {
                       `/admin/settings/subjects/${subject.subject_id}/skills`,
                     )
                   }
-                  className="w-full rounded-2xl bg-parent-green px-3 py-1.5 text-sm text-egg hover:opacity-75"
+                  className="w-full whitespace-nowrap rounded-2xl bg-parent-green px-2 py-1.5 text-xs text-egg hover:opacity-75 sm:px-3 sm:text-sm"
                 >
                   Manage Skills
                 </button>
                 <button
                   type="button"
                   onClick={() => openRemoveModal(subject)}
-                  className="rounded-2xl bg-reject px-3 py-1.5 text-sm text-egg hover:opacity-75"
+                  className="shrink-0 whitespace-nowrap rounded-2xl bg-reject px-2 py-1.5 text-xs text-egg hover:opacity-75 sm:px-3 sm:text-sm"
                 >
                   Remove
                 </button>

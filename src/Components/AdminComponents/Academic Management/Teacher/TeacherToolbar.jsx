@@ -1,5 +1,6 @@
 import React from "react";
 import { Search } from "lucide-react";
+import ResponsiveFilter from "../../ResponsiveFilter";
 
 const STATUS_OPTIONS = [
   { label: "All", value: "all" },
@@ -28,25 +29,15 @@ const TeacherToolbar = ({
       {/* Controls */}
       <div className="ml-auto flex w-full flex-wrap items-center gap-3 md:w-auto">
         {/* Status */}
-        <div className="flex flex-wrap items-center gap-3">
-          {STATUS_OPTIONS.map((option) => (
-            <button
-              key={option.value}
-              type="button"
-              onClick={() => onStatusChange(option.value)}
-              className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
-                status === option.value
-                  ? "bg-parent-green text-white"
-                  : "text-gray-500 hover:bg-parent-accent/15"
-              }`}
-            >
-              {option.label}
-            </button>
-          ))}
-        </div>
+        <ResponsiveFilter
+          options={STATUS_OPTIONS}
+          value={status}
+          onChange={onStatusChange}
+          label="Filter teachers"
+        />
 
         {/* Search */}
-        <div className="relative min-w-0 flex-1 md:w-48 md:flex-none lg:w-48 xl:w-52">
+        <div className="relative w-full min-w-0 flex-1 md:w-48 md:flex-none lg:w-48 xl:w-52">
           <Search
             size={14}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
@@ -57,7 +48,7 @@ const TeacherToolbar = ({
             value={searchValue}
             onChange={(event) => onSearchChange(event.target.value)}
             placeholder="Search Teacher"
-            className="h-8 w-full rounded-full border border-parent-accent/25 bg-white/80 pl-8 pr-4 text-xs text-gray-700 outline-none focus:border-parent-green"
+            className="h-8 w-full min-w-0 rounded-full border border-parent-accent/25 bg-white/80 pl-8 pr-4 font-[Poppins] text-xs text-gray-700 outline-none focus:border-parent-green"
           />
         </div>
 
@@ -65,7 +56,7 @@ const TeacherToolbar = ({
         <button
           type="button"
           onClick={onSearch}
-          className="h-8 shrink-0 rounded-full bg-parent-green px-6 text-xs text-white transition hover:bg-parent-accent"
+          className="h-8 shrink-0 rounded-full bg-parent-green px-4 font-[Poppins] text-xs text-white transition hover:bg-parent-accent sm:px-6"
         >
           Search
         </button>
@@ -74,7 +65,7 @@ const TeacherToolbar = ({
         <button
           type="button"
           onClick={onAdd}
-          className="h-8 shrink-0 rounded-full bg-parent-green px-5 text-xs text-white transition hover:opacity-90"
+          className="h-8 shrink-0 rounded-full bg-parent-green px-4 font-[Poppins] text-xs text-white transition hover:opacity-90 sm:px-5"
         >
           + Add Teacher
         </button>

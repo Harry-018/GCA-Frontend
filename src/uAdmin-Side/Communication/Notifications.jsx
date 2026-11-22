@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import Header from "../../Components/AdminComponents/Communication/Announcement/Header";
+import ResponsiveFilter from "../../Components/AdminComponents/ResponsiveFilter";
 import {
   createTuitionReminder,
   deleteTuitionReminder,
@@ -493,26 +494,15 @@ const Notification = () => {
         aria-label="Notification filters"
         className="flex w-full flex-wrap items-center justify-between gap-3"
       >
-        <nav
-          aria-label="Payment type"
-          className="flex flex-wrap items-center gap-3"
-        >
-          {paymentTypes.map((paymentType) => (
-            <button
-              key={paymentType.id}
-              type="button"
-              aria-pressed={activePaymentType === paymentType.id}
-              onClick={() => setActivePaymentType(paymentType.id)}
-              className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
-                activePaymentType === paymentType.id
-                  ? "bg-parent-green text-white"
-                  : "text-gray-500 hover:bg-parent-accent/15"
-              }`}
-            >
-              {paymentType.label}
-            </button>
-          ))}
-        </nav>
+        <ResponsiveFilter
+          options={paymentTypes.map((paymentType) => ({
+            value: paymentType.id,
+            label: paymentType.label,
+          }))}
+          value={activePaymentType}
+          onChange={setActivePaymentType}
+          label="Filter payment type"
+        />
 
         <button
           type="button"

@@ -1,4 +1,5 @@
 import React from "react";
+import ResponsiveFilter from "../../ResponsiveFilter";
 
 const FILTERS = [
   { label: "All", value: "all" },
@@ -16,25 +17,13 @@ function SchoolYearToolbar({
   onSearch,
 }) {
   return (
-    <div className="flex w-full flex-wrap items-center gap-3 px-5 py-2 md:justify-between">
-      <div className="flex flex-wrap items-center gap-3">
-        {FILTERS.map((filter) => (
-          <button
-            key={filter.value}
-            type="button"
-            onClick={() => {
-              onFilterChange?.(filter.value);
-            }}
-            className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
-              activeFilter === filter.value
-                ? "bg-parent-green text-white"
-                : "text-gray-500 hover:bg-parent-accent/15"
-            }`}
-          >
-            {filter.label}
-          </button>
-        ))}
-      </div>
+    <div className="flex w-full flex-wrap items-center gap-3 px-2 py-2 sm:px-5 md:justify-between">
+      <ResponsiveFilter
+        options={FILTERS}
+        value={activeFilter}
+        onChange={onFilterChange}
+        label="Filter school years"
+      />
 
       {/* Actions */}
       <div className="flex flex-wrap items-center gap-3 md:ml-auto">
@@ -51,7 +40,7 @@ function SchoolYearToolbar({
             event.preventDefault();
             onSearch?.();
           }}
-          className="flex min-w-0 flex-1 items-center gap-2 sm:flex-none"
+          className="flex w-full min-w-0 flex-1 items-center gap-2 sm:w-auto sm:flex-none"
         >
           <input
             type="text"

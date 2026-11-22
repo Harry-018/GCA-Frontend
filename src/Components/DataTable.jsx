@@ -134,7 +134,7 @@ const DataTable = ({
       className={`flex h-full flex-1 min-h-0 w-full flex-col overflow-auto no-scrollbar rounded-2xl border border-parent-accent/15 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)] ${className}`}
     >
       <table
-        className="w-full text-left text-sm"
+        className="w-full min-w-max text-left text-sm"
         style={{
           minWidth:
             minWidth ?? (stickyColumns.length > 0 ? "max-content" : undefined),
@@ -147,7 +147,7 @@ const DataTable = ({
                 <th
                   key={header.id}
                   style={getStickyStyle(header.column.id)}
-                  className={`px-3 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-700 sm:px-4 ${
+                  className={`whitespace-nowrap px-3 py-3 text-xs font-[PoppinsBold] tracking-wide text-gray-700 sm:px-4 ${
                     header.column.columnDef.meta?.className || ""
                   } ${stickyColumns.includes(header.column.id) ? "z-30" : ""}`}
                 >
@@ -192,7 +192,7 @@ const DataTable = ({
                   <td
                     key={cell.id}
                     style={getStickyStyle(cell.column.id)}
-                    className={`px-3 py-3 text-gray-700 sm:px-4 ${
+                    className={`whitespace-nowrap px-3 py-3 text-gray-700 sm:px-4 ${
                       cell.column.columnDef.meta?.className || ""
                     }`}
                   >
@@ -206,7 +206,7 @@ const DataTable = ({
       </table>
 
       {enablePagination && (
-        <div className="flex items-center justify-between border-t border-parent-accent/10 px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-t border-parent-accent/10 px-4 py-3">
           <div className="text-xs text-gray-500">
             Page {table.getState().pagination.pageIndex + 1} of{" "}
             {table.getPageCount()}

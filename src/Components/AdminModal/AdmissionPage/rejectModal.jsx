@@ -1,4 +1,6 @@
 import React from "react";
+import { ChevronDown } from "lucide-react";
+
 const RejectModal = ({
   isOpen,
   onClose,
@@ -22,21 +24,28 @@ const RejectModal = ({
           <label className="w-20 shrink-0 text-xs text-gray-600">
             Select Reason:
           </label>
-          <select
-            value={rejectionReasonId}
-            onChange={(event) => setRejectionReasonId(event.target.value)}
-            className="h-9 flex-1 rounded-md border border-parent-accent/25 bg-bone px-2 text-xs text-gray-600 outline-none focus:border-reject"
-          >
-            <option value="">Select a reason</option>
-            {rejectionReasons.map((reason) => (
-              <option
-                key={reason.rejection_reason_id}
-                value={reason.rejection_reason_id}
-              >
-                {reason.rejection_reason}
-              </option>
-            ))}
-          </select>
+          <div className="relative flex-1">
+            <select
+              value={rejectionReasonId}
+              onChange={(event) => setRejectionReasonId(event.target.value)}
+              className="h-9 w-full appearance-none rounded-md border border-parent-accent/25 bg-bone px-2 pr-8 text-xs text-gray-600 outline-none focus:border-reject"
+            >
+              <option value="">Select a reason</option>
+              {rejectionReasons.map((reason) => (
+                <option
+                  key={reason.rejection_reason_id}
+                  value={reason.rejection_reason_id}
+                >
+                  {reason.rejection_reason}
+                </option>
+              ))}
+            </select>
+
+            <ChevronDown
+              size={14}
+              className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-gray-500"
+            />
+          </div>
         </div>
         <div className="flex gap-2">
           <button

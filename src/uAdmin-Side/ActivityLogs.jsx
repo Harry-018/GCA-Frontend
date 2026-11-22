@@ -198,7 +198,7 @@ const ActivityLogs = () => {
       accessorKey: "description",
       header: "DESCRIPTION",
       cell: ({ getValue }) => (
-        <span className="block max-w-md whitespace-normal">
+        <span className="block whitespace-nowrap">
           {getValue() || "—"}
         </span>
       ),
@@ -225,7 +225,7 @@ const ActivityLogs = () => {
           getRowId={(row) => String(row.id)}
         />
 
-        <div className="flex items-center justify-between px-2 py-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-2 py-2">
           <div className="text-xs text-gray-500">
             Page {page} of {totalPages} · {filteredLogs.length} log
             {filteredLogs.length === 1 ? "" : "s"}

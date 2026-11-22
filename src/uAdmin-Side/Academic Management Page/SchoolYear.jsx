@@ -225,7 +225,7 @@ const SchoolYear = () => {
         </div>
 
         {/* PAGINATION */}
-        <div className="flex shrink-0 items-center justify-between px-2 py-3">
+        <div className="flex shrink-0 flex-wrap items-center justify-between gap-2 px-2 py-3">
           <p className="text-xs text-gray-500">
             Page {pagination.page} of {pagination.totalPages}
           </p>

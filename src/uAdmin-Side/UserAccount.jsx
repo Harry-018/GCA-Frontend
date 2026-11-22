@@ -340,7 +340,7 @@ const UserAccount = () => {
           emptyMessage={`No ${status} accounts found.`}
           getRowId={(row) => String(row.user_id)}
         />
-        <div className="flex items-center justify-between px-2 py-2">
+        <div className="flex flex-wrap items-center justify-between gap-2 px-2 py-2">
           <div className="text-xs text-gray-500">
             Page {pagination.page} of {pagination.totalPages}
           </div>

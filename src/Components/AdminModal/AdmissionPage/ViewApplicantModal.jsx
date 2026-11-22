@@ -77,8 +77,8 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-4">
-      <div className="max-h-[calc(100dvh-2.5rem)] w-full max-h-5xl max-w-7xl overflow-y-auto rounded-2xl bg-bone p-4 shadow-[0_4px_12px_rgba(0,0,0,0.2)]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 px-2 py-3 sm:px-4">
+      <div className="max-h-[calc(100dvh-1.5rem)] w-full max-h-5xl max-w-7xl overflow-y-auto rounded-xl bg-bone p-3 shadow-[0_4px_12px_rgba(0,0,0,0.2)] sm:max-h-[calc(100dvh-2.5rem)] sm:rounded-2xl sm:p-4">
         <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-3">
           {sections.map((section) => (
             <div
@@ -94,14 +94,14 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
               <div
                 className={
                   section.columns === 2
-                    ? "grid grid-cols-2 gap-x-4"
+                    ? "grid grid-cols-1 gap-x-4 sm:grid-cols-2"
                     : "flex flex-col"
                 }
               >
                 {section.fields.map(([label, value]) => (
                   <div
                     key={label}
-                    className="grid grid-cols-[100px_1fr] text-[11px] lg:text-xs xl:text-sm text-gray-600"
+                    className="grid grid-cols-[72px_1fr] gap-x-2 text-[11px] text-gray-600 sm:grid-cols-[100px_1fr] sm:gap-x-0 lg:text-xs xl:text-sm"
                   >
                     <span>{label}:</span>
 
@@ -130,7 +130,7 @@ const ViewApplicantModal = ({ applicant, onClose }) => {
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-gray-400 px-9 py-1.5 text-[11px] lg:text-xs xl:text-sm text-gray-700 transition hover:bg-gray-100"
+            className="w-full rounded-full border border-gray-400 px-6 py-1.5 text-[11px] text-gray-700 transition hover:bg-gray-100 sm:w-auto sm:px-9 lg:text-xs xl:text-sm"
           >
             Close
           </button>

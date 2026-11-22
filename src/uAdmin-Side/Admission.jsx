@@ -490,7 +490,7 @@ const Admission = () => {
               <button
                 type="button"
                 onClick={() => handleViewApplicant(applicant)}
-                className="rounded-full border border-parent-accent/25 px-4 py-1 text-[11px] text-gray-600 hover:bg-gray-100 lg:text-xs xl:text-sm"
+                className="whitespace-nowrap rounded-full border border-parent-accent/25 px-2.5 py-1 font-[Poppins] text-[10px] text-gray-600 transition hover:bg-gray-100 sm:px-4 sm:text-[11px] lg:text-xs xl:text-sm"
               >
                 View
               </button>
@@ -499,7 +499,7 @@ const Admission = () => {
                 <button
                   type="button"
                   onClick={() => handleApproveApplicant(applicant)}
-                  className="rounded-full bg-parent-green px-4 py-1 text-[11px] text-white hover:bg-parent-accent lg:text-xs xl:text-sm"
+                  className="whitespace-nowrap rounded-full bg-parent-green px-2.5 py-1 font-[Poppins] text-[10px] text-white transition hover:bg-parent-accent sm:px-4 sm:text-[11px] lg:text-xs xl:text-sm"
                 >
                   Approve
                 </button>
@@ -509,7 +509,7 @@ const Admission = () => {
                 <button
                   type="button"
                   onClick={() => handleRejectApplicant(applicant)}
-                  className="rounded-full bg-reject px-4 py-1 text-[11px] text-white hover:bg-reject/80 lg:text-xs xl:text-sm"
+                  className="whitespace-nowrap rounded-full bg-reject px-2.5 py-1 font-[Poppins] text-[10px] text-white transition hover:bg-reject/80 sm:px-4 sm:text-[11px] lg:text-xs xl:text-sm"
                 >
                   Reject
                 </button>

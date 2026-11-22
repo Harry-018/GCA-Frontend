@@ -1,8 +1,8 @@
 const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
   return (
     <section className="h-full rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
-      <div className="flex items-center justify-between gap-3">
-        <div>
+      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
           <p className="text-xs font-[PoppinsBold] uppercase tracking-[0.14em] text-parent-accent">
             Parent highlights
           </p>
@@ -14,7 +14,7 @@ const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
         <button
           type="button"
           onClick={onAdd}
-          className="rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green"
+          className="w-full rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green sm:w-auto"
         >
           Add reason
         </button>
@@ -34,15 +34,15 @@ const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
           reasons.map((reason, index) => (
             <div
               key={reason.id}
-              className="flex items-center gap-3 rounded-2xl border border-parent-accent/10 bg-white p-3"
+              className="flex flex-wrap items-start gap-3 rounded-2xl border border-parent-accent/10 bg-white p-3 sm:flex-nowrap sm:items-center"
             >
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-parent-pale/50 text-xs font-[PoppinsBold] text-parent-green">
                 {String(index + 1).padStart(2, "0")}
               </span>
-              <div className="min-w-0 flex-1 text-xs leading-relaxed text-gray-600 sm:text-sm">
+              <div className="min-w-0 flex-1 basis-[calc(100%-2.75rem)] text-xs leading-relaxed text-gray-600 sm:basis-auto sm:text-sm">
                 {reason.text}
               </div>
-              <div className="flex shrink-0 gap-1.5">
+              <div className="flex w-full shrink-0 justify-end gap-1.5 sm:w-auto">
                 <button
                   type="button"
                   onClick={() => onEdit?.(reason)}

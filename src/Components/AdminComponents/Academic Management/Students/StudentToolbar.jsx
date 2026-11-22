@@ -1,5 +1,6 @@
 import React from "react";
-import { Search } from "lucide-react";
+import { ChevronDown, Search } from "lucide-react";
+import ResponsiveFilter from "../../ResponsiveFilter";
 
 const StudentToolbar = ({
   filters,
@@ -51,26 +52,21 @@ const StudentToolbar = ({
               </option>
             ))}
           </select>
+
+          <ChevronDown
+            size={14}
+            className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500"
+          />
         </div>
       </div>
 
       <div className="flex w-full flex-wrap items-center justify-between gap-2 md:ml-auto md:w-auto md:justify-end md:gap-3">
-        <div className="flex flex-wrap items-center gap-3">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              type="button"
-              onClick={() => onFilterChange(filter)}
-              className={`rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
-                activeFilter === filter
-                  ? "bg-parent-green text-white"
-                  : "text-gray-500 hover:bg-parent-accent/15"
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
+        <ResponsiveFilter
+          options={filters.map((filter) => ({ label: filter, value: filter }))}
+          value={activeFilter}
+          onChange={onFilterChange}
+          label="Filter students"
+        />
 
         <div className="flex flex-1 items-center gap-2 md:ml-3 md:w-auto md:flex-none">
           <div className="relative min-w-0 flex-1 sm:flex-none">
@@ -87,14 +83,14 @@ const StudentToolbar = ({
                 if (event.key === "Enter") onSearch();
               }}
               placeholder="Search Student"
-              className="h-8 w-full rounded-full border border-parent-accent/25 bg-white/80 pl-6 pr-3 text-[9px] text-gray-700 outline-none focus:border-parent-green sm:w-48 sm:pl-8 sm:pr-4 sm:text-xs lg:w-44 xl:w-52"
+              className="h-8 w-full min-w-0 rounded-full border border-parent-accent/25 bg-white/80 pl-7 pr-3 font-[Poppins] text-xs text-gray-700 outline-none focus:border-parent-green sm:w-44 sm:pl-8 sm:pr-4 lg:w-44 xl:w-52"
             />
           </div>
 
           <button
             type="button"
             onClick={onSearch}
-            className="h-8 shrink-0 rounded-full bg-parent-green px-3 text-[9px] text-white transition hover:bg-parent-accent sm:px-6 sm:text-xs"
+            className="h-8 shrink-0 rounded-full bg-parent-green px-4 font-[Poppins] text-xs text-white transition hover:bg-parent-accent sm:px-6"
           >
             Search
           </button>
