@@ -1,9 +1,11 @@
 const ActivityLogsHeader = ({ activeTab, onTabChange }) => {
   const tabs = [
     { label: "All Logs", value: "all" },
-    { label: "Created", value: "create" },
-    { label: "Updated", value: "update" },
-    { label: "Logins", value: "login" },
+    { label: "Created", value: "Created" },
+    { label: "Updated", value: "Updated" },
+    { label: "Deleted", value: "Deleted" },
+    { label: "Rejected", value: "Rejected" },
+    { label: "Logins", value: "Logged In" },
   ];
 
   return (

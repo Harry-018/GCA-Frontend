@@ -1,27 +1,31 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 
 import ActivityLogsHeader from "../Components/AdminComponents/Activity Logs/ActivityLogsHeader";
 import ActivityLogsToolbar from "../Components/AdminComponents/Activity Logs/ActivityLogsToolbar";
 import DataTable from "../Components/DataTable.jsx";
 
-import { getActivityLogs } from "../utils/data/Admin/activityLogs.js";
+import { getAdminActivityLogs } from "../requests/activityLogsRequests.js";
 
 const ACTION_STYLES = {
-  create: "bg-green-100 text-green-700",
-  update: "bg-blue-100 text-blue-700",
-  login: "bg-yellow-100 text-yellow-700",
+  Created: "bg-green-100 text-green-700",
+  Updated: "bg-blue-100 text-blue-700",
+  Deleted: "bg-red-100 text-red-700",
+  Rejected: "bg-red-100 text-red-700",
+  "Logged In": "bg-yellow-100 text-yellow-700",
 };
 
 const ACTION_LABELS = {
-  create: "Created",
-  update: "Updated",
-  login: "Logged In",
+  Created: "Created",
+  Updated: "Updated",
+  Deleted: "Deleted",
+  Rejected: "Rejected",
+  "Logged In": "Logged In",
 };
 
 const ActivityLogs = () => {
-  const [logs] = useState(() =>
-    getActivityLogs().filter((log) => log.role === "admin"),
-  );
+  const [logs, setLogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
 
   const [action, setAction] = useState("all");
 
@@ -30,6 +34,67 @@ const ActivityLogs = () => {
 
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadActivityLogs = async () => {
+      try {
+        setLoading(true);
+        setLoadError("");
+
+        const firstPage = await getAdminActivityLogs({ page: 1, limit: 100 });
+        const totalPages = firstPage?.pagination?.totalPages ?? 1;
+
+        const remainingPages = await Promise.all(
+          Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) =>
+            getAdminActivityLogs({ page: index + 2, limit: 100 }),
+          ),
+        );
+
+        if (cancelled) return;
+
+        const rows = [firstPage, ...remainingPages].flatMap(
+          (response) => response?.data ?? [],
+        );
+
+        setLogs(
+          rows
+            .filter((log) => log.role === "admin")
+            .map((log) => ({
+              id: log.log_id,
+              timestamp: log.timestamp,
+              user:
+                [log.first_name, log.last_name].filter(Boolean).join(" ") ||
+                "—",
+              role: log.role,
+              action: log.action,
+              module: log.module,
+              description: log.description,
+            })),
+        );
+      } catch (error) {
+        console.error("Failed to load activity logs:", error);
+
+        if (!cancelled) {
+          setLogs([]);
+          setLoadError(
+            error.response?.data?.message || "Failed to load activity logs.",
+          );
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    loadActivityLogs();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const filteredLogs = useMemo(() => {
     const keyword = search.toLowerCase();
@@ -155,8 +220,8 @@ const ActivityLogs = () => {
         <DataTable
           data={paginatedLogs}
           columns={columns}
-          loading={false}
-          emptyMessage="No activity logs found."
+          loading={loading}
+          emptyMessage={loadError || "No activity logs found."}
           getRowId={(row) => String(row.id)}
         />
 
