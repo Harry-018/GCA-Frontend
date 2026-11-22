@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Header from "../../Components/AdminComponents/Website Management/Header";
+import ResponsiveFilter from "../../Components/AdminComponents/ResponsiveFilter";
 import Banner from "../../Components/AdminComponents/Website Management/Home/Banner";
 import AcademicPrograms from "../../Components/AdminComponents/Website Management/Home/AcademicPrograms";
 import VideoPresentation from "../../Components/AdminComponents/Website Management/Home/VideoPresentation";
@@ -712,25 +713,16 @@ const Home = () => {
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-egg font-[Poppins]">
       <Header activeTab={activeTab} onTabChange={setActiveTab} />
 
-      <nav
-        aria-label="Website content sections"
-        className="flex w-fit max-w-full flex-wrap items-center gap-1.5 rounded-2xl p-1.5"
-      >
-        {SECONDARY_ITEMS.map((item) => (
-          <button
-            key={item.key}
-            type="button"
-            onClick={() => setActiveTab(item.key)}
-            aria-current={activeTab === item.key ? "page" : undefined}
-            className={`inline-flex min-h-9 shrink-0 items-center whitespace-nowrap rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
-              activeTab === item.key
-                ? "bg-parent-green text-white"
-                : "text-gray-500 hover:bg-parent-accent/15"
-            }`}
-          >
-            {item.label}
-          </button>
-        ))}
+      <nav aria-label="Website content sections" className="w-full sm:w-fit">
+        <ResponsiveFilter
+          options={SECONDARY_ITEMS.map((item) => ({
+            value: item.key,
+            label: item.label,
+          }))}
+          value={activeTab}
+          onChange={setActiveTab}
+          label="Website content section"
+        />
       </nav>
 
       <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto px-1 pb-4">

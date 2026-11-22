@@ -199,7 +199,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
             <button
               type="button"
               onClick={onClose}
-              className="rounded-full border border-parent-accent/25 px-5 py-2 text-xs text-gray-600 hover:bg-gray-100"
+              className="rounded-full border border-parent-accent/25 px-5 py-2 text-[9px] md:text-sm text-gray-600 hover:bg-gray-100"
             >
               Cancel
             </button>
@@ -208,7 +208,7 @@ const AddStudentToSectionModal = ({ isOpen, onClose, sectionId, onAdd }) => {
               type="button"
               disabled={selectedStudentIds.length === 0}
               onClick={handleAdd}
-              className="rounded-full bg-parent-green px-5 py-2 text-xs text-white disabled:cursor-not-allowed disabled:opacity-40"
+              className="rounded-full bg-parent-green px-5 py-2 text-[9px] md:text-sm text-white disabled:cursor-not-allowed disabled:opacity-40"
             >
               Add Students
             </button>

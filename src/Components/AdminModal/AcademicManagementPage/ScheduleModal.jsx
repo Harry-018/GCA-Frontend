@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 const DAY_INDEX = {
@@ -8,6 +8,7 @@ const DAY_INDEX = {
   Thursday: 4,
   Friday: 5,
 };
+const MOBILE_QUERY = "(max-width: 639px)";
 const getCurrentMonday = () => {
   const date = new Date();
   const day = date.getDay();
@@ -27,6 +28,19 @@ const getTeacherName = (schedule) => {
     .join(" ");
 };
 const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia(MOBILE_QUERY).matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(MOBILE_QUERY);
+    const handleChange = (event) => setIsMobile(event.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
   const initialDate = useMemo(() => {
     return formatDate(getCurrentMonday());
   }, []);
@@ -53,15 +67,15 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
   }, [schedules]);
   if (!isOpen) return null;
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-5 backdrop-blur-sm">
-      <div className="flex max-h-[calc(100dvh-2.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-bone shadow-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-3 backdrop-blur-sm sm:p-5">
+      <div className="flex max-h-[calc(100dvh-1.5rem)] w-full max-w-6xl flex-col overflow-hidden rounded-xl bg-bone shadow-lg sm:max-h-[calc(100dvh-2.5rem)] sm:rounded-2xl">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-parent-accent/15 px-6 py-5">
-          <div>
-            <h2 className="font-[Poppins] text-lg text-parent-green">
+        <div className="flex items-center justify-between gap-2 border-b border-parent-accent/15 px-4 py-3 sm:px-6 sm:py-5">
+          <div className="min-w-0">
+            <h2 className="font-[Poppins] text-base text-parent-green sm:text-lg">
               SCHEDULE
             </h2>
-            <p className="mt-1 font-[Poppins] text-base text-gray-500">
+            <p className="mt-1 break-words font-[Poppins] text-xs text-gray-500 sm:text-base">
               {sectionName}
             </p>
           </div>
@@ -75,8 +89,8 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
           </button>
         </div>
         {/* Calendar */}
-        <div className="min-h-0 flex-1 overflow-auto px-4 py-4 sm:px-6">
-          <div className="gca-calendar w-full">
+        <div className="min-h-0 flex-1 overflow-auto px-2 py-2 sm:px-6 sm:py-4">
+          <div className="gca-calendar schedule-modal-calendar w-full min-w-0">
             <FullCalendar
               plugins={[timeGridPlugin]}
               initialView="timeGridWeek"
@@ -90,24 +104,24 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
               expandRows={true}
               height="auto"
               headerToolbar={false}
-              dayHeaderFormat={{
-                weekday: "short",
-                month: "short",
-                day: "numeric",
-              }}
+              dayHeaderFormat={
+                isMobile
+                  ? { weekday: "short" }
+                  : { weekday: "short", month: "short", day: "numeric" }
+              }
               events={events}
               eventContent={(eventInfo) => {
                 const { event } = eventInfo;
                 return (
-                  <div className="flex event-card w-full h-full flex-col overflow-hidden rounded-lg border border-parent-green/80 bg-parent-green px-2 py-1.5 text-white shadow-sm justify-between ">
-                    <p className="truncate font-[Poppins] text-[14px] text-wrap leading-tight text-white">
+                  <div className="event-card flex h-full w-full flex-col justify-between overflow-hidden rounded-md border border-parent-green/80 bg-parent-green px-1 py-1 text-white shadow-sm sm:rounded-lg sm:px-2 sm:py-1.5">
+                    <p className="line-clamp-2 break-words font-[Poppins] text-[9px] leading-tight text-white sm:line-clamp-none sm:text-[14px]">
                       {event.title}
                     </p>
-                    <div>
-                      <p className="truncate font-[Poppins] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
+                    <div className="min-w-0">
+                      <p className="truncate font-[Poppins] text-[9px] leading-tight text-white sm:text-[12px] lg:text-xs xl:text-sm">
                         {event.extendedProps.room}
                       </p>
-                      <p className="truncate font-[Poppins] text-[12px] lg:text-xs xl:text-sm leading-tight text-white">
+                      <p className="truncate font-[Poppins] text-[9px] leading-tight text-white sm:text-[12px] lg:text-xs xl:text-sm">
                         {event.extendedProps.teacher}
                       </p>
                     </div>
@@ -118,11 +132,11 @@ const ScheduleModal = ({ isOpen, onClose, sectionName, schedules = [] }) => {
           </div>
         </div>
         {/* Actions */}
-        <div className="flex justify-end border-t border-parent-accent/15 px-6 py-4">
+        <div className="flex justify-end border-t border-parent-accent/15 px-4 py-3 sm:px-6 sm:py-4">
           <button
             type="button"
             onClick={onClose}
-            className="h-9 rounded-full bg-parent-green px-8 font-[Poppins] text-xs text-white transition hover:bg-parent-accent"
+            className="h-9 rounded-full bg-parent-green px-6 font-[Poppins] text-xs text-white transition hover:bg-parent-accent sm:px-8"
           >
             Close
           </button>

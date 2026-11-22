@@ -353,6 +353,37 @@ body {
   box-sizing: border-box;
 }
 
+.schedule-modal-calendar .fc {
+  min-width: 0;
+}
+
+@media (min-width: 640px) {
+  .schedule-modal-calendar .fc {
+    min-width: 1100px;
+  }
+}
+
+@media (max-width: 639px) {
+  .schedule-modal-calendar .fc-timegrid-axis {
+    width: 44px;
+    min-width: 44px;
+  }
+
+  .schedule-modal-calendar .fc-col-header-cell-cushion {
+    padding: 6px 1px;
+    font-size: 10px;
+  }
+
+  .schedule-modal-calendar .fc-timegrid-slot-label {
+    padding-top: 3px;
+    font-size: 10px;
+  }
+
+  .schedule-modal-calendar .fc-timegrid-slot {
+    height: 40px;
+  }
+}
+
 /* NOW INDICATOR */
 .gca-calendar .fc-timegrid-now-indicator-line {
   border-color: var(--color-swamp-green);

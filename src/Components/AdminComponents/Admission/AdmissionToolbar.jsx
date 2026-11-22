@@ -1,5 +1,6 @@
 import React from "react";
 import { Search } from "lucide-react";
+import ResponsiveFilter from "../ResponsiveFilter";
 
 const AdmissionToolbar = ({
   statuses,
@@ -15,29 +16,36 @@ const AdmissionToolbar = ({
   selectionDisabled,
 }) => {
   return (
-    <div className="flex w-full flex-wrap items-center gap-3 py-4 xl:flex-nowrap">
+    <div
+      className={`flex w-full flex-wrap items-center gap-3 py-4 ${
+        selectionDisabled
+          ? "sm:flex-nowrap"
+          : "md:flex-nowrap"
+      }`}
+    >
       {/* Status pills — own row on small/tablet, shares row (right side) with Check Multiple on laptop */}
-      <nav className="-mx-1 order-3 flex w-full items-center gap-3 overflow-x-auto px-1 pb-1 sm:gap-5 md:order-2 md:w-auto md:flex-wrap md:overflow-visible md:pb-0 lg:order-2 lg:w-auto lg:flex-nowrap lg:shrink-0 lg:pb-0 xl:order-0 xl:w-auto">
-        {" "}
-        {statuses.map((status) => (
-          <button
-            key={status}
-            type="button"
-            onClick={() => onStatusChange(status)}
-            className={`inline-flex shrink-0 items-center whitespace-nowrap rounded-full px-4 py-2 font-[Poppins] text-xs transition ${
-              activeStatus === status
-                ? "bg-parent-green text-white"
-                : "text-gray-500 hover:bg-parent-accent/15"
-            }`}
-          >
-            {status}
-          </button>
-        ))}
+      <nav
+        className={`-mx-1 order-2 flex w-full items-center gap-3 overflow-x-auto px-1 pb-1 min-[375px]:order-3 ${
+          selectionDisabled
+            ? "sm:order-1 sm:w-auto sm:shrink-0 sm:flex-nowrap sm:overflow-visible sm:pb-0"
+            : "md:order-1 md:w-auto md:flex-nowrap md:overflow-visible md:pb-0"
+        }`}
+      >
+        <ResponsiveFilter
+          options={statuses.map((status) => ({
+            label: status,
+            value: status,
+          }))}
+          value={activeStatus}
+          onChange={onStatusChange}
+          label="Filter applications"
+          mobileClassName="w-auto"
+        />
       </nav>
 
       {/* Selection: Check Multiple (+ inline actions on small/tablet) */}
-      <div className="order-1 flex w-fit flex-wrap items-center gap-3 md:shrink-0 lg:order-1 lg:w-full xl:order-0 xl:w-auto xl:ml-auto">
-        {!selectionDisabled && (
+      {!selectionDisabled && (
+        <div className="order-1 flex w-fit shrink-0 flex-wrap items-center gap-3 md:order-2 md:ml-auto md:w-auto md:flex-nowrap">
           <button
             type="button"
             onClick={onToggleSelectionMode}
@@ -49,35 +57,45 @@ const AdmissionToolbar = ({
           >
             {selectionMode ? "Cancel" : "Select"}
           </button>
-        )}
 
-        {/* Approve/Clear inline */}
-        <div className="flex items-center gap-3">
-          {selectionMode && (
-            <>
-              <button
-                type="button"
-                onClick={onApproveSelected}
-                className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-parent-green px-4 text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
-              >
-                Approve Selected
-              </button>
+          {/* Approve/Clear inline */}
+          <div className="flex items-center gap-3">
+            {selectionMode && (
+              <>
+                <button
+                  type="button"
+                  onClick={onApproveSelected}
+                  className="inline-flex h-8 items-center whitespace-nowrap rounded-full bg-parent-green px-4 text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
+                >
+                  Approve Selected
+                </button>
 
-              <button
-                type="button"
-                onClick={onClearSelection}
-                className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-parent-accent/25 px-4 text-[11px] text-gray-600 transition hover:bg-bone sm:px-5 sm:text-xs"
-              >
-                Clear
-              </button>
-            </>
-          )}
+                <button
+                  type="button"
+                  onClick={onClearSelection}
+                  className="inline-flex h-8 items-center whitespace-nowrap rounded-full border border-parent-accent/25 px-4 text-[11px] text-gray-600 transition hover:bg-bone sm:px-5 sm:text-xs"
+                >
+                  Clear
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Search — top row on laptop */}
-      <div className="order-2 flex w-full min-w-0 flex-1 items-center gap-2 md:w-auto md:ml-auto lg:w-auto lg:ml-auto xl:order-0 xl:ml-0 xl:flex-none xl:justify-end">
-        <div className="relative w-full min-w-0 flex-1 lg:max-w-lg xl:max-w-xl xl:flex-none xl:w-72">
+      <div
+        className={`order-1 flex min-w-0 flex-1 items-center gap-2 min-[375px]:order-2 min-[375px]:basis-full ${
+          selectionDisabled
+            ? "sm:order-2 sm:ml-auto sm:w-80 sm:basis-80 sm:flex-none"
+            : "md:order-3 md:ml-0 md:w-80 md:basis-80 md:flex-none md:justify-end"
+        } ${
+          selectionMode
+            ? "md:hidden xl:flex xl:w-80 xl:basis-80 xl:flex-none"
+            : ""
+        }`}
+      >
+        <div className="relative w-full min-w-0 flex-1">
           <Search
             size={15}
             className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
