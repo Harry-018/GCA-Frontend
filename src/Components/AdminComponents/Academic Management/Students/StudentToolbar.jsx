@@ -24,7 +24,7 @@ const StudentToolbar = ({
   };
 
   return (
-    <div className="flex w-full flex-col gap-3 py-1 md:min-h-11 md:flex-row md:flex-wrap md:items-center md:justify-between">
+    <div className="flex w-full flex-col gap-3 py-1 xl:min-h-11 xl:flex-row xl:flex-wrap xl:items-center xl:justify-between">
       <div className="flex min-w-0 shrink-0 flex-wrap items-center gap-2">
         <h2 className="font-[PoppinsBold] text-xs text-parent-green sm:text-sm md:text-md">
           Students
@@ -60,7 +60,7 @@ const StudentToolbar = ({
         </div>
       </div>
 
-      <div className="flex w-full flex-wrap items-center justify-between gap-2 md:ml-auto md:w-auto md:justify-end md:gap-3">
+      <div className="flex w-full min-w-0 flex-wrap items-center justify-between gap-2 xl:ml-auto xl:w-auto xl:justify-end xl:gap-3">
         <ResponsiveFilter
           options={filters.map((filter) => ({ label: filter, value: filter }))}
           value={activeFilter}
@@ -68,7 +68,7 @@ const StudentToolbar = ({
           label="Filter students"
         />
 
-        <div className="flex flex-1 items-center gap-2 md:ml-3 md:w-auto md:flex-none">
+        <div className="flex w-full min-w-0 flex-1 items-center gap-2 sm:w-auto sm:flex-none md:ml-auto xl:ml-3">
           <div className="relative min-w-0 flex-1 sm:flex-none">
             <Search
               size={14}

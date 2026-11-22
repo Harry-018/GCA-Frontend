@@ -153,7 +153,7 @@ const ParentInquiryDetailModal = ({
             </time>
           </div>
 
-          <div className="mt-3 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm leading-relaxed text-egg-dark">
+          <div className="mt-3 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm leading-relaxed text-egg-dark max-[425px]:min-w-0 max-[425px]:wrap-break-words">
             {inquiry.question}
           </div>
 
@@ -163,8 +163,10 @@ const ParentInquiryDetailModal = ({
                 School response
               </p>
 
-              <div className="ml-6 rounded-xl bg-parent-pale/70 p-3 text-sm leading-relaxed text-egg-dark">
-                <p className="whitespace-pre-wrap">{inquiry.answer}</p>
+              <div className="ml-6 rounded-xl bg-parent-pale/70 p-3 text-sm leading-relaxed text-egg-dark max-[425px]:min-w-0 max-[425px]:wrap-break-words">
+                <p className="whitespace-pre-wrap max-[425px]:wrap-break-words">
+                  {inquiry.answer}
+                </p>
                 {inquiry.adminName && (
                   <p className="mt-1 text-[11px] text-gray-500">
                     — {inquiry.adminName}
@@ -416,18 +418,18 @@ const ParentInquiryNotifications = () => {
           aria-expanded={isOpen}
           aria-haspopup="dialog"
           title="Parent Inquiry"
-          className={`fixed bottom-4 right-3 z-60 flex h-10 items-center gap-1.5 rounded-xl px-3 shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-parent-green sm:bottom-8 sm:right-8 sm:h-12 sm:gap-2 sm:px-5 ${
+          className={`relative z-60 flex h-10 items-center gap-1.5 rounded-xl px-3 shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-parent-green lg:fixed lg:bottom-8 lg:right-8 lg:h-12 lg:gap-2 lg:px-5 ${
             unreadInquiryCount > 0
               ? "bg-reject text-white hover:bg-reject/90"
               : "bg-parent-green text-white hover:bg-parent-accent"
           }`}
         >
           <MessageCircle aria-hidden="true" className="h-5 w-5 shrink-0" />
-          <span className="whitespace-nowrap text-[10px] font-[PoppinsBold] tracking-wide sm:text-xs">
+          <span className="whitespace-nowrap text-xs font-[PoppinsBold] tracking-wide sm:text-xs">
             INQUIRY
           </span>
           {unreadInquiryCount > 0 && (
-            <span className="absolute -right-1 -top-1 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-[10px] font-[PoppinsBold] text-reject shadow sm:min-h-6 sm:min-w-6 sm:text-xs">
+            <span className="absolute -right-1 -top-1 flex min-h-5 min-w-5 items-center justify-center rounded-full bg-white px-1 text-xs font-[PoppinsBold] text-reject shadow sm:min-h-6 sm:min-w-6 sm:text-xs">
               {unreadInquiryCount > 99 ? "99+" : unreadInquiryCount}
             </span>
           )}
@@ -499,7 +501,7 @@ const ParentInquiryNotifications = () => {
               <p className="mt-1 break-all text-xs text-gray-500">
                 {selectedInquiry.email}
               </p>
-              <div className="mt-4 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm leading-relaxed text-egg-dark">
+              <div className="mt-4 whitespace-pre-wrap rounded-xl bg-white p-3 text-sm leading-relaxed text-egg-dark max-[425px]:min-w-0 max-[425px]:wrap-break-words">
                 {selectedInquiry.question}
               </div>
 
@@ -551,7 +553,7 @@ const ParentInquiryNotifications = () => {
                             {inquiry.isRead ? "Read" : "Unread"}
                           </span>
                         </span>
-                        <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-gray-600">
+                        <span className="mt-1 line-clamp-2 block text-xs leading-relaxed text-gray-600 max-[425px]:wrap-break-words">
                           {inquiry.question}
                         </span>
                         <time
