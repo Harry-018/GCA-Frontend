@@ -7,25 +7,22 @@ const RetainStudentModal = ({
   selectedStudentIds,
   gradeLevels = [],
   currentSyGradeLevelId,
+  currentGradeLevelId,
+  currentGradeLevelName,
   onRetain,
 }) => {
   const [targetSchoolYearId, setTargetSchoolYearId] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-  const currentPlacement = gradeLevels.find(
-    (item) =>
-      Number(item.sy_grade_level_id) === Number(currentSyGradeLevelId),
-  );
-
   /*
-   * Retention keeps students in their current grade level, so only
-   * placements for the same grade level in another school year are valid.
+   * Retention keeps students in their current grade level and targets a
+   * draft school year, so only draft placements for that grade level are valid.
    */
   const eligiblePlacements = gradeLevels.filter(
     (item) =>
+      item.sy_status === "draft" &&
       Number(item.sy_grade_level_id) !== Number(currentSyGradeLevelId) &&
-      Number(item.grade_level_id) ===
-        Number(currentPlacement?.grade_level_id),
+      Number(item.grade_level_id) === Number(currentGradeLevelId),
   );
 
   const schoolYears = [];
@@ -138,14 +135,14 @@ const RetainStudentModal = ({
             <input
               type="text"
               readOnly
-              value={currentPlacement?.grade_level_name || "Current grade level"}
+              value={currentGradeLevelName || "Current grade level"}
               className="h-10 w-full rounded-lg border border-parent-accent/25 bg-gray-100 px-3 text-xs text-gray-700 outline-none"
             />
           </div>
 
           <p className="text-[11px] leading-5 text-gray-500 lg:text-xs xl:text-sm">
-            Students will be retained in {currentPlacement?.grade_level_name || "their current grade level"} for the selected school year. They will not
-            be assigned to a section automatically.
+            Students will be retained in {currentGradeLevelName || "their current grade level"} for the selected school year. They will not be
+            assigned to a section automatically.
           </p>
         </div>
 
