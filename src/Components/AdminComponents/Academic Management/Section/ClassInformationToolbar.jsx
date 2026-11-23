@@ -47,17 +47,17 @@ const ClassInformationToolbar = ({
       </div>
 
       {/* Class List Toolbar */}
-      <div className="flex flex-col gap-3 px-1 md:flex-row md:items-center md:justify-between md:gap-3">
-        <h2 className="font-[PoppinsBold] text-base text-parent-green">
+      <div className="flex flex-col gap-3 px-1 md:flex-row md:items-center md:justify-between md:gap-2">
+        <h2 className="shrink-0 font-[PoppinsBold] text-base text-parent-green">
           Class List
         </h2>
 
-        <div className="flex w-full flex-col gap-3 md:w-auto md:flex-none md:flex-row md:items-center md:gap-3">
-          <div className="flex flex-wrap items-center justify-start gap-2 sm:gap-3 md:justify-end md:ml-auto">
+        <div className="flex w-full min-w-0 flex-col gap-3 md:flex-1 md:flex-row md:items-center md:justify-end md:gap-2">
+          <div className="flex flex-wrap items-center justify-start gap-2 sm:gap-3 md:flex-nowrap md:gap-1.5">
             <button
               type="button"
               onClick={onAddStudent}
-              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs"
+              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-5 sm:text-xs md:px-2.5 lg:px-3"
             >
               Add Student
             </button>
@@ -66,7 +66,7 @@ const ClassInformationToolbar = ({
               type="button"
               onClick={onPromoteStudent}
               disabled={!hasSelectedStudents}
-              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-parent-green sm:px-5 sm:text-xs"
+              className="shrink-0 rounded-full bg-parent-green px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-parent-green sm:px-5 sm:text-xs md:px-2.5 lg:px-3"
             >
               Promote Student
             </button>
@@ -75,25 +75,25 @@ const ClassInformationToolbar = ({
               type="button"
               onClick={onRetainStudent}
               disabled={!hasSelectedStudents}
-              className="shrink-0 rounded-full bg-reject px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-reject sm:px-5 sm:text-xs"
+              className="shrink-0 rounded-full bg-reject px-4 py-2 font-[PoppinsBold] text-[11px] text-white transition hover:bg-reject/80 disabled:cursor-not-allowed disabled:opacity-50 disabled:hover:bg-reject sm:px-5 sm:text-xs md:px-2.5 lg:px-3"
             >
               Retain Student
             </button>
           </div>
 
-          <div className="flex w-full items-center gap-2 sm:gap-3 md:w-auto md:flex-none">
+          <div className="flex w-full min-w-0 items-center gap-2 sm:gap-3 md:ml-0 md:w-auto md:flex-none">
             <input
               type="text"
               value={searchValue}
               onChange={(event) => onSearchChange(event.target.value)}
               placeholder="Search Student"
-              className="h-9 min-w-0 flex-1 rounded-full border border-parent-accent/25 bg-bone px-4 text-[11px] text-gray-600 outline-none focus:border-parent-green sm:text-xs md:w-48 md:flex-none lg:w-52"
+              className="h-9 min-w-0 flex-1 rounded-full border border-parent-accent/25 bg-bone px-4 text-[11px] text-gray-600 outline-none focus:border-parent-green sm:text-xs md:w-32 md:flex-none md:px-3 lg:w-36 xl:w-48"
             />
 
             <button
               type="button"
               onClick={onSearch}
-              className="h-9 shrink-0 rounded-full bg-parent-green px-5 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-6 sm:text-xs"
+              className="h-9 shrink-0 rounded-full bg-parent-green px-5 font-[PoppinsBold] text-[11px] text-white transition hover:bg-parent-accent sm:px-6 sm:text-xs md:px-3 lg:px-4"
             >
               Search
             </button>

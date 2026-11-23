@@ -30,10 +30,24 @@ const DAY_INDEX = {
   Friday: 5,
 };
 
+const MOBILE_QUERY = "(max-width: 639px)";
+
 const WeeklySchedule = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [isMobile, setIsMobile] = useState(
+    () => window.matchMedia(MOBILE_QUERY).matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(MOBILE_QUERY);
+    const handleChange = (event) => setIsMobile(event.matches);
+
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   const initialDate = useMemo(() => {
     return formatDate(getCurrentMonday());
@@ -130,8 +144,8 @@ const WeeklySchedule = () => {
           </p>
         </div>
       ) : (
-        <div className="gca-calendar w-full min-w-0 overflow-x-auto bg-bone">
-          <div className="min-w-[600px] sm:min-w-0">
+        <div className="gca-calendar teacher-calendar w-full min-w-0 overflow-x-auto bg-bone">
+          <div className="min-w-0">
             <FullCalendar
               plugins={[timeGridPlugin]}
               initialView="timeGridWeek"
@@ -145,11 +159,11 @@ const WeeklySchedule = () => {
               expandRows={true}
               height="auto"
               headerToolbar={false}
-              dayHeaderFormat={{
-                weekday: "short",
-                month: "short",
-                day: "numeric",
-              }}
+              dayHeaderFormat={
+                isMobile
+                  ? { weekday: "short" }
+                  : { weekday: "short", month: "short", day: "numeric" }
+              }
               events={events}
               eventContent={(eventInfo) => {
                 const { event, timeText } = eventInfo;

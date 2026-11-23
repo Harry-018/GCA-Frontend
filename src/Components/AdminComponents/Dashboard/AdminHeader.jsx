@@ -10,7 +10,7 @@ const AdminHeader = ({
   return (
     <header className="flex min-h-16 w-full flex-nowrap items-center justify-between gap-x-3 rounded-2xl border border-parent-accent/20 bg-bone px-3 py-4 shadow-[0_2px_4px_rgba(0,0,0,0.18)] sm:min-h-18 sm:gap-x-7 sm:px-4 sm:py-5">
       <div className="flex min-w-0 flex-nowrap items-center gap-x-2 sm:gap-x-5">
-        <h1 className="shrink-0 whitespace-nowrap text-sm font-[Poppins] text-gray-700 sm:text-base">
+        <h1 className="hidden shrink-0 whitespace-nowrap text-sm font-[Poppins] text-gray-700 lg:block lg:text-base">
           Dashboard
         </h1>
         <div className="relative min-w-0">
