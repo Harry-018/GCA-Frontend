@@ -3,12 +3,12 @@ import {
   getSchoolYears,
   addSchoolYear,
   editSchoolYear,
-} from "../../requests/academicManagementRequests";
+} from "../../requests/academicManagementRequests.js";
 
-import Header from "../../Components/AdminComponents/Academic Management/Header";
-import SchoolYearToolbar from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolYearToolbar";
-import AddYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/AddYearModal";
-import EditYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/EditYearModal";
+import Header from "../../Components/AdminComponents/Academic Management/Header.jsx";
+import SchoolYearToolbar from "../../Components/AdminComponents/Academic Management/SchoolYear/SchoolYearToolbar.jsx";
+import AddYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/AddYearModal.jsx";
+import EditYearModal from "../../Components/AdminComponents/Academic Management/SchoolYear/EditYearModal.jsx";
 import DataTable from "../../Components/DataTable.jsx";
 
 // schoolyeartable

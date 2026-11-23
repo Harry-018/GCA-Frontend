@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
-import {
-  getParentInfoByUserId,
-  editParentInfoByUserId,
-} from "../requests/parentRequests.js";
+import { editParentInfoByUserId } from "../requests/parentRequests.js";
+import { useParentInfo } from "../hooks/queries/usePortalData.js";
+import { queryKeys } from "../lib/queryKeys.js";
 
 import PersonalInformation from "../Components/Parents-Side Components/Security/PersonalInformation";
 import EmergencyContact from "../Components/Parents-Side Components/Security/EmergencyContact";
@@ -20,60 +20,37 @@ const INITIAL_CONTACT = {
 };
 
 const Security = () => {
+  const queryClient = useQueryClient();
+  const {
+    data: parentResponse,
+    isLoading,
+    error: parentError,
+  } = useParentInfo();
+
   const [showPasswordModal, setShowPasswordModal] = useState(false);
   const [showContactModal, setShowContactModal] = useState(false);
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const [parentInfo, setParentInfo] = useState(null);
-  const [contactData, setContactData] = useState(INITIAL_CONTACT);
   const [formData, setFormData] = useState(INITIAL_CONTACT);
 
   const [savingContact, setSavingContact] = useState(false);
   const [contactError, setContactError] = useState("");
 
-  // GET LOGGED-IN PARENT INFORMATION
-  useEffect(() => {
-    const fetchParentInfo = async () => {
-      try {
-        setLoading(true);
-        setError("");
+  const parentInfo = parentResponse?.r ?? null;
 
-        const response = await getParentInfoByUserId();
+  const contactData = useMemo(
+    () => ({
+      contactNumber: parentInfo?.contact_number || "",
+      email: parentInfo?.email || "",
+      relationship: parentInfo?.relationship_type || "",
+      account_email: parentInfo?.account_email || "",
+    }),
+    [parentInfo],
+  );
 
-        const parent = response?.r;
-
-        if (!parent) {
-          throw new Error("Parent information not found.");
-        }
-
-        setParentInfo(parent);
-
-        const contact = {
-          contactNumber: parent.contact_number || "",
-          email: parent.email || "",
-          relationship: parent.relationship_type || "",
-          account_email: parent.account_email || "",
-        };
-
-        setContactData(contact);
-        setFormData(contact);
-      } catch (err) {
-        console.error("Failed to retrieve parent information:", err);
-
-        setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Failed to load parent information.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchParentInfo();
-  }, []);
+  const error =
+    parentError?.response?.data?.message ||
+    parentError?.message ||
+    (!parentInfo && !isLoading ? "Parent information not found." : "");
 
   // FORMAT PARENT FULL NAME
   const fullName = [
@@ -140,24 +117,16 @@ const Security = () => {
         email,
       });
 
-      // Update the displayed contact information after the API succeeds.
-      setContactData((prev) => ({
-        ...prev,
-        contactNumber,
-        email,
+      queryClient.setQueryData(queryKeys.parents.me, (previous) => ({
+        ...(previous ?? {}),
+        r: {
+          ...(previous?.r ?? {}),
+          contact_number: contactNumber,
+          email,
+        },
       }));
 
-      // Keep the parent profile state in sync as well.
-      setParentInfo((prev) =>
-        prev
-          ? {
-              ...prev,
-              contact_number: contactNumber,
-              email,
-            }
-          : prev,
-      );
-
+      queryClient.invalidateQueries({ queryKey: queryKeys.parents.me });
       setShowContactModal(false);
     } catch (err) {
       console.error(
@@ -175,7 +144,7 @@ const Security = () => {
   };
 
   // LOADING STATE
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black to-parent-accent font-[Poppins]">
         <Loader2 size={32} className="animate-spin text-parent-pale" />

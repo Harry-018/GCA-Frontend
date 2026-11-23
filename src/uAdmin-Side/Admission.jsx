@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { createColumnHelper } from "@tanstack/react-table";
 import AdmissionHeader from "../Components/AdminComponents/Admission/AdmissionHeader";
 import AdmissionToolbar from "../Components/AdminComponents/Admission/AdmissionToolbar";
@@ -9,28 +10,17 @@ import RejectApplicantModal from "../Components/AdminModal/AdmissionPage/RejectA
 import {
   getApplications,
   getApplicationById,
+  getRejectionReasons,
   approveApplicant,
   bulkApproveApplicants,
   rejectApplicant,
 } from "../requests/preEnrollmentRequests";
 import { useLoaderData } from "react-router-dom";
 import DataTable from "../Components/DataTable";
+import { queryKeys } from "../lib/queryKeys.js";
+import { QUERY_STALE_TIME } from "../lib/queryClient.js";
 
 const columnHelper = createColumnHelper();
-
-const formatDate = (value) => {
-  if (!value) return "—";
-
-  const date = new Date(value);
-
-  if (Number.isNaN(date.getTime())) return "—";
-
-  return date.toLocaleDateString("en-PH", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-};
 
 const STATUS_STYLES = {
   pending: "bg-yellow-100 text-yellow-700",
@@ -46,6 +36,8 @@ const TABS = [
 ];
 
 const Admission = () => {
+  const queryClient = useQueryClient();
+
   // =========================
   // APPLICATION DATA
   // =========================
@@ -56,14 +48,8 @@ const Admission = () => {
     rejectionReasons: initialRejectionReasons,
   } = useLoaderData();
 
-  const [applications, setApplications] = useState(initialApplications);
-  const [pagination, setPagination] = useState(initialPagination);
-  const [rejectionReasons, setRejectionReasons] = useState(
-    initialRejectionReasons,
-  );
-
-  const [loading, setLoading] = useState(false);
-  const [actionLoading, setActionLoading] = useState(false);
+  const [page, setPage] = useState(initialPagination.page ?? 1);
+  const limit = initialPagination.limit ?? 10;
 
   // =========================
   // FILTERS
@@ -73,6 +59,57 @@ const Admission = () => {
   const [search, setSearch] = useState("");
 
   const isPending = activeStatus.toLowerCase() === "pending";
+
+  const filters = useMemo(
+    () => ({
+      page,
+      limit,
+      application_status: activeStatus.toLowerCase(),
+      search,
+    }),
+    [page, limit, activeStatus, search],
+  );
+
+  const usesLoaderData =
+    page === 1 &&
+    limit === 10 &&
+    activeStatus === "Pending" &&
+    search === "";
+
+  const { data: applicationsResult, isFetching: loading } = useQuery({
+    queryKey: queryKeys.preEnrollment.applications(filters),
+    queryFn: async () => {
+      const response = await getApplications(filters);
+
+      return {
+        applications: Array.isArray(response?.data?.data)
+          ? response.data.data
+          : [],
+        pagination: response?.data?.pagination ?? initialPagination,
+      };
+    },
+    initialData: usesLoaderData
+      ? {
+          applications: initialApplications,
+          pagination: initialPagination,
+        }
+      : undefined,
+    staleTime: QUERY_STALE_TIME.tableData,
+  });
+
+  const applications = applicationsResult?.applications ?? [];
+  const pagination = applicationsResult?.pagination ?? initialPagination;
+
+  const { data: rejectionReasons = [] } = useQuery({
+    queryKey: queryKeys.preEnrollment.rejectionReasons,
+    queryFn: async () => {
+      const response = await getRejectionReasons();
+
+      return Array.isArray(response?.data?.data) ? response.data.data : [];
+    },
+    initialData: initialRejectionReasons,
+    staleTime: QUERY_STALE_TIME.referenceData,
+  });
 
   // =========================
   // SELECTION
@@ -100,43 +137,6 @@ const Admission = () => {
   const [selectedReason, setSelectedReason] = useState("");
 
   // =========================
-  // FETCH APPLICATIONS
-  // =========================
-
-  const fetchApplications = async (
-    currentPage = pagination.page,
-    currentSearch = search,
-    currentStatus = activeStatus,
-  ) => {
-    try {
-      setLoading(true);
-
-      const response = await getApplications({
-        page: currentPage,
-        limit: pagination.limit,
-        application_status: currentStatus.toLowerCase(),
-        search: currentSearch,
-      });
-
-      setApplications(response.data.data);
-      setPagination(response.data.pagination);
-    } catch (error) {
-      console.error("Failed to fetch applications:", error);
-
-      setApplications([]);
-
-      setPagination({
-        page: currentPage,
-        limit: pagination.limit,
-        total: 0,
-        totalPages: 0,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // =========================
   // STATUS
   // =========================
 
@@ -148,7 +148,7 @@ const Admission = () => {
       setSelectionMode(false);
     }
 
-    fetchApplications(1, search, status);
+    setPage(1);
   };
 
   // =========================
@@ -158,7 +158,7 @@ const Admission = () => {
   const handleSearch = () => {
     setSelectedIds([]);
 
-    fetchApplications(1, search, activeStatus);
+    setPage(1);
   };
 
   // =========================
@@ -214,13 +214,10 @@ const Admission = () => {
 
   const handleViewApplicant = async (applicant) => {
     try {
-      setActionLoading(true);
       const response = await getApplicationById(applicant.application_id);
       setViewedApplicant(response.data.data);
     } catch (error) {
       console.error("Failed to fetch applicant:", error);
-    } finally {
-      setActionLoading(false);
     }
   };
 
@@ -248,7 +245,6 @@ const Admission = () => {
   const confirmApproveApplicant = async () => {
     if (!applicantToApprove) return;
     try {
-      setActionLoading(true);
       await approveApplicant({
         application_id: applicantToApprove.application_id,
         sub_date: approvalSchedule.date,
@@ -256,11 +252,15 @@ const Admission = () => {
         to_time: approvalSchedule.to,
       });
       setApplicantToApprove(null);
-      await fetchApplications(pagination.page, search, activeStatus);
+      // The application leaves the pending list and appears in Submission Docs.
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.applicationsAll,
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.approvedApplicantsAll,
+      });
     } catch (error) {
       console.error("Failed to approve applicant:", error);
-    } finally {
-      setActionLoading(false);
     }
   };
 
@@ -277,7 +277,6 @@ const Admission = () => {
     if (!applicantToReject || !selectedReason) return;
 
     try {
-      setActionLoading(true);
       await rejectApplicant(
         applicantToReject.application_id,
         Number(selectedReason),
@@ -286,11 +285,13 @@ const Admission = () => {
       setApplicantToReject(null);
       setSelectedReason("");
 
-      await fetchApplications(pagination.page, search, activeStatus);
+      // Rejection only changes the application list; no approved applicant is
+      // created, so Submission Docs can keep its cached data.
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.applicationsAll,
+      });
     } catch (error) {
       console.error("Failed to reject applicant:", error);
-    } finally {
-      setActionLoading(false);
     }
   };
 
@@ -317,8 +318,6 @@ const Admission = () => {
     if (selectedIds.length === 0) return;
 
     try {
-      setActionLoading(true);
-
       await bulkApproveApplicants({
         application_ids: selectedIds,
         sub_date: approvalSchedule.date,
@@ -329,11 +328,14 @@ const Admission = () => {
       setSelectedIds([]);
       setActiveModal(null);
 
-      await fetchApplications(pagination.page, search, activeStatus);
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.applicationsAll,
+      });
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.approvedApplicantsAll,
+      });
     } catch (error) {
       console.error("Failed to approve applicants:", error);
-    } finally {
-      setActionLoading(false);
     }
   };
   const selectedCount = selectedIds.length;
@@ -345,7 +347,7 @@ const Admission = () => {
   const handlePreviousPage = () => {
     if (pagination.page <= 1 || loading) return;
 
-    fetchApplications(pagination.page - 1, search, activeStatus);
+    setPage(pagination.page - 1);
   };
 
   const handleNextPage = () => {
@@ -357,7 +359,7 @@ const Admission = () => {
       return;
     }
 
-    fetchApplications(pagination.page + 1, search, activeStatus);
+    setPage(pagination.page + 1);
   };
 
   const allVisibleSelected =
@@ -528,6 +530,7 @@ const Admission = () => {
       handleToggleSelect,
       handleSelectAll,
       allVisibleSelected,
+      activeStatus,
     ],
   );
 

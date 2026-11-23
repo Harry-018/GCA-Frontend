@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 import SettingHeader from "../Components/AdminComponents/Settings/SettingHeader";
 import WebsiteInformation from "../Components/AdminComponents/Settings/WebsiteInformation";
 import ContactInformation from "../Components/AdminComponents/Settings/ContactInformation";
 import EditWebsiteModal from "../Components/AdminComponents/Settings/EditWebsiteModal";
 import EditContactModal from "../Components/AdminComponents/Settings/EditContactModal";
-import {
-  getSchoolInformation,
-  updateSchoolInformation,
-} from "../requests/settingsRequests.js";
+import { updateSchoolInformation } from "../requests/settingsRequests.js";
+import { useSchoolInformation } from "../hooks/queries/useSchoolInformation.js";
+import { queryKeys } from "../lib/queryKeys.js";
 
 const INITIAL_WEBSITE = {
   logo: "",
@@ -21,8 +22,21 @@ const INITIAL_CONTACT = {
 };
 
 const AdminSettings = () => {
-  const [website, setWebsite] = useState(INITIAL_WEBSITE);
-  const [contact, setContact] = useState(INITIAL_CONTACT);
+  const queryClient = useQueryClient();
+  const { data: schoolInformation, isLoading } = useSchoolInformation();
+
+  const website = {
+    logo: schoolInformation?.school_logo ?? INITIAL_WEBSITE.logo,
+    schoolName: schoolInformation?.school_name ?? INITIAL_WEBSITE.schoolName,
+  };
+
+  const contact = {
+    contactNo: schoolInformation?.contact_number ?? INITIAL_CONTACT.contactNo,
+    emailAddress:
+      schoolInformation?.school_email ?? INITIAL_CONTACT.emailAddress,
+    schoolAddress:
+      schoolInformation?.school_address ?? INITIAL_CONTACT.schoolAddress,
+  };
 
   const [websiteForm, setWebsiteForm] = useState(INITIAL_WEBSITE);
   const [contactForm, setContactForm] = useState(INITIAL_CONTACT);
@@ -33,41 +47,7 @@ const AdminSettings = () => {
   const [editWebsiteOpen, setEditWebsiteOpen] = useState(false);
   const [editContactOpen, setEditContactOpen] = useState(false);
 
-  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-
-  const loadSchoolInformation = async () => {
-    try {
-      setLoading(true);
-
-      const response = await getSchoolInformation();
-
-      const data = response.data;
-
-      setWebsite({
-        logo: data.school_logo,
-        schoolName: data.school_name,
-      });
-
-      setContact({
-        contactNo: data.contact_number,
-        emailAddress: data.school_email,
-        schoolAddress: data.school_address,
-      });
-    } catch (error) {
-      console.error("Failed to load school information:", error);
-
-      alert(
-        error.response?.data?.message || "Failed to load school information.",
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadSchoolInformation();
-  }, []);
 
   const openWebsiteEdit = () => {
     setWebsiteForm(website);
@@ -95,22 +75,18 @@ const AdminSettings = () => {
         school_address: contact.schoolAddress,
       });
 
-      const data = response.data;
+      const data = response.data ?? {};
 
-      setWebsite({
-        logo: data.school_logo,
-        schoolName: data.school_name,
-      });
-
-      setContact({
-        contactNo: data.contact_number,
-        emailAddress: data.school_email,
-        schoolAddress: data.school_address,
-      });
+      queryClient.setQueryData(queryKeys.schoolInformation, (previous) => ({
+        ...(previous ?? {}),
+        ...data,
+      }));
 
       setLogoFile(null);
       setLogoPreview("");
       setEditWebsiteOpen(false);
+
+      queryClient.invalidateQueries({ queryKey: queryKeys.schoolInformation });
     } catch (error) {
       console.error("Failed to update school information:", error);
 
@@ -136,20 +112,16 @@ const AdminSettings = () => {
         school_address: contactForm.schoolAddress,
       });
 
-      const data = response.data;
+      const data = response.data ?? {};
 
-      setWebsite({
-        logo: data.school_logo,
-        schoolName: data.school_name,
-      });
-
-      setContact({
-        contactNo: data.contact_number,
-        emailAddress: data.school_email,
-        schoolAddress: data.school_address,
-      });
+      queryClient.setQueryData(queryKeys.schoolInformation, (previous) => ({
+        ...(previous ?? {}),
+        ...data,
+      }));
 
       setEditContactOpen(false);
+
+      queryClient.invalidateQueries({ queryKey: queryKeys.schoolInformation });
     } catch (error) {
       console.error("Failed to update school information:", error);
 
@@ -173,7 +145,7 @@ const AdminSettings = () => {
     setLogoPreview(URL.createObjectURL(file));
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-egg font-[Poppins]">
         <SettingHeader />

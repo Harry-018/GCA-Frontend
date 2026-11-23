@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+
 import Header from "../../Components/AdminComponents/Website Management/Header";
 import ResponsiveFilter from "../../Components/AdminComponents/ResponsiveFilter";
 import Banner from "../../Components/AdminComponents/Website Management/Home/Banner";
@@ -23,25 +25,28 @@ import RemoveChildrenActivityModal from "../../Components/AdminComponents/Websit
 
 import {
   editBanner,
-  getBanner,
-  getAcademicPrograms,
   getGradeLevels,
   addAcademicProgram,
   editAcademicProgram,
   deleteAcademicProgram,
-  getVideo,
   editVideo,
-  getReasons,
   editReason as editReasonApi,
   addReason as addReasonApi,
   deleteReason as deleteReasonApi,
-  getMissionVision,
   editMissionVision,
-  getChildrenActivities,
   addChildrenActivity,
   editChildrenActivity,
   deleteChildrenActivity,
 } from "../../requests/homepageRequests";
+import {
+  useAcademicPrograms,
+  useChildrenActivities,
+  useHomepageBanner,
+  useHomepageVideo,
+  useMissionVision,
+  useReasons,
+} from "../../hooks/queries/useHomepageContent.js";
+import { queryKeys } from "../../lib/queryKeys.js";
 
 const SECONDARY_ITEMS = [
   { label: "Homepage", key: "home" },
@@ -49,10 +54,37 @@ const SECONDARY_ITEMS = [
   { label: "Activities", key: "activities" },
 ];
 
+const asArray = (value) => (Array.isArray(value) ? value : []);
+
+const formatAcademicPrograms = (programData) =>
+  asArray(programData).map((program) => ({
+    id: program.program_id,
+    gradeLevelId: program.grade_level_id,
+    name: program.grade_level_name,
+    minAge: program.min_age,
+    maxAge: program.max_age,
+    image: program.image_url,
+    description: program.description,
+  }));
+
+const formatReasons = (reasonData) =>
+  asArray(reasonData).map((reason) => ({
+    id: reason.reason_id,
+    text: reason.reasons,
+  }));
+
 const Home = () => {
+  const queryClient = useQueryClient();
+
+  const { data: bannerData } = useHomepageBanner();
+  const { data: academicPrograms } = useAcademicPrograms();
+  const { data: childrenActivitiesData } = useChildrenActivities();
+  const { data: missionVisionList } = useMissionVision();
+  const { data: reasonsData } = useReasons();
+  const { data: videoList } = useHomepageVideo();
+
   const [activeTab, setActiveTab] = useState("home");
 
-  const [bannerData, setBannerData] = useState(null);
   const [bannerEditOpen, setBannerEditOpen] = useState(false);
   const [bannerForm, setBannerForm] = useState({
     title: "",
@@ -60,7 +92,6 @@ const Home = () => {
     image: null,
   });
 
-  const [programs, setPrograms] = useState([]);
   const [gradeLevels, setGradeLevels] = useState([]);
   const [selectedProgram, setSelectedProgram] = useState("");
   const [removeProgram, setRemoveProgram] = useState(false);
@@ -77,7 +108,6 @@ const Home = () => {
   const [editProgramOpen, setEditProgramOpen] = useState(false);
   const [editForm, setEditForm] = useState({});
 
-  const [reasons, setReasons] = useState([]);
   const [addReasonOpen, setAddReasonOpen] = useState(false);
   const [addReasonText, setAddReasonText] = useState("");
 
@@ -87,7 +117,6 @@ const Home = () => {
 
   const [removeReason, setRemoveReason] = useState(null);
 
-  const [videoData, setVideoData] = useState(null);
   const [editVideoOpen, setEditVideoOpen] = useState(false);
   const [videoForm, setVideoForm] = useState({
     videoTitle: "",
@@ -95,21 +124,17 @@ const Home = () => {
     video: null,
   });
 
-  const [missionData, setMissionData] = useState(null);
   const [missionEditOpen, setMissionEditOpen] = useState(false);
   const [missionForm, setMissionForm] = useState({
     title: "",
     description: "",
   });
 
-  const [visionData, setVisionData] = useState(null);
   const [visionEditOpen, setVisionEditOpen] = useState(false);
   const [visionForm, setVisionForm] = useState({
     title: "",
     description: "",
   });
-
-  const [childrenActivities, setChildrenActivities] = useState([]);
 
   const [addActivityOpen, setAddActivityOpen] = useState(false);
   const [editActivityOpen, setEditActivityOpen] = useState(false);
@@ -119,31 +144,6 @@ const Home = () => {
 
   const [activityLoading, setActivityLoading] = useState(false);
   const [processing, setProcessing] = useState(false);
-
-  const [addActivityForm, setAddActivityForm] = useState({
-    title: "",
-    description: "",
-    image: null,
-  });
-
-  const formatAcademicPrograms = (programData) => {
-    return programData.map((program) => ({
-      id: program.program_id,
-      gradeLevelId: program.grade_level_id,
-      name: program.grade_level_name,
-      minAge: program.min_age,
-      maxAge: program.max_age,
-      image: program.image_url,
-      description: program.description,
-    }));
-  };
-
-  const formatReasons = (reasonData) => {
-    return reasonData.map((reason) => ({
-      id: reason.reason_id,
-      text: reason.reasons,
-    }));
-  };
 
   const runWithProcessing = async (action) => {
     setProcessing(true);
@@ -155,123 +155,68 @@ const Home = () => {
     }
   };
 
-  useEffect(() => {
-    const loadBanner = async () => {
-      try {
-        const data = await getBanner();
+  const programs = useMemo(
+    () => formatAcademicPrograms(academicPrograms),
+    [academicPrograms],
+  );
 
-        setBannerData(data);
-      } catch (error) {
-        console.error("Failed to load banner:", error);
-      }
+  const reasons = useMemo(() => formatReasons(reasonsData), [reasonsData]);
+
+  const videoData = useMemo(() => {
+    const video = asArray(videoList)[0];
+
+    if (!video) return null;
+
+    return {
+      id: video.video_id,
+      videoTitle: video.video_title,
+      videoSrc: video.videourl,
     };
+  }, [videoList]);
 
-    loadBanner();
-  }, []);
+  const missionVision = asArray(missionVisionList)[0] ?? null;
+
+  const missionData = missionVision
+    ? {
+        title: missionVision.mission_title,
+        description: missionVision.mission_body,
+      }
+    : null;
+
+  const visionData = missionVision
+    ? {
+        title: missionVision.vision_title,
+        description: missionVision.vision_body,
+      }
+    : null;
+
+  const childrenActivities = useMemo(
+    () => asArray(childrenActivitiesData?.r),
+    [childrenActivitiesData],
+  );
+
+  const selectedProgramName = selectedProgram || programs[0]?.name || "";
 
   useEffect(() => {
-    const loadAcademicPrograms = async () => {
+    let cancelled = false;
+
+    const loadGradeLevels = async () => {
       try {
-        const [programData, gradeLevelData] = await Promise.all([
-          getAcademicPrograms(),
-          getGradeLevels(),
-        ]);
+        const data = await getGradeLevels();
 
-        setPrograms(formatAcademicPrograms(programData));
-        setGradeLevels(gradeLevelData);
-
-        if (programData.length > 0) {
-          setSelectedProgram(programData[0].grade_level_name);
-        } else {
-          setSelectedProgram("");
+        if (!cancelled) {
+          setGradeLevels(asArray(data));
         }
       } catch (error) {
-        console.error("Failed to load academic programs:", error);
+        console.error("Failed to load grade levels:", error);
       }
     };
 
-    loadAcademicPrograms();
-  }, []);
+    loadGradeLevels();
 
-  useEffect(() => {
-    const loadVideo = async () => {
-      try {
-        const data = await getVideo();
-
-        if (data.length > 0) {
-          const video = data[0];
-
-          setVideoData({
-            id: video.video_id,
-            videoTitle: video.video_title,
-            videoSrc: video.videourl,
-          });
-        }
-      } catch (error) {
-        console.error("Failed to load video:", error);
-      }
+    return () => {
+      cancelled = true;
     };
-
-    loadVideo();
-  }, []);
-
-  useEffect(() => {
-    const loadReasons = async () => {
-      try {
-        const data = await getReasons();
-
-        setReasons(
-          data.map((reason) => ({
-            id: reason.reason_id,
-            text: reason.reasons,
-          })),
-        );
-      } catch (error) {
-        console.error("Failed to load reasons:", error);
-      }
-    };
-
-    loadReasons();
-  }, []);
-
-  useEffect(() => {
-    const loadMissionVision = async () => {
-      try {
-        const data = await getMissionVision();
-
-        if (data.length > 0) {
-          const missionVision = data[0];
-
-          setMissionData({
-            title: missionVision.mission_title,
-            description: missionVision.mission_body,
-          });
-
-          setVisionData({
-            title: missionVision.vision_title,
-            description: missionVision.vision_body,
-          });
-        }
-      } catch (error) {
-        console.error("Failed to load mission and vision:", error);
-      }
-    };
-
-    loadMissionVision();
-  }, []);
-
-  useEffect(() => {
-    const loadChildrenActivities = async () => {
-      try {
-        const data = await getChildrenActivities();
-
-        setChildrenActivities(data.r);
-      } catch (error) {
-        console.error("Failed to load children activities:", error);
-      }
-    };
-
-    loadChildrenActivities();
   }, []);
 
   const openBannerEdit = () => {
@@ -299,9 +244,7 @@ const Home = () => {
 
       await editBanner(formData);
 
-      const updatedBanner = await getBanner();
-
-      setBannerData(updatedBanner);
+      queryClient.invalidateQueries({ queryKey: queryKeys.homepage.banner });
       setBannerEditOpen(false);
     } catch (error) {
       console.error("Failed to update banner:", error);
@@ -323,23 +266,16 @@ const Home = () => {
   const confirmRemoveProgram = async () => {
     try {
       const active = programs.find(
-        (program) => program.name === selectedProgram,
+        (program) => program.name === selectedProgramName,
       );
 
       if (!active) return;
 
       await deleteAcademicProgram(active.id);
 
-      const updatedPrograms = await getAcademicPrograms();
-
-      const formattedPrograms = formatAcademicPrograms(updatedPrograms);
-
-      setPrograms(formattedPrograms);
-
-      setSelectedProgram(
-        formattedPrograms.length > 0 ? formattedPrograms[0].name : "",
-      );
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.academicPrograms,
+      });
       setRemoveProgram(false);
     } catch (error) {
       console.error("Failed to delete academic program:", error);
@@ -361,16 +297,9 @@ const Home = () => {
 
       await addAcademicProgram(formData);
 
-      const updatedPrograms = await getAcademicPrograms();
-
-      const formattedPrograms = formatAcademicPrograms(updatedPrograms);
-
-      setPrograms(formattedPrograms);
-
-      if (formattedPrograms.length > 0 && !selectedProgram) {
-        setSelectedProgram(formattedPrograms[0].name);
-      }
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.academicPrograms,
+      });
       setAddProgramOpen(false);
     } catch (error) {
       console.error("Failed to add academic program:", error);
@@ -379,7 +308,7 @@ const Home = () => {
 
   const openEditProgram = () => {
     const active =
-      programs.find((program) => program.name === selectedProgram) ||
+      programs.find((program) => program.name === selectedProgramName) ||
       programs[0];
 
     if (!active) return;
@@ -411,12 +340,9 @@ const Home = () => {
 
       await editAcademicProgram(editForm.programId, formData);
 
-      const updatedPrograms = await getAcademicPrograms();
-
-      const formattedPrograms = formatAcademicPrograms(updatedPrograms);
-
-      setPrograms(formattedPrograms);
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.academicPrograms,
+      });
       setEditProgramOpen(false);
     } catch (error) {
       console.error("Failed to update academic program:", error);
@@ -434,15 +360,7 @@ const Home = () => {
         reasons: addReasonText,
       });
 
-      const updatedReasons = await getReasons();
-
-      setReasons(
-        updatedReasons.map((reason) => ({
-          id: reason.reason_id,
-          text: reason.reasons,
-        })),
-      );
-
+      queryClient.invalidateQueries({ queryKey: queryKeys.homepage.reasons });
       setAddReasonText("");
       setAddReasonOpen(false);
     } catch (error) {
@@ -460,15 +378,7 @@ const Home = () => {
     try {
       await deleteReasonApi(removeReason.id);
 
-      const updatedReasons = await getReasons();
-
-      setReasons(
-        updatedReasons.map((reason) => ({
-          id: reason.reason_id,
-          text: reason.reasons,
-        })),
-      );
-
+      queryClient.invalidateQueries({ queryKey: queryKeys.homepage.reasons });
       setRemoveReason(null);
     } catch (error) {
       console.error("Failed to delete reason:", error);
@@ -481,15 +391,7 @@ const Home = () => {
         reasons: editReasonText,
       });
 
-      const updatedReasons = await getReasons();
-
-      setReasons(
-        updatedReasons.map((reason) => ({
-          id: reason.reason_id,
-          text: reason.reasons,
-        })),
-      );
-
+      queryClient.invalidateQueries({ queryKey: queryKeys.homepage.reasons });
       setEditReasonOpen(false);
       setEditingReason(null);
     } catch (error) {
@@ -520,17 +422,7 @@ const Home = () => {
 
       await editVideo(formData);
 
-      const updatedVideo = await getVideo();
-
-      if (updatedVideo.length > 0) {
-        const video = updatedVideo[0];
-
-        setVideoData({
-          videoTitle: video.video_title,
-          videoSrc: video.videourl,
-        });
-      }
-
+      queryClient.invalidateQueries({ queryKey: queryKeys.homepage.video });
       setEditVideoOpen(false);
     } catch (error) {
       console.error("Failed to update video:", error);
@@ -555,22 +447,9 @@ const Home = () => {
         vision_body: visionData.description,
       });
 
-      const updatedData = await getMissionVision();
-
-      if (updatedData.length > 0) {
-        const missionVision = updatedData[0];
-
-        setMissionData({
-          title: missionVision.mission_title,
-          description: missionVision.mission_body,
-        });
-
-        setVisionData({
-          title: missionVision.vision_title,
-          description: missionVision.vision_body,
-        });
-      }
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.missionVision,
+      });
       setMissionEditOpen(false);
     } catch (error) {
       console.error("Failed to update mission:", error);
@@ -593,22 +472,9 @@ const Home = () => {
         vision_body: visionForm.description,
       });
 
-      const updatedData = await getMissionVision();
-
-      if (updatedData.length > 0) {
-        const missionVision = updatedData[0];
-
-        setMissionData({
-          title: missionVision.mission_title,
-          description: missionVision.mission_body,
-        });
-
-        setVisionData({
-          title: missionVision.vision_title,
-          description: missionVision.vision_body,
-        });
-      }
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.missionVision,
+      });
       setVisionEditOpen(false);
     } catch (error) {
       console.error("Failed to update vision:", error);
@@ -616,12 +482,6 @@ const Home = () => {
   };
 
   const openAddActivity = () => {
-    setAddActivityForm({
-      title: "",
-      description: "",
-      image: null,
-    });
-
     setAddActivityOpen(true);
   };
 
@@ -640,10 +500,9 @@ const Home = () => {
 
       await addChildrenActivity(formData);
 
-      const updatedData = await getChildrenActivities();
-
-      setChildrenActivities(updatedData.r);
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.childrenActivities,
+      });
       setAddActivityOpen(false);
     } catch (error) {
       console.error("Failed to add children activity:", error);
@@ -672,10 +531,9 @@ const Home = () => {
 
       await editChildrenActivity(data.activity_id, formData);
 
-      const updatedData = await getChildrenActivities();
-
-      setChildrenActivities(updatedData.r);
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.childrenActivities,
+      });
       setEditActivityOpen(false);
       setSelectedActivity(null);
     } catch (error) {
@@ -696,10 +554,9 @@ const Home = () => {
 
       await deleteChildrenActivity(activityId);
 
-      const updatedData = await getChildrenActivities();
-
-      setChildrenActivities(updatedData.r);
-
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.homepage.childrenActivities,
+      });
       setRemoveActivityOpen(false);
       setSelectedActivity(null);
     } catch (error) {
@@ -744,7 +601,7 @@ const Home = () => {
 
               <AcademicPrograms
                 programs={programs}
-                selectedProgram={selectedProgram}
+                selectedProgram={selectedProgramName}
                 onProgramChange={setSelectedProgram}
                 onEdit={openEditProgram}
                 onAdd={openAddProgram}
@@ -928,7 +785,7 @@ const Home = () => {
       <RemoveModal
         isOpen={removeProgram}
         title="Remove Program"
-        itemName={selectedProgram}
+        itemName={selectedProgramName}
         onClose={() => setRemoveProgram(false)}
         onRemove={confirmRemoveProgram}
       />

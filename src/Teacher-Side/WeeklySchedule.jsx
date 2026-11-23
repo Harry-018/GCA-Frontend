@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { getTeacherSchedules } from "../requests/teacherRequests";
+import { useTeacherSchedules } from "../hooks/queries/usePortalData.js";
 
 const getCurrentMonday = () => {
   const date = new Date();
@@ -33,9 +33,21 @@ const DAY_INDEX = {
 const MOBILE_QUERY = "(max-width: 639px)";
 
 const WeeklySchedule = () => {
-  const [schedules, setSchedules] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const {
+    data: schedulesResponse,
+    isLoading: loading,
+    error: schedulesError,
+  } = useTeacherSchedules();
+
+  const schedules = useMemo(
+    () => schedulesResponse?.data ?? [],
+    [schedulesResponse],
+  );
+
+  const error =
+    schedulesError?.response?.data?.message ||
+    schedulesError?.message ||
+    "";
   const [isMobile, setIsMobile] = useState(
     () => window.matchMedia(MOBILE_QUERY).matches,
   );
@@ -51,29 +63,6 @@ const WeeklySchedule = () => {
 
   const initialDate = useMemo(() => {
     return formatDate(getCurrentMonday());
-  }, []);
-
-  useEffect(() => {
-    const fetchSchedules = async () => {
-      try {
-        setLoading(true);
-        setError("");
-
-        const response = await getTeacherSchedules();
-        setSchedules(response.data ?? []);
-      } catch (err) {
-        console.error("Failed to fetch teacher schedules:", err);
-
-        setError(
-          err.response?.data?.message ||
-            "Failed to load your schedule. Please try again.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchSchedules();
   }, []);
 
   const events = useMemo(() => {

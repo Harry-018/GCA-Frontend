@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import {
   Bus,
   CheckCircle,
@@ -10,7 +9,7 @@ import {
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
 
-import { getSchoolInformation } from "../requests/settingsRequests.js";
+import { useSchoolInformation } from "../hooks/queries/useSchoolInformation.js";
 
 const QUICK_LINKS = [
   { label: "HOME", path: "/", icon: Home },
@@ -20,29 +19,7 @@ const QUICK_LINKS = [
 ];
 
 const Footer = ({ admissionStatus }) => {
-  const [schoolinfo, setSchoolinfo] = useState(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchSchoolInformation = async () => {
-      try {
-        const response = await getSchoolInformation();
-
-        if (isMounted) {
-          setSchoolinfo(response?.data ?? response);
-        }
-      } catch (error) {
-        console.error("Failed to load school information:", error);
-      }
-    };
-
-    fetchSchoolInformation();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: schoolinfo } = useSchoolInformation();
 
   const schoolName = schoolinfo?.school_name || "Grace Christian Academy";
   const schoolContact = schoolinfo?.contact_number || "0992-641-8526";

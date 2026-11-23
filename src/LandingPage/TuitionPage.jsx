@@ -1,15 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { Suspense, useState } from "react";
+import { Await, useLoaderData } from "react-router-dom";
 
 import TuitionBanner from "../Components/LandingpageComponents/Tuition/TuitionBanner";
 import TuitionFees from "../Components/LandingpageComponents/Tuition/TuitionFees";
 import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
 import HomeSidebar from "../Components/HomeSidebar.jsx";
-
-import {
-  getTuition,
-  getTuitionGradeLevels,
-} from "../requests/tuitionRequests.js";
 
 const BANNER_PROPS = {
   title: "TUITION FEES",
@@ -18,108 +14,19 @@ const BANNER_PROPS = {
   backgroundImage: "/image/t1.webp",
 };
 
-const TuitionPage = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [gradeLevels, setGradeLevels] = useState([]);
-  const [activeLevel, setActiveLevel] = useState("");
-  const [tuitionData, setTuitionData] = useState([]);
-  const [loading, setLoading] = useState(true);
+const formatCurrency = (amount) =>
+  `₱${Number(amount || 0).toLocaleString("en-PH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
 
-  // Load configured grade levels from the backend.
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadGradeLevels = async () => {
-      try {
-        setLoading(true);
-
-        const result = await getTuitionGradeLevels();
-        const levels = Array.isArray(result) ? result : [];
-
-        if (!cancelled) {
-          setGradeLevels(levels);
-
-          setActiveLevel((current) => {
-            const currentExists = levels.some(
-              (grade) => grade.grade_level_name === current,
-            );
-
-            if (currentExists) return current;
-
-            return levels[0]?.grade_level_name ?? "";
-          });
-        }
-      } catch (error) {
-        console.error("Failed to load tuition grade levels:", error);
-
-        if (!cancelled) {
-          setGradeLevels([]);
-          setActiveLevel("");
-          setTuitionData([]);
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadGradeLevels();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  // Load tuition information whenever the selected grade level changes.
-  useEffect(() => {
-    const selectedGrade = gradeLevels.find(
-      (grade) => grade.grade_level_name === activeLevel,
-    );
-
-    if (!selectedGrade) {
-      setTuitionData([]);
-      return;
-    }
-
-    let cancelled = false;
-
-    const loadTuition = async () => {
-      try {
-        setLoading(true);
-
-        const result = await getTuition(selectedGrade.grade_level_id);
-
-        if (!cancelled) {
-          setTuitionData(Array.isArray(result) ? result : []);
-        }
-      } catch (error) {
-        console.error("Failed to load tuition information:", error);
-
-        if (!cancelled) {
-          setTuitionData([]);
-        }
-      } finally {
-        if (!cancelled) {
-          setLoading(false);
-        }
-      }
-    };
-
-    loadTuition();
-
-    return () => {
-      cancelled = true;
-    };
-  }, [activeLevel, gradeLevels]);
-
+const TuitionContent = ({
+  tuitionData,
+  gradeLevels,
+  activeLevel,
+  onLevelChange,
+}) => {
   const data = tuitionData[0];
-
-  const formatCurrency = (amount) =>
-    `₱${Number(amount || 0).toLocaleString("en-PH", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    })}`;
 
   const subtotalBoys = data
     ? Number(data.tuition_fee || 0) +
@@ -179,6 +86,24 @@ const TuitionPage = () => {
   );
 
   return (
+    <TuitionFees
+      tuitionData={tuitionLevelOptions}
+      activeLevel={activeLevel}
+      onActiveLevelChange={onLevelChange}
+      data={feeData}
+      paymentOptions={paymentOptions}
+    />
+  );
+};
+
+const TuitionPage = () => {
+  const { gradeLevels, tuitionByLevel } = useLoaderData();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeLevel, setActiveLevel] = useState(
+    gradeLevels[0]?.grade_level_name ?? "",
+  );
+
+  return (
     <div className="flex min-h-dvh w-full flex-col">
       <LoginHeader onMenuToggle={() => setSidebarOpen(true)} />
 
@@ -193,19 +118,18 @@ const TuitionPage = () => {
               backgroundImage={BANNER_PROPS.backgroundImage}
             />
 
-            {loading && !data ? (
-              <p className="py-6 text-center font-[Poppins] text-sm text-egg-dark">
-                Loading tuition information...
-              </p>
-            ) : (
-              <TuitionFees
-                tuitionData={tuitionLevelOptions}
-                activeLevel={activeLevel}
-                onActiveLevelChange={setActiveLevel}
-                data={feeData}
-                paymentOptions={paymentOptions}
-              />
-            )}
+            <Suspense fallback={null}>
+              <Await resolve={tuitionByLevel}>
+                {(dataByLevel) => (
+                  <TuitionContent
+                    tuitionData={dataByLevel?.[activeLevel] ?? []}
+                    gradeLevels={gradeLevels}
+                    activeLevel={activeLevel}
+                    onLevelChange={setActiveLevel}
+                  />
+                )}
+              </Await>
+            </Suspense>
           </div>
         </div>
       </div>

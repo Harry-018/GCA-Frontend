@@ -9,12 +9,15 @@ import {
   FileClockIcon,
 } from "lucide-react";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useLoaderData } from "react-router-dom";
 
 import AdminHeader from "../Components/AdminComponents/Dashboard/AdminHeader";
 import DashboardCards from "../Components/AdminComponents/Dashboard/DashboardCards";
 import DataTable from "../Components/DataTable";
 import { getDashboard } from "../requests/preEnrollmentRequests";
+import { queryKeys } from "../lib/queryKeys.js";
+import { QUERY_STALE_TIME } from "../lib/queryClient.js";
 
 const CARD_CONFIG = [
   { key: "totalStudents", title: "Total Students", icon: Users },
@@ -51,35 +54,44 @@ const columns = [
   },
 ];
 
-const formatSchoolYear = (year) => {
-  if (!year) return "No School Year";
-
-  const startYear = new Date(year.start_date).getFullYear();
-  const endYear = new Date(year.end_date).getFullYear();
-
-  return `${startYear} - ${endYear}`;
-};
-
 const Dashboard = () => {
-  // Use the existing React Router loader data
+  // The loader primes the same query cache used here.
   const { recent_applicants = [], dashboard: initialDashboard } =
     useLoaderData();
 
-  const [dashboard, setDashboard] = useState(initialDashboard);
+  const initialSchoolYearId = initialDashboard?.selected_school_year_id
+    ? String(initialDashboard.selected_school_year_id)
+    : "";
+
   const [selectedSchoolYearId, setSelectedSchoolYearId] = useState(
-    initialDashboard?.selected_school_year_id
-      ? String(initialDashboard.selected_school_year_id)
-      : "",
+    initialSchoolYearId,
   );
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const schoolYears = dashboard?.school_years ?? [];
-  const stats = dashboard?.stats ?? {};
+  const {
+    data: dashboardData,
+    isFetching: loading,
+    error: dashboardError,
+  } = useQuery({
+    queryKey: queryKeys.dashboard(selectedSchoolYearId || null),
+    queryFn: async () => {
+      const response = await getDashboard(selectedSchoolYearId || undefined);
 
-  const selectedSchoolYear = schoolYears.find(
-    (year) => String(year.school_year_id) === selectedSchoolYearId,
-  );
+      return response?.data ?? {};
+    },
+    enabled: Boolean(selectedSchoolYearId),
+    initialData:
+      selectedSchoolYearId === initialSchoolYearId ? initialDashboard : undefined,
+    staleTime: QUERY_STALE_TIME.tableData,
+  });
+
+  const dashboard = dashboardData ?? {};
+  const schoolYears = dashboard.school_years ?? [];
+  const stats = dashboard.stats ?? {};
+
+  const error =
+    dashboardError?.response?.data?.message ||
+    dashboardError?.message ||
+    "";
 
   const cards = CARD_CONFIG.map(({ key, title, icon }) => ({
     title,
@@ -87,34 +99,12 @@ const Dashboard = () => {
     icon,
   }));
 
-  const handleSchoolYearChange = async (event) => {
-    const schoolYearId = event.target.value;
-
-    setSelectedSchoolYearId(schoolYearId);
-    setError("");
-
-    if (!schoolYearId) return;
-
-    setLoading(true);
-
-    try {
-      const response = await getDashboard(schoolYearId);
-      const updatedDashboard = response.data;
-
-      setDashboard(updatedDashboard);
-      setSelectedSchoolYearId(
-        String(updatedDashboard.selected_school_year_id ?? schoolYearId),
-      );
-    } catch (err) {
-      console.error("Failed to load Dashboard statistics:", err);
-      setError("Failed to load statistics for the selected school year.");
-    } finally {
-      setLoading(false);
-    }
+  const handleSchoolYearChange = (event) => {
+    setSelectedSchoolYearId(event.target.value);
   };
 
   return (
-    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 bg-egg font-[Poppins]">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-y-auto bg-egg px-1 pb-4 font-[Poppins]">
       <AdminHeader
         schoolYears={schoolYears}
         selectedSchoolYearId={selectedSchoolYearId}
@@ -145,6 +135,7 @@ const Dashboard = () => {
         data={recent_applicants}
         columns={columns}
         emptyMessage="No recent applicants."
+        className="min-h-80"
       />
     </div>
   );

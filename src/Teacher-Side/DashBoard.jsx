@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { IdCard, Loader2, UserRound } from "lucide-react";
 
 import {
-  getAssignedSections,
-  getTeacherInfoByUserId,
-} from "../requests/teacherRequests.js";
+  useAssignedSections,
+  useTeacherInfo,
+} from "../hooks/queries/usePortalData.js";
 import authStore from "../stores/authStore";
 import SectionCard from "../Components/Teacher-Side Components/Dashboard/SectionCard";
 import DataTable from "../Components/DataTable.jsx";
@@ -12,15 +12,14 @@ import DataTable from "../Components/DataTable.jsx";
 const PAGE_SIZE = 10;
 
 const DashBoard = () => {
-  const [sections, setSections] = useState([]);
-  const [students, setStudents] = useState([]);
-  const [schoolYear, setSchoolYear] = useState("");
-  const [selectedId, setSelectedId] = useState(null);
-  const [teacherProfile, setTeacherProfile] = useState(null);
-  const [teacherProfileError, setTeacherProfileError] = useState("");
+  const {
+    data: sectionsResponse,
+    isLoading: loading,
+    error: sectionsError,
+  } = useAssignedSections();
+  const { data: teacherResponse, error: teacherFetchError } = useTeacherInfo();
 
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
   const user = authStore((state) => state.user);
 
   const [pagination, setPagination] = useState({
@@ -28,118 +27,81 @@ const DashBoard = () => {
     pageSize: PAGE_SIZE,
   });
 
-  // Fetch the authenticated teacher's assigned sections and students.
-  useEffect(() => {
-    const fetchAssignedSections = async () => {
-      try {
-        setLoading(true);
-        setError("");
+  const sectionData = useMemo(() => {
+    if (sectionsResponse?.success === false) return [];
 
-        const response = await getAssignedSections();
+    return Array.isArray(sectionsResponse?.data) ? sectionsResponse.data : [];
+  }, [sectionsResponse]);
 
-        console.log(response);
+  // Group the flat backend response by section.
+  const { sections, students, schoolYear } = useMemo(() => {
+    const sectionMap = new Map();
+    const studentList = [];
 
-        if (!response.success) {
-          throw new Error(
-            response.message || "Failed to retrieve assigned sections.",
-          );
-        }
-
-        const rows = response.data ?? [];
-
-        // Group the flat backend response by section.
-        const sectionMap = new Map();
-        const studentList = [];
-
-        rows.forEach((row) => {
-          if (!sectionMap.has(row.section_id)) {
-            sectionMap.set(row.section_id, {
-              id: row.section_id,
-              name: row.section_name,
-              level: row.grade_level_name,
-            });
-          }
-
-          // Add only actual enrolled students.
-          if (row.stu_id !== null && row.stu_id !== undefined) {
-            studentList.push({
-              id: row.stu_id,
-              stu_id: row.stu_id,
-              sectionId: row.section_id,
-
-              schoolId: row.stu_num,
-              lrn: row.lrn,
-
-              first_name: row.first_name,
-              middle_name: row.middle_name,
-              last_name: row.last_name,
-
-              gender: row.gender,
-
-              birthdate: row.bdate
-                ? new Date(row.bdate).toLocaleDateString("en-PH")
-                : "—",
-
-              age: row.age,
-            });
-          }
+    sectionData.forEach((row) => {
+      if (!sectionMap.has(row.section_id)) {
+        sectionMap.set(row.section_id, {
+          id: row.section_id,
+          name: row.section_name,
+          level: row.grade_level_name,
         });
-
-        const assignedSections = Array.from(sectionMap.values());
-
-        setSections(assignedSections);
-        setStudents(studentList);
-        setSchoolYear(rows[0]?.ay ?? "");
-        setSelectedId(assignedSections[0]?.id ?? null);
-      } catch (error) {
-        console.error("fetchAssignedSections error:", error);
-        setError(error.message || "Unable to load your assigned sections.");
-      } finally {
-        setLoading(false);
       }
-    };
 
-    fetchAssignedSections();
-  }, []);
+      // Add only actual enrolled students.
+      if (row.stu_id !== null && row.stu_id !== undefined) {
+        studentList.push({
+          id: row.stu_id,
+          stu_id: row.stu_id,
+          sectionId: row.section_id,
 
-  useEffect(() => {
-    let cancelled = false;
+          schoolId: row.stu_num,
+          lrn: row.lrn,
 
-    const fetchTeacherProfile = async () => {
-      try {
-        const response = await getTeacherInfoByUserId();
-        const teacher = response?.r;
+          first_name: row.first_name,
+          middle_name: row.middle_name,
+          last_name: row.last_name,
 
-        if (!teacher) {
-          throw new Error("Teacher information not found.");
-        }
+          gender: row.gender,
 
-        if (!cancelled) setTeacherProfile(teacher);
-      } catch (error) {
-        console.error("Failed to load teacher dashboard profile:", error);
+          birthdate: row.bdate
+            ? new Date(row.bdate).toLocaleDateString("en-PH")
+            : "—",
 
-        if (!cancelled) {
-          setTeacherProfileError(
-            error.message || "Unable to load the teacher ID.",
-          );
-        }
+          age: row.age,
+        });
       }
-    };
+    });
 
-    fetchTeacherProfile();
-
-    return () => {
-      cancelled = true;
+    return {
+      sections: Array.from(sectionMap.values()),
+      students: studentList,
+      schoolYear: sectionData[0]?.ay ?? "",
     };
-  }, []);
+  }, [sectionData]);
+
+  const activeSectionId = selectedId ?? sections[0]?.id ?? null;
+
+  const teacherProfile = teacherResponse?.r ?? null;
+
+  const teacherProfileError =
+    teacherFetchError?.response?.data?.message ||
+    teacherFetchError?.message ||
+    "";
+
+  const error =
+    sectionsResponse?.success === false
+      ? sectionsResponse.message || "Failed to retrieve assigned sections."
+      : sectionsError?.response?.data?.message ||
+        sectionsError?.message ||
+        "";
 
   // Filter students according to the selected section.
   const filteredStudents = useMemo(
     () =>
       students.filter(
-        (student) => String(student.sectionId) === String(selectedId),
+        (student) => String(student.sectionId) === String(activeSectionId),
       ),
-    [students, selectedId],
+    [students, activeSectionId],
   );
 
   const handleSectionSelect = (sectionId) => {
@@ -278,7 +240,7 @@ const DashBoard = () => {
 
         <SectionCard
           sections={sections}
-          selectedId={selectedId}
+          selectedId={activeSectionId}
           onSelect={handleSectionSelect}
           schoolYear={schoolYear}
         />

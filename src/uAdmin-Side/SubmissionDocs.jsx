@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FileText } from "lucide-react";
 import { useLoaderData } from "react-router-dom";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -11,6 +12,8 @@ import {
 } from "../requests/preEnrollmentRequests";
 
 import DataTable from "../Components/DataTable";
+import { queryKeys } from "../lib/queryKeys.js";
+import { QUERY_STALE_TIME } from "../lib/queryClient.js";
 
 import AdmissionHeader from "../Components/AdminComponents/Admission/AdmissionHeader";
 import SubmissionDocsHeader from "../Components/AdminComponents/Admission/SubmissionDocsHeader";
@@ -27,36 +30,33 @@ const TITLE = "Approved Applicants";
 
 const columnHelper = createColumnHelper();
 
+const getLocalDate = () => {
+  const date = new Date();
+
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+    2,
+    "0",
+  )}-${String(date.getDate()).padStart(2, "0")}`;
+};
+
 const SubmissionDocs = () => {
+  const queryClient = useQueryClient();
+
   const {
     approvedApplicants: initialApplications,
     pagination: initialPagination,
   } = useLoaderData();
 
-  const [applicants, setApplicants] = useState(initialApplications);
-
-  const [error, setError] = useState("");
-
   const [search, setSearch] = useState("");
-  const getLocalDate = () => {
-    const date = new Date();
-
-    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
-      2,
-      "0",
-    )}-${String(date.getDate()).padStart(2, "0")}`;
-  };
-
   const [date, setDate] = useState(getLocalDate());
-  const [loading, setLoading] = useState(false);
-  const [actionLoading, setActionLoading] = useState(false);
+  const [page, setPage] = useState(initialPagination.page ?? 1);
+  const limit = initialPagination.limit ?? 10;
 
-  const [pagination, setPagination] = useState(initialPagination);
+  const [actionLoading, setActionLoading] = useState(false);
 
   const [applicantToEnroll, setApplicantToEnroll] = useState(null);
   const [applicantToReject, setApplicantToReject] = useState(null);
   const [rejectionReasonId, setRejectionReasonId] = useState("");
-  const [rejectionReasons, setRejectionReasons] = useState([]);
   const [rejectLoading, setRejectLoading] = useState(false);
 
   const [applicantToResched, setApplicantToResched] = useState(null);
@@ -67,19 +67,61 @@ const SubmissionDocs = () => {
     to: "",
   });
 
-  useEffect(() => {
-    const fetchRejectionReasons = async () => {
-      try {
-        const response = await getRejectionReasons();
+  const filters = useMemo(
+    () => ({ date, search, page, limit }),
+    [date, search, page, limit],
+  );
 
-        setRejectionReasons(response.data.data);
-      } catch (error) {
-        console.error("Failed to fetch rejection reasons:", error);
-      }
-    };
+  const usesLoaderData =
+    date === getLocalDate() && search === "" && page === 1 && limit === 10;
 
-    fetchRejectionReasons();
-  }, []);
+  const {
+    data: applicantsResult,
+    isFetching: loading,
+    error: applicantsError,
+  } = useQuery({
+    queryKey: queryKeys.preEnrollment.approvedApplicants(filters),
+    queryFn: async () => {
+      const response = await getApprovedApplicants(
+        date,
+        search,
+        page,
+        limit,
+      );
+
+      return {
+        applicants: Array.isArray(response?.data?.data)
+          ? response.data.data
+          : [],
+        pagination: response?.data?.pagination ?? initialPagination,
+      };
+    },
+    initialData: usesLoaderData
+      ? {
+          applicants: initialApplications,
+          pagination: initialPagination,
+        }
+      : undefined,
+    staleTime: QUERY_STALE_TIME.tableData,
+  });
+
+  const applicants = applicantsResult?.applicants ?? [];
+  const pagination = applicantsResult?.pagination ?? initialPagination;
+
+  const error =
+    applicantsError?.response?.data?.message ||
+    applicantsError?.message ||
+    "";
+
+  const { data: rejectionReasons = [] } = useQuery({
+    queryKey: queryKeys.preEnrollment.rejectionReasons,
+    queryFn: async () => {
+      const response = await getRejectionReasons();
+
+      return Array.isArray(response?.data?.data) ? response.data.data : [];
+    },
+    staleTime: QUERY_STALE_TIME.referenceData,
+  });
   const handleEnrollClick = (applicant) => {
     setApplicantToEnroll(applicant);
   };
@@ -94,7 +136,9 @@ const SubmissionDocs = () => {
 
       setApplicantToEnroll(null);
 
-      await fetchApprovedApplicants(pagination.page, search, date);
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.approvedApplicantsAll,
+      });
     } catch (error) {
       console.error("Failed to enroll applicant:", error);
     } finally {
@@ -115,7 +159,9 @@ const SubmissionDocs = () => {
       setApplicantToReject(null);
       setRejectionReasonId("");
 
-      await fetchApprovedApplicants(pagination.page, search, date);
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.approvedApplicantsAll,
+      });
     } catch (error) {
       console.error("Failed to reject applicant:", error);
     } finally {
@@ -146,7 +192,7 @@ const SubmissionDocs = () => {
   };
 
   const handleSearch = () => {
-    fetchApprovedApplicants(1, search, date);
+    setPage(1);
   };
 
   const confirmResched = async () => {
@@ -161,52 +207,18 @@ const SubmissionDocs = () => {
 
       setApplicantToResched(null);
 
-      await fetchApprovedApplicants(pagination.page, search, date);
+      queryClient.invalidateQueries({
+        queryKey: queryKeys.preEnrollment.approvedApplicantsAll,
+      });
     } catch (error) {
       console.error("Failed to reschedule applicant:", error);
-    }
-  };
-
-  const fetchApprovedApplicants = async (
-    currentPage = pagination.page,
-    currentSearch = search,
-    currentDate = date,
-  ) => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const response = await getApprovedApplicants(
-        currentDate,
-        currentSearch,
-        currentPage,
-        pagination.limit,
-      );
-
-      setApplicants(response.data.data);
-      setPagination(response.data.pagination);
-    } catch (error) {
-      console.error("Failed to fetch approved applicants:", error);
-
-      setError("Failed to load approved applicants.");
-
-      setApplicants([]);
-
-      setPagination({
-        page: currentPage,
-        limit: pagination.limit,
-        total: 0,
-        totalPages: 0,
-      });
-    } finally {
-      setLoading(false);
     }
   };
 
   const handlePreviousPage = () => {
     if (pagination.page <= 1 || loading) return;
 
-    fetchApprovedApplicants(pagination.page - 1, search, date);
+    setPage(pagination.page - 1);
   };
 
   const handleNextPage = () => {
@@ -218,7 +230,7 @@ const SubmissionDocs = () => {
       return;
     }
 
-    fetchApprovedApplicants(pagination.page + 1, search, date);
+    setPage(pagination.page + 1);
   };
 
   const columns = [
@@ -326,11 +338,8 @@ const SubmissionDocs = () => {
         title={TITLE}
         date={date}
         onDateChange={(e) => {
-          const selectedDate = e.target.value;
-
-          setDate(selectedDate);
-
-          fetchApprovedApplicants(1, search, selectedDate);
+          setDate(e.target.value);
+          setPage(1);
         }}
         search={search}
         onSearchChange={(e) => setSearch(e.target.value)}

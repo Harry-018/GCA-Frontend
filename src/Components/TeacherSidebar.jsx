@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
@@ -12,7 +11,8 @@ import {
 
 import logoImg from "../assets/logowbg.png";
 import authStore from "../stores/authStore";
-import { getSchoolInformation } from "../requests/settingsRequests";
+import { endSession } from "../lib/sessionCache.js";
+import { useSchoolInformation } from "../hooks/queries/useSchoolInformation.js";
 
 const SCHOOL = {
   name: "Grace Christian Academy",
@@ -27,44 +27,18 @@ const NAV_LINKS = [
 ];
 
 const TeacherSidebar = ({ open, onClose }) => {
-  const [schoolinfo, setSchoolinfo] = useState({
-    school_name: SCHOOL.name,
-    school_logo: logoImg,
-  });
+  const { data: schoolInformation } = useSchoolInformation();
+  const schoolinfo = {
+    school_name: schoolInformation?.school_name || SCHOOL.name,
+    school_logo: schoolInformation?.school_logo || logoImg,
+  };
 
   const navigate = useNavigate();
 
-  const logout = authStore((state) => state.logout);
   const user = authStore((state) => state.user);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    const loadSchoolInformation = async () => {
-      try {
-        const response = await getSchoolInformation();
-        const schoolInformation = response?.data ?? response;
-
-        if (!cancelled && schoolInformation) {
-          setSchoolinfo({
-            school_name: schoolInformation.school_name || SCHOOL.name,
-            school_logo: schoolInformation.school_logo || logoImg,
-          });
-        }
-      } catch (error) {
-        console.error("Failed to load school information:", error);
-      }
-    };
-
-    loadSchoolInformation();
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
   const handleLogout = () => {
-    logout();
+    endSession();
     onClose();
     navigate("/login");
   };

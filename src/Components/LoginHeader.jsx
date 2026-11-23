@@ -1,10 +1,9 @@
 import { Home, GraduationCap, LogIn, Menu, MessageCircle } from "lucide-react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import logoImg from "../assets/logowbg.png";
-import { useState, useEffect } from "react";
 import { useParentInquiry } from "./ParentInquiryProvider.jsx";
 
-import { getSchoolInformation } from "../requests/settingsRequests.js";
+import { useSchoolInformation } from "../hooks/queries/useSchoolInformation.js";
 
 const SCHOOL = {
   name: "",
@@ -16,29 +15,7 @@ const LoginHeader = ({ onMenuToggle }) => {
   const isLoginPage = location.pathname === "/login";
   const { openInquiry } = useParentInquiry();
 
-  const [schoolinfo, setSchoolinfo] = useState(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    const fetchSchoolInformation = async () => {
-      try {
-        const response = await getSchoolInformation();
-
-        if (isMounted) {
-          setSchoolinfo(response?.data ?? response);
-        }
-      } catch (error) {
-        console.error("Failed to load school information:", error);
-      }
-    };
-
-    fetchSchoolInformation();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const { data: schoolinfo } = useSchoolInformation();
 
   const schoolName = schoolinfo?.school_name || "Grace Christian Academy";
   const schoolLogo = schoolinfo?.school_logo || logoImg;

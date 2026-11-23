@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 
-import {
-  getTeacherInfoByUserId,
-  editTeacherInfo,
-} from "../requests/teacherRequests.js";
+import { editTeacherInfo } from "../requests/teacherRequests.js";
+import { useTeacherInfo } from "../hooks/queries/usePortalData.js";
+import { queryKeys } from "../lib/queryKeys.js";
 
 import TeacherInformation from "../Components/Teacher-Side Components/Settings/TeacherInformation";
 import ContactInformation from "../Components/Teacher-Side Components/Settings/ContactInformation";
@@ -13,72 +13,53 @@ import EditContactModal from "../Components/Parents-Teacher Modal/EditContactMod
 import ChangePasswordModal from "../Components/Parents-Teacher Modal/ChangePasswordModal";
 
 const Settings = () => {
+  const queryClient = useQueryClient();
+  const {
+    data: teacherResponse,
+    isLoading,
+    error: teacherError,
+  } = useTeacherInfo();
+
   const [showContactModal, setShowContactModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-
-  const [teacherData, setTeacherData] = useState(null);
-  const [contactData, setContactData] = useState(null);
-  const [accountData, setAccountData] = useState(null);
   const [formData, setFormData] = useState({
     contactNumber: "",
     email: "",
     address: "",
   });
 
-  useEffect(() => {
-    const fetchTeacherInfo = async () => {
-      try {
-        setLoading(true);
-        setError("");
+  const teacherData = teacherResponse?.r ?? null;
 
-        const response = await getTeacherInfoByUserId();
-        const teacher = response.r;
+  const contactData = useMemo(
+    () => ({
+      contactNumber: teacherData?.contact_num ?? "",
+      email: teacherData?.email ?? "",
+      address: [
+        teacherData?.house_no,
+        teacherData?.barangay,
+        teacherData?.city_municipality,
+        teacherData?.province,
+        teacherData?.zipcode,
+      ]
+        .filter(Boolean)
+        .join(", "),
+    }),
+    [teacherData],
+  );
 
-        if (!teacher) {
-          throw new Error("Teacher information not found.");
-        }
+  const accountData = useMemo(
+    () => ({
+      email: teacherData?.account_email ?? "",
+      role: teacherData?.role ?? "teacher",
+      accountStatus: teacherData?.account_status ?? "",
+    }),
+    [teacherData],
+  );
 
-        setTeacherData(teacher);
-
-        setContactData({
-          contactNumber: teacher.contact_num ?? "",
-          email: teacher.email ?? "",
-          address: [
-            teacher.house_no,
-            teacher.barangay,
-            teacher.city_municipality,
-            teacher.province,
-            teacher.zipcode,
-          ]
-            .filter(Boolean)
-            .join(", "),
-        });
-
-        setAccountData({
-          email: teacher.account_email ?? "",
-          role: teacher.role ?? "teacher",
-          accountStatus: teacher.account_status ?? "",
-        });
-      } catch (err) {
-        console.error(
-          "Failed to fetch teacher information:",
-          err.response?.data || err,
-        );
-
-        setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Failed to load account settings.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTeacherInfo();
-  }, []);
+  const error =
+    teacherError?.response?.data?.message ||
+    teacherError?.message ||
+    (!teacherData && !isLoading ? "Teacher information not found." : "");
 
   const [savingContact, setSavingContact] = useState(false);
   const [contactError, setContactError] = useState("");
@@ -133,26 +114,16 @@ const Settings = () => {
         email,
       });
 
-      // Update the displayed contact information after the API succeeds.
-      const updatedContact = {
-        ...contactData,
-        contactNumber,
-        email,
-      };
+      queryClient.setQueryData(queryKeys.teachers.me, (previous) => ({
+        ...(previous ?? {}),
+        r: {
+          ...(previous?.r ?? {}),
+          contact_num: contactNumber,
+          email,
+        },
+      }));
 
-      setContactData(updatedContact);
-
-      // Keep the teacher profile state in sync as well.
-      setTeacherData((prev) =>
-        prev
-          ? {
-              ...prev,
-              contact_num: contactNumber,
-              email,
-            }
-          : prev,
-      );
-
+      queryClient.invalidateQueries({ queryKey: queryKeys.teachers.me });
       setShowContactModal(false);
     } catch (err) {
       console.error(
@@ -177,7 +148,7 @@ const Settings = () => {
     setShowPasswordModal(false);
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
         <Loader2 size={32} className="animate-spin text-parent-green" />

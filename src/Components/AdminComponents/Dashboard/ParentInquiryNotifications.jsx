@@ -418,7 +418,7 @@ const ParentInquiryNotifications = () => {
           aria-expanded={isOpen}
           aria-haspopup="dialog"
           title="Parent Inquiry"
-          className={`relative z-60 flex h-10 items-center gap-1.5 rounded-xl px-3 shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-parent-green lg:fixed lg:bottom-8 lg:right-8 lg:h-12 lg:gap-2 lg:px-5 ${
+          className={`relative z-25 flex h-10 items-center gap-1.5 rounded-xl px-3 shadow-lg transition-transform hover:scale-105 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-parent-green lg:fixed lg:bottom-8 lg:right-8 lg:h-12 lg:gap-2 lg:px-5 ${
             unreadInquiryCount > 0
               ? "bg-reject text-white hover:bg-reject/90"
               : "bg-parent-green text-white hover:bg-parent-accent"
@@ -439,7 +439,7 @@ const ParentInquiryNotifications = () => {
           <section
             role="dialog"
             aria-label="Parent inquiry notifications"
-            className="fixed bottom-16 right-3 z-50 w-[calc(100vw-1.5rem)] max-w-96 overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:bottom-24 sm:right-8 sm:w-96"
+            className="fixed bottom-16 right-3 z-25 w-[calc(100vw-1.5rem)] max-w-96 overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:bottom-24 sm:right-8 sm:w-96"
           >
           <div className="flex items-start justify-between gap-3 border-b border-parent-accent/15 px-4 py-3">
             <div>

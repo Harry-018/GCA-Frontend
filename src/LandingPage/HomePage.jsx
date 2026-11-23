@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useLoaderData } from "react-router-dom";
+import { Suspense, useState } from "react";
+import { Await, useLoaderData } from "react-router-dom";
 
 import SideBanner from "../Components/LandingpageComponents/Home/SideBanner";
 import MainBanner from "../Components/LandingpageComponents/Home/MainBanner";
@@ -13,7 +13,6 @@ import HomeSidebar from "../Components/HomeSidebar";
 import Footer from "../Components/Footer";
 import LoginHeader from "../Components/LoginHeader";
 
-// import axios from "axios";
 import { Bus, GraduationCap } from "lucide-react";
 
 const HomePage = () => {
@@ -21,8 +20,6 @@ const HomePage = () => {
     useLoaderData();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  useEffect(() => {}, []);
 
   return (
     <div className="flex h-full w-full flex-col">
@@ -70,64 +67,95 @@ const HomePage = () => {
               </h2>
             </div>
 
-            <div className="no-scrollbar flex snap-x snap-mandatory justify-start gap-5 overflow-x-auto px-5 py-5 sm:justify-center">
-              <div className="grid w-max grid-flow-col auto-cols-[calc(100vw-2.5rem)] gap-5 sm:w-full sm:max-w-7xl sm:auto-cols-auto sm:grid-flow-row sm:grid-cols-2 lg:grid-cols-3">
-                {(acadprog ?? []).map((program) => (
-                  <AcademicCard
-                    key={program.program_id}
-                    card={{
-                      program: program.grade_level_name,
-                      ages: `${program.min_age}–${program.max_age}`,
-                      description: program.description,
-                    }}
-                    image={program.image_url || "/image/nursery.jpg"}
-                  />
-                ))}
-              </div>
-            </div>
+            <Suspense fallback={null}>
+              <Await resolve={acadprog}>
+                {(programs) => (
+                  <div className="no-scrollbar flex snap-x snap-mandatory justify-start gap-5 overflow-x-auto px-5 py-5 sm:justify-center">
+                    <div className="grid w-max grid-flow-col auto-cols-[calc(100vw-2.5rem)] gap-5 sm:w-full sm:max-w-7xl sm:auto-cols-auto sm:grid-flow-row sm:grid-cols-2 lg:grid-cols-3">
+                      {(programs ?? []).map((program) => (
+                        <AcademicCard
+                          key={program.program_id}
+                          card={{
+                            program: program.grade_level_name,
+                            ages: `${program.min_age}–${program.max_age}`,
+                            description: program.description,
+                          }}
+                          image={program.image_url || "/image/nursery.jpg"}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </Await>
+            </Suspense>
           </div>
         </div>
 
         {/* Mission & Vision */}
-        <div className="flex w-full flex-col">
-          <Mission
-            image="/image/bb.jpg"
-            overlay="/image/90.webp"
-            label="Our Mission"
-            title={missionvision?.mission_title ?? "Our Mission"}
-            description={missionvision?.mission_body ?? ""}
-          />
+        <Suspense fallback={null}>
+          <Await resolve={missionvision}>
+            {(content) => (
+              <div className="flex w-full flex-col">
+                <Mission
+                  image="/image/bb.jpg"
+                  overlay="/image/90.webp"
+                  label="Our Mission"
+                  title={content?.mission_title ?? "Our Mission"}
+                  description={content?.mission_body ?? ""}
+                />
 
-          <Vision
-            image="/image/nut.webp"
-            overlay="/image/123.jpg"
-            label="Our Vision"
-            title={missionvision?.vision_title ?? "Our Vision"}
-            description={missionvision?.vision_body ?? ""}
-          />
-        </div>
+                <Vision
+                  image="/image/nut.webp"
+                  overlay="/image/123.jpg"
+                  label="Our Vision"
+                  title={content?.vision_title ?? "Our Vision"}
+                  description={content?.vision_body ?? ""}
+                />
+              </div>
+            )}
+          </Await>
+        </Suspense>
 
         {/* Hymn Section */}
-        <div className="flex flex-col bg-egg pt-15 pb-0 -mb-10">
-          <HymnSection
-            title={video?.video_title || "Grace Christian Academy Hymn"}
-            videoSrc={video?.videourl}
-          />
-        </div>
+        <Suspense fallback={null}>
+          <Await resolve={video}>
+            {(content) => (
+              <div className="flex flex-col bg-egg pt-15 pb-0 -mb-10">
+                <HymnSection
+                  title={content?.video_title || "Grace Christian Academy Hymn"}
+                  videoSrc={content?.videourl}
+                />
+              </div>
+            )}
+          </Await>
+        </Suspense>
 
-        <WhyChooseUs
-          title="WHY PARENTS CHOOSE US"
-          reasons={(reasons ?? []).map((item) => item.reasons)}
-        />
-        <Activities
-          title="CHILDREN ACTIVITIES"
-          activities={(childact ?? []).map((activity) => ({
-            id: activity.activity_id,
-            title: activity.activity_title,
-            description: activity.activity_description,
-            image: activity.activity_image || "/image/nursery.jpg",
-          }))}
-        />
+        <Suspense fallback={null}>
+          <Await resolve={reasons}>
+            {(items) => (
+              <WhyChooseUs
+                title="WHY PARENTS CHOOSE US"
+                reasons={(items ?? []).map((item) => item.reasons)}
+              />
+            )}
+          </Await>
+        </Suspense>
+
+        <Suspense fallback={null}>
+          <Await resolve={childact}>
+            {(activities) => (
+              <Activities
+                title="CHILDREN ACTIVITIES"
+                activities={(activities ?? []).map((activity) => ({
+                  id: activity.activity_id,
+                  title: activity.activity_title,
+                  description: activity.activity_description,
+                  image: activity.activity_image || "/image/nursery.jpg",
+                }))}
+              />
+            )}
+          </Await>
+        </Suspense>
 
         <Footer admissionStatus={banner?.enrollment_status ?? "Close"} />
       </div>

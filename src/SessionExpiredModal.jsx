@@ -1,6 +1,7 @@
 import React from "react";
 import { LogIn } from "lucide-react";
 import useSessionStore from "./stores/sessionStore";
+import authStore from "./stores/authStore";
 
 const SessionExpiredModal = () => {
   const sessionExpired = useSessionStore((state) => state.sessionExpired);
@@ -8,6 +9,9 @@ const SessionExpiredModal = () => {
   if (!sessionExpired) return null;
 
   const handleLogin = () => {
+    // The hard navigation discards the in-memory QueryClient cache; clear the
+    // persisted auth here so the stale token cannot be reused on the next load.
+    authStore.getState().logout();
     window.location.href = "/login";
   };
 

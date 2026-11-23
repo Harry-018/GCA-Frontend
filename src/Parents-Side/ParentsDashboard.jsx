@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 import {
   CalendarDays,
   School,
@@ -8,9 +8,9 @@ import {
   Loader2,
 } from "lucide-react";
 import {
-  getParentAnnouncements,
-  getParentDashboardStudents,
-} from "../requests/parentRequests";
+  useParentAnnouncements,
+  useParentStudents,
+} from "../hooks/queries/usePortalData.js";
 import StudentInfo from "../Components/Parents-Side Components/Dashboard/StudentInfo";
 import Announcement from "../Components/Parents-Side Components/Dashboard/Announcement";
 
@@ -208,78 +208,47 @@ const mapAnnouncement = (announcement) => ({
 
 const ParentsDashboard = () => {
   const scrollRef = useRef(null);
-  const [students, setStudents] = useState([]);
-  const [announcements, setAnnouncements] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [announcementsLoading, setAnnouncementsLoading] = useState(true);
-  const [announcementsError, setAnnouncementsError] = useState("");
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // GET LOGGED-IN PARENT'S ENROLLED STUDENTS
-  useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        setLoading(true);
-        setError("");
+  const {
+    data: studentsResponse,
+    isLoading: loading,
+    error: studentsError,
+  } = useParentStudents();
+  const {
+    data: announcementsResponse,
+    isLoading: announcementsLoading,
+    error: announcementsFetchError,
+  } = useParentAnnouncements();
 
-        const response = await getParentDashboardStudents();
+  // The API wraps lists in the "data" property.
+  const students = useMemo(
+    () =>
+      (Array.isArray(studentsResponse?.data) ? studentsResponse.data : []).map(
+        mapStudent,
+      ),
+    [studentsResponse],
+  );
 
-        // The API wraps the student list in the "data" property.
-        const list = Array.isArray(response?.data) ? response.data : [];
+  const announcements = useMemo(
+    () =>
+      (
+        Array.isArray(announcementsResponse?.data)
+          ? announcementsResponse.data
+          : []
+      ).map(mapAnnouncement),
+    [announcementsResponse],
+  );
 
-        setStudents(list.map(mapStudent));
-      } catch (err) {
-        console.error(
-          "Failed to fetch parent dashboard students:",
-          err.response?.data || err,
-        );
+  const error =
+    studentsError?.response?.data?.message ||
+    studentsError?.message ||
+    "";
 
-        setError(
-          err.response?.data?.message ||
-            err.message ||
-            "Unable to load dashboard data.",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchStudents();
-  }, []);
-
-  // GET ANNOUNCEMENTS FOR THE PARENT'S ACTIVE SCHOOL YEAR
-  useEffect(() => {
-    const fetchAnnouncements = async () => {
-      try {
-        setAnnouncementsLoading(true);
-        setAnnouncementsError("");
-
-        const response = await getParentAnnouncements();
-
-        // The API wraps the announcement list in the "data" property.
-        const list = Array.isArray(response?.data) ? response.data : [];
-
-        setAnnouncements(list.map(mapAnnouncement));
-        setActiveIndex(0);
-      } catch (err) {
-        console.error(
-          "Failed to fetch parent announcements:",
-          err.response?.data || err,
-        );
-
-        setAnnouncementsError(
-          err.response?.data?.message ||
-            err.message ||
-            "Unable to load announcements.",
-        );
-      } finally {
-        setAnnouncementsLoading(false);
-      }
-    };
-
-    fetchAnnouncements();
-  }, []);
+  const announcementsError =
+    announcementsFetchError?.response?.data?.message ||
+    announcementsFetchError?.message ||
+    "";
 
   useEffect(() => {
     const element = scrollRef.current;

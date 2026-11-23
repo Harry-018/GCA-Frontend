@@ -2,17 +2,22 @@ import { useEffect, useMemo, useState } from "react";
 import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import { getAssignedSections } from "../requests/teacherRequests.js";
 import {
   getAttendanceStudents,
   saveAttendance,
 } from "../requests/teacherRequests.js";
+import { useAssignedSections } from "../hooks/queries/usePortalData.js";
 
 import SectionCard from "../Components/Teacher-Side Components/Dashboard/SectionCard";
 import AttendanceToolbar from "../Components/Teacher-Side Components/AttendanceChecker/AttendanceToolbar.jsx";
 import DataTable from "../Components/DataTable.jsx";
 
 const PAGE_SIZE = 10;
+
+const ATTENDANCE_OPTIONS = [
+  { value: "present", label: "Present" },
+  { value: "absent", label: "Absent" },
+];
 
 const getToday = () => {
   const today = new Date();
@@ -26,8 +31,12 @@ const getToday = () => {
 const Attendance = () => {
   const navigate = useNavigate();
 
-  const [sections, setSections] = useState([]);
-  const [schoolYear, setSchoolYear] = useState("");
+  const {
+    data: sectionsResponse,
+    isLoading: sectionsLoading,
+    error: sectionsFetchError,
+  } = useAssignedSections();
+
   const [selectedId, setSelectedId] = useState(null);
 
   const [students, setStudents] = useState([]);
@@ -47,62 +56,43 @@ const Attendance = () => {
     pageSize: PAGE_SIZE,
   });
 
-  const attendanceOptions = [
-    { value: "present", label: "Present" },
-    { value: "absent", label: "Absent" },
-  ];
+  const sectionData = useMemo(() => {
+    if (sectionsResponse?.success === false) return [];
 
-  // FETCH ASSIGNED SECTIONS
-  useEffect(() => {
-    const fetchAssignedSections = async () => {
-      try {
-        setLoading(true);
-        setError("");
+    return Array.isArray(sectionsResponse?.data) ? sectionsResponse.data : [];
+  }, [sectionsResponse]);
 
-        const response = await getAssignedSections();
+  const { sections, schoolYear } = useMemo(() => {
+    const sectionMap = new Map();
 
-        if (!response.success) {
-          throw new Error(
-            response.message || "Failed to retrieve assigned sections.",
-          );
-        }
-
-        const rows = response.data ?? [];
-        const sectionMap = new Map();
-
-        rows.forEach((row) => {
-          if (!sectionMap.has(row.section_id)) {
-            sectionMap.set(row.section_id, {
-              id: row.section_id,
-              name: row.section_name,
-              level: row.grade_level_name,
-            });
-          }
+    sectionData.forEach((row) => {
+      if (!sectionMap.has(row.section_id)) {
+        sectionMap.set(row.section_id, {
+          id: row.section_id,
+          name: row.section_name,
+          level: row.grade_level_name,
         });
-
-        const assignedSections = Array.from(sectionMap.values());
-
-        setSections(assignedSections);
-        setSchoolYear(rows[0]?.ay ?? "");
-        setSelectedId(assignedSections[0]?.id ?? null);
-      } catch (error) {
-        console.error("fetchAssignedSections error:", error);
-        setError(error.message || "Unable to load assigned sections.");
-      } finally {
-        setLoading(false);
       }
-    };
+    });
 
-    fetchAssignedSections();
-  }, []);
+    return {
+      sections: Array.from(sectionMap.values()),
+      schoolYear: sectionData[0]?.ay ?? "",
+    };
+  }, [sectionData]);
+
+  const activeSectionId = selectedId ?? sections[0]?.id ?? null;
+
+  const sectionError =
+    sectionsResponse?.success === false
+      ? sectionsResponse.message || "Failed to retrieve assigned sections."
+      : sectionsFetchError?.response?.data?.message ||
+        sectionsFetchError?.message ||
+        "";
 
   // FETCH ATTENDANCE STUDENTS
   useEffect(() => {
-    if (!selectedId || !selectedDate) {
-      setStudents([]);
-      setAttendance({});
-      return;
-    }
+    if (!activeSectionId || !selectedDate) return undefined;
 
     let cancelled = false;
 
@@ -112,7 +102,10 @@ const Attendance = () => {
         setError("");
         setMessage("");
 
-        const response = await getAttendanceStudents(selectedId, selectedDate);
+        const response = await getAttendanceStudents(
+          activeSectionId,
+          selectedDate,
+        );
 
         if (!response.success) {
           throw new Error(
@@ -164,13 +157,18 @@ const Attendance = () => {
     return () => {
       cancelled = true;
     };
-  }, [selectedId, selectedDate]);
+  }, [activeSectionId, selectedDate]);
 
   // SEARCH + SECTION FILTER
+  const activeStudents = useMemo(
+    () => (activeSectionId && selectedDate ? students : []),
+    [activeSectionId, selectedDate, students],
+  );
+
   const filteredStudents = useMemo(() => {
     const search = searchQuery.trim().toLowerCase();
 
-    return students.filter((student) => {
+    return activeStudents.filter((student) => {
       const matchesSearch =
         !search ||
         String(student.schoolId ?? "")
@@ -191,15 +189,16 @@ const Attendance = () => {
 
       return matchesSearch;
     });
-  }, [students, searchQuery]);
+  }, [activeStudents, searchQuery]);
 
-  // RESET PAGE WHEN FILTERS CHANGE
-  useEffect(() => {
+  const handleDateChange = (value) => {
+    setSelectedDate(value);
+
     setPagination((previous) => ({
       ...previous,
       pageIndex: 0,
     }));
-  }, [selectedId, selectedDate, studentName]);
+  };
 
   // SECTION SELECT
   const handleSectionSelect = (sectionId) => {
@@ -237,13 +236,13 @@ const Attendance = () => {
     try {
       setSaving(true);
 
-      const attendanceRecords = students.map((student) => ({
+      const attendanceRecords = activeStudents.map((student) => ({
         enrollment_id: student.enrollment_id,
         attendance_status: attendance[student.enrollment_id],
       }));
 
       const response = await saveAttendance(
-        selectedId,
+        activeSectionId,
         selectedDate,
         attendanceRecords,
       );
@@ -315,7 +314,7 @@ const Attendance = () => {
                   : "border-red-200 cursor-pointer bg-red-50 text-red-700"
               }`}
             >
-              {attendanceOptions.map((option) => (
+              {ATTENDANCE_OPTIONS.map((option) => (
                 <option
                   key={option.value}
                   value={option.value}
@@ -346,7 +345,7 @@ const Attendance = () => {
   }, [filteredStudents, pagination.pageIndex, pagination.pageSize]);
 
   // LOADING
-  if (loading && sections.length === 0) {
+  if ((loading || sectionsLoading) && sections.length === 0) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
         <Loader2 size={32} className="animate-spin text-parent-green" />
@@ -356,11 +355,11 @@ const Attendance = () => {
   }
 
   // ERROR
-  if (error && sections.length === 0) {
+  if ((error || sectionError) && sections.length === 0) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-egg font-[Poppins]">
         <p role="alert" className="text-sm text-red-500">
-          {error}
+          {error || sectionError}
         </p>
       </div>
     );
@@ -372,7 +371,7 @@ const Attendance = () => {
         {/* SECTIONS */}
         <SectionCard
           sections={sections}
-          selectedId={selectedId}
+          selectedId={activeSectionId}
           onSelect={handleSectionSelect}
           schoolYear={schoolYear}
         />
@@ -382,7 +381,7 @@ const Attendance = () => {
           studentName={studentName}
           setStudentName={setStudentName}
           selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
+          setSelectedDate={handleDateChange}
           onSearch={handleSearch}
           onSave={handleSave}
           onReport={handleReport}
@@ -393,9 +392,9 @@ const Attendance = () => {
           <p className="text-xs text-gray-500">Saving attendance...</p>
         )}
 
-        {error && (
+        {(error || sectionError) && (
           <p role="alert" className="text-xs text-red-500">
-            {error}
+            {error || sectionError}
           </p>
         )}
 
@@ -407,7 +406,7 @@ const Attendance = () => {
             <DataTable
               data={paginatedStudents}
               columns={columns}
-              loading={loading}
+              loading={loading || sectionsLoading}
               emptyMessage={
                 studentName.trim()
                   ? "No students match your search."
