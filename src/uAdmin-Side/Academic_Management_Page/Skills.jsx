@@ -218,13 +218,7 @@ const Skills = () => {
           </div>
         </div>
         {/* SKILLS */}
-        {loading ? (
-          <div className="py-12 text-center text-sm text-gray-400">
-            Loading skills...
-          </div>
-        ) : (
-          <DataTable data={skills} columns={columns} />
-        )}
+        <DataTable data={skills} columns={columns} loading={loading} />
       </div>
       {/* ASSIGN SKILL MODAL */}
       <AddSkillModal

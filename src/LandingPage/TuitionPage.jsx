@@ -7,6 +7,7 @@ import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
 import HomeSidebar from "../Components/HomeSidebar.jsx";
 import { TuitionContentSkeleton } from "../Components/LandingpageComponents/LandingPageSkeletons.jsx";
+import BackToTopButton from "../Components/BackToTopButton.jsx";
 
 const BANNER_PROPS = {
   title: "TUITION FEES",
@@ -136,6 +137,7 @@ const TuitionPage = () => {
       </div>
 
       <Footer />
+      <BackToTopButton />
     </div>
   );
 };

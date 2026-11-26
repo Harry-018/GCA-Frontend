@@ -9,7 +9,7 @@ import VideoPresentation from "../../Components/AdminComponents/Website Manageme
 import WhyParentsChooseUs from "../../Components/AdminComponents/Website Management/Home/WhyParentsChooseUs";
 import Mission from "../../Components/AdminComponents/Website Management/Mission&Vision/Mission";
 import Vision from "../../Components/AdminComponents/Website Management/Mission&Vision/Vision";
-import ChildrenActivityCard from "../../Components/AdminComponents/Website Management/ChildrenActivityCard";
+import ActivityCarouselCard from "../../Components/LandingpageComponents/Home/ActivityCarouselCard";
 import EditBannerModal from "../../Components/AdminComponents/Website Management/Home/EditBannerModal";
 import AddProgramModal from "../../Components/AdminComponents/Website Management/Home/AddProgramModal";
 import EditProgramModal from "../../Components/AdminComponents/Website Management/Home/EditProgramModal";
@@ -585,64 +585,62 @@ const Home = () => {
       <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto px-1 pb-4">
         {activeTab === "home" && (
           <div className="flex flex-col gap-5">
-            <div className="grid w-full grid-cols-1 items-stretch gap-5 xl:grid-cols-2">
-              {bannerData && (
-                <Banner
-                  admissionStatus={
-                    bannerData.enrollment_status === "open" ? "Open" : "Closed"
-                  }
-                  schoolYear={bannerData.school_year}
-                  title={bannerData.banner_title}
-                  quote={bannerData.banner_quote}
-                  image={bannerData.banner_image}
-                  onEdit={openBannerEdit}
-                />
-              )}
-
-              <AcademicPrograms
-                programs={programs}
-                selectedProgram={selectedProgramName}
-                onProgramChange={setSelectedProgram}
-                onEdit={openEditProgram}
-                onAdd={openAddProgram}
-                onRemove={() => setRemoveProgram(true)}
+            {bannerData && (
+              <Banner
+                admissionStatus={
+                  bannerData.enrollment_status === "open" ? "Open" : "Closed"
+                }
+                schoolYear={bannerData.school_year}
+                title={bannerData.banner_title}
+                quote={bannerData.banner_quote}
+                image={bannerData.banner_image}
+                onEdit={openBannerEdit}
               />
-            </div>
+            )}
 
-            <div className="grid grid-cols-1 items-stretch gap-5 xl:grid-cols-12">
-              {videoData && (
-                <div className="xl:col-span-6">
-                  <VideoPresentation
-                    videoTitle={videoData.videoTitle}
-                    videoSrc={videoData.videoSrc}
-                    onEdit={openEditVideo}
-                  />
-                </div>
-              )}
+            <AcademicPrograms
+              programs={programs}
+              selectedProgram={selectedProgramName}
+              onProgramChange={setSelectedProgram}
+              onEdit={openEditProgram}
+              onAdd={openAddProgram}
+              onRemove={() => setRemoveProgram(true)}
+            />
 
-              <div className={videoData ? "xl:col-span-6" : "xl:col-span-12"}>
-                <WhyParentsChooseUs
-                  reasons={reasons}
-                  onAdd={openAddReason}
-                  onEdit={openEditReason}
-                  onRemove={openRemoveReason}
-                />
-              </div>
-            </div>
+            {videoData && (
+              <VideoPresentation
+                videoTitle={videoData.videoTitle}
+                videoSrc={videoData.videoSrc}
+                onEdit={openEditVideo}
+              />
+            )}
+
+            <WhyParentsChooseUs
+              reasons={reasons}
+              onAdd={openAddReason}
+              onEdit={openEditReason}
+              onRemove={openRemoveReason}
+            />
           </div>
         )}
 
         {activeTab === "mission-vision" && (
-          <div className="grid grid-cols-1 gap-4 md:auto-rows-fr md:grid-cols-2">
+          <div className="flex flex-col gap-5">
             <Mission
-              title={missionData.title}
-              description={missionData.description}
+              image="/image/bb.webp"
+              overlay="/image/90.webp"
+              label="Our Mission"
+              title={missionData?.title || "Raising Godly and Lifelong Learners"}
+              description={missionData?.description || ""}
               onEdit={openEditMission}
             />
 
             <Vision
-              title={visionData.title}
-              description={visionData.description}
+              image="/image/nut.webp"
+              overlay="/image/123.webp"
+              label="Our Vision"
+              title={visionData?.title || "Teach with Love, Faith, and Excellence"}
+              description={visionData?.description || ""}
               onEdit={openEditVision}
             />
           </div>
@@ -651,23 +649,29 @@ const Home = () => {
         {activeTab === "activities" && (
           <div className="flex flex-col gap-4">
             <div className="flex items-center justify-between">
-              <h2 className="text-sm font-[PoppinsBold] text-parent-green sm:text-base">
-                Children Activities
-              </h2>
+              <div>
+                <span className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-lime-dark">
+                  Learn · Play · Grow
+                </span>
+                <h2 className="text-sm font-[PoppinsBold] text-parent-green sm:text-base">
+                  Children Activities
+                </h2>
+              </div>
 
               <button
                 type="button"
                 onClick={openAddActivity}
-                className="rounded-full bg-parent-green px-5 py-2 text-[9px] text-white transition hover:bg-parent-accent sm:text-xs"
+                className="rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
               >
-                Add
+                Add activity
               </button>
             </div>
 
-            <div className="grid auto-rows-fr grid-cols-1 content-start gap-4 pb-4 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-              {childrenActivities.map((activity) => (
-                <ChildrenActivityCard
+            <div className="grid auto-rows-fr grid-cols-1 content-start gap-4 pb-4 sm:grid-cols-2 lg:grid-cols-3">
+              {childrenActivities.map((activity, index) => (
+                <ActivityCarouselCard
                   key={activity.activity_id}
+                  index={index}
                   title={activity.activity_title}
                   description={activity.activity_description}
                   image={activity.activity_image}

@@ -1,5 +1,4 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { Loader2 } from "lucide-react";
 import {
   getAssignedSections,
   getStudentGradesOfSection,
@@ -13,6 +12,7 @@ import SearchBar from "../Components/Teacher-Side Components/Grades/SearchBar";
 import GradeUploadModal from "../Components/Teacher-Side Components/Grades/GradeUploadModal";
 import StudentGradeModal from "../Components/Teacher-Side Components/Grades/StudentGradeModal";
 import DataTable from "../Components/DataTable.jsx";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const PAGE_SIZE = 10;
 
@@ -419,19 +419,7 @@ const Grades = () => {
   }, [filteredStudents, pagination.pageIndex, pagination.pageSize]);
 
   if (loading && sections.length === 0) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-green" />
-        <p className="text-sm text-gray-400">
-          Loading Grades
-          <span className="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="teacher-grades" />;
   }
 
   if (error && sections.length === 0) {

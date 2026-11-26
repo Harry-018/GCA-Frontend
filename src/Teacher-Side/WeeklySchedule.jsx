@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import { useTeacherSchedules } from "../hooks/queries/usePortalData.js";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const getCurrentMonday = () => {
   const date = new Date();
@@ -92,19 +93,13 @@ const WeeklySchedule = () => {
   }, [schedules]);
 
   if (loading) {
-    return (
-      <div className="mx-auto mt-4 flex min-h-60 w-full items-center justify-center sm:mt-6 sm:w-3/4">
-        <p className="font-[Poppins] text-sm text-gray-500">
-          Loading your schedule...
-        </p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="teacher-schedule" />;
   }
 
   if (error) {
     return (
       <div className="mx-auto mt-4 w-full rounded-xl border border-red-200 bg-red-50 p-4 sm:mt-6 sm:w-3/4 sm:p-5">
-        <p className="break-words font-[Poppins] text-sm text-red-600">
+        <p className="wrap-break-words font-[Poppins] text-sm text-red-600">
           {error}
         </p>
       </div>
@@ -159,20 +154,20 @@ const WeeklySchedule = () => {
 
                 return (
                   <div className="event-card flex h-full w-full flex-col justify-between overflow-hidden rounded-md border border-parent-green/80 bg-parent-green px-1 py-1 text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg sm:rounded-lg sm:px-2 sm:py-1.5">
-                    <p className="break-words font-[PoppinsBold] text-[10px] leading-tight text-white sm:text-xs md:text-sm">
+                    <p className="wrap-break-words font-[PoppinsBold] text-xs leading-tight text-white sm:text-xs md:text-sm">
                       {event.title}
                     </p>
 
                     <div className="mt-1 min-w-0">
-                      <p className="truncate font-[PoppinsBold] text-[9px] leading-tight text-white sm:text-[10px] md:text-xs">
+                      <p className="truncate font-[PoppinsBold] text-[9px] leading-tight text-white sm:text-xs md:text-xs">
                         {event.extendedProps.room}
                       </p>
 
-                      <p className="truncate font-[PoppinsBold] text-[9px] leading-tight text-white sm:text-[10px] md:text-xs">
+                      <p className="truncate font-[PoppinsBold] text-[9px] leading-tight text-white sm:text-xs md:text-xs">
                         {event.extendedProps.section}
                       </p>
 
-                      <p className="truncate font-[Poppins] text-[9px] leading-tight text-white sm:text-[10px] md:text-xs">
+                      <p className="truncate font-[Poppins] text-[9px] leading-tight text-white sm:text-xs md:text-xs">
                         {timeText}
                       </p>
                     </div>

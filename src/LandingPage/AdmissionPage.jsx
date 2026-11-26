@@ -9,6 +9,7 @@ import LoginHeader from "../Components/LoginHeader";
 import HomeSidebar from "../Components/HomeSidebar";
 import Footer from "../Components/Footer";
 import { FileBadge, Camera, FileEdit } from "lucide-react";
+import BackToTopButton from "../Components/BackToTopButton.jsx";
 
 const AdmissionPage = () => {
   const banner = useLoaderData();
@@ -94,6 +95,7 @@ const AdmissionPage = () => {
         </div>
       </div>
       <Footer admissionStatus={admissionIsOpen ? "open" : "close"} />
+      <BackToTopButton />
     </div>
   );
 };

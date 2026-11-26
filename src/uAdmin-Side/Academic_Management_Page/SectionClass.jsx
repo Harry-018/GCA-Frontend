@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import ClassCard from "../../Components/AdminComponents/Academic Management/Section/SectionClass/ClassCard";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 import AddSectionModal from "../../Components/AdminModal/AcademicManagementPage/AddSectionModal";
 import RemoveSectionModal from "../../Components/AdminModal/AcademicManagementPage/RemoveSectionModal";
 import {
@@ -179,7 +180,11 @@ const SectionClass = () => {
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {loading ? (
-            <p className="p-4 text-xs text-gray-500">Loading sections...</p>
+            <AdminPageSkeleton
+              variant="card-grid"
+              count={4}
+              className="col-span-full"
+            />
           ) : classes.length === 0 ? (
             <p className="p-4 text-xs text-gray-500">No sections assigned.</p>
           ) : (
