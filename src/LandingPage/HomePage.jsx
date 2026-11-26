@@ -39,7 +39,7 @@ const HomePage = () => {
         <div className="flex w-full justify-center px-3 bg-egg py-3 sm:px-5 lg:px-6 lg:py-5">
           <div className="grid h-auto w-full max-w-7xl grid-cols-1 gap-2 sm:h-87.5 lg:h-92.5 lg:grid-cols-[210px_minmax(0,1fr)_210px] lg:gap-3">
             <SideBanner
-              image="/image/sb.jpg"
+              image="/image/sb.webp"
               title="Transportation"
               subtitle="Services"
               icon={Bus}
@@ -53,14 +53,14 @@ const HomePage = () => {
               title={banner?.banner_title ?? ""}
               quote={banner?.banner_quote ?? ""}
               backgroundImage={optimizeCloudinaryImage(
-                banner?.banner_image || "/image/kinder.jpg",
+                banner?.banner_image || "/image/kinder.webp",
                 1600,
               )}
               schoolStart={banner?.school_start ?? ""}
             />
 
             <SideBanner
-              image="/image/money.jpg"
+              image="/image/money.webp"
               title="Tuition"
               subtitle="& Fees"
               icon={GraduationCap}
@@ -92,7 +92,7 @@ const HomePage = () => {
                             description: program.description,
                           }}
                           image={optimizeCloudinaryImage(
-                            program.image_url || "/image/nursery.jpg",
+                            program.image_url || "/image/nursery.webp",
                             800,
                           )}
                         />
@@ -111,7 +111,7 @@ const HomePage = () => {
             {(content) => (
               <div className="flex w-full flex-col">
                 <Mission
-                  image="/image/bb.jpg"
+                  image="/image/bb.webp"
                   overlay="/image/90.webp"
                   label="Our Mission"
                   title={content?.mission_title ?? "Our Mission"}
@@ -120,7 +120,7 @@ const HomePage = () => {
 
                 <Vision
                   image="/image/nut.webp"
-                  overlay="/image/123.jpg"
+                  overlay="/image/123.webp"
                   label="Our Vision"
                   title={content?.vision_title ?? "Our Vision"}
                   description={content?.vision_body ?? ""}
@@ -165,7 +165,7 @@ const HomePage = () => {
                   title: activity.activity_title,
                   description: activity.activity_description,
                   image: optimizeCloudinaryImage(
-                    activity.activity_image || "/image/nursery.jpg",
+                    activity.activity_image || "/image/nursery.webp",
                     800,
                   ),
                 }))}

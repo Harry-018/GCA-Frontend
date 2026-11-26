@@ -3,7 +3,7 @@ import React from "react";
 const TransportationBanner = ({
   title = "TRANSPORTATION",
   description = "The transportation rates listed above represent the basic fees for the school's standard routes. However, the final transportation cost may vary depending on the student's exact pickup location, distance, and van availability. Parents and guardians are encouraged to coordinate with the school administration to confirm the appropriate route, schedule, and total transportation fee. For further clarification regarding transportation services, pickup arrangements, or additional charges, please feel free to contact the school office for assistance.",
-  backgroundImage = "/image/sb1.jpg",
+  backgroundImage = "/image/sb1.webp",
 }) => {
   return (
     <div className="relative flex h-44 w-full flex-col justify-between overflow-hidden rounded-xl px-4 py-4 text-bone sm:h-48 sm:px-10 sm:py-6 md:h-56">
