@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -11,6 +10,7 @@ import { useAssignedSections } from "../hooks/queries/usePortalData.js";
 import SectionCard from "../Components/Teacher-Side Components/Dashboard/SectionCard";
 import AttendanceToolbar from "../Components/Teacher-Side Components/AttendanceChecker/AttendanceToolbar.jsx";
 import DataTable from "../Components/DataTable.jsx";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const PAGE_SIZE = 10;
 
@@ -346,12 +346,7 @@ const Attendance = () => {
 
   // LOADING
   if ((loading || sectionsLoading) && sections.length === 0) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-green" />
-        <p className="text-sm text-gray-500">Loading attendance...</p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="teacher-attendance" />;
   }
 
   // ERROR
@@ -403,17 +398,20 @@ const Attendance = () => {
         {/* ATTENDANCE TABLE */}
         <div className="flex min-h-0 w-full flex-1 flex-col">
           <div className="flex h-full min-h-0 w-full flex-1 flex-col">
-            <DataTable
-              data={paginatedStudents}
-              columns={columns}
-              loading={loading || sectionsLoading}
-              emptyMessage={
-                studentName.trim()
-                  ? "No students match your search."
-                  : "No students found in this section."
-              }
-              getRowId={(row) => String(row.enrollment_id)}
-            />
+            {loading || sectionsLoading ? (
+              <PortalPageSkeleton variant="table" />
+            ) : (
+              <DataTable
+                data={paginatedStudents}
+                columns={columns}
+                emptyMessage={
+                  studentName.trim()
+                    ? "No students match your search."
+                    : "No students found in this section."
+                }
+                getRowId={(row) => String(row.enrollment_id)}
+              />
+            )}
           </div>
 
           {/* PAGINATION */}

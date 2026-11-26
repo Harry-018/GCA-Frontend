@@ -8,7 +8,7 @@ import Mission from "../Components/LandingpageComponents/Home/Mission";
 import Vision from "../Components/LandingpageComponents/Home/Vision";
 import HymnSection from "../Components/LandingpageComponents/Home/HymnSection";
 import WhyChooseUs from "../Components/LandingpageComponents/Home/WhyChooseUs";
-import Activities from "../Components/LandingpageComponents/Home/Activities";
+import ActivityCarouselCard from "../Components/LandingpageComponents/Home/ActivityCarouselCard";
 import HomeSidebar from "../Components/HomeSidebar";
 import Footer from "../Components/Footer";
 import LoginHeader from "../Components/LoginHeader";
@@ -22,6 +22,7 @@ import {
 
 import { Bus, GraduationCap } from "lucide-react";
 import { optimizeCloudinaryImage } from "../lib/cloudinary.js";
+import BackToTopButton from "../Components/BackToTopButton.jsx";
 
 const HomePage = () => {
   const { banner, acadprog, childact, missionvision, reasons, video } =
@@ -43,7 +44,6 @@ const HomePage = () => {
               title="Transportation"
               subtitle="Services"
               icon={Bus}
-              arrow="left"
               to="/transport"
             />
 
@@ -158,24 +158,59 @@ const HomePage = () => {
         <Suspense fallback={<ActivitiesSkeleton />}>
           <Await resolve={childact}>
             {(activities) => (
-              <Activities
-                title="CHILDREN ACTIVITIES"
-                activities={(activities ?? []).map((activity) => ({
-                  id: activity.activity_id,
-                  title: activity.activity_title,
-                  description: activity.activity_description,
-                  image: optimizeCloudinaryImage(
-                    activity.activity_image || "/image/nursery.webp",
-                    800,
-                  ),
-                }))}
-              />
+              <section className="w-full bg-egg px-5 py-12 sm:px-10 sm:py-16">
+                <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+                  <div className="flex w-full flex-col items-center gap-3 text-center">
+                    <span className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-lime-dark">
+                      Learn · Play · Grow
+                    </span>
+                    <h2 className="text-center font-[SuperJoyful] uppercase text-xl leading-tight text-parent-green sm:text-2xl md:text-3xl">
+                      CHILDREN ACTIVITIES
+                    </h2>
+                    <span className="h-1 w-12 rounded-full bg-lime-dark/70" />
+                  </div>
+                  <div className="lg:hidden no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+                    {(activities ?? []).map((activity, index) => (
+                      <div
+                        key={activity.activity_id}
+                        className="w-[85%] shrink-0 snap-center sm:w-[48%]"
+                      >
+                        <ActivityCarouselCard
+                          index={index}
+                          title={activity.activity_title}
+                          description={activity.activity_description}
+                          image={optimizeCloudinaryImage(
+                            activity.activity_image || "/image/nursery.webp",
+                            800,
+                          )}
+                        />
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="hidden auto-rows-fr gap-4 lg:grid lg:grid-cols-3">
+                    {(activities ?? []).map((activity, index) => (
+                      <ActivityCarouselCard
+                        key={activity.activity_id}
+                        index={index}
+                        title={activity.activity_title}
+                        description={activity.activity_description}
+                        image={optimizeCloudinaryImage(
+                          activity.activity_image || "/image/nursery.webp",
+                          800,
+                        )}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </section>
             )}
           </Await>
         </Suspense>
 
         <Footer admissionStatus={banner?.enrollment_status ?? "Close"} />
       </div>
+      <BackToTopButton />
     </div>
   );
 };

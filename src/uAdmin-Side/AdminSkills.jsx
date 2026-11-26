@@ -231,7 +231,7 @@ const AdminSkills = () => {
         <button
           type="button"
           onClick={() => navigate("/admin/settings/subjects")}
-          className="h-8 shrink-0 rounded-full border border-parent-accent/25 bg-bone px-4 text-[11px] text-gray-500 transition hover:bg-gray-100 lg:text-xs xl:text-sm"
+          className="h-8 shrink-0 rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white ring-1 ring-parent-green transition hover:bg-parent-accent lg:text-xs xl:text-sm"
         >
           Go Back
         </button>

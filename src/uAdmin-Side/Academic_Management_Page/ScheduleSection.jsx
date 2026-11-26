@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import ScheduleSetupCard from "../../Components/AdminComponents/Academic Management/Schedule/ScheduleSetupCard";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 import { getScheduleSections } from "../../requests/schedulesRequests.js";
 const NAV_ITEMS = [
   { name: "Students", path: "/admin/academic" },
@@ -65,9 +66,7 @@ const ScheduleSection = () => {
           </button>
         </div>
         {loading ? (
-          <div className="py-10 text-center text-sm text-gray-500">
-            Loading sections...
-          </div>
+          <AdminPageSkeleton variant="card-grid" count={4} />
         ) : sections.length === 0 ? (
           <div className="py-10 text-center text-sm text-gray-500">
             No active sections found.

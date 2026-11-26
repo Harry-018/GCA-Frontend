@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Header from "../../Components/AdminComponents/Website Management/Header";
-import GradeLevelHeader from "../../Components/AdminComponents/Website Management/Tuition/GradeLevelHeader";
+// import GradeLevelHeader from "../../Components/AdminComponents/Website Management/Tuition/GradeLevelHeader";
 import GradeLevelCard from "../../Components/AdminComponents/Website Management/Tuition/GradeLevelCard";
 import PaymentOptionCard from "../../Components/AdminComponents/Website Management/Tuition/PaymentOptionCard";
 
@@ -11,6 +11,7 @@ import EditGradeLevelModal from "../../Components/AdminComponents/Website Manage
 import EditPaymentOptionModal from "../../Components/AdminComponents/Website Management/Tuition/EditPaymentOptionModal";
 
 import RemoveModal from "../../Components/AdminComponents/Website Management/RemoveModal";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 
 import {
   getGradeLevel,
@@ -169,7 +170,6 @@ const Tuition = () => {
 
   useEffect(() => {
     if (activeLevel === null || activeLevel === undefined) {
-      setTuitionData([]);
       return;
     }
 
@@ -584,62 +584,13 @@ const Tuition = () => {
   /* Remove Payment Option                    */
   /* ---------------------------------------- */
 
-  const confirmRemoveOption = async () => {
-    const paymentOptionId = removeOption?.payment_option_id;
-
-    if (!paymentOptionId) {
-      setRemoveOptionError("Unable to identify the payment option.");
-      return;
-    }
-
-    try {
-      setDeletingOption(true);
-      setRemoveOptionError("");
-
-      await deleteOption(paymentOptionId);
-
-      const updatedLevels = await loadGradeLevels();
-
-      const currentLevelExists = updatedLevels.some(
-        (grade) => String(grade.grade_level_id) === String(activeLevel),
-      );
-
-      if (currentLevelExists) {
-        const result = await getTuition(activeLevel);
-        setTuitionData(Array.isArray(result) ? result : []);
-      } else {
-        const nextLevel = updatedLevels[0]?.grade_level_id ?? null;
-
-        setActiveLevel(nextLevel);
-
-        if (nextLevel === null) {
-          setTuitionData([]);
-        }
-      }
-
-      setRemoveOption(null);
-      setRemoveOptionError("");
-    } catch (error) {
-      console.error("Failed to remove payment option:", error);
-
-      setRemoveOptionError(
-        error.response?.data?.message ||
-          error.message ||
-          "Failed to remove the payment option. Please try again.",
-      );
-    } finally {
-      setDeletingOption(false);
-    }
-  };
-
-  /* ---------------------------------------- */
-  /* Loading                                  */
-  /* ---------------------------------------- */
-
-  if (loading && gradeLevels.length === 0) {
+    if (loading && gradeLevels.length === 0) {
     return (
-      <div className="flex min-h-0 flex-1 items-center justify-center bg-egg font-[Poppins]">
-        <p className="text-sm text-neutral-500">Loading tuition...</p>
+      <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-egg font-[Poppins]">
+        <Header activeTab="tuition" />
+        <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto p-4">
+          <AdminPageSkeleton variant="tuition" />
+        </div>
       </div>
     );
   }
@@ -652,32 +603,57 @@ const Tuition = () => {
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-4 overflow-hidden bg-egg font-[Poppins]">
       <Header activeTab="tuition" />
 
-      <div className="no-scrollbar flex min-h-0 flex-1 flex-col overflow-y-auto p-4">
-        <div className="flex w-full flex-1 flex-col gap-5">
-          <GradeLevelHeader onAddGradeLevel={openAddLevel} />
+      <div className="no-scrollbar flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto px-1 pb-4">
+        <section className="relative w-full rounded-2xl bg-egg shadow-sm">
+          <button
+            type="button"
+            onClick={openAddLevel}
+            className="absolute right-4 top-4 z-30 rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
+          >
+            Add grade level
+          </button>
 
-          <div className="grid w-full flex-1 grid-cols-1 gap-6 xl:auto-rows-fr xl:grid-cols-2">
-            <GradeLevelCard
-              title={activeGrade?.grade_level_name ?? ""}
-              gradeLevels={gradeLevels}
-              subtotal={`₱${formatCurrency(subtotalBoys)} - ₱${formatCurrency(subtotalGirls)}`}
-              activeGrade={activeLevel}
-              onGradeChange={setActiveLevel}
-              fees={fees}
-              onEdit={openEditLevel}
-              onRemove={openRemoveLevel}
-            />
+          <div className="px-5 py-12 sm:px-10 lg:px-16 lg:py-16">
+            <div className="mx-auto max-w-7xl">
+              <span className="font-[PoppinsBold] text-sm uppercase tracking-[0.35em] text-parent-green/80">Tuition & Fees</span>
+              <h2 className="mt-4 max-w-2xl font-[SuperJoyful] text-4xl leading-[1.05] text-parent-green sm:text-5xl">
+                {activeGrade?.grade_level_name || "Grade Level Fees"}
+              </h2>
 
-            <div className="flex h-full flex-col">
-              <div className="hidden h-11.5 shrink-0 xl:block" />
+              <div className="mt-6 flex flex-wrap gap-2">
+                {gradeLevels.map((grade) => (
+                  <button
+                    key={grade.grade_level_id}
+                    type="button"
+                    onClick={() => setActiveLevel(grade.grade_level_id)}
+                    className={`rounded-full px-4 py-2 text-xs font-[PoppinsBold] transition ${
+                      String(activeLevel) === String(grade.grade_level_id)
+                        ? "bg-parent-green text-white"
+                        : "bg-parent-pale/60 text-parent-green hover:bg-parent-pale"
+                    }`}
+                  >
+                    {grade.grade_level_name}
+                  </button>
+                ))}
+              </div>
 
-              <PaymentOptionCard
-                options={paymentOptions}
-                onEdit={openEditOption}
-              />
+              <div className="mt-8 grid w-full grid-cols-1 gap-6 xl:grid-cols-2">
+                <GradeLevelCard
+                  title={activeGrade?.grade_level_name ?? ""}
+                  gradeLevels={[]}
+                  subtotal={`₱${formatCurrency(subtotalBoys)} - ₱${formatCurrency(subtotalGirls)}`}
+                  activeGrade={activeLevel}
+                  onGradeChange={setActiveLevel}
+                  fees={fees}
+                  onEdit={openEditLevel}
+                  onRemove={openRemoveLevel}
+                />
+
+                <PaymentOptionCard options={paymentOptions} onEdit={openEditOption} />
+              </div>
             </div>
           </div>
-        </div>
+        </section>
       </div>
 
       {/* Add Grade Level */}

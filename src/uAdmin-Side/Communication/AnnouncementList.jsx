@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 import Header from "../../Components/AdminComponents/Communication/Announcement/Header";
 import AnnouncementCard from "../../Components/AdminComponents/Communication/Announcement/AnnouncementCard";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 import AddAnnouncementModal from "../../Components/AdminComponents/Communication/Announcement/AddAnnouncementModal";
 import EditAnnouncementModal from "../../Components/AdminComponents/Communication/Announcement/EditAnnouncementModal";
 import RemoveAnnouncementModal from "../../Components/AdminComponents/Communication/Announcement/RemoveAnnouncementModal";
@@ -217,11 +218,11 @@ const AnnouncementList = () => {
         </div>
 
         {loading ? (
-          <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-bone p-10 shadow-sm">
-            <span className="font-[Poppins] text-sm text-gray-500">
-              Loading announcements...
-            </span>
-          </div>
+          <AdminPageSkeleton
+            variant="announcement-cards"
+            count={4}
+            className="min-h-0 flex-1 overflow-y-auto thin-scrollbar"
+          />
         ) : announcements.length === 0 ? (
           <div className="flex flex-1 items-center justify-center rounded-2xl border border-parent-accent/20 bg-bone p-10 shadow-sm">
             <span className="font-[Poppins] text-sm text-gray-500">

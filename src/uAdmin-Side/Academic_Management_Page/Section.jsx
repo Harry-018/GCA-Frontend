@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import SectionToolbar from "../../Components/AdminComponents/Academic Management/Section/SectionToolbar";
 import SectionCard from "../../Components/AdminComponents/Academic Management/Section/SectionCard";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 import {
   getSectionSchoolYears,
   getSectionGradeLevels,
@@ -135,13 +136,21 @@ const Section = () => {
         "
         >
           {loadingYears ? (
-            <p className="p-4 text-xs text-gray-500">Loading...</p>
+            <AdminPageSkeleton
+              variant="card-grid"
+              count={5}
+              className="col-span-full"
+            />
           ) : error ? (
             <p className="p-4 text-xs text-red-600">{error}</p>
           ) : !selectedSchoolYearId ? (
             <p className="p-4 text-xs text-gray-500">No school years found.</p>
           ) : loading ? (
-            <p className="p-4 text-xs text-gray-500">Loading grade levels...</p>
+            <AdminPageSkeleton
+              variant="card-grid"
+              count={5}
+              className="col-span-full"
+            />
           ) : gradeLevels.length === 0 ? (
             <p className="p-4 text-xs text-gray-500">
               No grade levels found for this school year.

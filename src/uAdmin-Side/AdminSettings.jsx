@@ -9,6 +9,7 @@ import EditContactModal from "../Components/AdminComponents/Settings/EditContact
 import { updateSchoolInformation } from "../requests/settingsRequests.js";
 import { useSchoolInformation } from "../hooks/queries/useSchoolInformation.js";
 import { queryKeys } from "../lib/queryKeys.js";
+import AdminPageSkeleton from "../Components/AdminPageSkeleton.jsx";
 
 const INITIAL_WEBSITE = {
   logo: "",
@@ -151,9 +152,7 @@ const AdminSettings = () => {
         <SettingHeader />
 
         <div className="flex min-h-0 flex-1 items-center justify-center">
-          <p className="text-sm text-[#999999]">
-            Loading school information...
-          </p>
+          <AdminPageSkeleton variant="settings" />
         </div>
       </div>
     );
@@ -163,8 +162,8 @@ const AdminSettings = () => {
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-egg font-[Poppins]">
       <SettingHeader />
 
-      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto">
-        <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-1 pb-4">
+        <div className="grid grid-cols-1 gap-5">
           <WebsiteInformation
             logo={website.logo}
             schoolName={website.schoolName}

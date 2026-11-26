@@ -131,6 +131,7 @@ const DataTable = ({
 
   return (
     <div
+      aria-busy={loading}
       className={`flex h-full flex-1 min-h-0 w-full flex-col overflow-auto no-scrollbar rounded-2xl border border-parent-accent/15 bg-bone shadow-[0_2px_4px_rgba(0,0,0,0.18)] ${className}`}
     >
       <table
@@ -165,14 +166,27 @@ const DataTable = ({
 
         <tbody>
           {loading ? (
-            <tr>
-              <td
-                colSpan={tableColumns.length}
-                className="px-4 py-10 text-center text-sm text-gray-500"
+            Array.from({ length: 7 }, (_, rowIndex) => (
+              <tr
+                key={`skeleton-${rowIndex}`}
+                aria-hidden="true"
+                className="border-b border-gray-100 last:border-0"
               >
-                Loading...
-              </td>
-            </tr>
+                {table.getVisibleLeafColumns().map((column, columnIndex) => (
+                  <td
+                    key={column.id}
+                    style={getStickyStyle(column.id)}
+                    className="px-3 py-3 sm:px-4"
+                  >
+                    <span
+                      className={`block h-3 animate-pulse rounded bg-parent-green/10 motion-reduce:animate-none ${
+                        columnIndex === 0 ? "w-4/5" : "w-3/5"
+                      }`}
+                    />
+                  </td>
+                ))}
+              </tr>
+            ))
           ) : table.getRowModel().rows.length === 0 ? (
             <tr>
               <td

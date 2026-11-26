@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Pencil, Trash2, Plus, X, Check, RotateCcw } from "lucide-react";
 import SettingHeader from "../Components/AdminComponents/Settings/SettingHeader";
+import AdminPageSkeleton from "../Components/AdminPageSkeleton.jsx";
 import {
   getSectionNames,
   getArchivedSectionNames,
@@ -9,11 +10,6 @@ import {
   archiveSectionName,
   restoreSectionName,
 } from "../requests/settingsRequests.js";
-
-const inputClass =
-  "w-full rounded-lg border border-parent-accent/25 bg-bone px-3 py-2 font-[Poppins] text-xs sm:text-sm text-[#555555] outline-none placeholder:text-[#999999] focus:border-parent-accent focus:ring-1 focus:ring-lime-green";
-
-const labelClass = "font-[Poppins] text-xs sm:text-sm text-[#555555]";
 
 const AdminSectionName = () => {
   const [sectionNames, setSectionNames] = useState([]);
@@ -60,8 +56,11 @@ const AdminSectionName = () => {
   };
 
   useEffect(() => {
-    loadSectionNames();
-    loadArchivedSectionNames();
+    const id = window.setTimeout(() => {
+      loadSectionNames();
+      loadArchivedSectionNames();
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   const handleAddSection = async () => {
@@ -215,50 +214,57 @@ const AdminSectionName = () => {
     <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-egg font-[Poppins]">
       <SettingHeader />
 
-      <div className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto">
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-1 pb-4">
+        <section className="shrink-0 overflow-hidden rounded-2xl bg-[#0c2423] p-4 shadow-sm sm:p-6">
+          <div className="min-w-0">
+            <span className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-parent-mint/80 sm:tracking-[0.25em]">
+              Academic Settings
+            </span>
+            <h1 className="mt-3 wrap-break-words font-[SuperJoyful] text-2xl leading-tight text-parent-mint xs:text-3xl sm:text-4xl">
+              Section Names
+            </h1>
+            <p className="mt-3 max-w-xl text-xs leading-relaxed text-bone/75 sm:text-sm">
+              Manage the section names used to organize classes across the
+              school.
+            </p>
+          </div>
+
+          <div className="mt-5 flex w-full max-w-xl flex-col gap-2 sm:flex-row">
+            <input
+              type="text"
+              value={newSection}
+              onChange={(e) => setNewSection(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleAddSection();
+                }
+              }}
+              placeholder="New section name"
+              className="w-full rounded-xl border border-white/10 bg-white/10 px-4 py-2.5 font-[Poppins] text-sm text-white outline-none placeholder:text-white/45 focus:border-parent-mint/60 focus:ring-1 focus:ring-parent-mint/40"
+              aria-label="New section name"
+            />
+
+            <button
+              type="button"
+              onClick={handleAddSection}
+              disabled={!newSection.trim() || saving}
+              className="flex shrink-0 items-center justify-center gap-1 rounded-xl bg-white/15 px-5 py-2.5 text-xs font-[PoppinsBold] text-white ring-1 ring-white/20 transition hover:bg-white/25 disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Plus size={14} strokeWidth={2.5} />
+              {saving ? "Saving..." : "Add"}
+            </button>
+          </div>
+        </section>
+
         {/* ===================== */}
         {/* ACTIVE SECTION NAMES */}
         {/* ===================== */}
 
-        <div className="rounded-2xl">
-          <div className="flex w-full max-w-md flex-col gap-1.5">
-            <label className={labelClass}>New section name</label>
+        <div className="flex flex-col gap-6">
 
-            <div className="flex gap-2">
-              <input
-                type="text"
-                value={newSection}
-                onChange={(e) => setNewSection(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    handleAddSection();
-                  }
-                }}
-                placeholder="Type a section name"
-                className={inputClass}
-                aria-label="New section name"
-              />
-
-              <button
-                type="button"
-                onClick={handleAddSection}
-                disabled={!newSection.trim() || saving}
-                className="flex shrink-0 items-center gap-1 rounded-full bg-parent-green px-5 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                <Plus size={14} strokeWidth={2.5} />
-
-                {saving ? "Saving..." : "Add"}
-              </button>
-            </div>
-          </div>
-
-          <div className="pt-6">
+          <div>
             {loading ? (
-              <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
-                <p className="font-[Poppins] text-sm text-[#999999]">
-                  Loading section names...
-                </p>
-              </div>
+              <AdminPageSkeleton variant="card-grid" count={4} />
             ) : sectionNames.length === 0 ? (
               <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
                 <p className="font-[Poppins] text-sm text-[#999999]">
@@ -405,11 +411,7 @@ const AdminSectionName = () => {
           </div>
 
           {loadingArchived ? (
-            <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
-              <p className="font-[Poppins] text-sm text-[#999999]">
-                Loading archived section names...
-              </p>
-            </div>
+            <AdminPageSkeleton variant="card-grid" count={4} />
           ) : archivedSectionNames.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-parent-accent/25 px-6 py-10 text-center">
               <p className="font-[Poppins] text-sm text-[#999999]">

@@ -18,6 +18,7 @@ import DataTable from "../Components/DataTable";
 import { getDashboard } from "../requests/preEnrollmentRequests";
 import { queryKeys } from "../lib/queryKeys.js";
 import { QUERY_STALE_TIME } from "../lib/queryClient.js";
+import AdminPageSkeleton from "../Components/AdminPageSkeleton.jsx";
 
 const CARD_CONFIG = [
   { key: "totalStudents", title: "Total Students", icon: Users },
@@ -118,10 +119,8 @@ const Dashboard = () => {
         </p>
       )}
 
-      {loading && (
-        <p className="text-sm text-gray-600">
-          Updating Dashboard statistics...
-        </p>
+      {loading && !dashboardData && (
+        <AdminPageSkeleton variant="card-grid" count={7} />
       )}
 
       <DashboardCards cards={cards} />
