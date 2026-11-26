@@ -56,6 +56,9 @@ const Admission = () => {
   // =========================
 
   const [activeStatus, setActiveStatus] = useState("Pending");
+  // `searchInput` is just the text box value. Only the Search button copies it
+  // into `search`, which is what the query key uses.
+  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
 
   const isPending = activeStatus.toLowerCase() === "pending";
@@ -157,7 +160,7 @@ const Admission = () => {
 
   const handleSearch = () => {
     setSelectedIds([]);
-
+    setSearch(searchInput.trim());
     setPage(1);
   };
 
@@ -548,8 +551,8 @@ const Admission = () => {
         statuses={STATUSES}
         activeStatus={activeStatus}
         onStatusChange={handleStatusChange}
-        search={search}
-        onSearchChange={setSearch}
+        search={searchInput}
+        onSearchChange={setSearchInput}
         onSearch={handleSearch}
         selectedCount={selectedCount}
         onApproveSelected={handleApproveSelected}

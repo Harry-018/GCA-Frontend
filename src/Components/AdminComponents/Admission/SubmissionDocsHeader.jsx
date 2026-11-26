@@ -19,13 +19,10 @@ const DateFilter = ({ date, onDateChange }) => {
 };
 
 // Search input
-const SearchInput = ({
-  search,
-  onSearchChange,
-  onSearch,
-}) => {
+const SearchInput = ({ search, onSearchChange, onSearch }) => {
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
+      event.preventDefault();
       onSearch();
     }
   };

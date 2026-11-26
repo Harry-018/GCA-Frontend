@@ -47,6 +47,9 @@ const SubmissionDocs = () => {
     pagination: initialPagination,
   } = useLoaderData();
 
+  // Typing only updates the input. The query uses `search`, which is set when
+  // the Search button is clicked so keystrokes never trigger a refetch.
+  const [searchInput, setSearchInput] = useState("");
   const [search, setSearch] = useState("");
   const [date, setDate] = useState(getLocalDate());
   const [page, setPage] = useState(initialPagination.page ?? 1);
@@ -192,6 +195,7 @@ const SubmissionDocs = () => {
   };
 
   const handleSearch = () => {
+    setSearch(searchInput.trim());
     setPage(1);
   };
 
@@ -341,8 +345,8 @@ const SubmissionDocs = () => {
           setDate(e.target.value);
           setPage(1);
         }}
-        search={search}
-        onSearchChange={(e) => setSearch(e.target.value)}
+        search={searchInput}
+        onSearchChange={(e) => setSearchInput(e.target.value)}
         onSearch={handleSearch}
       />
 

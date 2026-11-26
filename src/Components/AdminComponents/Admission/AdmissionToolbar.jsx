@@ -104,8 +104,9 @@ const AdmissionToolbar = ({
             type="text"
             value={search}
             onChange={(event) => onSearchChange(event.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
                 onSearch();
               }
             }}
@@ -115,6 +116,7 @@ const AdmissionToolbar = ({
         </div>
 
         <button
+          type="button"
           onClick={onSearch}
           className="inline-flex h-8 shrink-0 items-center whitespace-nowrap rounded-full bg-parent-green px-6 text-[11px] text-white transition hover:bg-parent-accent sm:text-xs"
         >
