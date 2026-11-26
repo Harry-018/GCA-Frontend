@@ -39,30 +39,35 @@ body {
   src: url("/fonts/poppins.regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "PoppinsBold";
   src: url("/fonts/Poppins-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "SuperChiby";
   src: url("/fonts/SuperChiby-BL62V.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "SuperJoyful";
   src: url("/fonts/SuperJoyful.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
   font-family: "Njal";
   src: url("/fonts/NjalBold-gx4E5.otf") format("opentype");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
 @layer utilities {

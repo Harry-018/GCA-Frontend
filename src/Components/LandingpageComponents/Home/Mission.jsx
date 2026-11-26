@@ -27,6 +27,7 @@ const Mission = ({
             <img
               src={image}
               alt="Children learning together"
+              loading="lazy"
               className="h-full w-full object-cover brightness-90"
             />
           </div>
@@ -38,6 +39,7 @@ const Mission = ({
               <img
                 src={overlay}
                 alt="Additional campus photo"
+                loading="lazy"
                 className="h-full w-full object-cover"
               />
             </div>

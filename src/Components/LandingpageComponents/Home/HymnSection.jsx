@@ -11,6 +11,7 @@ const HymnSection = ({ title, videoSrc }) => {
         <video
           className="aspect-video w-full rounded-2xl object-cover shadow-lg"
           controls
+          preload="none"
           src={videoSrc}
         >
           Your browser does not support the video tag.
