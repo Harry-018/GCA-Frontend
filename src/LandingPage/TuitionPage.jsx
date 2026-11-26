@@ -12,7 +12,7 @@ const BANNER_PROPS = {
   title: "TUITION FEES",
   description:
     "The tuition fees listed above represent the basic breakdown of the school's standard charges for each grade level. However, the total amount may vary depending on the student's selected payment option, additional services, and other applicable miscellaneous fees during enrollment. Parents and guardians are encouraged to review the complete assessment of fees provided by the school administration to ensure they are fully informed of the total amount payable. For further clarification regarding tuition costs, payment arrangements, or additional charges, please feel free to contact the school office for assistance.",
-  backgroundImage: "/image/t1.webp",
+  backgroundImage: "/image/money.webp",
 };
 
 const formatCurrency = (amount) =>

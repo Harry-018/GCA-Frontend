@@ -2,6 +2,7 @@ import { ArrowRight, CalendarDays } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import AdmissionOpeningNotice from "../Admission/AdmissionOpeningNotice";
+import { HERO_SIZES, heroSrc, heroSrcSet } from "../../../lib/heroImage.js";
 
 const MainBanner = ({
   schoolYear,
@@ -12,12 +13,27 @@ const MainBanner = ({
   schoolStart,
 }) => {
   return (
-    <div
-      className="relative flex min-w-0 flex-col items-center justify-around overflow-hidden rounded-2xl bg-cover bg-center px-5 py-6 text-center sm:px-8 sm:py-7 lg:px-14 lg:py-6"
-      style={{
-        backgroundImage: `linear-gradient(165deg, rgba(30,35,30,.40) 0%, rgba(42,42,39,.68) 50%, rgba(50,50,45,.82) 100%), url('${backgroundImage}')`,
-      }}
-    >
+    <div className="relative flex min-w-0 flex-col items-center justify-around overflow-hidden rounded-2xl bg-[#252623] px-5 py-6 text-center sm:px-8 sm:py-7 lg:px-14 lg:py-6">
+      {/* Real <img> instead of a CSS background: discoverable as the LCP
+          candidate and eligible for high fetch priority. */}
+      <img
+        src={heroSrc(backgroundImage)}
+        srcSet={heroSrcSet(backgroundImage)}
+        sizes={HERO_SIZES}
+        alt=""
+        aria-hidden="true"
+        fetchPriority="high"
+        loading="eager"
+        decoding="async"
+        className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+      />
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(165deg, rgba(30,35,30,.40) 0%, rgba(42,42,39,.68) 50%, rgba(50,50,45,.82) 100%)",
+        }}
+      />
       <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-black/20 via-transparent to-white/5" />
       <div className="pointer-events-none absolute left-1/2 top-0 h-px w-3/5 -translate-x-1/2 bg-linear-to-r from-transparent via-white/30 to-transparent" />
       <div className="relative z-10 flex flex-col items-center gap-3 sm:gap-4 lg:gap-5">

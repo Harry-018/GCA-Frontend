@@ -22,6 +22,13 @@
   }
 }
 
+html,
+body,
+#root {
+  min-height: 100%;
+  background-color: hsl(39, 10%, 92%);
+}
+
 body {
   margin: 0;
   font-family: "Poppins", "PoppinsBold";
@@ -36,35 +43,24 @@ body {
 
 @font-face {
   font-family: "Poppins";
-  src: url("/fonts/poppins.regular.ttf") format("truetype");
+  src: url("/fonts/poppins.regular.woff2") format("woff2"),
+    url("/fonts/poppins.regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "PoppinsBold";
-  src: url("/fonts/Poppins-Bold.ttf") format("truetype");
+  src: url("/fonts/Poppins-Bold.woff2") format("woff2"),
+    url("/fonts/Poppins-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: "SuperChiby";
-  src: url("/fonts/SuperChiby-BL62V.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
   font-family: "SuperJoyful";
-  src: url("/fonts/SuperJoyful.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Njal";
-  src: url("/fonts/NjalBold-gx4E5.otf") format("opentype");
+  src: url("/fonts/SuperJoyful.woff2") format("woff2"),
+    url("/fonts/SuperJoyful.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;

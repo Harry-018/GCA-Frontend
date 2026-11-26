@@ -4,47 +4,134 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/image/logowbg.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- The hero image and all CMS images come from Cloudinary. Opening this
+         connection while the JS bundle downloads removes a DNS + TLS round trip
+         from the LCP critical path, especially on slow mobile networks. -->
+    <link rel="preconnect" href="https://res.cloudinary.com" />
+    <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+
+    <!-- Critical CSS: must be inline so the loading skeleton paints from the
+         first byte, before the bundled stylesheet arrives. Otherwise the
+         browser shows a white page first. -->
+    <style>
+      html,
+      body,
+      #root {
+        margin: 0;
+        min-height: 100%;
+        background: #edebe9;
+      }
+      .boot {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        width: 100%;
+      }
+      .boot-bar {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        box-sizing: border-box;
+        width: 100%;
+        height: 64px;
+        padding: 0 16px;
+        background: #0c2423;
+      }
+      .boot-main {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 24px 16px;
+        flex: 1;
+      }
+      .boot-grid3 {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        width: 100%;
+      }
+      .boot-cards {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        width: 100%;
+      }
+      .boot-b {
+        background: rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        animation: bootp 1.4s ease-in-out infinite;
+      }
+      .boot-b.light {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .boot-b.round {
+        border-radius: 9999px;
+      }
+      .boot-b.card {
+        border-radius: 16px;
+      }
+      @keyframes bootp {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.45;
+        }
+      }
+      @media (min-width: 640px) {
+        .boot-bar {
+          height: 80px;
+          padding: 0 40px;
+        }
+        .boot-grid3 {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .boot-cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+      @media (min-width: 1024px) {
+        .boot-cards {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+    </style>
+
     <title>Grace Christian Academy</title>
   </head>
   <body>
     <div id="root">
-      <!-- Shown from first paint until React mounts and takes over. The real
-           PageSkeleton lives inside the JS bundle, so it cannot cover this
-           initial bundle-download window on its own. -->
-      <div class="flex min-h-dvh w-full flex-col bg-egg" aria-hidden="true">
-        <div
-          class="flex h-16 w-full items-center gap-4 bg-[#0c2423] px-4 sm:h-20 sm:px-10"
-        >
-          <div class="animate-pulse h-9 w-9 rounded-full bg-white/10"></div>
-          <div class="animate-pulse h-4 w-40 rounded-lg bg-white/10"></div>
-          <div
-            class="animate-pulse ml-auto hidden h-4 w-24 rounded-lg bg-white/10 sm:block"
-          ></div>
+      <!-- Replaced by React on mount. -->
+      <div class="boot" aria-hidden="true">
+        <div class="boot-bar">
+          <div class="boot-b light round" style="width: 36px; height: 36px; flex: none"></div>
+          <div class="boot-b light" style="width: 160px; height: 16px"></div>
+          <div class="boot-b light" style="width: 96px; height: 16px; margin-left: auto"></div>
         </div>
 
-        <div
-          class="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6"
-        >
-          <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-3">
-            <div class="animate-pulse h-40 rounded-2xl bg-black/10 sm:h-87.5"></div>
-            <div
-              class="animate-pulse hidden h-87.5 rounded-2xl bg-black/10 sm:block"
-            ></div>
-            <div class="animate-pulse h-40 rounded-2xl bg-black/10 sm:h-87.5"></div>
+        <div class="boot-main">
+          <div class="boot-grid3">
+            <div class="boot-b card" style="height: 160px"></div>
+            <div class="boot-b card" style="height: 160px"></div>
+            <div class="boot-b card" style="height: 160px"></div>
           </div>
 
-          <div class="animate-pulse h-8 w-64 rounded-lg bg-black/10"></div>
+          <div class="boot-b" style="width: 256px; height: 32px"></div>
 
-          <div
-            class="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          >
-            <div class="animate-pulse h-80 w-full rounded-2xl bg-black/10"></div>
-            <div class="animate-pulse h-80 w-full rounded-2xl bg-black/10"></div>
-            <div class="animate-pulse h-80 w-full rounded-2xl bg-black/10"></div>
+          <div class="boot-cards">
+            <div class="boot-b card" style="height: 320px"></div>
+            <div class="boot-b card" style="height: 320px"></div>
+            <div class="boot-b card" style="height: 320px"></div>
           </div>
 
-          <div class="animate-pulse h-4 w-full rounded-lg bg-black/10"></div>
-          <div class="animate-pulse h-4 w-5/6 rounded-lg bg-black/10"></div>
+          <div class="boot-b" style="width: 100%; height: 16px"></div>
+          <div class="boot-b" style="width: 83%; height: 16px"></div>
         </div>
       </div>
     </div>

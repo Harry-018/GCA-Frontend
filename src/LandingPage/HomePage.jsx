@@ -52,10 +52,7 @@ const HomePage = () => {
               admissionStatus={banner?.enrollment_status ?? "Close"}
               title={banner?.banner_title ?? ""}
               quote={banner?.banner_quote ?? ""}
-              backgroundImage={optimizeCloudinaryImage(
-                banner?.banner_image || "/image/kinder.webp",
-                1600,
-              )}
+              backgroundImage={banner?.banner_image || "/image/kinder.webp"}
               schoolStart={banner?.school_start ?? ""}
             />
 
