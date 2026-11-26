@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import { Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -10,6 +9,7 @@ import {
 import SectionCard from "../Components/Teacher-Side Components/Dashboard/SectionCard";
 import ReportFilters from "../Components/Teacher-Side Components/Report/ReportToolbar";
 import DataTable from "../Components/DataTable.jsx";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const DESKTOP_QUERY = "(min-width: 1024px)";
 
@@ -480,7 +480,7 @@ const Report = () => {
 
         if (status === "present") {
           return (
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-parent-green text-[10px] font-[PoppinsBold] text-white sm:h-7 sm:w-7 sm:text-xs">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-parent-green text-xs font-[PoppinsBold] text-white sm:h-7 sm:w-7 sm:text-xs">
               P
             </span>
           );
@@ -488,7 +488,7 @@ const Report = () => {
 
         if (status === "absent") {
           return (
-            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-reject text-[10px] font-[PoppinsBold] text-white sm:h-7 sm:w-7 sm:text-xs">
+            <span className="inline-flex h-6 w-6 items-center justify-center rounded-md bg-reject text-xs font-[PoppinsBold] text-white sm:h-7 sm:w-7 sm:text-xs">
               A
             </span>
           );
@@ -504,12 +504,7 @@ const Report = () => {
   }, [dates]);
 
   if (loadingSections) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-green" />
-        <p className="text-sm text-gray-500">Loading assigned sections...</p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="teacher-report" />;
   }
 
   return (
@@ -547,15 +542,10 @@ const Report = () => {
         {error && <p className="text-sm text-red-600">{error}</p>}
 
         {loadingReport ? (
-          <div className="flex items-center justify-center gap-3 py-10">
-            <Loader2 size={24} className="animate-spin text-parent-green" />
-            <p className="text-sm text-gray-500">
-              Loading attendance report...
-            </p>
-          </div>
+          <PortalPageSkeleton variant="table" />
         ) : (
           <>
-            <p className="text-[10px] text-gray-500 lg:hidden">
+            <p className="text-xs text-gray-500 lg:hidden">
               Swipe the table sideways to see all school days.
             </p>
 

@@ -9,6 +9,7 @@ import Footer from "../Components/Footer";
 import { TransportationContentSkeleton } from "../Components/LandingpageComponents/LandingPageSkeletons.jsx";
 
 import { getTransportation } from "../requests/transporationRequests.js";
+import BackToTopButton from "../Components/BackToTopButton.jsx";
 
 const TransportationPage = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -203,6 +204,7 @@ const TransportationPage = () => {
       </div>
 
       <Footer />
+      <BackToTopButton />
     </div>
   );
 };

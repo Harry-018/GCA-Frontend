@@ -19,6 +19,7 @@ import Remarks from "../Components/Parents-Side Components/Grades/Remarks";
 import DevelopmentCard from "../Components/Parents-Side Components/Grades/DevelopmentCard";
 import GradeCertificate from "../Components/Parents-Side Components/Grades/GradeCertificate";
 import GradeModal from "../Components/Parents-Teacher Modal/GradeModal";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const QUARTERS = ["QUARTER 1", "QUARTER 2", "QUARTER 3"];
 const QUARTER_IDS = QUARTERS.map((_, index) => index + 1);
@@ -300,19 +301,7 @@ const Grades = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-green" />
-        <p className="text-sm text-gray-500">
-          Loading Grades
-          <span className="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="parent-grades" />;
   }
 
   if (error) {

@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import SectionToolbar from "../../Components/AdminComponents/Academic Management/Section/SectionToolbar";
 import SectionCard from "../../Components/AdminComponents/Academic Management/Schedule/SectionCard";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 
 import {
   getScheduleSchoolYears,
@@ -134,9 +135,7 @@ const Schedule = () => {
         {error ? (
           <div className="py-10 text-center text-sm text-red-600">{error}</div>
         ) : loading ? (
-          <div className="py-10 text-center text-sm text-gray-500">
-            Loading grade levels...
-          </div>
+          <AdminPageSkeleton variant="card-grid" count={4} />
         ) : gradeLevels.length === 0 ? (
           <div className="py-10 text-center text-sm text-gray-500">
             No grade levels available for this school year.

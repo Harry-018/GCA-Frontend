@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 
 import Header from "../../Components/AdminComponents/Academic Management/Header";
 import StudentInfoModal from "../../Components/AdminModal/AcademicManagementPage/StudentInfoModal";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 import StudentToolbar from "../../Components/AdminComponents/Academic Management/Students/StudentToolbar";
 import DataTable from "../../Components/DataTable.jsx";
 import {
@@ -329,11 +330,10 @@ const Students = () => {
       </div>
 
       {studentLoading && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/20">
-          <div className="rounded-xl bg-bone px-5 py-3 text-sm text-gray-600 shadow">
-            Loading student...
-          </div>
-        </div>
+        <AdminPageSkeleton
+          variant="student-info-modal"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/20 p-4"
+        />
       )}
 
       {viewedStudent && (

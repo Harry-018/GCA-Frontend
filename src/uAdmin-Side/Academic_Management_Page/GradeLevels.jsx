@@ -14,6 +14,7 @@ import SectionToolbar from "../../Components/AdminComponents/Academic Management
 import SectionCard from "../../Components/AdminComponents/Academic Management/Schedule/SectionCard";
 import AddGradeLevelModal from "../../Components/AdminComponents/Academic Management/GradeLevel/AddGradeModal";
 import RemoveGradeLevelModal from "../../Components/AdminComponents/Academic Management/GradeLevel/RemoveGradeLevelModal";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 
 const NAV_ITEMS = [
   { name: "Students", path: "/admin/academic" },
@@ -227,9 +228,11 @@ const GradeLevels = () => {
         )}
 
         {loading || schoolYearsLoading ? (
-          <div className="py-12 text-center text-sm text-gray-400">
-            Loading grade levels...
-          </div>
+          <AdminPageSkeleton
+            variant="card-grid"
+            count={4}
+            className="px-4 py-4"
+          />
         ) : gradeLevels.length === 0 ? (
           <div className="py-12 text-center text-sm text-gray-400">
             No grade levels assigned to this school year.

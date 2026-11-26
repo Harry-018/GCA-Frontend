@@ -20,7 +20,7 @@ const AdminHeader = ({
             value={selectedSchoolYearId}
             onChange={onSchoolYearChange}
             disabled={loading || schoolYears.length === 0}
-            className="h-8 w-full min-w-0 max-w-36 cursor-pointer appearance-none rounded-full border border-parent-accent/25 bg-bone py-1 pl-2.5 pr-7 text-2xs text-egg-dark outline-none transition hover:border-parent-accent focus:border-parent-green disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-48 sm:text-xs"
+            className="h-8 w-full min-w-0 max-w-36 cursor-pointer appearance-none rounded-xl border border-parent-accent/25 bg-parent-green py-1 pl-2.5 pr-7 text-2xs font-[PoppinsBold] text-white outline-none transition hover:border-parent-accent focus:border-parent-green disabled:cursor-not-allowed disabled:opacity-60 sm:max-w-48 sm:text-xs"
           >
             {schoolYears.length === 0 && (
               <option value="">No school years</option>
@@ -43,7 +43,7 @@ const AdminHeader = ({
 
           <ChevronDown
             size={13}
-            className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500"
+            className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-white"
           />
         </div>
       </div>

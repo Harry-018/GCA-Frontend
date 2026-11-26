@@ -5,7 +5,6 @@ import {
   DoorOpen,
   Clock3,
   UserRound,
-  Loader2,
 } from "lucide-react";
 import {
   useParentAnnouncements,
@@ -13,6 +12,7 @@ import {
 } from "../hooks/queries/usePortalData.js";
 import StudentInfo from "../Components/Parents-Side Components/Dashboard/StudentInfo";
 import Announcement from "../Components/Parents-Side Components/Dashboard/Announcement";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const INFO_FIELDS = [
   { key: "classSchedule", label: "Class Schedule", icon: CalendarDays },
@@ -265,19 +265,7 @@ const ParentsDashboard = () => {
   }, [announcements.length]);
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-green" />
-        <p className="text-sm text-gray-500">
-          Loading Dashboard
-          <span className="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="parent-dashboard" />;
   }
 
   if (error) {
@@ -315,10 +303,7 @@ const ParentsDashboard = () => {
         </span>
 
         {announcementsLoading ? (
-          <div className="flex items-center justify-center gap-2 py-6 text-sm text-gray-500">
-            <Loader2 size={18} className="animate-spin text-parent-green" />
-            Loading announcements...
-          </div>
+          <PortalPageSkeleton variant="announcement-list" />
         ) : announcementsError ? (
           <p className="rounded-2xl border border-parent-accent/15 bg-bone px-5 py-6 text-center text-sm text-red-400">
             {announcementsError}

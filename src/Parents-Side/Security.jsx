@@ -1,6 +1,5 @@
 import { useMemo, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Loader2 } from "lucide-react";
 
 import { editParentInfoByUserId } from "../requests/parentRequests.js";
 import { useParentInfo } from "../hooks/queries/usePortalData.js";
@@ -11,6 +10,7 @@ import EmergencyContact from "../Components/Parents-Side Components/Security/Eme
 import AccountSettings from "../Components/Parents-Side Components/Security/AccountSettings";
 import EditContactModal from "../Components/Parents-Teacher Modal/EditContactModal";
 import ChangePasswordModal from "../Components/Parents-Teacher Modal/ChangePasswordModal";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const INITIAL_CONTACT = {
   contactNumber: "",
@@ -145,20 +145,7 @@ const Security = () => {
 
   // LOADING STATE
   if (isLoading) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-black to-parent-accent font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-pale" />
-
-        <p className="text-sm text-white/70">
-          Loading Account Settings
-          <span className="loading-dots">
-            <span></span>
-            <span></span>
-            <span></span>
-          </span>
-        </p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="parent-security" />;
   }
 
   // ERROR STATE

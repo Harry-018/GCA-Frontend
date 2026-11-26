@@ -1,66 +1,44 @@
 const WhyParentsChooseUs = ({ reasons = [], onAdd, onEdit, onRemove }) => {
   return (
-    <section className="h-full rounded-3xl border border-parent-accent/15 bg-bone p-4 shadow-sm transition-shadow hover:shadow-md sm:p-5">
-      <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <div className="min-w-0">
-          <p className="text-xs font-[PoppinsBold] uppercase tracking-[0.14em] text-parent-accent">
-            Parent highlights
-          </p>
-          <h2 className="mt-1 text-sm font-[PoppinsBold] text-parent-green sm:text-base">
-            Why parents choose us
+    <section className="relative w-full overflow-hidden rounded-2xl bg-[#0c2423] shadow-sm">
+      <button
+        type="button"
+        onClick={onAdd}
+        className="absolute right-4 top-4 z-30 rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent"
+      >
+        Add reason
+      </button>
+
+      <div className="px-5 py-12 sm:px-10 lg:px-16 lg:py-16">
+        <div className="mx-auto max-w-7xl">
+          <span className="font-[PoppinsBold] text-sm uppercase tracking-[0.35em] text-parent-mint">Parent Highlights</span>
+          <h2 className="mt-4 max-w-2xl font-[SuperJoyful] text-4xl leading-[1.05] text-parent-mint sm:text-5xl">
+            Why Parents Choose Us
           </h2>
-        </div>
 
-        <button
-          type="button"
-          onClick={onAdd}
-          className="w-full rounded-xl bg-parent-green px-4 py-2 text-xs font-[PoppinsBold] text-white transition hover:bg-parent-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-parent-green sm:w-auto"
-        >
-          Add reason
-        </button>
-      </div>
-
-      <div className="mt-4 flex flex-col gap-2.5">
-        {reasons.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-parent-accent/25 bg-parent-pale/20 px-4 py-8 text-center">
-            <p className="text-xs font-[PoppinsBold] text-parent-green">
-              No parent highlights yet
-            </p>
-            <p className="mt-1 text-[11px] text-gray-500">
-              Add a reason to show families what makes your school special.
-            </p>
+          <div className="mt-8 flex flex-col gap-3">
+            {reasons.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-white/20 bg-white/5 px-4 py-8 text-center text-sm text-white/60">
+                No parent highlights yet. Add a reason to show families what makes your school special.
+              </div>
+            ) : (
+              reasons.map((reason, index) => (
+                <div key={reason.id} className="flex flex-wrap items-start gap-3 rounded-2xl bg-white/10 p-4 ring-1 ring-white/10 sm:flex-nowrap sm:items-center">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-parent-mint/20 text-xs font-[PoppinsBold] text-parent-mint">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <p className="min-w-0 flex-1 basis-[calc(100%-3rem)] text-sm leading-relaxed text-bone/90 sm:basis-auto">
+                    {reason.text}
+                  </p>
+                  <div className="flex w-full shrink-0 justify-end gap-2 sm:w-auto">
+                    <button type="button" onClick={() => onEdit?.(reason)} className="rounded-lg bg-white/10 px-3 py-1.5 text-xs font-[PoppinsBold] text-white ring-1 ring-white/15 transition hover:bg-white/20">Edit</button>
+                    <button type="button" onClick={() => onRemove?.(reason)} className="rounded-lg bg-reject/20 px-3 py-1.5 text-xs font-[PoppinsBold] text-red-200 ring-1 ring-reject/30 transition hover:bg-reject/30">Remove</button>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
-        ) : (
-          reasons.map((reason, index) => (
-            <div
-              key={reason.id}
-              className="flex flex-wrap items-start gap-3 rounded-2xl border border-parent-accent/10 bg-white p-3 sm:flex-nowrap sm:items-center"
-            >
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-parent-pale/50 text-xs font-[PoppinsBold] text-parent-green">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <div className="min-w-0 flex-1 basis-[calc(100%-2.75rem)] text-xs leading-relaxed text-gray-600 sm:basis-auto sm:text-sm">
-                {reason.text}
-              </div>
-              <div className="flex w-full shrink-0 justify-end gap-1.5 sm:w-auto">
-                <button
-                  type="button"
-                  onClick={() => onEdit?.(reason)}
-                  className="rounded-lg border border-parent-accent/20 px-2.5 py-1.5 text-xs font-[Poppins] text-parent-green transition hover:bg-parent-pale/30 sm:text-xs"
-                >
-                  Edit
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onRemove?.(reason)}
-                  className="rounded-lg border border-reject/20 bg-reject/5 px-2.5 py-1.5 text-xs font-[Poppins] text-reject transition hover:bg-reject/10 sm:text-xs"
-                >
-                  Remove
-                </button>
-              </div>
-            </div>
-          ))
-        )}
+        </div>
       </div>
     </section>
   );

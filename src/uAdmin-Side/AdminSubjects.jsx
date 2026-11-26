@@ -9,6 +9,7 @@ import {
   removeSubject,
 } from "../requests/settingsRequests.js";
 import { Pencil } from "lucide-react";
+import AdminPageSkeleton from "../Components/AdminPageSkeleton.jsx";
 
 const AdminSubjects = () => {
   const navigate = useNavigate();
@@ -38,7 +39,10 @@ const AdminSubjects = () => {
   };
 
   useEffect(() => {
-    loadSubjects();
+    const id = window.setTimeout(() => {
+      loadSubjects();
+    }, 0);
+    return () => window.clearTimeout(id);
   }, []);
 
   const openAddModal = () => {
@@ -113,83 +117,86 @@ const AdminSubjects = () => {
   };
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto bg-egg px-2 font-[Poppins] sm:px-4">
+    <div className="flex min-h-0 flex-1 cursor-default flex-col gap-6 bg-egg font-[Poppins]">
       <SettingHeader />
 
-      <div className="flex flex-wrap items-center justify-between gap-y-2 gap-3">
-        <div>
-          <h1 className="font-[PoppinsBold] text-base text-parent-green sm:text-lg">
-            Subjects
-          </h1>
-
-          <p className="text-xs text-egg-dark/75 sm:text-sm">
-            Manage the master subjects used throughout the academic system.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={openAddModal}
-          className="flex h-9 items-center gap-2 rounded-full bg-parent-green px-4 text-xs text-white transition hover:bg-parent-accent"
-        >
-          Add Subject
-        </button>
-      </div>
-
-      {loading ? (
-        <div className="py-10 text-center text-sm text-gray-500">
-          Loading subjects...
-        </div>
-      ) : subjects.length === 0 ? (
-        <div className="rounded-2xl border border-parent-accent/20 bg-bone p-8 text-center text-sm text-gray-500">
-          No subjects found.
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {subjects.map((subject) => (
-            <div
-              key={subject.subject_id}
-              className="flex min-h-36 flex-col justify-between rounded-2xl border border-parent-accent/20 bg-bone p-4 shadow-[0_2px_4px_rgba(0,0,0,0.12)] sm:p-5"
-            >
-              <div className="flex min-w-0 items-center gap-2">
-                <h2 className="min-w-0 truncate font-[PoppinsBold] text-sm text-parent-green sm:text-base">
-                  {subject.subject_name}
-                </h2>
-
-                <button
-                  type="button"
-                  onClick={() => openRenameModal(subject)}
-                  className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-parent-green"
-                  title="Rename subject"
-                >
-                  <Pencil size={15} />
-                </button>
-              </div>
-
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() =>
-                    navigate(
-                      `/admin/settings/subjects/${subject.subject_id}/skills`,
-                    )
-                  }
-                  className="w-full whitespace-nowrap rounded-2xl bg-parent-green px-2 py-1.5 text-xs text-egg hover:opacity-75 sm:px-3 sm:text-sm"
-                >
-                  Manage Skills
-                </button>
-                <button
-                  type="button"
-                  onClick={() => openRemoveModal(subject)}
-                  className="shrink-0 whitespace-nowrap rounded-2xl bg-reject px-2 py-1.5 text-xs text-egg hover:opacity-75 sm:px-3 sm:text-sm"
-                >
-                  Remove
-                </button>
-              </div>
+      <div className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto px-1 pb-4">
+        <section className="shrink-0 overflow-hidden rounded-2xl bg-[#0c2423] p-4 shadow-sm sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0">
+              <span className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-parent-mint/80 sm:text-xs sm:tracking-[0.25em]">
+                Academic Settings
+              </span>
+              <h1 className="mt-3 wrap-break-words font-[SuperJoyful] text-2xl leading-tight text-parent-mint xs:text-3xl sm:text-4xl">
+                Subjects
+              </h1>
+              <p className="mt-3 max-w-xl text-xs leading-relaxed text-bone/75 sm:text-sm">
+                Manage the master subjects used throughout the academic system.
+              </p>
             </div>
-          ))}
-        </div>
-      )}
+            <button
+              type="button"
+              onClick={openAddModal}
+              className="shrink-0 rounded-xl bg-white/15 px-4 py-2 text-xs font-[PoppinsBold] text-white ring-1 ring-white/20 transition hover:bg-white/25"
+            >
+              Add Subject
+            </button>
+          </div>
+        </section>
+
+        {loading ? (
+          <AdminPageSkeleton variant="card-grid" count={4} />
+        ) : subjects.length === 0 ? (
+          <div className="rounded-2xl border border-parent-accent/20 bg-bone p-8 text-center text-sm text-gray-500">
+            No subjects found.
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {subjects.map((subject) => (
+              <div
+                key={subject.subject_id}
+                className="flex min-h-36 flex-col justify-between rounded-2xl border border-parent-accent/20 bg-bone p-4 shadow-[0_2px_4px_rgba(0,0,0,0.12)] sm:p-5"
+              >
+                <div className="flex min-w-0 items-center gap-2">
+                  <h2 className="min-w-0 truncate font-[PoppinsBold] text-sm text-parent-green sm:text-base">
+                    {subject.subject_name}
+                  </h2>
+
+                  <button
+                    type="button"
+                    onClick={() => openRenameModal(subject)}
+                    className="flex h-8 w-8 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-100 hover:text-parent-green"
+                    title="Rename subject"
+                  >
+                    <Pencil size={15} />
+                  </button>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      navigate(
+                        `/admin/settings/subjects/${subject.subject_id}/skills`,
+                      )
+                    }
+                    className="w-full whitespace-nowrap rounded-2xl bg-parent-green px-2 py-1.5 text-xs text-egg hover:opacity-75 sm:px-3 sm:text-sm"
+                  >
+                    Manage Skills
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => openRemoveModal(subject)}
+                    className="shrink-0 whitespace-nowrap rounded-2xl bg-reject px-2 py-1.5 text-xs text-egg hover:opacity-75 sm:px-3 sm:text-sm"
+                  >
+                    Remove
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/25 p-4">

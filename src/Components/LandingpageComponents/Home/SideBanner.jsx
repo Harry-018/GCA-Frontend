@@ -1,4 +1,3 @@
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const SideBanner = ({
@@ -6,7 +5,6 @@ const SideBanner = ({
   title,
   subtitle,
   icon: Icon,
-  arrow = "right",
   to,
 }) => {
   const content = (
@@ -25,11 +23,9 @@ const SideBanner = ({
           {subtitle}
         </span>
 
-        {arrow === "left" ? (
-          <ArrowLeft className="mt-1 h-4 w-4 text-white/50 transition-all duration-300 group-hover:-translate-x-1 group-hover:text-white/90" />
-        ) : (
-          <ArrowRight className="mt-1 h-4 w-4 text-white/50 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/90" />
-        )}
+        <span className="mt-1 text-2xs font-[PoppinsBold] uppercase tracking-widest text-white/70 transition-colors duration-300 group-hover:text-white">
+          View
+        </span>
       </div>
     </>
   );

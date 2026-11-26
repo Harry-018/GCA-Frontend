@@ -7,45 +7,42 @@ const WebsiteInformation = ({
   onEdit,
 }) => {
   return (
-    <div className="flex w-full flex-col rounded-2xl bg-bone px-4 py-3 font-[Poppins] shadow-[0_2px_4px_rgba(0,0,0,0.25)]">
-      <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-[9px] font-[PoppinsBold] text-parent-green sm:text-md lg:text-sm">
-          Website Information
-        </h2>
-
+    <section className="shrink-0 overflow-hidden rounded-2xl bg-[#0c2423] p-4 shadow-sm sm:p-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
+          <span className="font-[PoppinsBold] text-xs uppercase tracking-[0.2em] text-parent-mint/80 sm:text-xs sm:tracking-[0.25em]">
+            Website Information
+          </span>
+          <h2 className="mt-3 max-w-md wrap-break-words font-[SuperJoyful] text-2xl leading-tight text-parent-mint xs:text-3xl sm:text-4xl">
+            School Identity
+          </h2>
+        </div>
         <button
           type="button"
           onClick={onEdit}
-          className="rounded-full bg-parent-green px-4 py-1.5 text-[9px] sm:text-xs text-white transition hover:bg-parent-accent sm:px-5 sm:py-2"
+          className="shrink-0 rounded-xl bg-white/15 px-4 py-2 text-xs font-[PoppinsBold] text-white ring-1 ring-white/20 transition hover:bg-white/25"
         >
           Edit
         </button>
       </div>
 
-      <div className="flex flex-1 flex-col justify-center gap-6 lg:gap-10">
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <span className="text-[9px] font-[PoppinsBold] text-[#555555] sm:text-sm">
-            School Logo:
-          </span>
-
-          <img
-            src={logo}
-            alt="School Logo"
-            className="h-8 w-8 object-contain"
-          />
+      <div className="mt-8 flex flex-col gap-4">
+        <div className="flex items-center gap-4 rounded-2xl bg-white/10 p-4 ring-1 ring-white/10">
+          <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-white/90 p-2">
+            <img src={logo} alt="School Logo" className="h-full w-full object-contain" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-[PoppinsBold] uppercase tracking-wide text-white/50">School Logo</p>
+            <p className="mt-1 text-sm text-bone/85">Displayed across the website and portal</p>
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-          <span className="text-[9px] font-[PoppinsBold] text-[#555555] sm:text-sm">
-            School Name:
-          </span>
-
-          <span className="truncate text-[9px] text-[#555555] sm:text-sm">
-            {schoolName}
-          </span>
+        <div className="rounded-2xl bg-white/10 p-4 ring-1 ring-white/10">
+          <p className="text-xs font-[PoppinsBold] uppercase tracking-wide text-white/50">School Name</p>
+          <p className="mt-1 font-[PoppinsBold] text-base text-white sm:text-lg">{schoolName}</p>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { IdCard, Loader2, UserRound } from "lucide-react";
+import { IdCard, UserRound } from "lucide-react";
 
 import {
   useAssignedSections,
@@ -8,6 +8,7 @@ import {
 import authStore from "../stores/authStore";
 import SectionCard from "../Components/Teacher-Side Components/Dashboard/SectionCard";
 import DataTable from "../Components/DataTable.jsx";
+import PortalPageSkeleton from "../Components/PortalPageSkeleton.jsx";
 
 const PAGE_SIZE = 10;
 
@@ -175,12 +176,7 @@ const DashBoard = () => {
     "Teacher";
 
   if (loading) {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-egg font-[Poppins]">
-        <Loader2 size={32} className="animate-spin text-parent-green" />
-        <p className="text-sm text-gray-500">Loading dashboard...</p>
-      </div>
-    );
+    return <PortalPageSkeleton variant="teacher-dashboard" />;
   }
 
   if (error) {

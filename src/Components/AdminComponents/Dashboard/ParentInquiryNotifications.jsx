@@ -258,6 +258,7 @@ const ParentInquiryNotifications = () => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const [showAll, setShowAll] = useState(false);
+  const [filter, setFilter] = useState("all");
   const [selectedInquiryId, setSelectedInquiryId] = useState(null);
   const containerRef = useRef(null);
   const isMountedRef = useRef(false);
@@ -292,14 +293,16 @@ const ParentInquiryNotifications = () => {
 
   useEffect(() => {
     isMountedRef.current = true;
-    fetchInquiries();
-
+    const kickoff = window.setTimeout(() => {
+      fetchInquiries();
+    }, 0);
     const intervalId = window.setInterval(() => {
       fetchInquiries();
     }, 30000);
 
     return () => {
       isMountedRef.current = false;
+      window.clearTimeout(kickoff);
       window.clearInterval(intervalId);
     };
   }, [fetchInquiries]);
@@ -327,17 +330,23 @@ const ParentInquiryNotifications = () => {
   }, []);
 
   const unreadInquiryCount = inquiries.filter((inquiry) => !inquiry.isRead).length;
+  const readInquiryCount = inquiries.length - unreadInquiryCount;
   const sortedInquiries = [...inquiries].sort(
     (first, second) =>
       new Date(second.submittedAt).getTime() -
       new Date(first.submittedAt).getTime(),
   );
+  const filteredInquiries = sortedInquiries.filter((inquiry) => {
+    if (filter === "unread") return !inquiry.isRead;
+    if (filter === "read") return inquiry.isRead;
+    return true;
+  });
   const selectedInquiry = sortedInquiries.find(
     (inquiry) => inquiry.id === selectedInquiryId,
   );
   const visibleInquiries = showAll
-    ? sortedInquiries
-    : sortedInquiries.slice(0, MAX_VISIBLE_INQUIRIES);
+    ? filteredInquiries
+    : filteredInquiries.slice(0, MAX_VISIBLE_INQUIRIES);
 
   const toggleDropdown = () => {
     const opening = !isOpen;
@@ -439,35 +448,62 @@ const ParentInquiryNotifications = () => {
           <section
             role="dialog"
             aria-label="Parent inquiry notifications"
-            className="fixed bottom-16 right-3 z-25 w-[calc(100vw-1.5rem)] max-w-96 overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:bottom-24 sm:right-8 sm:w-96"
+            className="fixed bottom-16 right-3 z-25 flex h-[min(70vh,32rem)] w-[calc(100vw-1.5rem)] max-w-96 flex-col overflow-hidden rounded-2xl border border-parent-accent/20 bg-bone shadow-xl sm:bottom-24 sm:right-8 sm:w-96"
           >
-          <div className="flex items-start justify-between gap-3 border-b border-parent-accent/15 px-4 py-3">
-            <div>
-              <h2 className="font-[PoppinsBold] text-sm text-parent-green">
-                Parent Inquiries
-              </h2>
-              <p className="mt-0.5 text-xs text-gray-500">
-                {unreadInquiryCount} unread
-              </p>
+          <div className="shrink-0 border-b border-parent-accent/15 px-4 py-3">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <h2 className="font-[PoppinsBold] text-sm text-parent-green">
+                  Parent Inquiries
+                </h2>
+                <p className="mt-0.5 text-xs text-gray-500">
+                  {unreadInquiryCount} unread
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                aria-label="Close parent inquiry notifications"
+                className="rounded-full p-1 text-gray-500 transition hover:bg-parent-green/10 hover:text-parent-green"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => setIsOpen(false)}
-              aria-label="Close parent inquiry notifications"
-              className="rounded-full p-1 text-gray-500 transition hover:bg-parent-green/10 hover:text-parent-green"
-            >
-              <X className="h-4 w-4" />
-            </button>
+
+            <div className="mt-3 flex items-center gap-1 rounded-xl bg-parent-pale/25 p-1">
+              {[
+                { key: "all", label: "All", count: inquiries.length },
+                { key: "unread", label: "Unread", count: unreadInquiryCount },
+                { key: "read", label: "Read", count: readInquiryCount },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  type="button"
+                  onClick={() => {
+                    setFilter(tab.key);
+                    setShowAll(false);
+                    setSelectedInquiryId(null);
+                  }}
+                  className={`flex-1 rounded-lg px-2 py-1.5 text-[11px] font-[PoppinsBold] transition ${
+                    filter === tab.key
+                      ? "bg-parent-green text-white"
+                      : "text-gray-500 hover:bg-white hover:text-parent-green"
+                  }`}
+                >
+                  {tab.label} ({tab.count})
+                </button>
+              ))}
+            </div>
           </div>
 
           {error && (
-            <p role="alert" className="px-4 pt-3 text-xs text-reject">
+            <p role="alert" className="shrink-0 px-4 pt-3 text-xs text-reject">
               {error}
             </p>
           )}
 
           {selectedInquiry ? (
-            <div className="max-h-[min(70vh,32rem)] overflow-y-auto p-4">
+            <div className="min-h-0 flex-1 overflow-y-auto p-4">
               <button
                 type="button"
                 onClick={() => setSelectedInquiryId(null)}
@@ -518,12 +554,16 @@ const ParentInquiryNotifications = () => {
             </div>
           ) : (
             <>
-              <div className="max-h-[min(70vh,32rem)] overflow-y-auto">
+              <div className="min-h-0 flex-1 overflow-y-auto">
                 {visibleInquiries.length === 0 ? (
                   <p className="px-4 py-8 text-center text-sm text-gray-500">
                     {isLoading
                       ? "Loading parent inquiries..."
-                      : "No parent inquiries yet."}
+                      : filter === "unread"
+                        ? "No unread inquiries."
+                        : filter === "read"
+                          ? "No read inquiries."
+                          : "No parent inquiries yet."}
                   </p>
                 ) : (
                   visibleInquiries.map((inquiry) => (
@@ -540,7 +580,7 @@ const ParentInquiryNotifications = () => {
                         className="w-full text-left"
                       >
                         <span className="flex items-center justify-between gap-2">
-                          <span className="truncate text-sm font-[PoppinsBold] text-egg-dark">
+                          <span className="truncate text-sm font-[PoppinsBold] text-egg-dark uppercase">
                             {inquiry.name}
                           </span>
                           <span
@@ -578,13 +618,13 @@ const ParentInquiryNotifications = () => {
                 )}
               </div>
 
-              {sortedInquiries.length > MAX_VISIBLE_INQUIRIES && (
+              {filteredInquiries.length > MAX_VISIBLE_INQUIRIES && (
                 <button
                   type="button"
                   onClick={() => setShowAll((current) => !current)}
                   className="w-full border-t border-parent-accent/15 px-4 py-3 text-xs font-[PoppinsBold] text-parent-green transition hover:bg-parent-pale/30"
                 >
-                  {showAll ? "Show latest inquiries" : "View all parent inquiries"}
+                  {showAll ? "Show latest inquiries" : `View all ${filter !== "all" ? `${filter} ` : ""}inquiries`}
                 </button>
               )}
 

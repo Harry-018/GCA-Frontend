@@ -5,6 +5,7 @@ import GradeLevelCard from "../../Components/AdminComponents/Academic Management
 import AddSubjectModal from "../../Components/AdminComponents/Academic Management/GradeLevel/AdSubjectModal";
 import RenameSubjectModal from "../../Components/AdminComponents/Academic Management/GradeLevel/RenameSubjectModal";
 import RemoveSubjectModal from "../../Components/AdminComponents/Academic Management/GradeLevel/RemoveSubjectModal";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 import {
   getSubjectsByGradeLevel,
   getSubjectsInGradeLevel,
@@ -158,9 +159,7 @@ const CoreSubjects = () => {
         </div>
 
         {loading ? (
-          <div className="py-12 text-center text-sm text-gray-400">
-            Loading subjects...
-          </div>
+          <AdminPageSkeleton variant="card-grid" count={4} />
         ) : subjects.length === 0 ? (
           <div className="py-12 text-center text-sm text-gray-400">
             No subjects available for this grade level.

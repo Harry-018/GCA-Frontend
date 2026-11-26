@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Header from "../../Components/AdminComponents/Communication/Announcement/Header";
 import SchoolYearLabel from "../../Components/AdminComponents/Academic Management/Schedule/SchoolYearLabel";
 import YearCard from "../../Components/AdminComponents/Communication/Announcement/YearCard";
+import AdminPageSkeleton from "../../Components/AdminPageSkeleton.jsx";
 
 import { getGradeLevelsWithAnnouncementCount } from "../../requests/communicationRequests.js";
 
@@ -57,9 +58,7 @@ const Announcement = () => {
       <div className="flex min-h-0 flex-1 flex-col">
         <div className="flex flex-wrap gap-3 py-4 sm:gap-4">
           {loading ? (
-            <div className="px-2 text-sm text-gray-500">
-              Loading grade levels...
-            </div>
+            <AdminPageSkeleton variant="year-cards" count={4} />
           ) : gradeLevels.length === 0 ? (
             <div className="px-2 text-sm text-gray-500">
               No active grade levels found.
