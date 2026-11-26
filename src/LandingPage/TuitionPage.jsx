@@ -6,6 +6,7 @@ import TuitionFees from "../Components/LandingpageComponents/Tuition/TuitionFees
 import LoginHeader from "../Components/LoginHeader";
 import Footer from "../Components/Footer";
 import HomeSidebar from "../Components/HomeSidebar.jsx";
+import { TuitionContentSkeleton } from "../Components/LandingpageComponents/LandingPageSkeletons.jsx";
 
 const BANNER_PROPS = {
   title: "TUITION FEES",
@@ -118,7 +119,7 @@ const TuitionPage = () => {
               backgroundImage={BANNER_PROPS.backgroundImage}
             />
 
-            <Suspense fallback={null}>
+            <Suspense fallback={<TuitionContentSkeleton />}>
               <Await resolve={tuitionByLevel}>
                 {(dataByLevel) => (
                   <TuitionContent

@@ -25,6 +25,12 @@ import { enrollmentFormLoader } from "./loaders/formLoaderGuard.js";
 
 import SessionExpiredModal from "./SessionExpiredModal.jsx";
 import SessionCacheGuard from "./Components/SessionCacheGuard.jsx";
+import PageSkeleton from "./Components/PageSkeleton.jsx";
+import {
+  AdmissionPageSkeleton,
+  TuitionPageSkeleton,
+  TransportationPageSkeleton,
+} from "./Components/LandingpageComponents/LandingPageSkeletons.jsx";
 import ProtectedRoutes from "./protectedRoutes.jsx";
 import NotFound from "./notFound.jsx";
 import NotAuth from "./notauth.jsx";
@@ -155,10 +161,21 @@ const router = createBrowserRouter(
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/admission"
-          element={<AdmissionPage />}
+          element={
+            <Suspense fallback={<AdmissionPageSkeleton />}>
+              <AdmissionPage />
+            </Suspense>
+          }
           loader={admissionPageLoader}
         />
-        <Route path="/transport" element={<TransportationPage />} />
+        <Route
+          path="/transport"
+          element={
+            <Suspense fallback={<TransportationPageSkeleton />}>
+              <TransportationPage />
+            </Suspense>
+          }
+        />
         <Route
           path="/email-verification"
           element={<EmailVerificationPage />}
@@ -176,7 +193,11 @@ const router = createBrowserRouter(
         <Route path="/thanksforapply" element={<ThanksforApply />} />
         <Route
           path="/tuitionfee"
-          element={<TuitionPage />}
+          element={
+            <Suspense fallback={<TuitionPageSkeleton />}>
+              <TuitionPage />
+            </Suspense>
+          }
           loader={tuitionPageLoader}
         />
 
@@ -284,7 +305,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <SessionCacheGuard />
     <ParentInquiryProvider>
-      <Suspense fallback={null}>
+      <Suspense fallback={<PageSkeleton />}>
         <RouterProvider router={router} />
       </Suspense>
       <SessionExpiredModal />

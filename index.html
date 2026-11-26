@@ -13,7 +13,47 @@
     <title>Grace Christian Academy</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Shown from first paint until React mounts and takes over. The real
+           PageSkeleton lives inside the JS bundle, so it cannot cover this
+           initial bundle-download window on its own. -->
+      <div class="flex min-h-dvh w-full flex-col bg-egg" aria-hidden="true">
+        <div
+          class="flex h-16 w-full items-center gap-4 bg-[#0c2423] px-4 sm:h-20 sm:px-10"
+        >
+          <div class="animate-pulse h-9 w-9 rounded-full bg-white/10"></div>
+          <div class="animate-pulse h-4 w-40 rounded-lg bg-white/10"></div>
+          <div
+            class="animate-pulse ml-auto hidden h-4 w-24 rounded-lg bg-white/10 sm:block"
+          ></div>
+        </div>
+
+        <div
+          class="mx-auto flex w-full max-w-7xl flex-1 flex-col gap-6 px-4 py-6 sm:px-6"
+        >
+          <div class="grid w-full grid-cols-1 gap-3 sm:grid-cols-3">
+            <div class="animate-pulse h-40 rounded-2xl bg-black/10 sm:h-87.5"></div>
+            <div
+              class="animate-pulse hidden h-87.5 rounded-2xl bg-black/10 sm:block"
+            ></div>
+            <div class="animate-pulse h-40 rounded-2xl bg-black/10 sm:h-87.5"></div>
+          </div>
+
+          <div class="animate-pulse h-8 w-64 rounded-lg bg-black/10"></div>
+
+          <div
+            class="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            <div class="animate-pulse h-80 w-full rounded-2xl bg-black/10"></div>
+            <div class="animate-pulse h-80 w-full rounded-2xl bg-black/10"></div>
+            <div class="animate-pulse h-80 w-full rounded-2xl bg-black/10"></div>
+          </div>
+
+          <div class="animate-pulse h-4 w-full rounded-lg bg-black/10"></div>
+          <div class="animate-pulse h-4 w-5/6 rounded-lg bg-black/10"></div>
+        </div>
+      </div>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

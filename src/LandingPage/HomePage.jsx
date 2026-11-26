@@ -12,8 +12,16 @@ import Activities from "../Components/LandingpageComponents/Home/Activities";
 import HomeSidebar from "../Components/HomeSidebar";
 import Footer from "../Components/Footer";
 import LoginHeader from "../Components/LoginHeader";
+import {
+  AcademicProgramsSkeleton,
+  MissionVisionSkeleton,
+  HymnSkeleton,
+  WhyChooseUsSkeleton,
+  ActivitiesSkeleton,
+} from "../Components/LandingpageComponents/Home/LandingSkeletons.jsx";
 
 import { Bus, GraduationCap } from "lucide-react";
+import { optimizeCloudinaryImage } from "../lib/cloudinary.js";
 
 const HomePage = () => {
   const { banner, acadprog, childact, missionvision, reasons, video } =
@@ -44,7 +52,10 @@ const HomePage = () => {
               admissionStatus={banner?.enrollment_status ?? "Close"}
               title={banner?.banner_title ?? ""}
               quote={banner?.banner_quote ?? ""}
-              backgroundImage={banner?.banner_image || "/image/kinder.jpg"}
+              backgroundImage={optimizeCloudinaryImage(
+                banner?.banner_image || "/image/kinder.jpg",
+                1600,
+              )}
               schoolStart={banner?.school_start ?? ""}
             />
 
@@ -67,7 +78,7 @@ const HomePage = () => {
               </h2>
             </div>
 
-            <Suspense fallback={null}>
+            <Suspense fallback={<AcademicProgramsSkeleton />}>
               <Await resolve={acadprog}>
                 {(programs) => (
                   <div className="no-scrollbar flex snap-x snap-mandatory justify-start gap-5 overflow-x-auto px-5 py-5 sm:justify-center">
@@ -80,7 +91,10 @@ const HomePage = () => {
                             ages: `${program.min_age}–${program.max_age}`,
                             description: program.description,
                           }}
-                          image={program.image_url || "/image/nursery.jpg"}
+                          image={optimizeCloudinaryImage(
+                            program.image_url || "/image/nursery.jpg",
+                            800,
+                          )}
                         />
                       ))}
                     </div>
@@ -92,7 +106,7 @@ const HomePage = () => {
         </div>
 
         {/* Mission & Vision */}
-        <Suspense fallback={null}>
+        <Suspense fallback={<MissionVisionSkeleton />}>
           <Await resolve={missionvision}>
             {(content) => (
               <div className="flex w-full flex-col">
@@ -117,7 +131,7 @@ const HomePage = () => {
         </Suspense>
 
         {/* Hymn Section */}
-        <Suspense fallback={null}>
+        <Suspense fallback={<HymnSkeleton />}>
           <Await resolve={video}>
             {(content) => (
               <div className="flex flex-col bg-egg pt-15 pb-0 -mb-10">
@@ -130,7 +144,7 @@ const HomePage = () => {
           </Await>
         </Suspense>
 
-        <Suspense fallback={null}>
+        <Suspense fallback={<WhyChooseUsSkeleton />}>
           <Await resolve={reasons}>
             {(items) => (
               <WhyChooseUs
@@ -141,7 +155,7 @@ const HomePage = () => {
           </Await>
         </Suspense>
 
-        <Suspense fallback={null}>
+        <Suspense fallback={<ActivitiesSkeleton />}>
           <Await resolve={childact}>
             {(activities) => (
               <Activities
@@ -150,7 +164,10 @@ const HomePage = () => {
                   id: activity.activity_id,
                   title: activity.activity_title,
                   description: activity.activity_description,
-                  image: activity.activity_image || "/image/nursery.jpg",
+                  image: optimizeCloudinaryImage(
+                    activity.activity_image || "/image/nursery.jpg",
+                    800,
+                  ),
                 }))}
               />
             )}

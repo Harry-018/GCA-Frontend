@@ -6,6 +6,7 @@ import TransportationCard from "../Components/LandingpageComponents/Transportati
 import LoginHeader from "../Components/LoginHeader";
 import HomeSidebar from "../Components/HomeSidebar";
 import Footer from "../Components/Footer";
+import { TransportationContentSkeleton } from "../Components/LandingpageComponents/LandingPageSkeletons.jsx";
 
 import { getTransportation } from "../requests/transporationRequests.js";
 
@@ -163,9 +164,7 @@ const TransportationPage = () => {
               </div>
 
               {loading ? (
-                <p className="py-6 text-center text-sm text-ashlight">
-                  Loading transportation...
-                </p>
+                <TransportationContentSkeleton />
               ) : allLocations.length === 0 ? (
                 <p className="py-6 text-center text-sm text-ashlight">
                   No transportation routes found.

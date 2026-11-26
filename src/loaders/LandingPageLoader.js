@@ -43,10 +43,13 @@ export const admissionPageLoader = async () => {
 };
 
 export const landingPageLoader = async () => {
+  // The hero is the LCP element, so await the banner and paint it once with
+  // final content. Streaming it caused a late repaint and regressed LCP.
   const banner = await admissionPageLoader();
 
   return {
     banner,
+    // Below-fold sections stream independently with skeleton fallbacks.
     acadprog: stream({
       queryKey: queryKeys.homepage.academicPrograms,
       queryFn: getAcademicPrograms,
